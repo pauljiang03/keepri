@@ -47,15 +47,41 @@ function walk(dir) {
 }
 walk(root);
 for (const expected of [
-  'Independent reasoning',
+  'Keep reasoning',
   'Human learning histories',
   'Closed beta',
-  'The games come first.',
-  'mailto:pj1433@princeton.edu',
+  'The player experience',
+  'Answers are everywhere.',
+  'Understanding takes effort.',
+  'Keep thinking for yourself.',
+  'Skip intro',
 ]) {
   assert(html.includes(expected), `Missing primary content: ${expected}`);
 }
 assert(!html.includes('Building your site'), 'Starter content remains');
+for (const id of ['intro-1', 'intro-2', 'intro-3', 'site', 'main']) {
+  assert(ids.has(id), `Missing introduction destination: ${id}`);
+}
+assert(
+  html.indexOf('id="intro-3"') < html.indexOf('id="site"'),
+  'Introduction must precede main site',
+);
+assert(
+  !/(?:crossing|lockout|founder|university|mailto:)/i.test(html),
+  'Game-specific or personal content remains',
+);
+assert(
+  !existsSync(join(root, 'assets/keepri-brand/crossing.png')),
+  'Retired game asset remains',
+);
+assert(
+  !existsSync(join(root, 'assets/keepri-brand/lockout.png')),
+  'Retired game asset remains',
+);
+assert(
+  (html.match(/name="research-deliverables"/g) || []).length === 3,
+  'Research disclosures are incomplete',
+);
 assert(
   !/testflight|join the beta|join our beta|October 5|November 1/i.test(html),
   'Public beta installation or release-detail copy remains',

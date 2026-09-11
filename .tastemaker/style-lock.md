@@ -18,30 +18,26 @@ The palette was adapted from the reference's muted olive dominant pixels and sou
 
 ## Typography, shape and spacing
 
-DM Sans 400/500; upright headings, no italic emphasis. Body 18px. Hero max108px, main sections max58px. Font assets stay local; use existing OFL files. Flat surfaces, radius4px; circles reserved for game-piece motif. No shadows.
+Keep DM Sans400/500 and existing4px spacing scale. Intro26–86px desktop,21–38px mobile; main hero104px maximum; section58px maximum. Upright type, no shadows. Each intro scene is100svh, with one sentence centered. Main content retains1264px maximum and48/32/20px gutters.
 
-4px base unit: 4/8/12/16/24/32/48/64/96/128px. Desktop pivotal prose sections128px; standard surface sections96px; phone sections64px. Cards24–48px with equal or larger neighboring gaps. Surface shifts separate main sections. 1264px content maximum with48/32/20px gutters.
+## Structure and interaction
 
-## Structure
+Long-Scroll Narrative replaces the previous Poster Fold. Three H1-style statement chapters precede a separate main site. N4 masthead adapted with section navigation and Closed beta status; F4 experience progression; native expandable research deliverables; proposed model; Ft2 footer with Replay intro.
 
-Poster Fold with a company-brief continuation. N4 adapted two-row masthead (identity/status above section links), H1 statement fold, F5 real game captures, F6 deliverables, C3 founder contact, Ft2 compact footer with wordmark lead-in. The previous split screenshot hero and repeated signup ending are removed.
-
-Arc: hook, thesis/stakes, product mechanism and real proof, research opportunity/deliverables, commercial model, founder/ask. Product and how-it-works merge because the simple game loop is explained beside two real examples. No fabricated social proof.
-
-Design read: marketing narrative for investor and partner readers, Persuade mode, premium editorial lane. Dials7/3/4/7. Reference board in `.tastemaker/reference-board.md`. Structural/copy precheck passed with no prior local/global histories.
-
-## Assets
-
-Original icon unchanged, small in navigation and retained as favicon. Original Crossing/Lockout PNGs unchanged; CSS board crops remove dated chrome. Ribbon is code-native geometric composition, not generated raster art. Existing Lucide arrows. No photos or stock concept illustrations: thesis/founder are intentionally text-led.
+Arc: answers, effort, independent thought, mission, thesis, changing-challenge experience, research opportunity, model. Personal biography/contact and game previews are removed at the owner's explicit request. Do not replace them with invented proof.
 
 ## Motion
 
-GSAP3.15.0, ScrollTrigger; one engine. Adapted Tastemaker reveal pattern with240ms power3.out,8–12px movement;180ms pointer-gated arrow feedback. Ribbon scrub48px. No pinned sections or loops. Reduced-motion branch skips all GSAP motion and disables smooth scrolling/arrow transforms. Cleanup via matchMedia.revert(). The static page starts fully visible.
+GSAP3.15.0 and ScrollTrigger remain the single engine. Intro text fades and travels48px in response to native scroll. Chapter links, next anchors, visible Skip intro, and footer replay work without JavaScript. IntersectionObserver sets the active chapter. Main sections reveal over240ms; the experience line scales with scroll. Arrow feedback180ms, gated to fine pointers. Reduced motion skips all GSAP effects and smooth scrolling, with no hidden starting state. React cleanup disconnects the observer and reverts the matchMedia context.
+
+## Assets
+
+Only the original brand icon is used. The prior game captures are removed from public assets. The introduction is intentionally typographic, as explicitly requested; there is no product screenshot, game simulation, stock photo, or game-specific decorative ribbon.
 
 ## Taste memory
 
-No personal profile existed. Current user explicitly rejected the earlier generic-looking treatment and requested Virio. `.tastemaker/decisions.log` captures those directions; this concrete implementation is pending review. No preference is promoted to a personal profile. Cross-project structure/copy entries record only the pending build.
+The owner confirmed the interactive entrance direction and rejected personal details and specific game content. These are recorded in the project decision log. The implemented three-chapter sequence is pending review. No personal profile preference is promoted.
 
 ## Do not
 
-Add public beta installation/signup links or release dates. Add invented traction, investor backing, or university endorsement. Claim research collections, prize events, or measured cognitive benefits already exist. Publish the private proposal. Copy Virio's brand, wording, fonts or proprietary artwork. Repeat serif-italic emphasis, pill labels, generic feature cards, or floating phone mockups.
+Publish individual identity, biography, academic details, direct personal contact, named games, or game captures. Add installation links, release dates, invented metrics, investor backing, institutional endorsement, or a research-enrollment claim. Trap scrolling, require JavaScript to enter, or hide the site until a timer ends.

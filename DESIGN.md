@@ -1,49 +1,41 @@
 # KeepRI website design
 
-## 1. Visual theme and atmosphere
+## 1. Direction
 
-A company introduction for prospective research partners, investors, and collaborators. The user selected Virio as the main visual reference and requested a polished closed-beta presentation. The new direction supersedes the earlier player-installation page.
+The owner selected Virio's interactive entrance: several full-screen, single-statement chapters before reaching the main website. The current direction is Long-Scroll Narrative. Personal identity, biographies, academic details, direct personal contacts, named games, and game captures are excluded at the owner's request.
 
-Poster Fold: a broad typographic opening, a geometric game-piece ribbon, then a quieter company brief. The story is mission, product evidence, research opportunity, commercial model, and founder. It uses deliberate repetition in the opening and varied layouts below it.
+## 2. Palette
 
-## 2. Color palette and roles
-
-Paper #f6f3e9; surface #e9e7dc; ink #242820; olive #3c4435; muted #606556; sage #bfc6a9; on-dark #d4d8c6; clay #c06a43; decorative line #cdcec2. The exact color contract is in `.tastemaker/style-lock.md`.
-
-Virio's retrieved public source uses warm cream, dark ink, olive, clay, and muted teal. Its social preview uses dark olive and oversized light sans-serif text. KeepRI adapts those material and hierarchy choices toward its existing green identity. Clay is confined to decorative game pieces. It is never body text or a button fill.
+Keep the established muted olive, sage and cream palette. Use `app/globals.css` tokens and the verified color contract in `.tastemaker/style-lock.md`. No new colors. The opening uses paper/sage/on-dark over olive; the main site uses ink and muted text over paper/surface.
 
 ## 3. Typography
 
-DM Sans 400/500, self-hosted with its OFL license. Upright headings throughout. Hero 62–108px on desktop, 43–62px on narrow screens; line height 1.02 desktop and 1.06 mobile. Main section headings top out at 58px. Body 18px, secondary labels 12–15px. Existing Virio font files are not copied or used.
+Self-hosted DM Sans400/500, upright throughout. The entrance gives one line its own viewport:26–86px desktop and21–38px narrow screens. It can wrap under enlarged text rather than clipping. Main hero max104px. Main headings max58px. No italic display or monospace body.
 
-## 4. Components
+## 4. Introduction
 
-Semantic anchors, real image figures, a description list for research deliverables, and a simple model diagram. The existing Lucide family supplies arrows. No new visual registry is needed for static sections; existing primitives remain available for future interactive controls. Small 4px corners; flat surfaces; no drop shadows or fake device frames.
+Three100svh native sections: Answers are everywhere; Understanding takes effort; Keep thinking for yourself. A sticky brand/skip row and chapter navigation orient the visitor. Each section offers a real next anchor. The final anchor enters the main site; the footer can replay the introduction.
 
-The original native logo is reused without alteration. The main header combines its small mark with the KeepRI wordmark and a plain Closed beta status. There is no public installation, signup, or waitlist action.
+GSAP scroll-linked entry/exit opacity and48px movement track native scrolling. There are no wheel/touch preventDefault handlers, mandatory snapping, autoplay timers, delayed entry gates, or hidden content dependencies. The current chapter is identified by IntersectionObserver. All sections are fully visible without JavaScript and under reduced motion.
 
-## 5. Layout
+## 5. Main site
 
-1264px maximum content width; 48px desktop gutters, 32px tablet, 20px phone. Two-row masthead separates company identity/status from section navigation. The poster opening uses large left-aligned type, an offset text action, and one full-width game-piece motif.
+Identity/status/navigation, mission hero, thesis, changing-challenge experience, research opportunity with expandable deliverables, proposed commercial model, compact footer and website-privacy disclosure. There is no specific product inventory to become stale each month.
 
-The product figures are staggered by 64px on desktop. The screenshot window crops each unchanged 942×2048 capture to the actual board at x84/y1090, 775px square. This removes dated chrome and partial controls without redrawing product UI. The research program is a question beside concrete deliverables. The commercial model is presented separately.
+The experience uses a scroll-progress line across Discover, Experiment, Refine, Return. It is vertical on mobile. No playable demo, fake screenshot, fabricated performance chart, or current-customer evidence is presented.
 
-## 6. Depth and materials
+## 6. Interaction
 
-Muted olive and warm paper supply the material character. The geometric ribbon is a code-native brand motif based on game-piece shapes. It is not a product simulation or an illustration of a measured result. Original native game boards provide the product proof. No stock photos, third-party logos, fabricated customer evidence, or fake traction are used.
+Native details/summary disclosures for three research deliverables; keyboard and pointer activation use browser semantics. Labels remain visible while explanations expand. Existing Lucide arrows/plus icons share the established visual family. The website-privacy disclosure is also native.
 
-## 7. Motion and interaction
+## 7. Layout and spacing
 
-GSAP 3.15.0 with ScrollTrigger, adapted from Tastemaker's reveal convention to React lifecycle cleanup. Three short hero beats, 240ms section reveals, and one 48px scroll-linked ribbon translation. No pinning, autoplay loop, custom cursor, or intercepted scrolling. Arrow hover feedback takes 180ms and is gated to a fine pointer. Reduced-motion users get fully visible, stationary content. Static HTML remains readable without JavaScript.
+1264px content maximum;48/32/20px gutters.96–128px desktop section spacing,64px phone spacing. Existing4px scale and4px corners. At700px, main grids stack and navigation wraps into its own row; all destinations remain visible. Introduction uses stable small-viewport units to avoid toolbar-induced height changes.
 
 ## 8. Content contract
 
-The current product is in closed beta. Competition, new game families, rewards, and research programs are plans, not delivered services. The proposed research product combines executable environments, documented human learning histories, and evaluation packages. Separate consent is required; free play and future prize eligibility remain independent of research enrollment.
+Closed beta only. Free consumer play is the mission; separately consented research, paid programs, expanded competition and rewards remain plans. Never add individual details or specific games without a new owner instruction. No installation link, signup form, analytics, or research enrollment is present. The private proposal is not published.
 
-Founder: Paul Jiang, Princeton PhD student working in formal methods, from the supplied proposal. No institutional endorsement, fundraising outcome, revenue, customer count, or broad cognitive-improvement claim is implied. The private proposal and internal roadmap remain outside this repository.
+## 9. Accessibility and validation
 
-## 9. Responsive and accessibility behavior
-
-At 1000px, gaps and display type step down. At 700px, narrative grids and the model flow stack; the game figures return to one baseline. All section links remain visible, without a JavaScript menu. Narrow-screen captions wrap naturally; link labels stay on one line.
-
-Skip link, sequential headings, native keyboard navigation, immediate focus outlines, descriptive image alt text, intrinsic image dimensions, local fonts, reduced motion, and minimum 44px link hit areas. Full viewport/device acceptance is not claimed; see `VALIDATION.md` for the checks actually run.
+Visible skip-intro control plus a keyboard skip-to-main link; real anchors with focusable landing targets; visible link/summary focus; sufficient contrast; native disclosures; reduced-motion fallback; no script-dependent visibility. See `VALIDATION.md` for executed checks and their limits.

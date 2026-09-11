@@ -4,7 +4,9 @@ Startup website for **KeepRI: Keep Reasoning Independently**.
 
 [Website](https://pauljiang03.github.io/keepri/)
 
-The site introduces the independent-reasoning mission, the closed-beta product, the proposed research business, and founder contact. It is written for research partners, investors, and potential collaborators. Real app captures supply the product evidence; research programs, shared competition, and rewards remain future plans. There are no public installation or signup links.
+The site opens with three interactive, full-screen statements before the main KeepRI site. It introduces the independent-reasoning mission, a changing collection of challenges, and the proposed research business. Public status is Closed beta. Personal biographies, personal contact links, named games, game screenshots, and installation links are excluded.
+
+The introduction supports scrolling, chapter links, a visible skip control, and replay. Research deliverables use native expandable disclosures. Everything remains readable without JavaScript; spatial motion is disabled for reduced-motion users.
 
 ## Develop
 
@@ -44,7 +46,7 @@ Sources: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-gi
 
 ## Data and scope
 
-This website has no analytics, signup form, research enrollment, or upload endpoint. Contact links open the visitor's email client. GitHub processes hosting request metadata under its own [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Existing app privacy and support pages remain at their established URLs.
+This website has no analytics, signup form, research enrollment, or upload endpoint. No email address or individual contact details are published. GitHub processes hosting request metadata under its own [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The site has its own factual website-privacy disclosure. The separate app-policy site is not changed by this website revision.
 
 The native app, internal business backlog, and fundraising PDF are not included in this website repository. The broader implementation roadmap remains in the parent KeepRI workspace's `TODO.md`.
 
