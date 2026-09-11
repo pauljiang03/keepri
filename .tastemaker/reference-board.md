@@ -16,3 +16,5 @@ Viewed September 11, 2026. Mode: Persuade. Marketing narrative for early researc
 The owner specifically likes Virio's scroll-led entrance and interactive website. Use three one-line full-screen statement chapters followed by a main company site. Retain the previously observed muted palette and typographic hierarchy. New screenshot browsing is not needed to invent additional brand motifs: the owner explicitly chose the interaction to emulate.
 
 The brand icon remains. Game captures and personal details are excluded. The main site is intentionally text-led, with a scroll-progress experience sequence and native expandable research descriptions. No reference-site assets or source code are redistributed.
+
+The owner clarified the interaction after the first scroll revision: one full-screen statement per gesture, visible intro effects, and a one-way handoff that prevents scrolling back into the entrance. The main site's scroll-progress line, section reveals, and research disclosures remain.

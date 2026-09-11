@@ -1,5 +1,17 @@
 [
   {
+    "id": "keepri-2026-09-11-staged",
+    "date": "2026-09-11",
+    "project": "keepri",
+    "page": "landing",
+    "macrostructure": "Long-Scroll Narrative",
+    "nav": "N4",
+    "hero": "H1",
+    "footer": "Ft2",
+    "knobs": "one gesture per full-screen statement; word masks; one-way entry; main-page scroll interaction",
+    "outcome": "pending"
+  },
+  {
     "id": "keepri-2026-09-11-scroll",
     "date": "2026-09-11",
     "project": "keepri",
@@ -9,7 +21,7 @@
     "hero": "H1",
     "footer": "Ft2",
     "knobs": "three full-viewport chapters; native scroll; skip/replay; no game captures; no personal details",
-    "outcome": "pending"
+    "outcome": "rejected"
   },
   {
     "id": "keepri-2026-09-11-investor",

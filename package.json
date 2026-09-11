@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit",
     "check:static": "node scripts/check-static.mjs",
     "stage:pages": "npm run build && npm run check:static && node scripts/stage-pages.mjs",
-    "prepare:pages": "npm run typecheck && PAGES_BASE_PATH=/keepri npm run stage:pages"
+    "prepare:pages": "npm run test:intro && npm run typecheck && PAGES_BASE_PATH=/keepri npm run stage:pages",
+    "test:intro": "node --experimental-strip-types --test scripts/intro-gesture.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

@@ -18,17 +18,17 @@ The palette was adapted from the reference's muted olive dominant pixels and sou
 
 ## Typography, shape and spacing
 
-Keep DM Sans400/500 and existing4px spacing scale. Intro26–86px desktop,21–38px mobile; main hero104px maximum; section58px maximum. Upright type, no shadows. Each intro scene is100svh, with one sentence centered. Main content retains1264px maximum and48/32/20px gutters.
+Keep DM Sans400/500 and existing4px spacing scale. Intro26–86px desktop,21–38px mobile; main hero104px maximum; section58px maximum. Upright type, no shadows. The enhanced intro is one100svh stage with one centered sentence visible at a time. Main content retains1264px maximum and48/32/20px gutters.
 
 ## Structure and interaction
 
-Long-Scroll Narrative replaces the previous Poster Fold. Three H1-style statement chapters precede a separate main site. N4 masthead adapted with section navigation and Closed beta status; F4 experience progression; native expandable research deliverables; proposed model; Ft2 footer with Replay intro.
+Long-Scroll Narrative replaces the previous Poster Fold. Three H1-style statements advance one gesture at a time before a separate main site. N4 masthead adapted with section navigation and Closed beta status; F4 experience progression; native expandable research deliverables; proposed model; Ft2 footer with Back to top.
 
 Arc: answers, effort, independent thought, mission, thesis, changing-challenge experience, research opportunity, model. Personal biography/contact and game previews are removed at the owner's explicit request. Do not replace them with invented proof.
 
 ## Motion
 
-GSAP3.15.0 and ScrollTrigger remain the single engine. Intro text fades and travels48px in response to native scroll. Chapter links, next anchors, visible Skip intro, and footer replay work without JavaScript. IntersectionObserver sets the active chapter. Main sections reveal over240ms; the experience line scales with scroll. Arrow feedback180ms, gated to fine pointers. Reduced motion skips all GSAP effects and smooth scrolling, with no hidden starting state. React cleanup disconnects the observer and reverts the matchMedia context.
+GSAP3.15.0 is the single engine, using ScrollTrigger for main-page effects and ScrollToPlugin for the final handoff. Intro words exit their masks over240ms and enter over460ms, with a short stagger. The chapter line takes460ms to match this deliberate marketing transition; the audit's medium duration note is intentional. One wheel burst or touch swipe advances once, including momentum that continues beyond the animation. Native page scrolling resumes at the main site. Completing or skipping the intro removes it from layout; it cannot be revisited by scrolling up. Reduced motion uses instant changes and handoff. Without JavaScript, native sections remain readable. Cleanup removes listeners and effects.
 
 ## Assets
 
@@ -40,4 +40,4 @@ The owner confirmed the interactive entrance direction and rejected personal det
 
 ## Do not
 
-Publish individual identity, biography, academic details, direct personal contact, named games, or game captures. Add installation links, release dates, invented metrics, investor backing, institutional endorsement, or a research-enrollment claim. Trap scrolling, require JavaScript to enter, or hide the site until a timer ends.
+Publish individual identity, biography, academic details, direct personal contact, named games, or game captures. Add installation links, release dates, invented metrics, investor backing, institutional endorsement, or a research-enrollment claim. Extend the entrance gesture control into the main site, remove the skip control, or hide the site until a timer ends.

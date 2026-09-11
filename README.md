@@ -6,7 +6,7 @@ Startup website for **KeepRI: Keep Reasoning Independently**.
 
 The site opens with three interactive, full-screen statements before the main KeepRI site. It introduces the independent-reasoning mission, a changing collection of challenges, and the proposed research business. Public status is Closed beta. Personal biographies, personal contact links, named games, game screenshots, and installation links are excluded.
 
-The introduction supports scrolling, chapter links, a visible skip control, and replay. Research deliverables use native expandable disclosures. Everything remains readable without JavaScript; spatial motion is disabled for reduced-motion users.
+Each scroll gesture or touch swipe advances one full-screen statement. Animated word masks and a chapter line mark each transition. Chapter links and a visible skip control remain available. After entry, the intro is removed, so scrolling upward stops at the main site. Research deliverables use native expandable disclosures. Everything remains readable without JavaScript; reduced-motion users get instant chapter changes. Without JavaScript, the intro falls back to three readable native sections.
 
 ## Develop
 
@@ -28,7 +28,7 @@ git commit -m "Update KeepRI website"
 git push
 ```
 
-GitHub Pages publishes the `docs/` directory on the `main` branch. `npm run prepare:pages` checks types, builds the site, checks its static asset/anchor paths, and stages the public output in `docs/`. Commit and push that output to publish. There is no production application server. `prepare-static.mjs` normalizes Vinext's prefixed asset output for project Pages.
+GitHub Pages publishes the `docs/` directory on the `main` branch. `npm run prepare:pages` runs the gesture regression tests, checks types, builds the site, checks its static asset/anchor paths, and stages the public output in `docs/`. Commit and push that output to publish. There is no production application server. `prepare-static.mjs` normalizes Vinext's prefixed asset output for project Pages.
 
 The current GitHub connection does not have the OAuth `workflow` scope. A future automatic build workflow is retained as `deployment/github-pages.yml.example`; it is not active or required for publication.
 

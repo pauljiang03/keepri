@@ -3,67 +3,16 @@
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { installIntroduction } from '@/lib/intro-controller';
 
-// Three native scroll chapters. Animation enhances the text; navigation never relies on it.
+// The entrance advances per gesture; the main site uses normal document scrolling.
 export function PageMotion() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    const scenes = Array.from(
-      document.querySelectorAll<HTMLElement>('.intro-scene'),
-    );
-    const links = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-scene-link]'),
-    );
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        links.forEach((link) => {
-          if (link.dataset.sceneLink === visible.target.id)
-            link.setAttribute('aria-current', 'step');
-          else link.removeAttribute('aria-current');
-        });
-      },
-      { threshold: [0.5, 0.65, 0.85] },
-    );
-    scenes.forEach((scene) => observer.observe(scene));
+    const removeIntroduction = installIntroduction();
 
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
-      scenes.forEach((scene, index) => {
-        const text = scene.querySelector('.intro-statement');
-        if (index > 0) {
-          gsap.fromTo(
-            text,
-            { opacity: 0.15, y: 48 },
-            {
-              opacity: 1,
-              y: 0,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: scene,
-                start: 'top 85%',
-                end: 'top 20%',
-                scrub: true,
-              },
-            },
-          );
-        }
-        // Outer wrapper owns exit movement so its transform cannot conflict with text entry.
-        gsap.to(scene.querySelector('.scene-inner'), {
-          y: -48,
-          opacity: 0.12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: scene,
-            start: 'top top',
-            end: 'bottom 12%',
-            scrub: true,
-          },
-        });
-      });
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
         gsap.from(element, {
           y: 12,
@@ -89,9 +38,8 @@ export function PageMotion() {
       );
     });
     return () => {
-      observer.disconnect();
+      removeIntroduction();
       media.revert();
-      links.forEach((link) => link.removeAttribute('aria-current'));
     };
   }, []);
   return null;

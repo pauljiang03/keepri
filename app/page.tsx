@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
 import { asset } from '@/lib/site';
 import { PageMotion } from '@/components/page-motion';
@@ -52,9 +53,19 @@ export default function Home() {
             id={scene.id}
             key={scene.id}
             aria-label={`Statement ${index + 1} of 3`}
+            tabIndex={-1}
           >
             <div className="scene-inner">
-              <p className="intro-statement">{scene.text}</p>
+              <p className="intro-statement">
+                {scene.text.split(' ').map((word, wordIndex) => (
+                  <Fragment key={`${scene.id}-${wordIndex}`}>
+                    {wordIndex > 0 ? ' ' : null}
+                    <span className="intro-word">
+                      <span className="intro-word-inner">{word}</span>
+                    </span>
+                  </Fragment>
+                ))}
+              </p>
               <a className="intro-next" href={scene.next}>
                 {index === 2 ? 'Enter KeepRI' : 'Scroll to continue'}
                 <ArrowDown size={18} aria-hidden="true" />
@@ -325,7 +336,7 @@ export default function Home() {
             <span>© 2026 KeepRI</span>
             <span>Closed beta</span>
             <nav aria-label="Footer navigation">
-              <a href="#top">Replay intro</a>
+              <a href="#site">Back to top</a>
               <a href="#privacy">Website privacy</a>
             </nav>
           </div>

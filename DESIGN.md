@@ -2,7 +2,7 @@
 
 ## 1. Direction
 
-The owner selected Virio's interactive entrance: several full-screen, single-statement chapters before reaching the main website. The current direction is Long-Scroll Narrative. Personal identity, biographies, academic details, direct personal contacts, named games, and game captures are excluded at the owner's request.
+The owner selected Virio's interactive entrance: several full-screen, single-statement chapters before reaching the main website. The entrance presents one full-screen statement per gesture, then hands off once to the main site. Personal identity, biographies, academic details, direct personal contacts, named games, and game captures are excluded at the owner's request.
 
 ## 2. Palette
 
@@ -14,9 +14,11 @@ Self-hosted DM Sans400/500, upright throughout. The entrance gives one line its 
 
 ## 4. Introduction
 
-Three100svh native sections: Answers are everywhere; Understanding takes effort; Keep thinking for yourself. A sticky brand/skip row and chapter navigation orient the visitor. Each section offers a real next anchor. The final anchor enters the main site; the footer can replay the introduction.
+Three statements share one 100svh stage: Answers are everywhere; Understanding takes effort; Keep thinking for yourself. Wheel momentum and each touch swipe are consumed after one advance; held navigation keys cannot repeat through chapters. Chapter links and a visible Skip intro remain direct controls.
 
-GSAP scroll-linked entry/exit opacity and48px movement track native scrolling. There are no wheel/touch preventDefault handlers, mandatory snapping, autoplay timers, delayed entry gates, or hidden content dependencies. The current chapter is identified by IntersectionObserver. All sections are fully visible without JavaScript and under reduced motion.
+Words leave and enter through typographic masks, with direction-aware movement and a growing chapter line. The final gesture scrolls into the main site, then removes the introduction from layout. Scrolling upward stops at the main website. The footer links back to the main site's top; replay requires reloading the page.
+
+Gesture control is an explicit owner requirement for this entrance. It ends when the visitor enters the site. Reduced motion preserves one-step navigation with instant changes. Without JavaScript, the three native sections and anchors remain readable as a linear fallback. Inactive enhanced scenes are inert and hidden from assistive technology; keyboard navigation and skip targets remain available.
 
 ## 5. Main site
 
@@ -38,4 +40,4 @@ Closed beta only. Free consumer play is the mission; separately consented resear
 
 ## 9. Accessibility and validation
 
-Visible skip-intro control plus a keyboard skip-to-main link; real anchors with focusable landing targets; visible link/summary focus; sufficient contrast; native disclosures; reduced-motion fallback; no script-dependent visibility. See `VALIDATION.md` for executed checks and their limits.
+Visible skip-intro control plus a keyboard skip-to-main link; real anchors with focusable landing targets; visible link/summary focus; sufficient contrast; native disclosures; reduced-motion fallback; readable no-JavaScript content. See `VALIDATION.md` for executed checks and their limits.
