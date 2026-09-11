@@ -1312,6 +1312,7 @@ details[open] > summary svg {
   }
   .journey-diagram {
     margin-block: var(--s3);
+    max-height: 30svh;
   }
   .journey-controls button {
     font-size: 11px;
