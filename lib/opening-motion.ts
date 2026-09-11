@@ -15,7 +15,7 @@ export const MOTION = {
   sectionMarqueePxPerSecond: 24,
 };
 
-export function installOpeningMotion() {
+export function installOpeningMotion(restoreInitialHash = true) {
   gsap.registerPlugin(Draggable, InertiaPlugin);
   const root = document.documentElement;
   const opening = document.querySelector<HTMLElement>('.opening')!;
@@ -231,6 +231,12 @@ export function installOpeningMotion() {
           trigger: marquee,
           type: 'x',
           inertia: true,
+          overshootTolerance: 0,
+          snap: function (this: Draggable, value: number) {
+            return Math.round(
+              gsap.utils.clamp(this.x - 1000, this.x + 1000, value),
+            );
+          },
           allowNativeTouchScrolling: true,
           onPressInit() {
             progress = tween?.progress() || 0;
@@ -248,9 +254,30 @@ export function installOpeningMotion() {
             if (root.dataset.motion !== 'paused') tween?.resume();
           },
         });
+        const steer = (event: WheelEvent) => {
+          if (!event.deltaX || Math.abs(event.deltaX) <= Math.abs(event.deltaY))
+            return;
+          event.preventDefault();
+          const scale =
+            event.deltaMode === 1
+              ? 16
+              : event.deltaMode === 2
+                ? marquee.clientWidth
+                : 1;
+          tween?.progress(
+            gsap.utils.wrap(
+              0,
+              1,
+              tween.progress() + (event.deltaX * scale) / group.offsetWidth,
+            ),
+          );
+        };
+        marquee.addEventListener('wheel', steer, { passive: false });
         const toggle = () => {
-          if (root.dataset.motion === 'paused') tween?.pause();
-          else tween?.resume();
+          if (root.dataset.motion === 'paused') {
+            drag.tween?.kill();
+            tween?.pause();
+          } else tween?.resume();
         };
         window.addEventListener('keepri:motionchange', toggle);
         cleanups.push(() => {
@@ -258,6 +285,7 @@ export function installOpeningMotion() {
           gsap.killTweensOf(proxy);
           tween?.kill();
           observer.disconnect();
+          marquee.removeEventListener('wheel', steer);
           window.removeEventListener('keepri:motionchange', toggle);
         });
       });
@@ -333,9 +361,52 @@ export function installOpeningMotion() {
     layoutObserver.disconnect();
     cancelAnimationFrame(layoutFrame);
   });
+  const initialHash = restoreInitialHash ? location.hash : '';
+  let interacted = false;
+  let disposed = false;
+  let anchorFrame = 0;
+  const cancelAnchorRestore = () => {
+    interacted = true;
+  };
+  const inputEvents = [
+    'pointerdown',
+    'touchstart',
+    'wheel',
+    'keydown',
+  ] as const;
+  inputEvents.forEach((name) =>
+    window.addEventListener(name, cancelAnchorRestore, {
+      once: true,
+      passive: true,
+    }),
+  );
   void document.fonts.ready.then(() => {
-    ScrollTrigger.refresh();
-    lenis.resize();
+    if (disposed) return;
+    anchorFrame = requestAnimationFrame(() => {
+      if (disposed) return;
+      ScrollTrigger.refresh();
+      lenis.resize();
+      if (
+        interacted ||
+        !initialHash ||
+        initialHash === '#top' ||
+        location.hash !== initialHash
+      )
+        return;
+      const target = document.getElementById(initialHash.slice(1));
+      if (target)
+        lenis.scrollTo(target, {
+          immediate: true,
+          offset: initialHash === '#site' ? 0 : -80,
+        });
+    });
+  });
+  cleanups.push(() => {
+    disposed = true;
+    cancelAnimationFrame(anchorFrame);
+    inputEvents.forEach((name) =>
+      window.removeEventListener(name, cancelAnchorRestore),
+    );
   });
   return () => {
     cleanups.forEach((cleanup) => cleanup());

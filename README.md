@@ -18,7 +18,9 @@ The production output is `dist/client`. Content lives in `app/page.tsx`, `compon
 
 ## Preview and publication
 
-The private Sites preview uses the existing project in `.openai/hosting.json`. The public [GitHub Pages website](https://pauljiang03.github.io/keepri/) and its previously staged `docs/` output are unchanged by this revision. For a separately authorized public Pages release, `npm run prepare:pages` builds with `/keepri`, checks paths, and stages `docs/`; committing and pushing that output to the public repository publishes it.
+The production destination is [pauljiang03.github.io/keepri](https://pauljiang03.github.io/keepri/). GitHub Pages serves the `docs/` directory on `main`. Use `npm run prepare:pages` to type-check, build with `/keepri`, validate assets/content, and stage `docs/`; commit and push the source and staged output to publish. Verify GitHub's Pages build and the public URL after pushing.
+
+The earlier `chatgpt.site` link was a separate private review preview. GitHub Pages is the owner's requested publication destination; do not publish future revisions to the private preview unless requested.
 
 This revision replaces the old gesture-gated chapters with the reference's continuous 480vh opening, rotating hero, interactive particle field, draggable marquees, desktop sticky cards, mobile stacked cards, research tabs, philosophy tabs/swipe cards, and curved closing reveal. Reduced motion skips the opening and continuous loops. Session storage avoids replaying the opening on subsequent visits in the same tab. A footer control pauses autonomous motion.
 

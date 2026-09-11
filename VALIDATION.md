@@ -12,4 +12,6 @@ Passed:
 
 Global starter lint also scans pre-existing unused UI components and generated `docs/` files; it is not a clean project-wide gate. The modified source passes the targeted check above. No new tests duplicate the animation implementation; browser observations and source measurements are documented in MOTION-VERIFICATION.md.
 
-The public GitHub Pages `docs/` output was not regenerated or published. The private preview uses the production static export. Browser verification and its interruption are recorded precisely in MOTION-VERIFICATION.md; final end-to-end visual acceptance is still pending.
+The final release uses `npm run prepare:pages`: type checking, the `/keepri/` static export,35 asset/anchor checks plus client-prefix validation, and staging into `docs/`. Changed-source lint passes. GitHub Pages is configured for `main` and `/docs`.
+
+Release follow-up browser checks cover 320px,390px and1440px layout geometry, final desktop/mobile philosophy layouts, product image loading, and a script-disabled desktop closing/static-caption fallback. Final320px/390px competition card client and content heights match, so its content is not clipped. Desktop panels are equal widths and the full thesis sentence fits. See MOTION-VERIFICATION.md for measurements and the precise limits of background-browser snapshots.

@@ -31,7 +31,25 @@ Measurements combine live browser observation with the publicly served reference
 1. DM Sans and KeepRI copy differ from Virio's Haffer typeface and wording. Line endings, glyph shapes, widths and some vertical spacing intentionally differ.
 2. Product visuals are real KeepRI beta screenshots and labeled future-state designs. They replace Virio's animated charts/customer art. The lower case-study art's 9-second canvas/chart animation is not reproduced.
 3. The particle/grain appearance is an independent approximation in KeepRI colors. Random scatter is seeded differently. Exact pixel parity and frame-rate parity are not established.
-4. Marquee dragging uses the same GSAP drag/inertia family, but the reference's horizontal-wheel steering, item snapping and 1000px throw clamp are not reproduced. Mobile FAQ uses native scroll snapping and bounded previous/next navigation, rather than the reference's centered infinite GSAP carousel.
-5. Final full-page desktop/mobile screenshots, 320px layout, actual touch hardware, 200% zoom, screen-reader behavior and performance profiling remain unverified because the browser window became unavailable. Earlier desktop/mobile observations do not establish final end-to-end acceptance.
+4. Marquees now include horizontal-wheel steering, integer-position snapping and a 1000px throw clamp. Their exact release feel is not identical to the reference's item-aware loop. Mobile FAQ intentionally uses native scroll snapping and bounded previous/next navigation rather than an infinite GSAP carousel.
+5. Release follow-up checks below cover the final desktop and mobile layout corrections. Physical touch hardware, 200% browser zoom, a screen reader, and frame-rate profiling remain outside the verified scope. The original live headline measurement remains the timing evidence; background Safari snapshots were used for layout, not new motion-timing claims.
 
 For a fresh opening replay in the same tab, clear `keepri:opening-seen:v2` from that origin's session storage and reload. Reduced-motion preference intentionally skips the opening. Native touch scrolling is intentional.
+
+## GitHub Pages release follow-up
+
+The final static export was rebuilt and served locally at the same `/keepri/` path as production. Chrome production-page inspection measured 1440×900 with no horizontal overflow, a visible document, initialized desktop motion, and an opaque research panel. The industry layout was visually inspected. Chrome then had active-user focus changes, so remaining layout checks used a separate Safari window with an exact-size iframe review page outside the repository/public artifact.
+
+Verified and corrected:
+
+- At 320px and390px: document width equals viewport width. All three product-image instances loaded when visited, with the `/keepri/assets/product/` prefix. Offscreen lazy images may remain unloaded on a fresh deep link until approached, as expected.
+- Final Compete visual at320px: client width256px, height350px, scrollHeight350px. At390px: width326px, height454px, scrollHeight454px. Content fits; mobile portrait-card sizing no longer grows with image intrinsic height.
+- Mobile philosophy card and controls visually inspected at390px. Paper surface, full copy, and narrow-screen wrapping are readable.
+- Desktop philosophy panels: each656px client width ×504px client height (658×506 outer), equal columns, vertical question list. Corrected an inherited horizontal flex direction and the minimum-width constraint that squeezed the answer panel.
+- Desktop thesis headline: client/scroll width1440px, with the complete sentence visible. Reduced its desktop font size to fit KeepRI's longer wording.
+- Script-disabled desktop: no root enhancement marker, closing curve display:none, three caption widths278px each, no horizontal overflow, and the closing CTA/footer visibly present. The no-JavaScript fallback now avoids overlapping captions and an obscured closing section.
+- Header centered and darkened for legibility on the cream sections. Industry metadata now also says the research offering is planned.
+- Fresh deep links skip intro height before first paint, then receive a single font/layout-aware position correction that is canceled by user input. This prevents sections from landing at stale positions after layout changes.
+- GitHub Pages client hydration/remount fix: `PAGES_BASE_PATH` is explicitly inlined through Next configuration. Previously the browser compiled it to an empty object lookup, risking root-relative product image URLs after changing tabs. Static validation now rejects an unresolved client prefix.
+
+The Safari review iframe reported `visibility:hidden` while the user worked in Chrome. Finite CSS entrance animations were settled by the local review page for layout snapshots. Those screenshots establish layout and content fit, not real-time animation performance. The review page is not included in `docs/` or the repository.

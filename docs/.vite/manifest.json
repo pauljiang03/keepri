@@ -1,4 +1,12 @@
 {
+  "_Icon-B90RP1Fp.js": {
+    "file": "keepri/_next/static/chunks/Icon-B90RP1Fp.js",
+    "name": "Icon",
+    "imports": [
+      "_rolldown-runtime-CPYLWiKu.js",
+      "_framework-DauzXuyt.js"
+    ]
+  },
   "_framework-DauzXuyt.js": {
     "file": "keepri/_next/static/chunks/framework-DauzXuyt.js",
     "name": "framework",
@@ -6,32 +14,69 @@
       "_rolldown-runtime-CPYLWiKu.js"
     ]
   },
+  "_gsap-BT4Rv3pp.js": {
+    "file": "keepri/_next/static/chunks/gsap-BT4Rv3pp.js",
+    "name": "gsap"
+  },
+  "_image-DfNodUSw.js": {
+    "file": "keepri/_next/static/chunks/image-DfNodUSw.js",
+    "name": "image",
+    "imports": [
+      "_rolldown-runtime-CPYLWiKu.js",
+      "virtual:vinext-app-browser-entry",
+      "_framework-DauzXuyt.js"
+    ]
+  },
+  "_plus-BI0zWQl6.js": {
+    "file": "keepri/_next/static/chunks/plus-BI0zWQl6.js",
+    "name": "plus",
+    "imports": [
+      "_rolldown-runtime-CPYLWiKu.js",
+      "_Icon-B90RP1Fp.js",
+      "_framework-DauzXuyt.js"
+    ]
+  },
   "_rolldown-runtime-CPYLWiKu.js": {
     "file": "keepri/_next/static/chunks/rolldown-runtime-CPYLWiKu.js",
     "name": "rolldown-runtime"
   },
+  "components/hero.tsx": {
+    "file": "keepri/_next/static/chunks/hero-BjAQXBwl.js",
+    "name": "hero",
+    "src": "components/hero.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-CPYLWiKu.js",
+      "_plus-BI0zWQl6.js",
+      "_framework-DauzXuyt.js"
+    ]
+  },
   "components/page-motion.tsx": {
-    "file": "keepri/_next/static/chunks/page-motion-qdONH_Jv.js",
+    "file": "keepri/_next/static/chunks/page-motion-CsVh14Qp.js",
     "name": "page-motion",
     "src": "components/page-motion.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-CPYLWiKu.js",
+      "_gsap-BT4Rv3pp.js",
       "_framework-DauzXuyt.js"
     ]
   },
-  "node_modules/lucide-react/dist/esm/Icon.mjs": {
-    "file": "keepri/_next/static/chunks/Icon-DHtuX6cv.js",
-    "name": "Icon",
-    "src": "node_modules/lucide-react/dist/esm/Icon.mjs",
+  "components/story-panels.tsx": {
+    "file": "keepri/_next/static/chunks/story-panels-CAo5RQxN.js",
+    "name": "story-panels",
+    "src": "components/story-panels.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-CPYLWiKu.js",
+      "_image-DfNodUSw.js",
+      "_gsap-BT4Rv3pp.js",
+      "_plus-BI0zWQl6.js",
       "_framework-DauzXuyt.js"
     ]
   },
   "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
-    "file": "keepri/_next/static/chunks/app-route-prefetch-policy-KK6e5ioN.js",
+    "file": "keepri/_next/static/chunks/app-route-prefetch-policy-C3Y8wFRq.js",
     "name": "app-route-prefetch-policy",
     "src": "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
     "isDynamicEntry": true,
@@ -40,7 +85,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "keepri/_next/static/chunks/layout-segment-context-B5Azwxjl.js",
+    "file": "keepri/_next/static/chunks/layout-segment-context-Dg51q6fF.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -51,7 +96,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/streamed-icons.js": {
-    "file": "keepri/_next/static/chunks/streamed-icons-DCmTZ346.js",
+    "file": "keepri/_next/static/chunks/streamed-icons-BhEvD-uL.js",
     "name": "streamed-icons",
     "src": "node_modules/vinext/dist/shims/streamed-icons.js",
     "isDynamicEntry": true,
@@ -61,7 +106,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "keepri/_next/static/chunks/index-DENIcumu.js",
+    "file": "keepri/_next/static/chunks/index-CsEyiQCW.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
@@ -74,8 +119,11 @@
       "virtual:vinext-app-browser-entry",
       "node_modules/vinext/dist/shims/layout-segment-context.js",
       "components/page-motion.tsx",
-      "node_modules/lucide-react/dist/esm/Icon.mjs",
-      "node_modules/vinext/dist/shims/streamed-icons.js"
+      "_Icon-B90RP1Fp.js",
+      "node_modules/vinext/dist/shims/streamed-icons.js",
+      "_image-DfNodUSw.js",
+      "components/story-panels.tsx",
+      "components/hero.tsx"
     ]
   }
 }

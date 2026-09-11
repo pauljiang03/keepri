@@ -37,7 +37,12 @@ function walk(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const file = join(dir, entry.name);
     if (entry.isDirectory()) walk(file);
-    else if (entry.name.endsWith('.css')) {
+    else if (entry.name.endsWith('.js')) {
+      assert(
+        !readFileSync(file, 'utf8').includes('PAGES_BASE_PATH'),
+        `Unresolved client asset prefix in ${file}`,
+      );
+    } else if (entry.name.endsWith('.css')) {
       for (const match of readFileSync(file, 'utf8').matchAll(
         /url\(["']?([^"')]+)["']?\)/g,
       ))

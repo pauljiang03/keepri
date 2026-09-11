@@ -1,4 +1,4 @@
-GSAP 3.15.0, ScrollTrigger and ScrollToPlugin
+GSAP 3.15.0, ScrollTrigger, ScrollToPlugin, Draggable and InertiaPlugin
 Copyright 2008-2026, GreenSock. All rights reserved.
 Subject to the terms at https://gsap.com/standard-license
 Author: Jack Doyle, jack@greensock.com

@@ -13,6 +13,7 @@ export function PageMotion() {
     media.add(
       '(min-width: 1025px) and (prefers-reduced-motion: no-preference)',
       () => {
+        document.documentElement.dataset.desktopMotion = 'true';
         gsap.set('.product-card', { opacity: 0 });
         gsap.set('.card-visual', { yPercent: 110, opacity: 0 });
         gsap.set('.step-copy', { opacity: 0 });
@@ -138,6 +139,9 @@ export function PageMotion() {
             scrub: true,
           },
         });
+        return () => {
+          delete document.documentElement.dataset.desktopMotion;
+        };
       },
     );
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -154,7 +158,7 @@ export function PageMotion() {
       } catch {
         /* Optional storage. */
       }
-      removeOpening = installOpeningMotion();
+      removeOpening = installOpeningMotion(false);
       window.scrollTo({ top: position, behavior: 'instant' });
       ScrollTrigger.refresh();
     };
