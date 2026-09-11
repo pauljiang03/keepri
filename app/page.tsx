@@ -1,16 +1,16 @@
-import { Fragment } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
 import { asset } from '@/lib/site';
 import { PageMotion } from '@/components/page-motion';
-import { SignalField } from '@/components/signal-field';
+import { ReasoningPaths } from '@/components/reasoning-paths';
+import { ReasoningJourney } from '@/components/reasoning-journey';
 
 // Static Pages deployment: the original brand icon is served directly.
 /* oxlint-disable next/no-img-element */
 
 const introduction = [
-  { id: 'intro-1', text: 'Answers are everywhere.', next: '#intro-2' },
-  { id: 'intro-2', text: 'Understanding takes effort.', next: '#intro-3' },
-  { id: 'intro-3', text: 'Keep thinking for yourself.', next: '#site' },
+  { id: 'intro-1', text: 'Start with a question.', next: '#intro-2' },
+  { id: 'intro-2', text: 'Learn from every attempt.', next: '#intro-3' },
+  { id: 'intro-3', text: 'Find your own way through.', next: '#site' },
 ];
 
 export default function Home() {
@@ -21,12 +21,8 @@ export default function Home() {
         Skip to main content
       </a>
       <section className="introduction" id="top" aria-label="Introduction">
-        <SignalField className="intro-field" />
-        <div className="intro-frame" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
+        <div className="intro-reasoning" aria-hidden="true">
+          <ReasoningPaths />
         </div>
         <div className="intro-controls">
           <div className="shell intro-control-row">
@@ -64,16 +60,7 @@ export default function Home() {
             tabIndex={-1}
           >
             <div className="scene-inner">
-              <p className="intro-statement">
-                {scene.text.split(' ').map((word, wordIndex) => (
-                  <Fragment key={`${scene.id}-${wordIndex}`}>
-                    {wordIndex > 0 ? ' ' : null}
-                    <span className="intro-word">
-                      <span className="intro-word-inner">{word}</span>
-                    </span>
-                  </Fragment>
-                ))}
-              </p>
+              <p className="intro-statement">{scene.text}</p>
               <a className="intro-next" href={scene.next}>
                 {index === 2 ? 'Enter KeepRI' : 'Scroll to continue'}
                 <ArrowDown size={18} aria-hidden="true" />
@@ -105,7 +92,6 @@ export default function Home() {
         </header>
         <main id="main" tabIndex={-1}>
           <section className="hero shell" aria-labelledby="hero-title">
-            <SignalField className="hero-field" chapter={2} />
             <h1 id="hero-title">
               <span className="hero-title-line">
                 <span>Keep reasoning</span>
@@ -114,6 +100,19 @@ export default function Home() {
                 <span>independently.</span>
               </span>
             </h1>
+            <div
+              className="reasoning-rail"
+              aria-label="A question, an attempt, feedback, and understanding"
+              data-reveal
+            >
+              <span>Question</span>
+              <ArrowRight aria-hidden="true" size={18} />
+              <span>Attempt</span>
+              <ArrowRight aria-hidden="true" size={18} />
+              <span>Feedback</span>
+              <ArrowRight aria-hidden="true" size={18} />
+              <span>Understanding</span>
+            </div>
             <div className="hero-bottom" data-reveal>
               <p>
                 We’re building a home for independent thinking through play. A
@@ -173,13 +172,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="experience-theatre">
-                <div className="experience-art" aria-hidden="true">
-                  <SignalField className="experience-field" />
-                  <div className="experience-coordinate">
-                    <span>KEEP EXPLORING</span>
-                    <span>01 / 04</span>
-                  </div>
-                </div>
+                <ReasoningJourney />
                 <div
                   className="thinking-sequence"
                   aria-label="The experience: discover, experiment, refine, return"

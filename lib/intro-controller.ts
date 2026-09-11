@@ -2,8 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IntroGestureGate } from './intro-gesture';
-import { morphSignal, fieldParallax } from './field-motion';
-import { signalPath } from './signal-shape';
+import { revealReasoning } from './reasoning-motion';
 
 export function installIntroduction() {
   const intro = document.querySelector<HTMLElement>('.introduction');
@@ -16,16 +15,19 @@ export function installIntroduction() {
   const links = Array.from(
     intro.querySelectorAll<HTMLElement>('[data-scene-link]'),
   );
-  const words = Array.from(
-    intro.querySelectorAll<HTMLElement>('.intro-word-inner'),
+  const statements = scenes.map((scene) =>
+    scene.querySelector<HTMLElement>('.intro-statement')!,
+  );
+  const cues = scenes.map((scene) =>
+    scene.querySelector<HTMLElement>('.intro-next')!,
   );
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const gate = new IntroGestureGate();
-  const field = intro.querySelector<HTMLElement>('.intro-field');
+  const field = intro.querySelector<HTMLElement>('.intro-reasoning');
   let fieldTransition: gsap.core.Timeline | undefined;
   let exitArt: gsap.core.Tween | undefined;
-  const pointerMedia = gsap.matchMedia();
   let current = 0;
+  let hasShown = false;
   let busy = false;
   let completed = false;
   let touchY: number | null = null;
@@ -63,7 +65,6 @@ export function installIntroduction() {
     exit?.kill();
     fieldTransition?.kill();
     exitArt?.kill();
-    pointerMedia.kill();
     // Removing the entrance from layout makes the main site the top of the page.
     intro!.hidden = true;
     intro!.inert = true;
@@ -86,8 +87,7 @@ export function installIntroduction() {
     fieldTransition?.kill();
     if (field)
       exitArt = gsap.to(field.querySelector('svg'), {
-        scale: 1.6,
-        rotation: 12,
+        y: -24,
         opacity: 0,
         duration: 0.95,
         ease: 'power2.inOut',
@@ -102,58 +102,81 @@ export function installIntroduction() {
 
   function show(index: number, focus = false) {
     if (completed || index < 0 || index >= scenes.length) return;
-    transition?.kill();
+    // Finish a deliberate chapter-link interruption before starting a new transition.
+    transition?.progress(1).kill();
     exit?.kill();
     exitArt?.kill();
-    if (field) gsap.set(field.querySelector('svg'), { opacity: 1 });
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    const direction = index >= current ? 1 : -1;
-    const outgoing = scenes[current].querySelectorAll('.intro-word-inner');
-    const incoming = scenes[index].querySelectorAll('.intro-word-inner');
-    const change = () => {
-      activate(index);
+    if (field) gsap.set(field.querySelector('svg'), { opacity: 1, y: 0 });
+    if (window.scrollY > 1) window.scrollTo({ top: 0, behavior: 'instant' });
+    if (hasShown && index === current) {
       if (focus) scenes[index].focus({ preventScroll: true });
-    };
+      return;
+    }
+    const previous = current;
+    const direction = index >= previous ? 1 : -1;
+    const movingBetweenScenes = hasShown && index !== previous;
+    hasShown = true;
+    activate(index);
+    if (focus) scenes[index].focus({ preventScroll: true });
+    fieldTransition?.revert();
+    if (field)
+      fieldTransition = revealReasoning(
+        field.querySelector('svg')!,
+        index,
+        !preference.matches,
+      );
+    gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
+    gsap.set(scenes, { clearProps: 'visibility,opacity' });
+    gsap.set(cues, { clearProps: 'visibility,opacity' });
     if (preference.matches) {
-      gsap.set(words, { clearProps: 'transform,opacity' });
-      if (field)
-        gsap.set(field.querySelectorAll('.signal-thread'), {
-          attr: { d: (i: number) => signalPath(i, index) },
-        });
-      change();
       busy = false;
       return;
     }
-    fieldTransition?.kill();
-    if (field) fieldTransition = morphSignal(field, index);
     busy = true;
+    gsap.set([statements[previous], statements[index]], {
+      willChange: 'transform,opacity',
+    });
     transition = gsap.timeline({
       onComplete: () => {
         busy = false;
+        gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
+        gsap.set(scenes, { clearProps: 'visibility,opacity' });
+        gsap.set(cues, { clearProps: 'visibility,opacity' });
       },
     });
-    if (index !== current) {
-      transition.to(outgoing, {
-        yPercent: -105 * direction,
-        rotationX: -18 * direction,
-        opacity: 0,
-        duration: 0.34,
-        stagger: 0.022,
-        ease: 'power2.inOut',
-      });
+    if (movingBetweenScenes) {
+      // Both planes exist during the blend; only the destination is interactive.
+      gsap.set(scenes[previous], { visibility: 'visible' });
+      gsap.set(cues[previous], { visibility: 'hidden' });
+      transition.to(
+        statements[previous],
+        {
+          y: -36 * direction,
+          opacity: 0,
+          duration: 0.48,
+          ease: 'power2.inOut',
+          force3D: true,
+        },
+        0,
+      );
+      transition.set(
+        scenes[previous],
+        { clearProps: 'visibility,opacity' },
+        0.48,
+      );
     }
-    transition.call(change).fromTo(
-      incoming,
-      { yPercent: 105 * direction, rotationX: 24 * direction, opacity: 0 },
+    transition.fromTo(
+      statements[index],
+      { y: (movingBetweenScenes ? 36 : 20) * direction, opacity: 0 },
       {
-        yPercent: 0,
-        rotationX: 0,
+        y: 0,
         opacity: 1,
-        duration: 0.78,
-        stagger: 0.04,
+        duration: 0.68,
         ease: 'power3.out',
-        immediateRender: false,
+        force3D: true,
+        immediateRender: true,
       },
+      movingBetweenScenes ? 0.2 : 0,
     );
   }
 
@@ -262,11 +285,12 @@ export function installIntroduction() {
     transition?.kill();
     fieldTransition?.kill();
     exitArt?.kill();
-    gsap.set(words, { clearProps: 'transform,opacity' });
+    gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
+    gsap.set(scenes, { clearProps: 'visibility,opacity' });
+    gsap.set(cues, { clearProps: 'visibility,opacity' });
     if (field) {
-      gsap.set(field.querySelectorAll('.signal-thread'), {
-        attr: { d: (i: number) => signalPath(i, current) },
-      });
+      fieldTransition?.progress(1);
+      revealReasoning(field.querySelector('svg')!, current, false);
       gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
     }
     busy = false;
@@ -297,12 +321,6 @@ export function installIntroduction() {
   } else {
     finish();
   }
-  pointerMedia.add(
-    '(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)',
-    () => {
-      if (field && !completed) return fieldParallax(intro, field, 30);
-    },
-  );
   window.addEventListener('wheel', wheel, { passive: false });
   window.addEventListener('touchstart', touchStart, { passive: true });
   window.addEventListener('touchmove', touchMove, { passive: false });
@@ -315,7 +333,6 @@ export function installIntroduction() {
 
   return () => {
     cancelAnimationFrame(frame);
-    pointerMedia.kill();
     fieldTransition?.kill();
     exitArt?.kill();
     if (field)
@@ -341,6 +358,8 @@ export function installIntroduction() {
       scene.removeAttribute('aria-hidden');
     });
     links.forEach((link) => link.removeAttribute('aria-current'));
-    gsap.set(words, { clearProps: 'transform,opacity' });
+    gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
+    gsap.set(scenes, { clearProps: 'visibility,opacity' });
+    gsap.set(cues, { clearProps: 'visibility,opacity' });
   };
 }

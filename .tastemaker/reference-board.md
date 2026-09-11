@@ -20,3 +20,5 @@ The brand icon remains. Game captures and personal details are excluded. The mai
 The owner clarified the interaction after the first scroll revision: one full-screen statement per gesture, visible intro effects, and a one-way handoff that prevents scrolling back into the entrance. The main site's scroll-progress line, section reveals, and research disclosures remain.
 
 The owner requested a more expressive result and smoother motion. Original procedural contour art now connects the intro, hero and scroll narrative. Its four states were rendered and visually inspected; it is abstract brand art, not product imagery or a chart. The visitor disclosure is removed.
+
+The owner subsequently rejected abstract art without a connection to KeepRI. Current visuals explain possible approaches, attempts, feedback, revision and returning to a new challenge. Layout and motion references never override this mission requirement. The four learning states were rendered from the SVG geometry for illustration review.

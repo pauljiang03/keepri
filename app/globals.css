@@ -163,16 +163,6 @@ section[id] {
   transform-origin: left;
   transition: transform 900ms var(--ease-out);
 }
-.intro-word {
-  display: inline-block;
-  overflow: clip;
-  vertical-align: bottom;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
-}
-.intro-word-inner {
-  display: inline-block;
-}
 .intro-controls {
   position: sticky;
   top: 0;
@@ -208,7 +198,6 @@ section[id] {
 }
 .scene-inner {
   min-height: inherit;
-  perspective: 1000px;
   display: grid;
   place-items: center;
   position: relative;
@@ -836,93 +825,12 @@ details[open] > summary svg {
   }
 }
 
-/* A contour sculpture is the recurring visual: quiet at rest, transformed by input. */
-.signal-field {
-  pointer-events: none;
-}
-.signal-field svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.signal-thread {
-  stroke: var(--olive);
-  stroke-width: 1;
-  opacity: 0.4;
-}
-.signal-accent {
-  stroke: var(--clay);
-  opacity: 0.85;
-  stroke-width: 1.5;
-}
-.intro-field {
-  /* Fade the art behind the statement so intersecting contours cannot reduce text contrast. */
-  mask-image: linear-gradient(
-    to bottom,
-    #000 27%,
-    transparent 40%,
-    transparent 60%,
-    #000 73%
-  );
-  position: absolute;
-  inset: -12%;
-  z-index: 0;
-}
-.intro-field .signal-thread {
-  stroke: var(--sage);
-  opacity: 0.28;
-}
-.intro-field .signal-accent {
-  stroke: var(--clay);
-  opacity: 0.5;
-}
+/* Choices, attempts, feedback and revision are the visual language. */
 .intro-scene {
   z-index: 1;
 }
 .intro-statement {
   position: relative;
-  transform-style: preserve-3d;
-}
-.intro-word-inner {
-  transform-origin: center bottom;
-}
-.intro-frame {
-  position: absolute;
-  inset: 96px 48px 48px;
-  pointer-events: none;
-  z-index: 2;
-}
-.intro-frame span {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-color: var(--sage);
-  opacity: 0.4;
-}
-.intro-frame span:nth-child(1) {
-  top: 0;
-  left: 0;
-  border-top: 1px solid;
-  border-left: 1px solid;
-}
-.intro-frame span:nth-child(2) {
-  top: 0;
-  right: 0;
-  border-top: 1px solid;
-  border-right: 1px solid;
-}
-.intro-frame span:nth-child(3) {
-  bottom: 0;
-  left: 0;
-  border-bottom: 1px solid;
-  border-left: 1px solid;
-}
-.intro-frame span:nth-child(4) {
-  bottom: 0;
-  right: 0;
-  border-bottom: 1px solid;
-  border-right: 1px solid;
 }
 .site-progress {
   position: fixed;
@@ -935,21 +843,6 @@ details[open] > summary svg {
   clip-path: inset(0 100% 0 0);
   transform-origin: left;
   pointer-events: none;
-}
-.hero-field {
-  position: absolute;
-  z-index: -1;
-  width: 850px;
-  height: 650px;
-  right: -245px;
-  top: -100px;
-  opacity: 0.7;
-}
-.hero-field .signal-thread {
-  opacity: 0.24;
-}
-.hero-field .signal-accent {
-  opacity: 0.6;
 }
 .hero-title-line {
   overflow: clip;
@@ -972,28 +865,6 @@ details[open] > summary svg {
   gap: var(--s16);
   align-items: start;
   margin-top: var(--s16);
-}
-.experience-art {
-  position: sticky;
-  top: max(48px, calc(50svh - 260px));
-  height: 520px;
-  display: grid;
-  place-items: center;
-}
-.experience-field {
-  width: 150%;
-  aspect-ratio: 1.6;
-}
-.experience-coordinate {
-  position: absolute;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.1em;
 }
 .thinking-step {
   min-height: 56svh;
@@ -1063,50 +934,12 @@ details[open] > summary svg {
   .experience-theatre {
     gap: var(--s8);
   }
-  .hero-field {
-    right: -260px;
-    opacity: 0.45;
-  }
-  .experience-art {
-    height: 420px;
-    top: calc(50svh - 210px);
-  }
 }
 @media (max-width: 700px) {
-  .intro-field {
-    inset: -5% -65%;
-    opacity: 0.75;
-  }
-  .intro-frame {
-    inset: 144px 20px 28px;
-  }
-  .intro-frame span {
-    width: 14px;
-    height: 14px;
-  }
-  .hero-field {
-    width: 610px;
-    height: 380px;
-    top: -95px;
-    right: -320px;
-    opacity: 0.45;
-  }
   .experience-theatre {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
     margin-top: var(--s8);
-  }
-  .experience-art {
-    top: 0;
-    height: 280px;
-    z-index: 0;
-    opacity: 0.28;
-  }
-  .experience-field {
-    width: 140%;
-  }
-  .experience-coordinate {
-    display: none;
   }
   .thinking-sequence {
     position: relative;
@@ -1134,6 +967,300 @@ details[open] > summary svg {
   }
   .footer-wordmark {
     font-size: clamp(90px, 23vw, 160px);
+  }
+}
+
+.reasoning-paths {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.reasoning-paths path,
+.reasoning-paths circle {
+  vector-effect: non-scaling-stroke;
+}
+.reasoning-options {
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.reasoning-trace {
+  stroke: var(--olive);
+  stroke-width: 2.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  opacity: 0;
+}
+.reasoning-attempt {
+  stroke: var(--clay);
+}
+.reasoning-junctions {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  fill: var(--paper);
+}
+.reasoning-feedback {
+  stroke: var(--clay);
+  stroke-width: 2;
+  fill: var(--paper);
+  opacity: 0;
+}
+.reasoning-feedback path,
+.reasoning-insight path {
+  fill: none;
+}
+.reasoning-insight {
+  stroke: var(--olive);
+  stroke-width: 2;
+  fill: var(--paper);
+  opacity: 0;
+}
+.reasoning-return-tip {
+  stroke: var(--olive);
+  stroke-width: 2.5;
+  opacity: 0;
+}
+.reasoning-paths[data-stage='1'] .reasoning-attempt,
+.reasoning-paths[data-stage='1'] .reasoning-feedback,
+.reasoning-paths[data-stage='2'] .reasoning-feedback,
+.reasoning-paths[data-stage='2'] .reasoning-revision,
+.reasoning-paths[data-stage='2'] .reasoning-insight,
+.reasoning-paths[data-stage='3'] .reasoning-return,
+.reasoning-paths[data-stage='3'] .reasoning-return-tip {
+  opacity: 1;
+}
+.reasoning-paths[data-stage='2'] .reasoning-attempt,
+.reasoning-paths[data-stage='3'] .reasoning-attempt,
+.reasoning-paths[data-stage='3'] .reasoning-revision,
+.reasoning-paths[data-stage='3'] .reasoning-feedback,
+.reasoning-paths[data-stage='3'] .reasoning-insight {
+  opacity: 0.35;
+}
+.intro-reasoning {
+  position: absolute;
+  pointer-events: none;
+  width: min(680px, 72%);
+  height: 24svh;
+  left: 50%;
+  bottom: 10svh;
+  transform: translateX(-50%);
+}
+.intro-reasoning .reasoning-options {
+  stroke: var(--sage);
+  opacity: 0.35;
+}
+.intro-reasoning .reasoning-trace:not(.reasoning-attempt),
+.intro-reasoning .reasoning-insight {
+  stroke: var(--on-dark);
+}
+.intro-reasoning .reasoning-junctions {
+  stroke: var(--sage);
+}
+.intro-reasoning .reasoning-junctions,
+.intro-reasoning .reasoning-feedback,
+.intro-reasoning .reasoning-insight {
+  fill: var(--olive);
+}
+.reasoning-rail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s4);
+  margin-top: var(--s16);
+  max-width: 740px;
+  padding-bottom: var(--s6);
+  border-bottom: 1px solid var(--line);
+}
+.reasoning-rail span {
+  font-size: 16px;
+}
+.reasoning-rail svg {
+  color: var(--muted);
+}
+.reasoning-journey {
+  position: sticky;
+  top: max(36px, calc(50svh - 260px));
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: var(--s6);
+  margin: 0;
+}
+.journey-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s4);
+}
+.journey-heading .section-label {
+  margin: 0;
+}
+.journey-count {
+  color: var(--muted);
+  font-size: 12px;
+}
+.journey-diagram {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  aspect-ratio: 1.8;
+  margin: var(--s4) auto;
+}
+.journey-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 2px 4px;
+  white-space: nowrap;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.2;
+}
+.journey-label[data-visible='false'] {
+  visibility: hidden;
+}
+.journey-question {
+  left: 11.1%;
+  top: 63%;
+}
+.journey-idea {
+  left: 34.7%;
+  top: 10%;
+}
+.journey-feedback {
+  left: 63.2%;
+  top: 33%;
+}
+.journey-revise {
+  left: 45%;
+  top: 52%;
+}
+.journey-strategy {
+  left: 85.4%;
+  top: 64%;
+}
+.journey-again {
+  left: 51%;
+  top: 91%;
+}
+.journey-controls {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--line);
+}
+.journey-controls button {
+  font: inherit;
+  font-size: 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: var(--s3) var(--s1);
+  min-height: 44px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.journey-controls button[aria-pressed='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--olive);
+}
+.journey-controls button:focus-visible {
+  outline: 2px solid var(--olive);
+  outline-offset: 2px;
+}
+.reasoning-journey figcaption {
+  margin-top: var(--s6);
+  min-height: 118px;
+}
+.reasoning-journey figcaption strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.reasoning-journey figcaption p {
+  margin-top: var(--s3);
+  font-size: 14px;
+  color: var(--muted);
+}
+.journey-note {
+  display: block;
+  margin-top: var(--s4);
+  color: var(--muted);
+  font-size: 11px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .journey-controls button:hover {
+    color: var(--ink);
+    background: var(--surface);
+  }
+}
+@media (max-width: 1000px) {
+  .reasoning-journey {
+    padding: var(--s6);
+  }
+}
+@media (max-width: 700px) {
+  .intro-reasoning {
+    width: 88%;
+    height: 22svh;
+    bottom: 12svh;
+  }
+  .reasoning-rail {
+    gap: var(--s1);
+    margin-top: var(--s8);
+    padding-bottom: var(--s4);
+  }
+  .reasoning-rail span {
+    font-size: 11px;
+  }
+  .reasoning-rail svg {
+    width: 12px;
+  }
+  .reasoning-journey {
+    top: 0;
+    z-index: 3;
+    padding: var(--s4);
+  }
+  .journey-heading .section-label {
+    font-size: 11px;
+  }
+  .journey-diagram {
+    margin-block: var(--s3);
+  }
+  .journey-label {
+    font-size: 10px;
+  }
+  .journey-controls button {
+    font-size: 11px;
+  }
+  .reasoning-journey figcaption {
+    margin-top: var(--s4);
+    min-height: 116px;
+  }
+  .reasoning-journey figcaption strong {
+    font-size: 16px;
+  }
+  .reasoning-journey figcaption p {
+    font-size: 13px;
+    margin-top: var(--s2);
+  }
+  .journey-note {
+    margin-top: var(--s2);
+    font-size: 10px;
+  }
+  .thinking-sequence {
+    margin-top: var(--s6);
+    padding-top: 0;
+  }
+}
+@media (max-height: 650px) {
+  .reasoning-journey {
+    position: relative;
+    top: auto;
   }
 }
 

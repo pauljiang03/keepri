@@ -4,9 +4,11 @@
 
 The owner selected Virio's interactive entrance: several full-screen, single-statement chapters before reaching the main website. The entrance presents one full-screen statement per gesture, then hands off once to the main site. Personal identity, biographies, academic details, direct personal contacts, named games, and game captures are excluded at the owner's request.
 
+Every graphic must communicate independent reasoning, learning through play, mastery, or the proposed consented-research model. Motion should make that idea easier to follow. Abstract sculptures and unrelated decorative effects are excluded.
+
 ## 2. Palette
 
-Keep the established muted olive, sage and cream palette. Use `app/globals.css` tokens and the verified color contract in `.tastemaker/style-lock.md`. No new colors. The opening uses paper text over olive, with masked sage/clay line art; the main site uses ink and muted text over paper/surface.
+Keep the established muted olive, sage and cream palette. Use `app/globals.css` tokens and the verified color contract in `.tastemaker/style-lock.md`. No new colors. The opening uses paper text over olive, with sage/clay decision paths below the statement; the main site uses ink and muted text over paper/surface.
 
 ## 3. Typography
 
@@ -14,9 +16,9 @@ Self-hosted DM Sans400/500, upright throughout. The entrance gives one line its 
 
 ## 4. Introduction
 
-Three statements share one 100svh stage: Answers are everywhere; Understanding takes effort; Keep thinking for yourself. Wheel momentum and each touch swipe are consumed after one advance; held navigation keys cannot repeat through chapters. Chapter links and a visible Skip intro remain direct controls.
+Three statements share one100svh stage: Start with a question; Learn from every attempt; Find your own way through. Wheel momentum and each touch swipe are consumed after one advance; held navigation keys cannot repeat through chapters. Chapter links and a visible Skip intro remain direct controls.
 
-Words roll through typographic masks with perspective, staggered easing, and a growing chapter line. A 32-contour SVG sculpture changes shape with each chapter and responds to the pointer on fine-pointer devices. A central opacity mask keeps intersecting lines away from the statement. The final sculpture expands and recedes during the one-second handoff. The final gesture scrolls into the main site, then removes the introduction from layout. Scrolling upward stops at the main website. The footer links back to the main site's top; replay requires reloading the page.
+Each sentence moves as one plane, blending smoothly with the next over880ms. Per-word staggering, clipping, and perspective rotation are removed. The illustration below the statement shows possible approaches, an attempted path with feedback, then a revised path toward understanding. Paths draw in sequence to explain that progression. The one-second handoff removes the intro from layout; scrolling upward stops at the main website.
 
 Gesture control is an explicit owner requirement for this entrance. It ends when the visitor enters the site. Reduced motion preserves one-step navigation with instant changes. Without JavaScript, the three native sections and anchors remain readable as a linear fallback. Inactive enhanced scenes are inert and hidden from assistive technology; keyboard navigation and skip targets remain available.
 
@@ -24,7 +26,7 @@ Gesture control is an explicit owner requirement for this entrance. It ends when
 
 Identity/status/navigation, mission hero, thesis, changing-challenge experience, research opportunity with expandable deliverables, proposed commercial model, oversized animated wordmark footer. There is no specific product inventory to become stale each month.
 
-The hero pairs masked line reveals with a parallax sculpture. Discover, Experiment, Refine, Return form a vertical scroll narrative with a sticky sculpture that changes shape at each step. The mobile version layers a subdued sculpture behind the sequence. A page-progress line, staggered model entrance and scroll-responsive footer complete the motion system. No playable demo, fake screenshot, fabricated performance chart, or current-customer evidence is presented.
+The hero traces Question → Attempt → Feedback → Understanding. Discover, Experiment, Refine and Return control a labeled learning-process illustration: explore options, encounter a failed approach, reconsider it, develop a strategy, and return to a fresh question. It responds to scrolling and four native buttons. A visible caption identifies it as an illustration of the learning process; it is not presented as an app capture or observed result. No specific game is featured.
 
 ## 6. Interaction
 

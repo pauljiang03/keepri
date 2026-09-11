@@ -51,21 +51,31 @@ for (const expected of [
   'Human learning histories',
   'Closed beta',
   'The player experience',
-  'Answers are everywhere.',
-  'Understanding takes effort.',
-  'Keep thinking for yourself.',
+  'Start with a question.',
+  'Learn from every attempt.',
+  'Find your own way through.',
   'Skip intro',
 ]) {
   assert(html.includes(expected), `Missing primary content: ${expected}`);
 }
 assert(!html.includes('Building your site'), 'Starter content remains');
 assert(
+  !/signal-field|signal-thread|intro-frame/.test(html),
+  'Unrelated graphics remain',
+);
+assert(
+  (html.match(/aria-pressed="(?:true|false)"/g) || []).length === 4 &&
+    (html.match(/aria-pressed="true"/g) || []).length === 1,
+  'Learning controls need four stages and one selection',
+);
+assert(
   !/About your visit|Website privacy|website-privacy/.test(html),
   'Removed visitor disclosure remains',
 );
 assert(
-  (html.match(/class="signal-field /g) || []).length === 3,
-  'Brand sculptures are incomplete',
+  html.includes('Learning through play') &&
+    html.includes('Explore the learning process'),
+  'Learning illustration or its controls are missing',
 );
 for (const id of ['intro-1', 'intro-2', 'intro-3', 'site', 'main']) {
   assert(ids.has(id), `Missing introduction destination: ${id}`);

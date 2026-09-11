@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { installIntroduction } from '@/lib/intro-controller';
-import { fieldParallax, morphSignal } from '@/lib/field-motion';
 
 export function PageMotion() {
   useEffect(() => {
@@ -28,18 +27,6 @@ export function PageMotion() {
         stagger: 0.13,
         ease: 'power3.out',
         scrollTrigger: { trigger: '.hero', start: 'top 88%', once: true },
-      });
-      gsap.to('.hero-field svg', {
-        y: 100,
-        rotation: 22,
-        scale: 1.18,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
-        },
       });
       gsap.to('.site-progress', {
         clipPath: 'inset(0 0% 0 0)',
@@ -66,30 +53,7 @@ export function PageMotion() {
         },
       );
       const steps = gsap.utils.toArray<HTMLElement>('.thinking-step');
-      const sculpture = document.querySelector('.experience-field');
-      const counter = document.querySelector(
-        '.experience-coordinate span:last-child',
-      );
-      let sculptureMotion: gsap.core.Timeline | undefined;
-      let active = -1;
-      const select = (index: number) => {
-        if (active === index) return;
-        active = index;
-        steps.forEach((step, i) => {
-          step.dataset.active = String(i === index);
-        });
-        if (counter) counter.textContent = `0${index + 1} / 04`;
-        sculptureMotion?.kill();
-        if (sculpture) sculptureMotion = morphSignal(sculpture, index, 1.1);
-      };
-      steps.forEach((step, index) => {
-        ScrollTrigger.create({
-          trigger: step,
-          start: 'top 60%',
-          end: 'bottom 60%',
-          onEnter: () => select(index),
-          onEnterBack: () => select(index),
-        });
+      steps.forEach((step) => {
         gsap.fromTo(
           step.querySelector('h3'),
           { x: 24 },
@@ -130,22 +94,7 @@ export function PageMotion() {
           scrub: 1,
         },
       });
-      return () => {
-        sculptureMotion?.kill();
-        steps.forEach((step) => {
-          delete step.dataset.active;
-        });
-        if (counter) counter.textContent = '01 / 04';
-      };
     });
-    media.add(
-      '(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)',
-      () => {
-        const hero = document.querySelector<HTMLElement>('.hero');
-        const field = document.querySelector<HTMLElement>('.hero-field');
-        if (hero && field) return fieldParallax(hero, field, 24);
-      },
-    );
     return () => {
       removeIntroduction();
       media.revert();
