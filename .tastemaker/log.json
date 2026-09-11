@@ -1,5 +1,17 @@
 [
   {
+    "id": "keepri-2026-09-11-cohesive",
+    "date": "2026-09-11",
+    "project": "keepri",
+    "page": "landing",
+    "macrostructure": "Long-Scroll Narrative",
+    "nav": "N4",
+    "hero": "H1",
+    "footer": "Ft2",
+    "knobs": "independent thought without AI leads; distinct interlocking assembly intro and competition arena; licensed human-data industry offering; asset provenance",
+    "outcome": "pending"
+  },
+  {
     "id": "keepri-2026-09-11-competition",
     "date": "2026-09-11",
     "project": "keepri",

@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
 import { asset } from '@/lib/site';
 import { PageMotion } from '@/components/page-motion';
-import { CompetitionArena } from '@/components/competition-arena';
+import { ReasoningAssembly } from '@/components/reasoning-assembly';
 import { ReasoningJourney } from '@/components/reasoning-journey';
 
 // Static Pages deployment: the original brand icon is served directly.
@@ -9,8 +9,8 @@ import { ReasoningJourney } from '@/components/reasoning-journey';
 
 const introduction = [
   { id: 'intro-1', text: 'Think for yourself.', next: '#intro-2' },
-  { id: 'intro-2', text: 'Rise to the challenge.', next: '#intro-3' },
-  { id: 'intro-3', text: 'Play for real rewards.', next: '#site' },
+  { id: 'intro-2', text: 'Learn without AI.', next: '#intro-3' },
+  { id: 'intro-3', text: 'Make the effort count.', next: '#site' },
 ];
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
       </a>
       <section className="introduction" id="top" aria-label="Introduction">
         <div className="intro-reasoning" aria-hidden="true">
-          <CompetitionArena />
+          <ReasoningAssembly />
         </div>
         <div className="intro-controls">
           <div className="shell intro-control-row">
@@ -84,8 +84,8 @@ export default function Home() {
             </a>
             <nav className="navigation" aria-label="Main navigation">
               <a href="#thesis">Thesis</a>
-              <a href="#experience">Experience</a>
-              <a href="#research">Research</a>
+              <a href="#experience">For players</a>
+              <a href="#research">For industry</a>
             </nav>
             <span className="beta-status">Closed beta</span>
           </div>
@@ -102,22 +102,23 @@ export default function Home() {
             </h1>
             <div
               className="reasoning-rail"
-              aria-label="Free play, mastery, competition, and meaningful prizes"
+              aria-label="Think independently, learn, compete, and earn rewards"
               data-reveal
             >
-              <span>Free play</span>
+              <span>Think</span>
               <ArrowRight aria-hidden="true" size={18} />
-              <span>Mastery</span>
+              <span>Learn</span>
               <ArrowRight aria-hidden="true" size={18} />
-              <span>Competition</span>
+              <span>Compete</span>
               <ArrowRight aria-hidden="true" size={18} />
-              <span>Meaningful prizes</span>
+              <span>Earn</span>
             </div>
             <div className="hero-bottom" data-reveal>
               <p>
-                We’re building free reasoning games where people come to
-                improve, compete, and win meaningful prizes. Independent
-                thinking, with something to play for.
+                A place to practice independent thought without AI. We’re
+                building free reasoning games where you develop your own
+                strategies, with competition and meaningful prizes giving you
+                more reasons to return.
               </p>
               <a className="text-link" href="#thesis">
                 Explore the idea <ArrowDown size={20} aria-hidden="true" />
@@ -132,9 +133,9 @@ export default function Home() {
             <div data-reveal>
               <p className="section-label">The thesis</p>
               <h2 id="thesis-title">
-                Give people a reason
+                Independent thought
                 <br />
-                to think harder.
+                is worth practicing.
               </h2>
             </div>
             <div className="thesis-copy" data-reveal>
@@ -143,14 +144,15 @@ export default function Home() {
                 seek out places to exercise their own judgment.
               </p>
               <p>
-                A good game makes that effort enjoyable. Competition gives it
-                stakes. Recognition and prizes give a hard-earned insight
-                somewhere to go.
+                KeepRI gives that practice a home. Work through an unfamiliar
+                problem without AI supplying the answer. Test an idea, learn
+                from a mistake, and understand why your next move works.
               </p>
               <p>
-                We want the curious beginner and the serious competitor to find
-                a home here: fresh challenges, deeper strategies, and a
-                community that makes independent thinking worth coming back to.
+                Games make the effort enjoyable. Competition, recognition, and
+                prizes add reasons to keep going. Our mission is to make
+                independent thinking something people choose to practice,
+                improve at, and celebrate together.
               </p>
             </div>
           </section>
@@ -162,14 +164,15 @@ export default function Home() {
             <div className="shell">
               <div className="experience-heading" data-reveal>
                 <h2 id="experience-title">
-                  Come for the discovery.
+                  Your thinking.
                   <br />
-                  Stay for the competition.
+                  Your progress.
                 </h2>
                 <p>
-                  Understanding is satisfying. Putting it to the test makes it
-                  exciting. We’re building toward shared challenges, recurring
-                  competitions, and prizes that reward the effort.
+                  Start with the satisfaction of figuring it out yourself. Build
+                  your understanding through play, then put it to the test.
+                  Shared challenges, competition, and planned prizes give that
+                  progress a stage.
                 </p>
               </div>
               <div className="experience-theatre">
@@ -181,12 +184,15 @@ export default function Home() {
                   <div className="thinking-step">
                     <span>01</span>
                     <h3>Discover.</h3>
-                    <p>A fresh challenge. An idea only you can work through.</p>
+                    <p>A fresh challenge. Start with your own judgment.</p>
                   </div>
                   <div className="thinking-step">
                     <span>02</span>
                     <h3>Improve.</h3>
-                    <p>Test a strategy. Learn from feedback. Find your edge.</p>
+                    <p>
+                      Work out why an idea succeeds. Build a strategy without
+                      AI.
+                    </p>
                   </div>
                   <div className="thinking-step">
                     <span>03</span>
@@ -219,17 +225,17 @@ export default function Home() {
             aria-labelledby="research-title"
           >
             <div className="research-heading" data-reveal>
-              <p className="section-label">The research opportunity</p>
+              <p className="section-label">For industry</p>
               <h2 id="research-title">
-                People who care
+                Human data.
                 <br />
-                how they perform.
+                From human effort.
               </h2>
               <p>
-                Our thesis is that players who care about improving and winning
-                will invest real effort. With separate research consent, that
-                effort could become valuable evidence of how people learn,
-                revise a strategy, and adapt.
+                We’re developing human learning datasets for AI research and
+                evaluation. Our thesis is that people who care about learning
+                and competing will invest real effort, creating an opportunity
+                to study how strategies develop over time.
               </p>
             </div>
             <div className="research-body">
@@ -252,11 +258,12 @@ export default function Home() {
               </div>
               <div className="research-offer" data-reveal>
                 <p>
-                  We’re developing commissioned research programs that pair
-                  carefully designed environments with separately consented
-                  human learning histories. Returning, motivated players are
-                  central to the model; controlled tasks, documented conditions,
-                  and quality checks make those histories useful to AI teams.
+                  AI teams would buy licensed human learning data and
+                  commissioned collections, gathered with separate participant
+                  consent. We plan to pair those records with reproducible
+                  environments and evaluations. Controlled tasks, documented
+                  assistance, and quality checks are part of the research
+                  design.
                 </p>
                 <div className="research-accordion">
                   <details name="research-deliverables">
@@ -313,10 +320,11 @@ export default function Home() {
                   comes first.
                 </h2>
                 <p>
-                  Our model connects a community that loves to compete with
-                  research customers studying how people learn. Organizational
-                  revenue would fund free play, fresh challenges, and meaningful
-                  prizes, giving players more reasons to return.
+                  Independent play brings people in. Optional, separately
+                  consented research creates human learning data for industry.
+                  Revenue from data licensing and research programs would fund
+                  free access, fresh challenges, and meaningful prizes, helping
+                  the community keep thinking for itself.
                 </p>
               </div>
               <div
@@ -326,7 +334,7 @@ export default function Home() {
               >
                 <div className="model-node">
                   <span>01</span>
-                  <strong>Play &amp; competition</strong>
+                  <strong>Independent play</strong>
                 </div>
                 <ArrowRight
                   className="model-arrow"
@@ -335,7 +343,7 @@ export default function Home() {
                 />
                 <div className="model-node">
                   <span>02 · Optional</span>
-                  <strong>Consented research</strong>
+                  <strong>Consented human data</strong>
                 </div>
                 <ArrowRight
                   className="model-arrow"
@@ -344,7 +352,7 @@ export default function Home() {
                 />
                 <div className="model-node">
                   <span>03</span>
-                  <strong>Paid research programs</strong>
+                  <strong>Data licensing &amp; research</strong>
                 </div>
                 <div className="model-return">
                   <span>

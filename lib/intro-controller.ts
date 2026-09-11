@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IntroGestureGate } from './intro-gesture';
-import { animateArena } from './arena-motion';
+import { animateAssembly } from './assembly-motion';
 
 export function installIntroduction() {
   const intro = document.querySelector<HTMLElement>('.introduction');
@@ -120,9 +120,9 @@ export function installIntroduction() {
     if (focus) scenes[index].focus({ preventScroll: true });
     fieldTransition?.kill();
     if (field)
-      fieldTransition = animateArena(
+      fieldTransition = animateAssembly(
         field.querySelector('svg')!,
-        [0, 2, 3][index],
+        index,
         !preference.matches,
       );
     gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
@@ -290,7 +290,7 @@ export function installIntroduction() {
     gsap.set(cues, { clearProps: 'visibility,opacity' });
     if (field) {
       fieldTransition?.progress(1);
-      animateArena(field.querySelector('svg')!, [0, 2, 3][current], false);
+      animateAssembly(field.querySelector('svg')!, current, false);
       gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
     }
     busy = false;

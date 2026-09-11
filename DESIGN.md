@@ -16,9 +16,9 @@ Self-hosted DM Sans400/500, upright throughout. The entrance gives one line its 
 
 ## 4. Introduction
 
-Three statements share one100svh stage: Think for yourself; Rise to the challenge; Play for real rewards. Wheel momentum and each touch swipe are consumed after one advance; held navigation keys cannot repeat through chapters. Chapter links and a visible Skip intro remain direct controls.
+Three statements share one100svh stage: Think for yourself; Learn without AI; Make the effort count. Wheel momentum and each touch swipe are consumed after one advance; held navigation keys cannot repeat through chapters. Chapter links and a visible Skip intro remain direct controls.
 
-Each sentence moves as one plane, blending smoothly with the next over880ms. Per-word staggering, clipping, and perspective rotation are removed. The original arena illustration occupies roughly half the viewport below the statement. Its perspective widens as player pieces circulate, podiums rise, and a faceted trophy with engraved detail and laurels appears. This is a conceptual competitive setting, independent of any particular game. Geometry interpolates from its current state when interrupted; there are no continuous background loops. The one-second handoff removes the intro from layout; scrolling upward stops at the main website.
+Each sentence moves as one plane, blending smoothly with the next over880ms. Per-word staggering, clipping, and perspective rotation are removed. The original reasoning assembly occupies roughly half the viewport below the statement. Nine dimensional interlocking pieces move from exploration to alignment and a completed structure, illustrating building your own understanding. This is a conceptual composition, independent of any current game. Geometry continues from its current state when interrupted; there are no continuous background loops. The arena appears only in the main experience. The one-second handoff removes the intro from layout; scrolling upward stops at the main website.
 
 Gesture control is an explicit owner requirement for this entrance. It ends when the visitor enters the site. Reduced motion preserves one-step navigation with instant changes. Without JavaScript, the three native sections and anchors remain readable as a linear fallback. Inactive enhanced scenes are inert and hidden from assistive technology; keyboard navigation and skip targets remain available.
 
@@ -26,7 +26,7 @@ Gesture control is an explicit owner requirement for this entrance. It ends when
 
 Identity/status/navigation, mission hero, thesis, changing-challenge experience, research opportunity with expandable deliverables, proposed commercial model, oversized animated wordmark footer. There is no specific product inventory to become stale each month.
 
-The hero traces Free play → Mastery → Competition → Meaningful prizes. Discover, Improve, Compete and Earn control the arena through scrolling and four native buttons. The perspective changes, pieces move around inlaid tracks, podiums rise, and the prize appears. The illustration is identified as conceptual and competition/prize programs are marked in development. It contains no rankings, player identities, prize amount, app capture, or measured result. The research thesis explicitly connects motivated effort to potentially valuable human learning histories, with separate consent and controlled collections.
+The hero traces Think → Learn → Compete → Earn. Independent thought without AI is the primary user promise; competition and prizes support it. Discover, Improve, Compete and Earn control the arena through scrolling and four native buttons. The perspective changes, pieces move around inlaid tracks, podiums rise, and the prize appears. The illustration is identified as conceptual and competition/prize programs are marked in development. It contains no rankings, player identities, prize amount, app capture, or measured result. The research thesis explicitly connects motivated effort to potentially valuable human learning histories, with separate consent and controlled collections.
 
 ## 6. Interaction
 
@@ -38,8 +38,12 @@ Native details/summary disclosures for three research deliverables; keyboard and
 
 ## 8. Content contract
 
-Closed beta only. Free reasoning play, competition, meaningful prizes and motivated effort are central to the pitch. Separately consented research, paid programs, expanded competition and funded prize events remain plans. Incentives are a product thesis, not evidence of measured data quality. Free play and prize eligibility remain independent of research consent. Never add individual details or specific games without a new owner instruction. No installation link, signup form, analytics, or research enrollment is present. The private proposal is not published.
+Closed beta only. Independent thought without AI is the central mission. Free reasoning play makes practice enjoyable; competition and prizes add motivation. Industry customers would buy separately consented human learning data, commissioned collections and evaluations, with revenue funding the mission. Separately consented research, paid programs, expanded competition and funded prize events remain plans. Incentives are a product thesis, not evidence of measured data quality. Free play and prize eligibility remain independent of research consent. Never add individual details or specific games without a new owner instruction. No installation link, signup form, analytics, or research enrollment is present. The private proposal is not published.
 
 ## 9. Accessibility and validation
 
 Visible skip-intro control plus a keyboard skip-to-main link; real anchors with focusable landing targets; visible link/summary focus; sufficient contrast; native disclosures; reduced-motion fallback; readable no-JavaScript content. See `VALIDATION.md` for executed checks and their limits.
+
+## 10. Asset provenance
+
+Use two distinct illustrations: the reasoning assembly in the entrance and the arena in the experience. Both are original code-native artwork generated for this project. Standard fonts, icons and the animation runtime retain their own licenses. See `ASSET-PROVENANCE.md`.

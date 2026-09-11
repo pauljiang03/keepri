@@ -52,14 +52,27 @@ for (const expected of [
   'Closed beta',
   'The player experience',
   'Think for yourself.',
-  'Rise to the challenge.',
-  'Play for real rewards.',
-  'Meaningful prizes',
+  'Learn without AI.',
+  'Make the effort count.',
+  'meaningful prizes',
   'funded cash-prize events',
-  'Returning, motivated players',
+  'licensed human learning data',
+  'practice independent thought without AI',
+  'separate participant consent',
+  'Data licensing',
   'Skip intro',
 ]) {
   assert(html.includes(expected), `Missing primary content: ${expected}`);
+}
+for (const file of [
+  'licenses/lucide.txt',
+  'licenses/GSAP-notice.txt',
+  'fonts/DM-Sans-OFL.txt',
+]) {
+  assert(
+    existsSync(join(root, file)),
+    `Missing graphics license notice: ${file}`,
+  );
 }
 assert(!html.includes('Building your site'), 'Starter content remains');
 assert(
@@ -76,14 +89,15 @@ assert(
   'Removed visitor disclosure remains',
 );
 assert(
-  html.includes('The competitive spirit') &&
+  html.includes('Independent thought, through play') &&
     html.includes('Explore the player experience') &&
     html.includes('Competition and prize programs in development'),
   'Arena illustration, its controls, or planned-program caption are missing',
 );
 assert(
-  (html.match(/class="competition-arena"/g) || []).length === 2,
-  'Both intro and experience need the new arena',
+  (html.match(/class="competition-arena"/g) || []).length === 1 &&
+    (html.match(/class="reasoning-assembly"/g) || []).length === 1,
+  'Intro and main site must use distinct illustrations',
 );
 assert(
   html.includes('Free play and future prize eligibility remain independent'),

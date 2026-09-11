@@ -1161,17 +1161,76 @@ details[open] > summary svg {
   bottom: 9svh;
   transform: translateX(-50%);
 }
-.intro-reasoning .competition-arena {
-  --arena-floor: var(--sage);
-  --arena-edge: var(--ink);
-  --arena-detail: var(--olive);
-  --arena-top: var(--paper);
-  --arena-left: var(--on-dark);
-  --arena-right: var(--muted);
+/* The entrance builds understanding; the separate arena illustrates competition. */
+.reasoning-assembly {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  stroke-linejoin: round;
 }
-.intro-reasoning .arena-drafting {
+.assembly-guides {
   stroke: var(--sage);
+  stroke-width: 0.7;
+  opacity: 0.38;
+}
+.assembly-base-side {
+  fill: var(--ink);
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+.assembly-ribs {
+  stroke: var(--sage);
+  stroke-width: 0.7;
   opacity: 0.5;
+}
+.assembly-base-top {
+  fill: var(--olive);
+  stroke: var(--sage);
+  stroke-width: 1;
+}
+.assembly-grid {
+  stroke: var(--sage);
+  stroke-width: 0.6;
+  opacity: 0.38;
+}
+.assembly-side-light {
+  fill: var(--sage);
+  stroke: var(--olive);
+  stroke-width: 0.65;
+}
+.assembly-side-dark {
+  fill: var(--muted);
+  stroke: var(--olive);
+  stroke-width: 0.65;
+}
+.assembly-piece-top {
+  fill: var(--paper);
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.assembly-piece-0 .assembly-piece-top,
+.assembly-piece-8 .assembly-piece-top {
+  fill: var(--sage);
+}
+.assembly-piece-4 .assembly-piece-top {
+  fill: var(--clay);
+}
+.assembly-inlay {
+  stroke: var(--muted);
+  stroke-width: 0.65;
+}
+.assembly-mark {
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.assembly-piece-4 .assembly-inlay,
+.assembly-piece-4 .assembly-mark {
+  stroke: var(--ink);
+}
+.assembly-complete {
+  stroke: var(--paper);
+  stroke-width: 2;
 }
 .introduction[data-enhanced='true'] .scene-inner {
   display: block;

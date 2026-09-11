@@ -9,13 +9,13 @@ const stages = [
     name: 'Discover',
     title: 'Curiosity gets you started.',
     description:
-      'Free reasoning games invite you to try an idea and find your own way forward.',
+      'Free reasoning games invite you to explore a problem using your own judgment, without AI answers.',
   },
   {
     name: 'Improve',
-    title: 'Effort becomes an edge.',
+    title: 'Understanding you build yourself.',
     description:
-      'Practice, learn from a mistake, and build a strategy worth testing against someone else.',
+      'Test your ideas, learn from feedback, and develop a strategy. The progress is yours.',
   },
   {
     name: 'Compete',
@@ -90,7 +90,7 @@ export function ReasoningJourney() {
   return (
     <figure className="reasoning-journey">
       <div className="journey-heading">
-        <p className="section-label">The competitive spirit</p>
+        <p className="section-label">Independent thought, through play</p>
         <span className="journey-count">0{stage + 1} / 04</span>
       </div>
       <div className="journey-diagram" ref={diagram}>
