@@ -1,13 +1,15 @@
 # Website validation
 
-September 11, 2026. Typography-led refinement using the owner's jakubkrehel/skills reference.
+September 11, 2026 — Virio layout/motion reproduction.
 
-- `npm run prepare:pages` passed: seven intro gesture tests, TypeScript, static export of one route with zero skipped, 30 local asset/anchor references, and staging into `docs/`.
-- Source lint, formatting and whitespace checks passed. No website dependencies were added. A temporary font converter generated WOFF2 files from the existing licensed fonts; glyph mappings, glyph order and horizontal advance metrics match. Browser-loaded font bytes fell from 96,588 to 38,564.
-- Static validation requires the three intro chapters, four native player-list rows, three research disclosures, Closed beta, independent thought without AI, planned competition/prizes, licensed human data and independent research consent. It rejects the retired arena/assembly/control markers, game previews, personal content, installation links and the removed visitor disclosure.
-- The removed illustration components, geometry, animation controllers and related CSS are absent. Original font/icon/runtime notices remain in public output. Historical artwork provenance remains documented as retired.
-- In an isolated in-app Chromium preview, inspected the introduction, hero, player experience and research disclosure at desktop and 320px width. Chapter links, PageDown, Enter KeepRI, Skip intro, navigation and disclosure activation worked. The intro was hidden after entry and the main site became the page top. Document width matched viewport width at 1280 and 320px. No browser errors or warnings were observed.
-- Browser acceptance is bounded: physical wheel/touch hardware, frame rate, 10%-speed playback, 200% zoom, RTL/pseudo-localization and screen-reader testing are not verified. Source review covers reduced motion and no-JavaScript fallback. Seven gesture tests cover wheel momentum and touch input logic.
-- Tastemaker anti-slop and component-coherence scans passed. The sole motion-audit note is the intentional 900ms chapter progress line. Marketing scene timing and same-site copy/structure retention remain documented exceptions; there is no new continuous animation.
-- The content still leads with independent thought and frames competition and prizes as support. The research proposition uses separate consent and remains in development. No traction, prize purse, investor backing, active enrollment, personal details or private proposal was added.
-- See `INTERFACE-REVIEW.md` for applied skill findings, fixes and the bounded verdict. Exact publication SHA and remote byte comparisons are stored in the parent workspace's release evidence.
+Passed:
+
+- `npm run typecheck`.
+- Targeted Oxlint across every authored app/component/motion file, the modified tabs primitive and static checker; no diagnostics.
+- Production Vinext build: one route prerendered, zero skipped.
+- `npm run check:static`: 35 local asset/anchor references, required status/consent content, required licenses, expected navigation destinations, no retired artwork, no personal/install/release claims, and no-JavaScript/reduced-motion/session fallback markers.
+- Read-only independent content/accessibility review. Fixed industry-link tab selection, vertical-tab orientation, menu Escape focus return and stale back-to-top fragments.
+
+Global starter lint also scans pre-existing unused UI components and generated `docs/` files; it is not a clean project-wide gate. The modified source passes the targeted check above. No new tests duplicate the animation implementation; browser observations and source measurements are documented in MOTION-VERIFICATION.md.
+
+The public GitHub Pages `docs/` output was not regenerated or published. The private preview uses the production static export. Browser verification and its interruption are recorded precisely in MOTION-VERIFICATION.md; final end-to-end visual acceptance is still pending.

@@ -9,10 +9,20 @@ Checked September 11, 2026. The large custom illustrations are retired at the ow
 | KeepRI brand icon/favicon | Existing native project asset supplied in the workspace | Preserved from the earlier app. Its underlying ownership was not independently audited in this website revision. |
 | Arrows and disclosure icons | Lucide React 1.31.0, including Feather-derived icons | ISC/MIT; complete notices included in `public/licenses/lucide.txt` and the public output. These standard icons are not original KeepRI artwork. |
 | DM Sans | Existing self-hosted font files, converted locally from TTF to WOFF2 | SIL OFL1.1; license retained in `public/fonts/DM-Sans-OFL.txt` and the public output. |
-| GSAP animation runtime | GSAP3.15.0, ScrollTrigger, ScrollToPlugin | Third-party animation software under its standard license; this commercial website use is permitted. Copyright and source/license reference retained in `public/licenses/GSAP-notice.txt`. |
+| GSAP animation runtime | GSAP3.15.0, ScrollTrigger, ScrollToPlugin, Draggable, InertiaPlugin | Third-party animation software under its standard license; this commercial website use is permitted. Copyright and source/license reference retained in `public/licenses/GSAP-notice.txt`. |
 
 The retired illustrations were distinct and shared the established palette and dimensional drawing style. Virio supplied interaction/art-direction inspiration; its artwork and source were not copied. Tastemaker supplied workflow guidance; its illustration assets were not used.
 
 OpenAI's [Terms of Use](https://openai.com/policies/row-terms-of-use/) assign its rights, if any, in generated output to the user to the extent permitted by law. The [Services Agreement](https://openai.com/policies/services-agreement/) contains the corresponding provision for covered business/developer services. These provisions do not guarantee uniqueness, copyright protection, or absence of third-party claims. This record documents provenance and checked license terms, not a blanket IP-clearance opinion or a change to the site's source-code license.
 
 The [GSAP standard license](https://gsap.com/community/standard-license/) expressly allows commercial website use and AI-generated GSAP code. Library rights remain with their respective owners. Font and icon licenses were checked from the actual bundled files. No paid stock-art subscription or attribution to a reference site's artist is required for the custom illustrations.
+
+## Current reproduction assets
+
+- `public/assets/product/tutorial.png`: copied from the owner's existing `output/weekly-app/preview-final.png` in the parent workspace. Actual closed-beta tutorial view; CSS crop focuses on tutorial/board.
+- `public/assets/product/solution.png`: copied from existing `output/weekly-app/screenshots/F8B43D7F-28B3-4A67-B8DD-E7819C654887.png`. Actual closed-beta solution view.
+- Future competition/rewards layouts: independently authored HTML/CSS with standard Lucide icons, explicitly labeled as in development.
+- `public/assets/grain.png`: locally generated independent noise texture. Dot field: independently authored Canvas 2D using measured reference motion parameters, recolored for KeepRI.
+- Lenis1.3.11: MIT-licensed scroll runtime; notice in `public/licenses/lenis.txt`.
+
+Virio's public scripts/styles were inspected to measure motion and layout. Its proprietary typeface, customer logos, graphics and marketing copy are not assets in this repository.

@@ -31,7 +31,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{document.documentElement.dataset.intro=matchMedia('(prefers-reduced-motion: reduce)').matches||sessionStorage.getItem('keepri:opening-seen:v2')==='1'?'seen':'active'}catch(e){document.documentElement.dataset.intro='active'}`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

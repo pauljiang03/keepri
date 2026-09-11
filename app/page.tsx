@@ -1,10 +1,25 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowRight, Circle, Crosshair, Plus, Square } from 'lucide-react';
 import { PageMotion } from '@/components/page-motion';
+import { OpeningHero, SiteHeader, MotionToggle } from '@/components/hero';
+import { ProductVisual } from '@/components/product-visual';
+import { ResearchPanels, Philosophy } from '@/components/story-panels';
 
-const introduction = [
-  { id: 'intro-1', text: 'Think for yourself.', next: '#intro-2' },
-  { id: 'intro-2', text: 'Learn without AI.', next: '#intro-3' },
-  { id: 'intro-3', text: 'Make the effort count.', next: '#site' },
+const steps = [
+  {
+    title: 'Discover',
+    text: 'A fresh challenge. Start with your own judgment.',
+    icon: Crosshair,
+  },
+  {
+    title: 'Improve',
+    text: 'Work out why an idea succeeds. Build a strategy without AI.',
+    icon: Circle,
+  },
+  {
+    title: 'Compete',
+    text: 'A shared challenge. A worthy rival. A reason to give it your all.',
+    icon: Square,
+  },
 ];
 
 export default function Home() {
@@ -14,342 +29,156 @@ export default function Home() {
       <a className="skip-link" href="#main">
         Skip to main content
       </a>
-      <section className="introduction" id="top" aria-label="Introduction">
-        <div className="intro-controls">
-          <div className="shell intro-control-row">
-            <a
-              href="#top"
-              className="intro-wordmark"
-              aria-label="KeepRI introduction"
-            >
-              KeepRI
-            </a>
-            <a className="intro-skip" href="#site">
-              Skip intro{' '}
-              <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" />
-            </a>
-          </div>
-          <nav className="intro-progress" aria-label="Introduction chapters">
-            {introduction.map((scene, index) => (
-              <a
-                href={`#${scene.id}`}
-                key={scene.id}
-                aria-label={`Statement ${index + 1}: ${scene.text}`}
-                data-scene-link={scene.id}
+      <SiteHeader />
+      <OpeningHero />
+      <main id="main" tabIndex={-1}>
+        <section
+          className="experience-section"
+          id="experience"
+          tabIndex={-1}
+          aria-label="The player experience"
+        >
+          <div className="experience-sequence">
+            <div className="experience-sticky">
+              <div
+                className="process-marquee marquee"
+                data-speed="24"
+                aria-hidden="true"
               >
-                <span aria-hidden="true">0{index + 1}</span>
-                <i aria-hidden="true" />
-              </a>
-            ))}
-          </nav>
-        </div>
-        {introduction.map((scene, index) => (
-          <section
-            className={`intro-scene scene-${index + 1}`}
-            id={scene.id}
-            key={scene.id}
-            aria-label={`Statement ${index + 1} of 3`}
-            tabIndex={-1}
-          >
-            <div className="scene-inner">
-              <p className="intro-statement">{scene.text}</p>
-              <a className="intro-next" href={scene.next}>
-                {index === 2 ? 'Enter KeepRI' : 'Scroll to continue'}
-                <ArrowDown size={18} strokeWidth={1.5} aria-hidden="true" />
-              </a>
+                <div className="marquee-track">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div className="marquee-group" key={i}>
+                      <span>How it works</span>
+                      <span>✳</span>
+                      <span>How it works</span>
+                      <span>✳</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <ol className="experience-list">
+                {steps.map((step, i) => (
+                  <li className="experience-item" key={step.title}>
+                    <div className="product-card">
+                      <step.icon
+                        className="card-icon"
+                        size={24}
+                        strokeWidth={1.4}
+                      />
+                      <div className={`card-visual step-visual-${i}`}>
+                        <ProductVisual step={i} />
+                      </div>
+                    </div>
+                    <div className={`step-copy step-copy-${i}`}>
+                      <i className="step-line" />
+                      <span className="step-number">[ 00{i + 1} ]</span>
+                      <h2>{step.title}</h2>
+                      <p>{step.text}</p>
+                      {i === 2 && (
+                        <span className="step-status">
+                          Expanded competition in development
+                        </span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
-          </section>
-        ))}
-      </section>
-      <div id="site" tabIndex={-1}>
-        <div className="site-progress" aria-hidden="true" />
-        <header className="site-header">
-          <div className="shell masthead">
-            <a className="brand" href="#site" aria-label="KeepRI home">
-              <span>KeepRI</span>
-            </a>
-            <nav className="navigation" aria-label="Main navigation">
-              <a href="#thesis">Thesis</a>
-              <a href="#experience">For players</a>
-              <a href="#research">For industry</a>
-            </nav>
-            <span className="beta-status">Closed beta</span>
           </div>
-        </header>
-        <main id="main" tabIndex={-1}>
-          <section className="hero shell" aria-labelledby="hero-title">
-            <h1 id="hero-title">
-              <span className="hero-title-line">
-                <span>Keep reasoning</span>
-              </span>
-              <span className="hero-title-line">
-                <span>independently.</span>
-              </span>
-            </h1>
-            <div className="hero-bottom" data-reveal>
+          <div className="earn-section">
+            <div className="earn-line" />
+            <div className="earn-copy">
+              <span className="step-number">[ 004 ]</span>
+              <h2>Make the effort count.</h2>
               <p>
-                A place to practice independent thought without AI. We’re
-                building free reasoning games where you develop your own
-                strategies, with competition and meaningful prizes giving you
-                more reasons to return.
-              </p>
-              <a className="text-link" href="#thesis">
-                Explore the idea{' '}
-                <ArrowDown size={20} strokeWidth={1.5} aria-hidden="true" />
-              </a>
-            </div>
-          </section>
-          <section
-            className="thesis-section shell"
-            id="thesis"
-            aria-labelledby="thesis-title"
-          >
-            <div data-reveal>
-              <p className="section-label">The thesis</p>
-              <h2 id="thesis-title">
-                Independent thought
-                <br />
-                is worth practicing.
-              </h2>
-            </div>
-            <div className="thesis-copy" data-reveal>
-              <p className="lead">
-                As AI makes answers easier to obtain, we believe people will
-                seek out places to exercise their own judgment.
-              </p>
-              <p>
-                KeepRI gives that practice a home. Work through an unfamiliar
-                problem without AI supplying the answer. Test an idea, learn
-                from a mistake, and understand why your next move works.
-              </p>
-              <p>
-                Games make the effort enjoyable. Competition, recognition, and
-                prizes add reasons to keep going. Our mission is to make
-                independent thinking something people choose to practice,
-                improve at, and celebrate together.
+                Recognition for mastery. Meaningful prizes.
+                <br />A new challenge worth returning for.
               </p>
             </div>
-          </section>
-          <section
-            className="experience-section"
-            id="experience"
-            aria-labelledby="experience-title"
-          >
-            <div className="shell">
-              <div className="experience-heading" data-reveal>
-                <h2 id="experience-title">
+            <div className="earn-card">
+              <div className="earn-card-inner">
+                <span className="visual-label">
+                  The experience we’re building toward
+                </span>
+                <h3>
                   Your thinking.
                   <br />
                   Your progress.
-                </h2>
+                </h3>
+                <div className="earn-progress">
+                  <span>Discover</span>
+                  <ArrowRight />
+                  <span>Improve</span>
+                  <ArrowRight />
+                  <span>Compete</span>
+                  <ArrowRight />
+                  <span>Earn</span>
+                </div>
                 <p>
-                  Start with the satisfaction of figuring it out yourself. Build
-                  your understanding through play, then put it to the test.
-                  Shared challenges, competition, and planned prizes give that
-                  progress a stage.
+                  KeepRI is in closed beta. Expanded competition, tournaments,
+                  and funded cash-prize events are in development.
                 </p>
               </div>
-              <ol
-                className="experience-list"
-                aria-label="The player experience"
-              >
-                <li className="experience-item" data-reveal>
-                  <span aria-hidden="true">01</span>
-                  <h3>Discover</h3>
-                  <p>A fresh challenge. Start with your own judgment.</p>
-                </li>
-                <li className="experience-item" data-reveal>
-                  <span aria-hidden="true">02</span>
-                  <h3>Improve</h3>
-                  <p>
-                    Work out why an idea succeeds. Build a strategy without AI.
-                  </p>
-                </li>
-                <li className="experience-item" data-reveal>
-                  <span aria-hidden="true">03</span>
-                  <h3>Compete</h3>
-                  <p>
-                    A shared challenge. A worthy rival. A reason to give it your
-                    all.
-                  </p>
-                </li>
-                <li className="experience-item" data-reveal>
-                  <span aria-hidden="true">04</span>
-                  <h3>Earn</h3>
-                  <p>
-                    Recognition for mastery. Meaningful prizes. A new challenge
-                    worth returning for.
-                  </p>
-                </li>
-              </ol>
-              <p className="experience-note">
-                KeepRI is in closed beta. Expanded competition, tournaments, and
-                funded cash-prize events are part of the product we’re building
-                toward.
-              </p>
             </div>
-          </section>
-          <section
-            className="research-section shell"
-            id="research"
-            aria-labelledby="research-title"
-          >
-            <div className="research-heading" data-reveal>
-              <p className="section-label">For industry</p>
-              <h2 id="research-title">
-                Human data.
-                <br />
-                From human effort.
-              </h2>
-              <p>
-                We’re developing human learning datasets for AI research and
-                evaluation. Our thesis is that people who care about learning
-                and competing will invest real effort, creating an opportunity
-                to study how strategies develop over time.
-              </p>
-            </div>
-            <div className="research-body">
-              <div className="research-question" data-reveal>
-                <span>Beyond the final score</span>
-                <p>
-                  What does learning look like when someone really wants to get
-                  better?
-                </p>
-                <div
-                  className="research-evidence"
-                  aria-label="Research records: attempts, feedback, and strategy changes"
-                >
-                  <span>Attempts</span>
-                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-                  <span>Feedback</span>
-                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-                  <span>Revision</span>
-                </div>
-              </div>
-              <div className="research-offer" data-reveal>
-                <p>
-                  AI teams would buy licensed human learning data and
-                  commissioned collections, gathered with separate participant
-                  consent. We plan to pair those records with reproducible
-                  environments and evaluations. Controlled tasks, documented
-                  assistance, and quality checks are part of the research
-                  design.
-                </p>
-                <div className="research-accordion">
-                  <details name="research-deliverables">
-                    <summary>
-                      Executable environments{' '}
-                      <Plus size={20} strokeWidth={1.5} aria-hidden="true" />
-                    </summary>
-                    <div>
-                      <p>
-                        Versioned rules, controlled variants, scoring, and
-                        replay. A reproducible setting for studying how people
-                        and AI systems approach an unfamiliar problem.
-                      </p>
-                    </div>
-                  </details>
-                  <details name="research-deliverables">
-                    <summary>
-                      Human learning histories{' '}
-                      <Plus size={20} strokeWidth={1.5} aria-hidden="true" />
-                    </summary>
-                    <div>
-                      <p>
-                        Actions, feedback, assistance, and outcomes in context.
-                        Separately consented records that show how a strategy
-                        develops across attempts.
-                      </p>
-                    </div>
-                  </details>
-                  <details name="research-deliverables">
-                    <summary>
-                      Evaluation packages{' '}
-                      <Plus size={20} strokeWidth={1.5} aria-hidden="true" />
-                    </summary>
-                    <div>
-                      <p>
-                        Human baselines for learning, error recovery, and
-                        adaptation, scoped to a research question with
-                        documented conditions and exposure controls.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-                <span className="research-status">
-                  Research program in development
-                </span>
-              </div>
-            </div>
-          </section>
-          <section className="model-section" aria-labelledby="model-title">
-            <div className="shell model-inner">
-              <div data-reveal>
-                <h2 id="model-title">
-                  The player experience
-                  <br />
-                  comes first.
-                </h2>
-                <p>
-                  Independent play brings people in. Optional, separately
-                  consented research creates human learning data for industry.
-                  Revenue from data licensing and research programs would fund
-                  free access, fresh challenges, and meaningful prizes, helping
-                  the community keep thinking for itself.
-                </p>
-              </div>
-              <div
-                className="model-diagram"
-                data-reveal
-                aria-label="Proposed model: free play, optional research with separate consent, and research programs that support the player experience."
-              >
-                <div className="model-node">
-                  <span>01</span>
-                  <strong>Independent play</strong>
-                </div>
-                <div className="model-node">
-                  <span>02 · Optional</span>
-                  <strong>Consented human data</strong>
-                </div>
-                <div className="model-node">
-                  <span>03</span>
-                  <strong>Data licensing &amp; research</strong>
-                </div>
-                <div className="model-return">
-                  <span>
-                    Research revenue → Fresh challenges, free play, funded
-                    prizes
-                  </span>
-                </div>
-              </div>
-              <p className="consent-note">
-                Free play and future prize eligibility remain independent of
-                research participation. The research program is in development;
-                research enrollment is not active in the closed beta.
-              </p>
-            </div>
-          </section>
-        </main>
-        <footer className="site-footer">
-          <div className="shell footer-top">
-            <a
-              href="#site"
-              className="footer-wordmark"
-              aria-label="KeepRI home"
-            >
-              KeepRI
+          </div>
+        </section>
+        <ResearchPanels />
+        <Philosophy />
+        <section className="closing-section" aria-labelledby="closing-title">
+          <div className="closing-curve" />
+          <div className="closing-content">
+            <div className="closing-line" />
+            <p>The answers come easily.</p>
+            <h2 id="closing-title">
+              Keep thinking
+              <br />
+              for yourself.
+            </h2>
+            <a className="pill-button" href="#experience">
+              <Plus size={18} />
+              <span>Explore KeepRI</span>
             </a>
+            <span className="closing-status">Closed beta</span>
+          </div>
+        </section>
+      </main>
+      <footer className="site-footer">
+        <div
+          className="footer-marquee marquee"
+          data-speed="24"
+          aria-hidden="true"
+        >
+          <div className="marquee-track">
+            {[0, 1, 2, 3].map((i) => (
+              <div className="marquee-group" key={i}>
+                <span>Keep reasoning independently</span>
+                <span>✳</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="shell footer-main">
+          <a className="footer-wordmark" href="#site">
+            KeepRI<span>·</span>
+          </a>
+          <div>
             <p>Keep reasoning independently.</p>
-          </div>
-          <div className="shell footer-bottom">
             <span>© 2026 KeepRI</span>
-            <span>Closed beta</span>
-            <nav aria-label="Footer navigation">
-              <a href="#site">Back to top</a>
-            </nav>
+            <MotionToggle />
           </div>
-        </footer>
-      </div>
+          <a className="footer-back" href="#site">
+            Back to top <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="shell footer-note">
+          <span>Closed beta · Research program in development</span>
+          <p>
+            Free play and future prize eligibility remain independent of
+            research participation. Research enrollment is not active in the
+            closed beta.
+          </p>
+        </div>
+      </footer>
     </>
   );
 }

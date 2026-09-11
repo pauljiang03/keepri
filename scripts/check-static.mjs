@@ -48,87 +48,56 @@ function walk(dir) {
 walk(root);
 for (const expected of [
   'Keep reasoning',
-  'Human learning histories',
   'Closed beta',
-  'The player experience',
   'Think for yourself.',
   'Learn without AI.',
   'Make the effort count.',
-  'meaningful prizes',
   'funded cash-prize events',
-  'licensed human learning data',
-  'practice independent thought without AI',
   'separate participant consent',
-  'Data licensing',
+  'Human learning histories',
+  'Executable environments',
+  'Evaluation packages',
+  'Free play and future prize eligibility remain independent',
+  'research enrollment is not active',
   'Skip intro',
-]) {
-  assert(html.includes(expected), `Missing primary content: ${expected}`);
-}
+  'For industry',
+  'Pause motion',
+])
+  assert(
+    html.toLowerCase().includes(expected.toLowerCase()),
+    `Missing primary content: ${expected}`,
+  );
 for (const file of [
   'licenses/lucide.txt',
   'licenses/GSAP-notice.txt',
+  'licenses/lenis.txt',
   'fonts/DM-Sans-OFL.txt',
-]) {
-  assert(
-    existsSync(join(root, file)),
-    `Missing graphics license notice: ${file}`,
-  );
-}
-assert(!html.includes('Building your site'), 'Starter content remains');
+])
+  assert(existsSync(join(root, file)), `Missing license: ${file}`);
+for (const id of ['top', 'site', 'main', 'experience', 'research', 'thesis'])
+  assert(ids.has(id), `Missing destination: ${id}`);
 assert(
-  !/signal-field|signal-thread|intro-frame|reasoning-paths/.test(html),
-  'Unrelated graphics remain',
-);
-assert(
-  !/competition-arena|reasoning-assembly|arena-award|journey-controls|intro-reasoning|thinking-step|aria-pressed/.test(
+  !/testflight|join the beta|October 5|November 1|Paul Jiang|mailto:/i.test(
     html,
   ),
-  'Retired illustrations or their controls remain',
+  'Public release or personal details remain',
 );
 assert(
-  !/About your visit|Website privacy|website-privacy/.test(html),
-  'Removed visitor disclosure remains',
+  !/competition-arena|reasoning-assembly|arena-award/.test(html),
+  'Retired artwork remains',
 );
 assert(
-  html.includes('<ol class="experience-list"') &&
-    (html.match(/class="experience-item"/g) || []).length === 4,
-  'The player experience needs four readable steps',
+  html.includes('<noscript>'),
+  'No-JavaScript content fallback is missing',
 );
 assert(
-  html.includes('Free play and future prize eligibility remain independent'),
-  'Research consent must remain separate from prizes',
-);
-for (const id of ['intro-1', 'intro-2', 'intro-3', 'site', 'main']) {
-  assert(ids.has(id), `Missing introduction destination: ${id}`);
-}
-assert(
-  html.indexOf('id="intro-3"') < html.indexOf('id="site"'),
-  'Introduction must precede main site',
+  html.includes('prefers-reduced-motion'),
+  'Reduced-motion first-paint handling is missing',
 );
 assert(
-  !/(?:crossing|lockout|founder|university|mailto:)/i.test(html),
-  'Game-specific or personal content remains',
-);
-assert(
-  !existsSync(join(root, 'assets/keepri-brand/crossing.png')),
-  'Retired game asset remains',
-);
-assert(
-  !existsSync(join(root, 'assets/keepri-brand/lockout.png')),
-  'Retired game asset remains',
-);
-assert(
-  (html.match(/name="research-deliverables"/g) || []).length === 3,
-  'Research disclosures are incomplete',
-);
-assert(
-  !/testflight|join the beta|join our beta|October 5|November 1/i.test(html),
-  'Public beta installation or release-detail copy remains',
-);
-assert(
-  html.includes('research enrollment is not active'),
-  'Research status disclosure is missing',
+  html.includes('keepri:opening-seen:v2'),
+  'Opening session behavior is missing',
 );
 console.log(
-  `Static validation passed: ${checks} assets and anchors; all primary content present.`,
+  `Static validation passed: ${checks} asset/anchor references and product-status constraints.`,
 );

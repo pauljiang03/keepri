@@ -37,6 +37,5 @@ next-env.d.ts
 /outputs/
 /work/
 
-# Local-only Sites registration; deployment uses GitHub Pages.
-/.openai/
+# Sites registration is versioned; credentials are never stored here.
 *.tsbuildinfo

@@ -1,55 +1,27 @@
 # KeepRI website
 
-Startup website for **KeepRI: Keep Reasoning Independently**.
+KeepRI: Keep Reasoning Independently. A static React/Vinext marketing site adapted from the owner's [Virio reference](https://www.virio.ai/), with KeepRI branding, accurate closed-beta language, and existing product screenshots.
 
-[Website](https://pauljiang03.github.io/keepri/)
+## Develop and validate
 
-The site opens with three interactive, full-screen statements before the main KeepRI site. It leads with independent thought without AI, supported by free reasoning play, competition and prizes. The proposed industry business sells licensed, separately consented human learning data and research collections. Public status is Closed beta. Personal biographies, personal contact links, named games, game screenshots, and installation links are excluded.
-
-Each scroll gesture or touch swipe advances one full-screen statement. Whole-sentence blends, chapter links and a visible skip control remain. After entry, the intro is removed, so scrolling upward stops at the main site. The player experience uses four spacious text rows; native expandable disclosures explain research deliverables. The owner requested removal of the trophy, arena and assembly artwork. Main-site fades and progress remain subtle, and reduced motion uses instant chapter changes. Without JavaScript, all copy remains readable in native sections.
-
-## Develop
-
-Requires Node 24 and npm.
+Node 22.13+ and npm are required.
 
 ```sh
 npm ci
 npm run dev
+npm run typecheck
+npm run build
+npm run check:static
 ```
 
-Edit `app/page.tsx` for content, `app/globals.css` for design, and `DESIGN.md` for the design contract. Assets and fonts are local. Font licenses are included in `public/fonts/`.
+The production output is `dist/client`. Content lives in `app/page.tsx`, `components/hero.tsx`, and `components/story-panels.tsx`. Layout is in `app/globals.css`; opening, scrolling and canvas behavior are in `lib/opening-motion.ts` and `lib/particle-field.ts`. `components/page-motion.tsx` owns the lower-page scroll timelines.
 
-## Build and publish
+## Preview and publication
 
-```sh
-npm run prepare:pages
-git add .
-git commit -m "Update KeepRI website"
-git push
-```
+The private Sites preview uses the existing project in `.openai/hosting.json`. The public [GitHub Pages website](https://pauljiang03.github.io/keepri/) and its previously staged `docs/` output are unchanged by this revision. For a separately authorized public Pages release, `npm run prepare:pages` builds with `/keepri`, checks paths, and stages `docs/`; committing and pushing that output to the public repository publishes it.
 
-GitHub Pages publishes the `docs/` directory on the `main` branch. `npm run prepare:pages` runs the gesture regression tests, checks types, builds the site, checks its static asset/anchor paths, and stages the public output in `docs/`. Commit and push that output to publish. There is no production application server. `prepare-static.mjs` normalizes Vinext's prefixed asset output for project Pages.
+This revision replaces the old gesture-gated chapters with the reference's continuous 480vh opening, rotating hero, interactive particle field, draggable marquees, desktop sticky cards, mobile stacked cards, research tabs, philosophy tabs/swipe cards, and curved closing reveal. Reduced motion skips the opening and continuous loops. Session storage avoids replaying the opening on subsequent visits in the same tab. A footer control pauses autonomous motion.
 
-The current GitHub connection does not have the OAuth `workflow` scope. A future automatic build workflow is retained as `deployment/github-pages.yml.example`; it is not active or required for publication.
+The site has no signup, analytics, research enrollment, installation or data-upload endpoint. Closed beta is current; expanded competition, tournaments, funded cash prizes and research remain in development. Research requires separate participant consent and does not affect free play or future prize eligibility. Personal biographies and direct personal contact details remain excluded.
 
-## Add a domain later
-
-After purchasing a domain, configure it in this repository's **Settings → Pages**, verify ownership, and set the DNS records GitHub provides. Build with an empty `PAGES_BASE_PATH` and `SITE_URL` set to the new HTTPS origin using `npm run stage:pages`; preserve the verified domain in `docs/CNAME`, then commit and push. Enable HTTPS once GitHub has issued the certificate. Do not add a CNAME for a domain that is not yet owned. Keep the new URL settings in the publish command or a documented release script for later updates.
-
-## Dynamic features later
-
-GitHub Pages serves HTML, CSS, and JavaScript. Browser interactions can run here. Authentication, stored progress, leaderboard writes, and research uploads need a backend.
-
-Keep this marketing site on Pages and call a separate authenticated HTTPS service when one is implemented, or move the frontend to Cloudflare Workers/Pages with server functions. The existing Python/SQLite app backend needs an appropriate persistent host; moving the marketing site does not deploy that backend. Reassess and update the starter's server/build dependencies before introducing a public runtime.
-
-Sources: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [custom domains](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages), [Cloudflare Functions](https://developers.cloudflare.com/pages/functions/).
-
-## Data and scope
-
-This website has no analytics, signup form, research enrollment, or upload endpoint. No email address or individual contact details are published. GitHub processes hosting request metadata under its own [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The owner requested removal of the visitor disclosure and its footer link. The separate app-policy site is not changed by this website revision.
-
-The native app, internal business backlog, and fundraising PDF are not included in this website repository. The broader implementation roadmap remains in the parent KeepRI workspace's `TODO.md`.
-
-Design guidance: [jakubkrehel/skills](https://github.com/jakubkrehel/skills), specifically better-layout, better-typography and better-ui for this refinement; [Tastemaker](https://github.com/codeswithroh/tastemaker), following the owner's [Virio](https://www.virio.ai/) reference. The initial implementation used [garden-skills / web-design-engineer](https://github.com/ConardLi/garden-skills/tree/main/skills/web-design-engineer) and [xiaopu-ai/web-design](https://github.com/xiaopu-ai/web-design). See `brand-spec.md` for asset provenance and `.tastemaker/style-lock.md` for the current design contract.
-
-Artwork origins and checked usage terms are recorded in [ASSET-PROVENANCE.md](ASSET-PROVENANCE.md).
+See [DESIGN.md](DESIGN.md), [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md), and [ASSET-PROVENANCE.md](ASSET-PROVENANCE.md). Earlier visual constraints in `.tastemaker/` describe the previous revision; the current explicit reproduction request supersedes those layout/motion restrictions.
