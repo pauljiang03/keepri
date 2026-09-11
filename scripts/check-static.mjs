@@ -59,6 +59,14 @@ for (const expected of [
   assert(html.includes(expected), `Missing primary content: ${expected}`);
 }
 assert(!html.includes('Building your site'), 'Starter content remains');
+assert(
+  !/About your visit|Website privacy|website-privacy/.test(html),
+  'Removed visitor disclosure remains',
+);
+assert(
+  (html.match(/class="signal-field /g) || []).length === 3,
+  'Brand sculptures are incomplete',
+);
 for (const id of ['intro-1', 'intro-2', 'intro-3', 'site', 'main']) {
   assert(ids.has(id), `Missing introduction destination: ${id}`);
 }

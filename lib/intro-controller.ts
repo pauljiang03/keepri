@@ -2,6 +2,8 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IntroGestureGate } from './intro-gesture';
+import { morphSignal, fieldParallax } from './field-motion';
+import { signalPath } from './signal-shape';
 
 export function installIntroduction() {
   const intro = document.querySelector<HTMLElement>('.introduction');
@@ -19,6 +21,10 @@ export function installIntroduction() {
   );
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const gate = new IntroGestureGate();
+  const field = intro.querySelector<HTMLElement>('.intro-field');
+  let fieldTransition: gsap.core.Timeline | undefined;
+  let exitArt: gsap.core.Tween | undefined;
+  const pointerMedia = gsap.matchMedia();
   let current = 0;
   let busy = false;
   let completed = false;
@@ -55,6 +61,9 @@ export function installIntroduction() {
     busy = false;
     transition?.kill();
     exit?.kill();
+    fieldTransition?.kill();
+    exitArt?.kill();
+    pointerMedia.kill();
     // Removing the entrance from layout makes the main site the top of the page.
     intro!.hidden = true;
     intro!.inert = true;
@@ -67,16 +76,26 @@ export function installIntroduction() {
     if (completed) return;
     transition?.kill();
     exit?.kill();
+    exitArt?.kill();
     busy = true;
     if (preference.matches) {
       window.scrollTo({ top: siteTop(), behavior: 'instant' });
       finish();
       return;
     }
+    fieldTransition?.kill();
+    if (field)
+      exitArt = gsap.to(field.querySelector('svg'), {
+        scale: 1.6,
+        rotation: 12,
+        opacity: 0,
+        duration: 0.95,
+        ease: 'power2.inOut',
+      });
     exit = gsap.to(window, {
       scrollTo: { y: site!, autoKill: false },
-      duration: 0.65,
-      ease: 'power3.inOut',
+      duration: 1,
+      ease: 'power2.inOut',
       onComplete: finish,
     });
   }
@@ -85,6 +104,8 @@ export function installIntroduction() {
     if (completed || index < 0 || index >= scenes.length) return;
     transition?.kill();
     exit?.kill();
+    exitArt?.kill();
+    if (field) gsap.set(field.querySelector('svg'), { opacity: 1 });
     window.scrollTo({ top: 0, behavior: 'instant' });
     const direction = index >= current ? 1 : -1;
     const outgoing = scenes[current].querySelectorAll('.intro-word-inner');
@@ -95,10 +116,16 @@ export function installIntroduction() {
     };
     if (preference.matches) {
       gsap.set(words, { clearProps: 'transform,opacity' });
+      if (field)
+        gsap.set(field.querySelectorAll('.signal-thread'), {
+          attr: { d: (i: number) => signalPath(i, index) },
+        });
       change();
       busy = false;
       return;
     }
+    fieldTransition?.kill();
+    if (field) fieldTransition = morphSignal(field, index);
     busy = true;
     transition = gsap.timeline({
       onComplete: () => {
@@ -108,20 +135,22 @@ export function installIntroduction() {
     if (index !== current) {
       transition.to(outgoing, {
         yPercent: -105 * direction,
+        rotationX: -18 * direction,
         opacity: 0,
-        duration: 0.24,
-        stagger: 0.025,
-        ease: 'power2.in',
+        duration: 0.34,
+        stagger: 0.022,
+        ease: 'power2.inOut',
       });
     }
     transition.call(change).fromTo(
       incoming,
-      { yPercent: 105 * direction, opacity: 0 },
+      { yPercent: 105 * direction, rotationX: 24 * direction, opacity: 0 },
       {
         yPercent: 0,
+        rotationX: 0,
         opacity: 1,
-        duration: 0.46,
-        stagger: 0.045,
+        duration: 0.78,
+        stagger: 0.04,
         ease: 'power3.out',
         immediateRender: false,
       },
@@ -231,7 +260,15 @@ export function installIntroduction() {
   function reducedMotionChanged() {
     if (!preference.matches) return;
     transition?.kill();
+    fieldTransition?.kill();
+    exitArt?.kill();
     gsap.set(words, { clearProps: 'transform,opacity' });
+    if (field) {
+      gsap.set(field.querySelectorAll('.signal-thread'), {
+        attr: { d: (i: number) => signalPath(i, current) },
+      });
+      gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
+    }
     busy = false;
     if (exit?.isActive()) {
       exit.kill();
@@ -260,6 +297,12 @@ export function installIntroduction() {
   } else {
     finish();
   }
+  pointerMedia.add(
+    '(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)',
+    () => {
+      if (field && !completed) return fieldParallax(intro, field, 30);
+    },
+  );
   window.addEventListener('wheel', wheel, { passive: false });
   window.addEventListener('touchstart', touchStart, { passive: true });
   window.addEventListener('touchmove', touchMove, { passive: false });
@@ -272,6 +315,11 @@ export function installIntroduction() {
 
   return () => {
     cancelAnimationFrame(frame);
+    pointerMedia.kill();
+    fieldTransition?.kill();
+    exitArt?.kill();
+    if (field)
+      gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
     transition?.kill();
     exit?.kill();
     window.removeEventListener('wheel', wheel);

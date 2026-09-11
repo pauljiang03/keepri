@@ -18,3 +18,5 @@ The owner specifically likes Virio's scroll-led entrance and interactive website
 The brand icon remains. Game captures and personal details are excluded. The main site is intentionally text-led, with a scroll-progress experience sequence and native expandable research descriptions. No reference-site assets or source code are redistributed.
 
 The owner clarified the interaction after the first scroll revision: one full-screen statement per gesture, visible intro effects, and a one-way handoff that prevents scrolling back into the entrance. The main site's scroll-progress line, section reveals, and research disclosures remain.
+
+The owner requested a more expressive result and smoother motion. Original procedural contour art now connects the intro, hero and scroll narrative. Its four states were rendered and visually inspected; it is abstract brand art, not product imagery or a chart. The visitor disclosure is removed.

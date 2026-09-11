@@ -6,7 +6,7 @@ Startup website for **KeepRI: Keep Reasoning Independently**.
 
 The site opens with three interactive, full-screen statements before the main KeepRI site. It introduces the independent-reasoning mission, a changing collection of challenges, and the proposed research business. Public status is Closed beta. Personal biographies, personal contact links, named games, game screenshots, and installation links are excluded.
 
-Each scroll gesture or touch swipe advances one full-screen statement. Animated word masks and a chapter line mark each transition. Chapter links and a visible skip control remain available. After entry, the intro is removed, so scrolling upward stops at the main site. Research deliverables use native expandable disclosures. Everything remains readable without JavaScript; reduced-motion users get instant chapter changes. Without JavaScript, the intro falls back to three readable native sections.
+Each scroll gesture or touch swipe advances one full-screen statement. Perspective word reveals, morphing contour artwork and a chapter line mark each transition. The main page includes a parallax hero, a sticky morphing sculpture through the experience section, and scroll-responsive typography. Chapter links and a visible skip control remain available. After entry, the intro is removed, so scrolling upward stops at the main site. Research deliverables use native expandable disclosures. Everything remains readable without JavaScript; reduced-motion users get instant chapter changes. Without JavaScript, the intro falls back to three readable native sections.
 
 ## Develop
 
@@ -46,7 +46,7 @@ Sources: [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-gi
 
 ## Data and scope
 
-This website has no analytics, signup form, research enrollment, or upload endpoint. No email address or individual contact details are published. GitHub processes hosting request metadata under its own [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The site has its own factual website-privacy disclosure. The separate app-policy site is not changed by this website revision.
+This website has no analytics, signup form, research enrollment, or upload endpoint. No email address or individual contact details are published. GitHub processes hosting request metadata under its own [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The owner requested removal of the visitor disclosure and its footer link. The separate app-policy site is not changed by this website revision.
 
 The native app, internal business backlog, and fundraising PDF are not included in this website repository. The broader implementation roadmap remains in the parent KeepRI workspace's `TODO.md`.
 

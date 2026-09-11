@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
 import { asset } from '@/lib/site';
 import { PageMotion } from '@/components/page-motion';
+import { SignalField } from '@/components/signal-field';
 
 // Static Pages deployment: the original brand icon is served directly.
 /* oxlint-disable next/no-img-element */
@@ -20,6 +21,13 @@ export default function Home() {
         Skip to main content
       </a>
       <section className="introduction" id="top" aria-label="Introduction">
+        <SignalField className="intro-field" />
+        <div className="intro-frame" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
         <div className="intro-controls">
           <div className="shell intro-control-row">
             <a
@@ -75,6 +83,7 @@ export default function Home() {
         ))}
       </section>
       <div id="site" tabIndex={-1}>
+        <div className="site-progress" aria-hidden="true" />
         <header className="site-header">
           <div className="shell masthead">
             <a className="brand" href="#site" aria-label="KeepRI home">
@@ -96,10 +105,14 @@ export default function Home() {
         </header>
         <main id="main" tabIndex={-1}>
           <section className="hero shell" aria-labelledby="hero-title">
-            <h1 id="hero-title" data-reveal>
-              Keep reasoning
-              <br />
-              <span>independently.</span>
+            <SignalField className="hero-field" chapter={2} />
+            <h1 id="hero-title">
+              <span className="hero-title-line">
+                <span>Keep reasoning</span>
+              </span>
+              <span className="hero-title-line">
+                <span>independently.</span>
+              </span>
             </h1>
             <div className="hero-bottom" data-reveal>
               <p>
@@ -159,29 +172,38 @@ export default function Home() {
                   unfamiliar.
                 </p>
               </div>
-              <div
-                className="thinking-sequence"
-                aria-label="The experience: discover, experiment, refine, return"
-              >
-                <div className="thinking-step" data-reveal>
-                  <span>01</span>
-                  <h3>Discover.</h3>
-                  <p>Meet an unfamiliar set of rules.</p>
+              <div className="experience-theatre">
+                <div className="experience-art" aria-hidden="true">
+                  <SignalField className="experience-field" />
+                  <div className="experience-coordinate">
+                    <span>KEEP EXPLORING</span>
+                    <span>01 / 04</span>
+                  </div>
                 </div>
-                <div className="thinking-step" data-reveal>
-                  <span>02</span>
-                  <h3>Experiment.</h3>
-                  <p>Try an idea. Learn from what happens.</p>
-                </div>
-                <div className="thinking-step" data-reveal>
-                  <span>03</span>
-                  <h3>Refine.</h3>
-                  <p>Find the strategy you couldn’t see before.</p>
-                </div>
-                <div className="thinking-step" data-reveal>
-                  <span>04</span>
-                  <h3>Return.</h3>
-                  <p>Become a beginner again.</p>
+                <div
+                  className="thinking-sequence"
+                  aria-label="The experience: discover, experiment, refine, return"
+                >
+                  <div className="thinking-step">
+                    <span>01</span>
+                    <h3>Discover.</h3>
+                    <p>Meet an unfamiliar set of rules.</p>
+                  </div>
+                  <div className="thinking-step">
+                    <span>02</span>
+                    <h3>Experiment.</h3>
+                    <p>Try an idea. Learn from what happens.</p>
+                  </div>
+                  <div className="thinking-step">
+                    <span>03</span>
+                    <h3>Refine.</h3>
+                    <p>Find the strategy you couldn’t see before.</p>
+                  </div>
+                  <div className="thinking-step">
+                    <span>04</span>
+                    <h3>Return.</h3>
+                    <p>Become a beginner again.</p>
+                  </div>
                 </div>
               </div>
               <p className="experience-note">
@@ -337,24 +359,7 @@ export default function Home() {
             <span>Closed beta</span>
             <nav aria-label="Footer navigation">
               <a href="#site">Back to top</a>
-              <a href="#privacy">Website privacy</a>
             </nav>
-          </div>
-          <div className="shell website-privacy" id="privacy">
-            <details>
-              <summary>
-                About your visit <Plus size={16} aria-hidden="true" />
-              </summary>
-              <p>
-                This website has no analytics, account system, or signup form.
-                GitHub Pages serves the site and processes hosting requests
-                under its{' '}
-                <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
-                  privacy statement
-                </a>
-                . Research participation is not available through this website.
-              </p>
-            </details>
           </div>
         </footer>
       </div>
