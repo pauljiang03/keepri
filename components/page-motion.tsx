@@ -13,16 +13,15 @@ export function PageMotion() {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
         gsap.from(element, {
-          y: 32,
+          y: 18,
           opacity: 0,
-          duration: 0.85,
+          duration: 0.75,
           ease: 'power3.out',
           scrollTrigger: { trigger: element, start: 'top 95%', once: true },
         });
       });
       gsap.from('.hero-title-line > span', {
         yPercent: 110,
-        rotation: 2,
         duration: 1.05,
         stagger: 0.13,
         ease: 'power3.out',
@@ -38,60 +37,15 @@ export function PageMotion() {
           scrub: 0.3,
         },
       });
-      gsap.fromTo(
-        '.thinking-sequence',
-        { '--sequence-progress': 0 },
-        {
-          '--sequence-progress': 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.thinking-sequence',
-            start: 'top 65%',
-            end: 'bottom 55%',
-            scrub: 0.8,
-          },
-        },
-      );
-      const steps = gsap.utils.toArray<HTMLElement>('.thinking-step');
-      steps.forEach((step) => {
-        gsap.fromTo(
-          step.querySelector('h3'),
-          { x: 24 },
-          {
-            x: -8,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: step,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 0.9,
-            },
-          },
-        );
-      });
-      gsap.from('.model-node', {
-        y: 38,
-        scale: 0.96,
+      gsap.from('.footer-wordmark', {
+        y: 20,
         opacity: 0,
-        duration: 0.9,
-        stagger: 0.14,
+        duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: '.model-diagram',
-          start: 'top 90%',
-          once: true,
-        },
-      });
-      gsap.from('.footer-wordmark', {
-        yPercent: 55,
-        rotation: -3,
-        opacity: 0.2,
-        ease: 'none',
-        scrollTrigger: {
           trigger: '.site-footer',
-          start: 'top bottom',
-          end: 'top 55%',
-          scrub: 1,
+          start: 'top 95%',
+          once: true,
         },
       });
     });

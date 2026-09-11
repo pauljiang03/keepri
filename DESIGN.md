@@ -1,49 +1,37 @@
 # KeepRI website design
 
-## 1. Direction
+## Direction
 
-The owner selected Virio's interactive entrance: several full-screen, single-statement chapters before reaching the main website. The entrance presents one full-screen statement per gesture, then hands off once to the main site. Personal identity, biographies, academic details, direct personal contacts, named games, and game captures are excluded at the owner's request.
+A typography-led company website for investors, prospective research partners and players. The owner rejected the custom trophy and other large illustrations as unpolished and asked to remove them. No bespoke illustrations or replacement decorative objects appear in the page. Keep the established cream, olive and sage palette, generous spacing and regular-weight typography.
 
-Every graphic must communicate independent reasoning, learning through play, mastery, competition, prizes, or the proposed consented-research model. Motion should make that idea easier to follow. Abstract sculptures and unrelated decorative effects are excluded.
+Apply the owner's [Virio](https://www.virio.ai/) entrance reference and [Tastemaker](https://github.com/codeswithroh/tastemaker) direction. This refinement uses `better-layout`, `better-typography` and `better-ui` from [jakubkrehel/skills](https://github.com/jakubkrehel/skills), revision `267330e1adfc66a718fb65fa6918c1f06d0a689e`. Their emphasis on shared alignment, space before separators, descending type hierarchy and restrained motion informs the implementation. See `INTERFACE-REVIEW.md` for findings and verification limits.
 
-## 2. Palette
+## Introduction and motion
 
-Keep the established muted olive, sage and cream palette. Use `app/globals.css` tokens and the verified color contract in `.tastemaker/style-lock.md`. No new colors. The opening uses paper text over olive, with a large sage/clay arena below the statement; the main site uses ink and muted text over paper/surface.
+Three statements share one full-screen stage: Think for yourself. Learn without AI. Make the effort count. Each sentence sits at the center of the viewport. A wheel burst or touch swipe advances once; held navigation keys cannot repeat through chapters. Visible chapter links, Skip intro and the next-step anchor remain available.
 
-## 3. Typography
+Whole sentences translate and fade in overlapping 880ms transitions. Do not restore per-word masks or perspective rotation. A one-second handoff removes the intro from layout, making the main site the top of the page. The chapter progress line takes 900ms. These deliberate marketing timings preserve the owner's smooth staged entrance. Reduced motion makes chapter changes and the handoff instant. Without JavaScript, the three sections and native anchors form a readable linear fallback.
 
-Self-hosted DM Sans400/500, upright throughout. The entrance gives one line its own viewport:26–86px desktop and21–38px narrow screens. It can wrap under enlarged text rather than clipping. Main hero max104px. Main headings max58px. No italic display or monospace body.
+Main-site reveals use an 18px translation and a 750ms fade once per section. The footer uses a small 20px fade-in rather than rotation or scroll-linked scaling. Arrow and disclosure feedback lasts 150ms. There are no continuous loops, pointer parallax, sticky illustrations or custom graphic controls. GSAP remains the sole animation engine.
 
-## 4. Introduction
+## Layout and typography
 
-Three statements share one100svh stage: Think for yourself; Learn without AI; Make the effort count. Wheel momentum and each touch swipe are consumed after one advance; held navigation keys cannot repeat through chapters. Chapter links and a visible Skip intro remain direct controls.
+Self-hosted DM Sans 400/500, upright, served as WOFF2. The existing OFL font files were converted without changing glyph mappings, order or advance metrics. No font or artwork is copied from a reference site.
 
-Each sentence moves as one plane, blending smoothly with the next over880ms. Per-word staggering, clipping, and perspective rotation are removed. The original reasoning assembly occupies roughly half the viewport below the statement. Nine dimensional interlocking pieces move from exploration to alignment and a completed structure, illustrating building your own understanding. This is a conceptual composition, independent of any current game. Geometry continues from its current state when interrupted; there are no continuous background loops. The arena appears only in the main experience. The one-second handoff removes the intro from layout; scrolling upward stops at the main website.
+Use the existing 4px spacing scale, 1264px content maximum and 48/32/20px gutters. The main hero reaches 104px; section headings reach 58px; player-step headings reach 40px and remain subordinate to the section heading. Body copy uses a 1.4–1.55 line height with bounded measures. Labels remain at least 12px. Headings balance and descriptions use pretty wrapping.
 
-Gesture control is an explicit owner requirement for this entrance. It ends when the visitor enters the site. Reduced motion preserves one-step navigation with instant changes. Without JavaScript, the three native sections and anchors remain readable as a linear fallback. Inactive enhanced scenes are inert and hidden from assistive technology; keyboard navigation and skip targets remain available.
+The player experience is a native ordered list with four rows: Discover, Improve, Compete and Earn. Shared columns align headings and explanations; spacing separates rows without card borders. On narrow screens the number and heading share a row, with the explanation below the heading. The proposed business model uses three text groups with no boxes or connector arrows. They stack on phones with space between groups.
 
-## 5. Main site
+## Content and scope
 
-Identity/status/navigation, mission hero, thesis, changing-challenge experience, research opportunity with expandable deliverables, proposed commercial model, oversized animated wordmark footer. There is no specific product inventory to become stale each month.
+Independent thought without AI leads the user promise. Free reasoning play makes practice enjoyable; competition, recognition and prizes reinforce it. Industry customers would license separately consented human learning data and commissioned collections. Proposed revenue supports free access, fresh challenges and meaningful prizes. Motivated effort is a research thesis, not a measured quality claim.
 
-The hero traces Think → Learn → Compete → Earn. Independent thought without AI is the primary user promise; competition and prizes support it. Discover, Improve, Compete and Earn control the arena through scrolling and four native buttons. The perspective changes, pieces move around inlaid tracks, podiums rise, and the prize appears. The illustration is identified as conceptual and competition/prize programs are marked in development. It contains no rankings, player identities, prize amount, app capture, or measured result. The research thesis explicitly connects motivated effort to potentially valuable human learning histories, with separate consent and controlled collections.
+Public status is Closed beta. Expanded competition, tournaments, cash-prize events and research programs remain in development. Free play and future prize eligibility remain independent of research participation. Research enrollment is not active in the closed beta.
 
-## 6. Interaction
+Exclude personal identity, biography, academic details, direct personal contact, named games, game screenshots, installation links, release dates, invented metrics, investor backing and the private proposal. There is no form, analytics or research upload endpoint. The removed visitor disclosure and its footer link stay absent.
 
-Native details/summary disclosures for three research deliverables; keyboard and pointer activation use browser semantics. Labels remain visible while explanations expand. Existing Lucide arrows/plus icons share the established visual family. The visitor/privacy disclosure and its footer link are removed at the owner’s request.
+## Accessibility and assets
 
-## 7. Layout and spacing
+Native anchors and three details/summary disclosures retain keyboard activation, visible focus and disclosure cues. Inactive enhanced intro chapters are inert and hidden from assistive technology. Main content remains readable without JavaScript. Reduced-motion handling covers all animated surfaces. Keep the verified text pairs in `.tastemaker/style-lock.md`; every existing text pairing exceeds 4.5:1.
 
-1264px content maximum;48/32/20px gutters.96–128px desktop section spacing,64px phone spacing. Existing4px scale and4px corners. At700px, main grids stack and navigation wraps into its own row; all destinations remain visible. Introduction uses stable small-viewport units to avoid toolbar-induced height changes.
-
-## 8. Content contract
-
-Closed beta only. Independent thought without AI is the central mission. Free reasoning play makes practice enjoyable; competition and prizes add motivation. Industry customers would buy separately consented human learning data, commissioned collections and evaluations, with revenue funding the mission. Separately consented research, paid programs, expanded competition and funded prize events remain plans. Incentives are a product thesis, not evidence of measured data quality. Free play and prize eligibility remain independent of research consent. Never add individual details or specific games without a new owner instruction. No installation link, signup form, analytics, or research enrollment is present. The private proposal is not published.
-
-## 9. Accessibility and validation
-
-Visible skip-intro control plus a keyboard skip-to-main link; real anchors with focusable landing targets; visible link/summary focus; sufficient contrast; native disclosures; reduced-motion fallback; readable no-JavaScript content. See `VALIDATION.md` for executed checks and their limits.
-
-## 10. Asset provenance
-
-Use two distinct illustrations: the reasoning assembly in the entrance and the arena in the experience. Both are original code-native artwork generated for this project. Standard fonts, icons and the animation runtime retain their own licenses. See `ASSET-PROVENANCE.md`.
+The page uses a text wordmark and standard Lucide arrows/plus icons with 1.5px strokes beside regular type. The existing app icon remains as the favicon. Large bespoke illustrations are retired. Font, icon and runtime notices remain in the public output. See `ASSET-PROVENANCE.md` and `VALIDATION.md`.

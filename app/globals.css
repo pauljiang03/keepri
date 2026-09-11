@@ -1,7 +1,3 @@
-/* tastemaker · macrostructure: Long-Scroll Narrative · mood: premium · page: landing
- * arc: three statement chapters -> mission -> experience -> research -> model
- * nav: N4 adapted · hero: H1 sequential · footer: Ft2 · locked reference palette
- * critique: ShowTell 3 · Phil 4 · Hier 5 · Spec 4 · Restr 5 · Var 4 */
 @import './fonts.css';
 @import 'tailwindcss';
 @source not '../docs';
@@ -32,6 +28,10 @@
   --s32: 128px;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
+  --text-caption: 0.8125rem;
+  --text-body: 1.125rem;
+  --text-lead: 1.1875rem;
+  --text-step: clamp(1.75rem, 2.8vw, 2.5rem);
 }
 * {
   box-sizing: border-box;
@@ -49,6 +49,7 @@ body {
   line-height: 1.55;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 ::selection {
   color: var(--paper);
@@ -59,6 +60,8 @@ a {
   text-decoration: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  text-underline-position: from-font;
+  text-decoration-thickness: from-font;
 }
 a:focus-visible {
   outline: 2px solid currentColor;
@@ -187,7 +190,7 @@ section[id] {
   display: inline-flex;
   align-items: center;
   gap: var(--s3);
-  font-size: 13px;
+  font-size: var(--text-caption);
   min-height: 44px;
   color: var(--on-dark);
 }
@@ -247,7 +250,8 @@ section[id] {
   justify-content: end;
   gap: var(--s3);
   color: var(--on-dark);
-  font-size: 10px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 .intro-progress i {
   display: block;
@@ -284,13 +288,11 @@ section[id] {
   letter-spacing: -0.055em;
   font-weight: 500;
   line-height: 1;
-}
-.brand img {
-  border-radius: var(--radius);
+  min-height: 44px;
 }
 .beta-status {
   justify-self: end;
-  font-size: 13px;
+  font-size: var(--text-caption);
   color: var(--muted);
   white-space: nowrap;
 }
@@ -302,7 +304,7 @@ section[id] {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 13px;
+  font-size: var(--text-caption);
 }
 .hero {
   padding-block: var(--s32);
@@ -350,7 +352,7 @@ section[id] {
 .section-label {
   margin-bottom: var(--s6);
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--text-caption);
 }
 .thesis-copy p + p {
   margin-top: var(--s6);
@@ -358,7 +360,7 @@ section[id] {
 .thesis-copy {
   max-width: 530px;
   color: var(--muted);
-  font-size: 18px;
+  font-size: var(--text-body);
 }
 .thesis-copy .lead {
   color: var(--ink);
@@ -378,46 +380,45 @@ section[id] {
 }
 .experience-heading p {
   max-width: 460px;
-  font-size: 19px;
+  font-size: var(--text-lead);
   color: var(--muted);
 }
-.thinking-sequence {
-  --sequence-progress: 1;
-  position: relative;
+.experience-list {
+  list-style: none;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  margin-top: 0;
-  padding-left: var(--s12);
-  border-left: 1px solid var(--line);
+  gap: var(--s12);
+  padding: 0;
+  margin: var(--s16) 0 0;
 }
-.thinking-sequence::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -1px;
-  width: 2px;
-  height: 100%;
-  background: var(--olive);
-  transform: scaleY(var(--sequence-progress));
-  transform-origin: top;
+.experience-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--s24);
+  row-gap: var(--s3);
 }
-.thinking-step > span {
-  font-size: 12px;
+.experience-item > span {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: var(--text-caption);
+  font-variant-numeric: tabular-nums;
   color: var(--muted);
 }
-.thinking-step h3 {
-  font-size: clamp(40px, 4.8vw, 68px);
-  letter-spacing: -0.05em;
-  line-height: 1.08;
-  margin-block: var(--s6) var(--s4);
+.experience-item h3 {
+  grid-column: 1;
+  grid-row: 1;
+  padding-inline-start: var(--s24);
+  font-size: var(--text-step);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
 }
-.thinking-step p {
-  font-size: 19px;
+.experience-item p {
+  max-width: 36ch;
+  font-size: var(--text-body);
   color: var(--muted);
-  max-width: 310px;
 }
 .experience-note {
-  font-size: 13px;
+  font-size: var(--text-caption);
   color: var(--muted);
   max-width: 640px;
   margin-top: var(--s16);
@@ -430,7 +431,7 @@ section[id] {
 }
 .research-heading > p:last-child {
   max-width: 550px;
-  font-size: 18px;
+  font-size: var(--text-body);
   color: var(--muted);
   margin-top: var(--s8);
 }
@@ -448,16 +449,16 @@ section[id] {
 }
 .research-question span {
   display: block;
-  font-size: 13px;
+  font-size: var(--text-caption);
   margin-bottom: var(--s16);
 }
 .research-question p {
   font-size: clamp(26px, 2.7vw, 36px);
-  line-height: 1.2;
   letter-spacing: -0.035em;
+  line-height: 1.4;
 }
 .research-offer > p {
-  font-size: 18px;
+  font-size: var(--text-body);
   color: var(--muted);
 }
 .research-accordion {
@@ -483,7 +484,7 @@ summary:focus-visible {
   outline-offset: 4px;
 }
 .research-accordion summary {
-  font-size: 18px;
+  font-size: var(--text-body);
   letter-spacing: -0.02em;
   min-height: 76px;
   padding-block: var(--s6);
@@ -495,7 +496,7 @@ summary:focus-visible {
 }
 .research-status {
   display: block;
-  font-size: 13px;
+  font-size: var(--text-caption);
   color: var(--muted);
 }
 details[open] > summary svg {
@@ -519,24 +520,21 @@ details[open] > summary svg {
 }
 .model-inner > div:first-child p {
   color: var(--on-dark);
-  font-size: 18px;
+  font-size: var(--text-body);
   max-width: 460px;
 }
 .model-diagram {
   margin-top: var(--s16);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: var(--s6);
-  align-items: center;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s12);
+  align-items: start;
 }
 .model-node {
-  padding: var(--s6);
-  border: 1px solid var(--sage);
-  min-height: 120px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: var(--s6);
+  padding: 0;
+  gap: var(--s4);
 }
 .model-node span {
   font-size: 12px;
@@ -548,31 +546,24 @@ details[open] > summary svg {
   font-weight: 400;
   letter-spacing: -0.025em;
 }
-.model-arrow {
-  color: var(--sage);
-}
 .model-return {
   grid-column: 1 / -1;
-  border: 1px solid var(--sage);
-  border-top: 0;
-  padding-top: var(--s3);
-  text-align: center;
-  margin: 0 var(--s12);
-  height: 28px;
+  padding-top: var(--s6);
+  text-align: start;
+  margin: 0;
 }
 .model-return span {
   display: inline-block;
-  background: var(--olive);
-  padding: 0 var(--s4);
   color: var(--on-dark);
-  font-size: 13px;
+  font-size: var(--text-caption);
+  padding: 0;
 }
 .consent-note {
   max-width: 680px;
   color: var(--on-dark);
-  font-size: 13px;
-  margin: var(--s12) auto 0;
-  text-align: center;
+  font-size: var(--text-caption);
+  margin: var(--s6) 0 0;
+  text-align: start;
 }
 .site-footer {
   background: var(--surface);
@@ -622,7 +613,7 @@ details[open] > summary svg {
   }
   .intro-next svg,
   .text-link svg {
-    transition: transform 180ms var(--ease-out);
+    transition: transform 150ms var(--ease-out);
   }
   .intro-next:hover svg,
   .text-link:hover svg {
@@ -642,11 +633,11 @@ details[open] > summary svg {
   .model-inner > div:first-child {
     gap: var(--s12);
   }
+  .experience-item {
+    column-gap: var(--s12);
+  }
   .research-question {
     padding: var(--s8);
-  }
-  .thinking-sequence {
-    gap: var(--s6);
   }
   .model-diagram {
     gap: var(--s4);
@@ -717,7 +708,7 @@ details[open] > summary svg {
   }
   .hero-bottom p {
     max-width: 450px;
-    font-size: 19px;
+    font-size: var(--text-lead);
   }
   .text-link {
     margin-top: var(--s8);
@@ -741,29 +732,6 @@ details[open] > summary svg {
   h2 {
     font-size: clamp(34px, 7.6vw, 46px);
   }
-  .thinking-sequence {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s8);
-    margin-top: var(--s12);
-    border-top: 0;
-    border-left: 1px solid var(--line);
-    padding: 0 0 0 var(--s6);
-  }
-  .thinking-sequence::before {
-    top: 0;
-    left: -1px;
-    width: 2px;
-    height: 100%;
-    transform: scaleY(var(--sequence-progress));
-    transform-origin: top;
-  }
-  .thinking-step h3 {
-    font-size: 32px;
-    margin-top: var(--s3);
-  }
-  .thinking-step p {
-    max-width: none;
-  }
   .experience-note {
     margin-top: var(--s12);
   }
@@ -781,15 +749,8 @@ details[open] > summary svg {
   }
   .model-diagram {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s3);
+    gap: var(--s8);
     margin-top: var(--s8);
-  }
-  .model-node {
-    min-height: 104px;
-  }
-  .model-arrow {
-    transform: rotate(90deg);
-    justify-self: center;
   }
   .model-return {
     grid-column: 1;
@@ -797,13 +758,13 @@ details[open] > summary svg {
     border: 0;
     padding-top: var(--s4);
     margin: 0;
-    text-align: left;
+    text-align: start;
   }
   .model-return span {
     padding: 0;
   }
   .consent-note {
-    text-align: left;
+    text-align: start;
     margin-top: var(--s6);
   }
   .footer-top {
@@ -818,14 +779,12 @@ details[open] > summary svg {
     gap: var(--s2) var(--s6);
   }
   .footer-bottom > span:nth-child(2) {
-    margin-left: auto;
+    margin-inline-start: auto;
   }
   .footer-bottom nav {
     width: 100%;
   }
 }
-
-/* The visual narrative moves from independent thought to competitive play. */
 .intro-scene {
   z-index: 1;
 }
@@ -837,12 +796,12 @@ details[open] > summary svg {
   z-index: 30;
   top: 0;
   left: 0;
-  height: 3px;
   width: 100%;
-  background: var(--clay);
   clip-path: inset(0 100% 0 0);
   transform-origin: left;
   pointer-events: none;
+  height: 2px;
+  background: var(--olive);
 }
 .hero-title-line {
   overflow: clip;
@@ -859,57 +818,15 @@ details[open] > summary svg {
 .hero-bottom {
   position: relative;
 }
-.experience-theatre {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  gap: var(--s16);
-  align-items: start;
-  margin-top: var(--s16);
-}
-.thinking-step {
-  min-height: 56svh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: var(--s16);
-}
-.thinking-step::before {
-  content: '';
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--muted);
-  background: var(--surface);
-  left: -53px;
-  top: calc(50% - 70px);
-  border-radius: var(--radius-round);
-}
-.thinking-step[data-active='true']::before {
-  background: var(--olive);
-  border-color: var(--olive);
-}
-.thinking-step h3 {
-  transform-origin: left center;
-}
 .research-question {
   position: relative;
   overflow: clip;
 }
-.research-question::after {
-  content: '';
-  display: block;
-  width: 96px;
-  height: 2px;
-  background: var(--olive);
-  margin-top: var(--s12);
-  transform-origin: left;
-}
 .research-accordion summary {
-  transition: color 240ms var(--ease-out);
+  transition: color 150ms var(--ease-out);
 }
 .research-accordion summary svg {
-  transition: transform 300ms var(--ease-out);
+  transition: transform 150ms var(--ease-out);
 }
 .research-accordion details[open] summary {
   color: var(--olive);
@@ -930,470 +847,9 @@ details[open] > summary svg {
     color: var(--olive);
   }
 }
-@media (max-width: 1000px) {
-  .experience-theatre {
-    gap: var(--s8);
-  }
-}
 @media (max-width: 700px) {
-  .experience-theatre {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-    margin-top: var(--s8);
-  }
-  .thinking-sequence {
-    position: relative;
-    z-index: 1;
-    margin-top: var(--s6);
-    padding-top: 0;
-    padding-left: var(--s6);
-    gap: 0;
-  }
-  .thinking-step {
-    min-height: 46svh;
-    padding-block: var(--s12);
-  }
-  .thinking-step::before {
-    left: -29px;
-    top: calc(50% - 60px);
-  }
-  .thinking-step h3 {
-    font-size: 46px;
-    margin-top: var(--s4);
-  }
-  .thinking-step p {
-    font-size: 18px;
-    max-width: 270px;
-  }
   .footer-wordmark {
     font-size: clamp(90px, 23vw, 160px);
-  }
-}
-
-/* An original arena: practice, rising mastery, competition, and earned rewards. */
-.competition-arena {
-  --arena-floor: var(--surface);
-  --arena-edge: var(--olive);
-  --arena-detail: var(--muted);
-  --arena-top: var(--paper);
-  --arena-left: var(--sage);
-  --arena-right: var(--muted);
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: hidden;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-.arena-drafting {
-  stroke: var(--arena-detail);
-  stroke-width: 0.6;
-  opacity: 0.32;
-}
-.arena-foundation {
-  fill: var(--arena-edge);
-  stroke: var(--arena-edge);
-}
-.arena-ribs {
-  stroke: var(--sage);
-  stroke-width: 0.7;
-  opacity: 0.55;
-}
-.arena-floor {
-  fill: var(--arena-floor);
-  stroke: var(--arena-detail);
-  stroke-width: 1;
-}
-.arena-terraces {
-  stroke: var(--arena-detail);
-  stroke-width: 0.7;
-}
-.arena-tracks {
-  stroke: var(--arena-detail);
-  stroke-width: 0.85;
-  opacity: 0.6;
-}
-.arena-trace {
-  stroke: var(--olive);
-  stroke-width: 3;
-}
-.trace-1 {
-  stroke: var(--clay);
-  stroke-width: 4;
-}
-.trace-2 {
-  stroke: var(--muted);
-  stroke-width: 2;
-}
-.arena-infield {
-  stroke: var(--arena-detail);
-  stroke-width: 0.6;
-  opacity: 0.4;
-}
-.podium-left {
-  fill: var(--arena-left);
-  stroke: var(--arena-detail);
-  stroke-width: 0.8;
-}
-.podium-right {
-  fill: var(--arena-right);
-  stroke: var(--arena-detail);
-  stroke-width: 0.8;
-}
-.podium-top {
-  fill: var(--arena-top);
-  stroke: var(--arena-detail);
-  stroke-width: 0.8;
-}
-.podium-inlay {
-  stroke: var(--arena-detail);
-  stroke-width: 0.7;
-  opacity: 0.65;
-}
-.arena-piece-ground {
-  fill: var(--olive);
-  opacity: 0.18;
-}
-.arena-piece-side {
-  fill: var(--olive);
-  stroke: var(--olive);
-  stroke-width: 0.7;
-}
-.arena-piece-light {
-  fill: var(--muted);
-}
-.arena-piece-top {
-  fill: var(--sage);
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.arena-piece-glint {
-  stroke: var(--paper);
-  stroke-width: 1.2;
-}
-.arena-piece-ring {
-  stroke: var(--sage);
-  stroke-width: 0.7;
-}
-.player-1 .arena-piece-side,
-.player-4 .arena-piece-side {
-  fill: var(--clay);
-}
-.player-1 .arena-piece-light,
-.player-4 .arena-piece-light {
-  fill: var(--clay);
-  stroke: var(--paper);
-  stroke-width: 0.4;
-}
-.player-1 .arena-piece-top,
-.player-4 .arena-piece-top {
-  fill: var(--paper);
-}
-.player-2 .arena-piece-side,
-.player-5 .arena-piece-side {
-  fill: var(--sage);
-}
-.player-2 .arena-piece-light,
-.player-5 .arena-piece-light {
-  fill: var(--paper);
-}
-.arena-start-line {
-  fill: var(--arena-detail);
-}
-.award-laurels {
-  fill: var(--sage);
-  stroke: var(--muted);
-  stroke-width: 1;
-}
-.award-handle {
-  stroke: var(--clay);
-  stroke-width: 7;
-}
-.award-base-left,
-.award-stem {
-  fill: var(--sage);
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.award-base-right {
-  fill: var(--muted);
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.award-base-top,
-.award-rim {
-  fill: var(--paper);
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.award-cup {
-  fill: var(--sage);
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.award-cup-facet {
-  fill: var(--clay);
-}
-.award-inside {
-  fill: var(--muted);
-  stroke: var(--olive);
-  stroke-width: 0.7;
-}
-.award-engraving {
-  stroke: var(--paper);
-  stroke-width: 0.9;
-}
-.award-emblem {
-  fill: var(--paper);
-  stroke: var(--olive);
-  stroke-width: 1;
-}
-.award-emblem path {
-  fill: none;
-  stroke-width: 1.4;
-}
-.intro-reasoning {
-  position: absolute;
-  pointer-events: none;
-  width: min(1080px, 86%);
-  height: 51svh;
-  left: 50%;
-  bottom: 9svh;
-  transform: translateX(-50%);
-}
-/* The entrance builds understanding; the separate arena illustrates competition. */
-.reasoning-assembly {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-  stroke-linejoin: round;
-}
-.assembly-guides {
-  stroke: var(--sage);
-  stroke-width: 0.7;
-  opacity: 0.38;
-}
-.assembly-base-side {
-  fill: var(--ink);
-  stroke: var(--muted);
-  stroke-width: 1;
-}
-.assembly-ribs {
-  stroke: var(--sage);
-  stroke-width: 0.7;
-  opacity: 0.5;
-}
-.assembly-base-top {
-  fill: var(--olive);
-  stroke: var(--sage);
-  stroke-width: 1;
-}
-.assembly-grid {
-  stroke: var(--sage);
-  stroke-width: 0.6;
-  opacity: 0.38;
-}
-.assembly-side-light {
-  fill: var(--sage);
-  stroke: var(--olive);
-  stroke-width: 0.65;
-}
-.assembly-side-dark {
-  fill: var(--muted);
-  stroke: var(--olive);
-  stroke-width: 0.65;
-}
-.assembly-piece-top {
-  fill: var(--paper);
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.assembly-piece-0 .assembly-piece-top,
-.assembly-piece-8 .assembly-piece-top {
-  fill: var(--sage);
-}
-.assembly-piece-4 .assembly-piece-top {
-  fill: var(--clay);
-}
-.assembly-inlay {
-  stroke: var(--muted);
-  stroke-width: 0.65;
-}
-.assembly-mark {
-  stroke: var(--olive);
-  stroke-width: 0.8;
-}
-.assembly-piece-4 .assembly-inlay,
-.assembly-piece-4 .assembly-mark {
-  stroke: var(--ink);
-}
-.assembly-complete {
-  stroke: var(--paper);
-  stroke-width: 2;
-}
-.introduction[data-enhanced='true'] .scene-inner {
-  display: block;
-  padding-top: 27svh;
-}
-.introduction:not([data-enhanced]) .intro-reasoning {
-  display: none;
-}
-.reasoning-rail {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--s4);
-  margin-top: var(--s16);
-  max-width: 740px;
-  padding-bottom: var(--s6);
-  border-bottom: 1px solid var(--line);
-}
-.reasoning-rail span {
-  font-size: 16px;
-}
-.reasoning-rail svg {
-  color: var(--muted);
-}
-.reasoning-journey {
-  position: sticky;
-  top: max(24px, calc(50svh - 320px));
-  background: var(--paper);
-  border-block: 1px solid var(--line);
-  padding: var(--s6) 0;
-  margin: 0;
-}
-.journey-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--s4);
-}
-.journey-heading .section-label {
-  margin: 0;
-}
-.journey-count {
-  color: var(--muted);
-  font-size: 12px;
-}
-.journey-diagram {
-  position: relative;
-  width: 100%;
-  max-width: 650px;
-  aspect-ratio: 900 / 580;
-  margin: var(--s2) auto;
-}
-.journey-controls {
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-block: 1px solid var(--line);
-}
-.journey-controls button {
-  font: inherit;
-  font-size: 12px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  padding: var(--s3) var(--s1);
-  min-height: 44px;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.journey-controls button[aria-pressed='true'] {
-  color: var(--ink);
-  border-bottom-color: var(--olive);
-}
-.journey-controls button:focus-visible {
-  outline: 2px solid var(--olive);
-  outline-offset: 2px;
-}
-.reasoning-journey figcaption {
-  margin-top: var(--s6);
-  min-height: 118px;
-}
-.reasoning-journey figcaption strong {
-  display: block;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.3;
-}
-.reasoning-journey figcaption p {
-  margin-top: var(--s3);
-  font-size: 14px;
-  color: var(--muted);
-}
-.journey-note {
-  display: block;
-  margin-top: var(--s4);
-  color: var(--muted);
-  font-size: 11px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .journey-controls button:hover {
-    color: var(--ink);
-    background: var(--surface);
-  }
-}
-@media (max-width: 1000px) {
-  .reasoning-journey {
-    padding-block: var(--s6);
-  }
-}
-@media (max-width: 700px) {
-  .intro-reasoning {
-    width: 112%;
-    height: 43svh;
-    bottom: 16svh;
-  }
-  .reasoning-rail {
-    gap: var(--s1);
-    margin-top: var(--s8);
-    padding-bottom: var(--s4);
-  }
-  .reasoning-rail span {
-    font-size: 11px;
-  }
-  .reasoning-rail svg {
-    width: 12px;
-  }
-  .reasoning-journey {
-    top: 0;
-    z-index: 3;
-    padding: var(--s4) 0;
-  }
-  .journey-heading .section-label {
-    font-size: 11px;
-  }
-  .journey-diagram {
-    margin-block: var(--s3);
-    max-height: 30svh;
-  }
-  .journey-controls button {
-    font-size: 11px;
-  }
-  .reasoning-journey figcaption {
-    margin-top: var(--s4);
-    min-height: 116px;
-  }
-  .reasoning-journey figcaption strong {
-    font-size: 16px;
-  }
-  .reasoning-journey figcaption p {
-    font-size: 13px;
-    margin-top: var(--s2);
-  }
-  .journey-note {
-    margin-top: var(--s2);
-    font-size: 10px;
-  }
-  .thinking-sequence {
-    margin-top: var(--s6);
-    padding-top: 0;
   }
 }
 /* The evidence sequence describes what a consented study can record. */
@@ -1407,46 +863,18 @@ details[open] > summary svg {
   border-top: 1px solid var(--line);
 }
 .research-evidence span {
-  font-size: 13px;
+  font-size: var(--text-caption);
   color: var(--ink);
   margin: 0;
 }
-.research-question::after {
-  display: none;
-}
 @media (max-width: 700px) {
-  .introduction[data-enhanced='true'] .scene-inner {
-    padding-top: 28svh;
-  }
-  .journey-diagram {
-    max-width: 460px;
-  }
-  .reasoning-journey figcaption {
-    min-height: 136px;
-  }
-  .reasoning-rail span {
-    font-size: 11px;
-  }
   .research-evidence span {
     font-size: 12px;
   }
 }
 @media (max-height: 650px) {
-  .intro-reasoning {
-    height: 48svh;
-    bottom: 10svh;
-  }
-  .introduction[data-enhanced='true'] .scene-inner {
-    padding-top: 24svh;
-  }
   .intro-next {
     bottom: 16px;
-  }
-}
-@media (max-height: 650px) {
-  .reasoning-journey {
-    position: relative;
-    top: auto;
   }
 }
 
@@ -1463,5 +891,23 @@ details[open] > summary svg {
   .text-link svg {
     transition: none;
     transform: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .experience-list {
+    margin-top: var(--s12);
+    gap: var(--s8);
+  }
+  .experience-item {
+    grid-template-columns: var(--s6) minmax(0, 1fr);
+    column-gap: var(--s4);
+  }
+  .experience-item p {
+    grid-column: 2;
+  }
+  .experience-item h3 {
+    grid-column: 2;
+    padding-inline-start: 0;
   }
 }

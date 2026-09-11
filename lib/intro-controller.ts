@@ -2,7 +2,6 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IntroGestureGate } from './intro-gesture';
-import { animateAssembly } from './assembly-motion';
 
 export function installIntroduction() {
   const intro = document.querySelector<HTMLElement>('.introduction');
@@ -23,9 +22,6 @@ export function installIntroduction() {
   );
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const gate = new IntroGestureGate();
-  const field = intro.querySelector<HTMLElement>('.intro-reasoning');
-  let fieldTransition: gsap.core.Timeline | undefined;
-  let exitArt: gsap.core.Tween | undefined;
   let current = 0;
   let hasShown = false;
   let busy = false;
@@ -63,8 +59,6 @@ export function installIntroduction() {
     busy = false;
     transition?.kill();
     exit?.kill();
-    fieldTransition?.kill();
-    exitArt?.kill();
     // Removing the entrance from layout makes the main site the top of the page.
     intro!.hidden = true;
     intro!.inert = true;
@@ -77,21 +71,12 @@ export function installIntroduction() {
     if (completed) return;
     transition?.kill();
     exit?.kill();
-    exitArt?.kill();
     busy = true;
     if (preference.matches) {
       window.scrollTo({ top: siteTop(), behavior: 'instant' });
       finish();
       return;
     }
-    fieldTransition?.kill();
-    if (field)
-      exitArt = gsap.to(field.querySelector('svg'), {
-        y: -24,
-        opacity: 0,
-        duration: 0.95,
-        ease: 'power2.inOut',
-      });
     exit = gsap.to(window, {
       scrollTo: { y: site!, autoKill: false },
       duration: 1,
@@ -105,8 +90,6 @@ export function installIntroduction() {
     // Finish a deliberate chapter-link interruption before starting a new transition.
     transition?.progress(1).kill();
     exit?.kill();
-    exitArt?.kill();
-    if (field) gsap.set(field.querySelector('svg'), { opacity: 1, y: 0 });
     if (window.scrollY > 1) window.scrollTo({ top: 0, behavior: 'instant' });
     if (hasShown && index === current) {
       if (focus) scenes[index].focus({ preventScroll: true });
@@ -118,13 +101,6 @@ export function installIntroduction() {
     hasShown = true;
     activate(index);
     if (focus) scenes[index].focus({ preventScroll: true });
-    fieldTransition?.kill();
-    if (field)
-      fieldTransition = animateAssembly(
-        field.querySelector('svg')!,
-        index,
-        !preference.matches,
-      );
     gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
     gsap.set(scenes, { clearProps: 'visibility,opacity' });
     gsap.set(cues, { clearProps: 'visibility,opacity' });
@@ -283,16 +259,9 @@ export function installIntroduction() {
   function reducedMotionChanged() {
     if (!preference.matches) return;
     transition?.kill();
-    fieldTransition?.kill();
-    exitArt?.kill();
     gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
     gsap.set(scenes, { clearProps: 'visibility,opacity' });
     gsap.set(cues, { clearProps: 'visibility,opacity' });
-    if (field) {
-      fieldTransition?.progress(1);
-      animateAssembly(field.querySelector('svg')!, current, false);
-      gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
-    }
     busy = false;
     if (exit?.isActive()) {
       exit.kill();
@@ -333,10 +302,6 @@ export function installIntroduction() {
 
   return () => {
     cancelAnimationFrame(frame);
-    fieldTransition?.kill();
-    exitArt?.kill();
-    if (field)
-      gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
     transition?.kill();
     exit?.kill();
     window.removeEventListener('wheel', wheel);

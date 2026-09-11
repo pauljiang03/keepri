@@ -80,24 +80,19 @@ assert(
   'Unrelated graphics remain',
 );
 assert(
-  (html.match(/aria-pressed="(?:true|false)"/g) || []).length === 4 &&
-    (html.match(/aria-pressed="true"/g) || []).length === 1,
-  'Player experience controls need four stages and one selection',
+  !/competition-arena|reasoning-assembly|arena-award|journey-controls|intro-reasoning|thinking-step|aria-pressed/.test(
+    html,
+  ),
+  'Retired illustrations or their controls remain',
 );
 assert(
   !/About your visit|Website privacy|website-privacy/.test(html),
   'Removed visitor disclosure remains',
 );
 assert(
-  html.includes('Independent thought, through play') &&
-    html.includes('Explore the player experience') &&
-    html.includes('Competition and prize programs in development'),
-  'Arena illustration, its controls, or planned-program caption are missing',
-);
-assert(
-  (html.match(/class="competition-arena"/g) || []).length === 1 &&
-    (html.match(/class="reasoning-assembly"/g) || []).length === 1,
-  'Intro and main site must use distinct illustrations',
+  html.includes('<ol class="experience-list"') &&
+    (html.match(/class="experience-item"/g) || []).length === 4,
+  'The player experience needs four readable steps',
 );
 assert(
   html.includes('Free play and future prize eligibility remain independent'),

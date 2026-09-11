@@ -1,11 +1,5 @@
 import { ArrowDown, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
-import { asset } from '@/lib/site';
 import { PageMotion } from '@/components/page-motion';
-import { ReasoningAssembly } from '@/components/reasoning-assembly';
-import { ReasoningJourney } from '@/components/reasoning-journey';
-
-// Static Pages deployment: the original brand icon is served directly.
-/* oxlint-disable next/no-img-element */
 
 const introduction = [
   { id: 'intro-1', text: 'Think for yourself.', next: '#intro-2' },
@@ -21,9 +15,6 @@ export default function Home() {
         Skip to main content
       </a>
       <section className="introduction" id="top" aria-label="Introduction">
-        <div className="intro-reasoning" aria-hidden="true">
-          <ReasoningAssembly />
-        </div>
         <div className="intro-controls">
           <div className="shell intro-control-row">
             <a
@@ -34,7 +25,8 @@ export default function Home() {
               KeepRI
             </a>
             <a className="intro-skip" href="#site">
-              Skip intro <ArrowUpRight size={16} aria-hidden="true" />
+              Skip intro{' '}
+              <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" />
             </a>
           </div>
           <nav className="intro-progress" aria-label="Introduction chapters">
@@ -63,7 +55,7 @@ export default function Home() {
               <p className="intro-statement">{scene.text}</p>
               <a className="intro-next" href={scene.next}>
                 {index === 2 ? 'Enter KeepRI' : 'Scroll to continue'}
-                <ArrowDown size={18} aria-hidden="true" />
+                <ArrowDown size={18} strokeWidth={1.5} aria-hidden="true" />
               </a>
             </div>
           </section>
@@ -74,12 +66,6 @@ export default function Home() {
         <header className="site-header">
           <div className="shell masthead">
             <a className="brand" href="#site" aria-label="KeepRI home">
-              <img
-                src={asset('/assets/keepri-brand/icon.png')}
-                width="32"
-                height="32"
-                alt=""
-              />
               <span>KeepRI</span>
             </a>
             <nav className="navigation" aria-label="Main navigation">
@@ -100,19 +86,6 @@ export default function Home() {
                 <span>independently.</span>
               </span>
             </h1>
-            <div
-              className="reasoning-rail"
-              aria-label="Think independently, learn, compete, and earn rewards"
-              data-reveal
-            >
-              <span>Think</span>
-              <ArrowRight aria-hidden="true" size={18} />
-              <span>Learn</span>
-              <ArrowRight aria-hidden="true" size={18} />
-              <span>Compete</span>
-              <ArrowRight aria-hidden="true" size={18} />
-              <span>Earn</span>
-            </div>
             <div className="hero-bottom" data-reveal>
               <p>
                 A place to practice independent thought without AI. We’re
@@ -121,7 +94,8 @@ export default function Home() {
                 more reasons to return.
               </p>
               <a className="text-link" href="#thesis">
-                Explore the idea <ArrowDown size={20} aria-hidden="true" />
+                Explore the idea{' '}
+                <ArrowDown size={20} strokeWidth={1.5} aria-hidden="true" />
               </a>
             </div>
           </section>
@@ -175,43 +149,39 @@ export default function Home() {
                   progress a stage.
                 </p>
               </div>
-              <div className="experience-theatre">
-                <ReasoningJourney />
-                <div
-                  className="thinking-sequence"
-                  aria-label="The experience: discover, improve, compete, earn"
-                >
-                  <div className="thinking-step">
-                    <span>01</span>
-                    <h3>Discover.</h3>
-                    <p>A fresh challenge. Start with your own judgment.</p>
-                  </div>
-                  <div className="thinking-step">
-                    <span>02</span>
-                    <h3>Improve.</h3>
-                    <p>
-                      Work out why an idea succeeds. Build a strategy without
-                      AI.
-                    </p>
-                  </div>
-                  <div className="thinking-step">
-                    <span>03</span>
-                    <h3>Compete.</h3>
-                    <p>
-                      A shared challenge. A worthy rival. A reason to give it
-                      your all.
-                    </p>
-                  </div>
-                  <div className="thinking-step">
-                    <span>04</span>
-                    <h3>Earn.</h3>
-                    <p>
-                      Recognition for mastery. Meaningful prizes. A new
-                      challenge worth returning for.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <ol
+                className="experience-list"
+                aria-label="The player experience"
+              >
+                <li className="experience-item" data-reveal>
+                  <span aria-hidden="true">01</span>
+                  <h3>Discover</h3>
+                  <p>A fresh challenge. Start with your own judgment.</p>
+                </li>
+                <li className="experience-item" data-reveal>
+                  <span aria-hidden="true">02</span>
+                  <h3>Improve</h3>
+                  <p>
+                    Work out why an idea succeeds. Build a strategy without AI.
+                  </p>
+                </li>
+                <li className="experience-item" data-reveal>
+                  <span aria-hidden="true">03</span>
+                  <h3>Compete</h3>
+                  <p>
+                    A shared challenge. A worthy rival. A reason to give it your
+                    all.
+                  </p>
+                </li>
+                <li className="experience-item" data-reveal>
+                  <span aria-hidden="true">04</span>
+                  <h3>Earn</h3>
+                  <p>
+                    Recognition for mastery. Meaningful prizes. A new challenge
+                    worth returning for.
+                  </p>
+                </li>
+              </ol>
               <p className="experience-note">
                 KeepRI is in closed beta. Expanded competition, tournaments, and
                 funded cash-prize events are part of the product we’re building
@@ -250,9 +220,9 @@ export default function Home() {
                   aria-label="Research records: attempts, feedback, and strategy changes"
                 >
                   <span>Attempts</span>
-                  <ArrowRight size={16} aria-hidden="true" />
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
                   <span>Feedback</span>
-                  <ArrowRight size={16} aria-hidden="true" />
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
                   <span>Revision</span>
                 </div>
               </div>
@@ -269,7 +239,7 @@ export default function Home() {
                   <details name="research-deliverables">
                     <summary>
                       Executable environments{' '}
-                      <Plus size={20} aria-hidden="true" />
+                      <Plus size={20} strokeWidth={1.5} aria-hidden="true" />
                     </summary>
                     <div>
                       <p>
@@ -282,7 +252,7 @@ export default function Home() {
                   <details name="research-deliverables">
                     <summary>
                       Human learning histories{' '}
-                      <Plus size={20} aria-hidden="true" />
+                      <Plus size={20} strokeWidth={1.5} aria-hidden="true" />
                     </summary>
                     <div>
                       <p>
@@ -294,7 +264,8 @@ export default function Home() {
                   </details>
                   <details name="research-deliverables">
                     <summary>
-                      Evaluation packages <Plus size={20} aria-hidden="true" />
+                      Evaluation packages{' '}
+                      <Plus size={20} strokeWidth={1.5} aria-hidden="true" />
                     </summary>
                     <div>
                       <p>
@@ -336,20 +307,10 @@ export default function Home() {
                   <span>01</span>
                   <strong>Independent play</strong>
                 </div>
-                <ArrowRight
-                  className="model-arrow"
-                  size={24}
-                  aria-hidden="true"
-                />
                 <div className="model-node">
                   <span>02 · Optional</span>
                   <strong>Consented human data</strong>
                 </div>
-                <ArrowRight
-                  className="model-arrow"
-                  size={24}
-                  aria-hidden="true"
-                />
                 <div className="model-node">
                   <span>03</span>
                   <strong>Data licensing &amp; research</strong>
