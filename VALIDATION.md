@@ -1,14 +1,17 @@
 # Website validation
 
-September 11, 2026.
+September 11, 2026. Closed-beta investor revision.
 
-- The complete static export generates the home route without skipped routes.
-- TypeScript validation passes.
-- Static validation checks local fonts, images, CSS, JavaScript, and anchor destinations with the GitHub project path. All 28 references pass.
-- Source review covers desktop/tablet/mobile breakpoints, narrow-phone heading scale, keyboard focus, skip navigation, native anchors, image labels, and reduced-motion behavior.
-- TestFlight and founder contact destinations use the existing release record and supplied proposal. Privacy/support destinations stay at the published app-policy site.
-- The research offering, multiplayer, rankings, and prizes are clearly described as future work. The fundraising PDF and internal implementation backlog are outside this public website repository.
-- No executable browser or physical-device acceptance was requested or performed. A local preview handoff was attempted; the in-app browser was unavailable and the active Chrome surface changed. Public deployment verification is recorded separately in the parent workspace.
-- The pinned starter reported development/build dependency advisories. The public deployment contains static files only, with no Node, RSC, Cloudflare, or application server runtime. Review and update runtime dependencies before introducing a dynamic production backend.
+- TypeScript check passed.
+- Oxlint passed for app source, page motion, and publishing scripts. Native img tags have a scoped documented exception because this is a static GitHub Pages export without an image optimization server.
+- Production export prerendered the homepage with zero skipped routes. `npm run prepare:pages` stages only the public output in `docs/`.
+- Static validation passed for26 local asset/anchor references, primary content, and repository path prefixes.
+- Source and generated output contain no public installation links, signup CTAs, or release dates. Metadata now describes the closed beta.
+- Tastemaker anti-slop and component-coherence scans passed. Motion audit reported one medium heuristic: center transform origin on the decorative ribbon. This is intentional for an unanchored geometric composition; it is not a popover or menu. No high findings.
+- Contrast matrix passed for all text pairings actually used:4.85:1 minimum. Decorative clay shapes and low-contrast hairline separators carry no text or state.
+- Source review covered320px through desktop responsive rules, anchor targets, focus, image dimensions and crop coordinates, no-JavaScript content, and reduced-motion cleanup. Browser viewport/interaction acceptance was not performed. The reference site's social preview and native product images were visually inspected; reference browser screenshots were unavailable.
+- Original app images and logo are unchanged. No proposal PDF, private app source, research records, or credentials are in the public output.
+- The research program, rewards and expanded competition are described as future work. No customer, revenue, funding or institutional endorsement is claimed.
+- The pinned starter continues to report11 dependency advisories in development/build dependencies. Only static files are deployed; review the server dependency tree before introducing a public dynamic runtime.
 
-Design references were applied as a source/design audit: a declared design system, real assets, clear hierarchy, coherent typography, state feedback, and responsive rules. Speculative dashboards, fake social proof, and mandatory animation spectacle were excluded because they do not serve this site's reading and installation journey.
+GitHub publication status and remote HTML/asset hash verification are recorded separately in the parent workspace release record. This file does not claim browser or physical-device verification.

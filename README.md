@@ -1,10 +1,10 @@
 # KeepRI website
 
-Startup website for **KeepRI — Keep Reasoning Independently**.
+Startup website for **KeepRI: Keep Reasoning Independently**.
 
-[Website](https://pauljiang03.github.io/keepri/) · [iPhone beta](https://testflight.apple.com/join/AhdBBYAG)
+[Website](https://pauljiang03.github.io/keepri/)
 
-The site introduces the free weekly-puzzle beta, the independent-reasoning mission, the planned research program, and founder contact. It uses the app's real icon and screenshots. Research participation, multiplayer, global rankings, and prize events are described as future work.
+The site introduces the independent-reasoning mission, the closed-beta product, the proposed research business, and founder contact. It is written for research partners, investors, and potential collaborators. Real app captures supply the product evidence; research programs, shared competition, and rewards remain future plans. There are no public installation or signup links.
 
 ## Develop
 
@@ -48,4 +48,4 @@ This website has no analytics, signup form, research enrollment, or upload endpo
 
 The native app, internal business backlog, and fundraising PDF are not included in this website repository. The broader implementation roadmap remains in the parent KeepRI workspace's `TODO.md`.
 
-Design guidance: [garden-skills / web-design-engineer](https://github.com/ConardLi/garden-skills/tree/main/skills/web-design-engineer) and [xiaopu-ai/web-design](https://github.com/xiaopu-ai/web-design). See `brand-spec.md` for asset provenance.
+Design guidance: [Tastemaker](https://github.com/codeswithroh/tastemaker), following the owner's [Virio](https://www.virio.ai/) reference. The initial implementation used [garden-skills / web-design-engineer](https://github.com/ConardLi/garden-skills/tree/main/skills/web-design-engineer) and [xiaopu-ai/web-design](https://github.com/xiaopu-ai/web-design). See `brand-spec.md` for asset provenance and `.tastemaker/style-lock.md` for the current design contract.

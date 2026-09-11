@@ -1,11 +1,12 @@
 # KeepRI brand and content sources
 
-- Logo: `public/assets/keepri-brand/icon.png`, copied unchanged from the native AppIcon asset.
-- Crossing screenshot: `public/assets/keepri-brand/crossing.png`, native UI test capture `48B3D531-05DD-442D-9CB3-C8FD921241FB.png` from the weekly app. This shows the first September weekly set.
-- Lockout screenshot: `public/assets/keepri-brand/lockout.png`, native UI test capture `349F309B-F47F-4B2B-A13A-B07084C2C94D.png`, a preview of the game scheduled for October 5.
-- Product facts: workspace README, release approval evidence, `WeeklyChallenges.json`, and current in-app privacy policy.
-- Company vision: owner-supplied `keepri (1).pdf`, received September 11, 2026. Free play is central; optional controlled research and organizational programs are planned. No customers, revenue, live prizes, or measured cognitive benefit are claimed.
-- Public founder contact: `pj1433@princeton.edu`, explicitly listed in the proposal. Support stays at the already-published support URL and Gmail address.
-- No university logo or implied endorsement.
-- Typography and color rules: `DESIGN.md`.
-- Design guidance: [ConardLi/garden-skills](https://github.com/ConardLi/garden-skills/tree/main/skills/web-design-engineer) and [xiaopu-ai/web-design](https://github.com/xiaopu-ai/web-design). Applied spec-first authoring, brand assets, state coverage, restrained motion, and responsive source audit. These are skill references, not visual sites to clone. Host instructions govern autonomous implementation and publishing.
+- Logo: `public/assets/keepri-brand/icon.png`, unchanged native AppIcon asset.
+- Product evidence: `crossing.png` and `lockout.png` in the same folder, unchanged native UI captures. CSS selects each775px-square board region, excluding date labels and partial controls. The captures demonstrate two game engines, not user traction.
+- Company mission and proposed business: owner-supplied September11 proposal. Free consumer play is central; optional controlled research and organizational programs are planned. The private proposal is not distributed here.
+- Product stage: closed beta, per the owner's public presentation instruction. No installation links or release schedule are published on this page.
+- Founder: Paul Jiang, Princeton PhD student in formal methods; public email `pj1433@princeton.edu`, as supplied in the proposal. No institution or investor endorsement is implied.
+- Typography: existing self-hosted DM Sans400/500 with OFL license. No font from the reference site is reused.
+- Visual guidance: [Virio](https://www.virio.ai/) selected by the owner; [Tastemaker](https://github.com/codeswithroh/tastemaker) applied for reference extraction, structure, contrast, copy, motion, and coherence checks. Prior garden-skills/web-design guidance remains part of the original implementation history.
+- Custom assets: CSS game-piece ribbon. No third-party artwork is redistributed. Lucide arrows come from the already installed package. GSAP motion is adapted to React lifecycle and reduced motion from Tastemaker's documented convention.
+
+See `DESIGN.md` and `.tastemaker/style-lock.md` for the current design contract and `.tastemaker/reference-board.md` for the observed references.
