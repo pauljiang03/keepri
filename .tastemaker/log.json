@@ -1,5 +1,17 @@
 [
   {
+    "id": "keepri-2026-09-11-competition",
+    "date": "2026-09-11",
+    "project": "keepri",
+    "page": "landing",
+    "macrostructure": "Long-Scroll Narrative",
+    "nav": "N4",
+    "hero": "H1",
+    "footer": "Ft2",
+    "knobs": "dimensional competition arena; moving player pieces; rising podiums and prize reveal; motivated-player research thesis; smooth one-way entrance",
+    "outcome": "pending"
+  },
+  {
     "id": "keepri-2026-09-11-reasoning",
     "date": "2026-09-11",
     "project": "keepri",
@@ -9,7 +21,7 @@
     "hero": "H1",
     "footer": "Ft2",
     "knobs": "mission-related decision paths; labeled learning stages; scroll and button selection; no unrelated decoration",
-    "outcome": "pending"
+    "outcome": "rejected"
   },
   {
     "id": "keepri-2026-09-11-expressive",

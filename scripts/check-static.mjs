@@ -51,31 +51,43 @@ for (const expected of [
   'Human learning histories',
   'Closed beta',
   'The player experience',
-  'Start with a question.',
-  'Learn from every attempt.',
-  'Find your own way through.',
+  'Think for yourself.',
+  'Rise to the challenge.',
+  'Play for real rewards.',
+  'Meaningful prizes',
+  'funded cash-prize events',
+  'Returning, motivated players',
   'Skip intro',
 ]) {
   assert(html.includes(expected), `Missing primary content: ${expected}`);
 }
 assert(!html.includes('Building your site'), 'Starter content remains');
 assert(
-  !/signal-field|signal-thread|intro-frame/.test(html),
+  !/signal-field|signal-thread|intro-frame|reasoning-paths/.test(html),
   'Unrelated graphics remain',
 );
 assert(
   (html.match(/aria-pressed="(?:true|false)"/g) || []).length === 4 &&
     (html.match(/aria-pressed="true"/g) || []).length === 1,
-  'Learning controls need four stages and one selection',
+  'Player experience controls need four stages and one selection',
 );
 assert(
   !/About your visit|Website privacy|website-privacy/.test(html),
   'Removed visitor disclosure remains',
 );
 assert(
-  html.includes('Learning through play') &&
-    html.includes('Explore the learning process'),
-  'Learning illustration or its controls are missing',
+  html.includes('The competitive spirit') &&
+    html.includes('Explore the player experience') &&
+    html.includes('Competition and prize programs in development'),
+  'Arena illustration, its controls, or planned-program caption are missing',
+);
+assert(
+  (html.match(/class="competition-arena"/g) || []).length === 2,
+  'Both intro and experience need the new arena',
+);
+assert(
+  html.includes('Free play and future prize eligibility remain independent'),
+  'Research consent must remain separate from prizes',
 );
 for (const id of ['intro-1', 'intro-2', 'intro-3', 'site', 'main']) {
   assert(ids.has(id), `Missing introduction destination: ${id}`);

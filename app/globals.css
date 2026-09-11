@@ -825,7 +825,7 @@ details[open] > summary svg {
   }
 }
 
-/* Choices, attempts, feedback and revision are the visual language. */
+/* The visual narrative moves from independent thought to competitive play. */
 .intro-scene {
   z-index: 1;
 }
@@ -861,7 +861,7 @@ details[open] > summary svg {
 }
 .experience-theatre {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
   gap: var(--s16);
   align-items: start;
   margin-top: var(--s16);
@@ -944,8 +944,8 @@ details[open] > summary svg {
   .thinking-sequence {
     position: relative;
     z-index: 1;
-    margin-top: -200px;
-    padding-top: 120px;
+    margin-top: var(--s6);
+    padding-top: 0;
     padding-left: var(--s6);
     gap: 0;
   }
@@ -970,96 +970,215 @@ details[open] > summary svg {
   }
 }
 
-.reasoning-paths {
+/* An original arena: practice, rising mastery, competition, and earned rewards. */
+.competition-arena {
+  --arena-floor: var(--surface);
+  --arena-edge: var(--olive);
+  --arena-detail: var(--muted);
+  --arena-top: var(--paper);
+  --arena-left: var(--sage);
+  --arena-right: var(--muted);
   width: 100%;
   height: 100%;
   display: block;
-  overflow: visible;
+  overflow: hidden;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
-.reasoning-paths path,
-.reasoning-paths circle {
-  vector-effect: non-scaling-stroke;
+.arena-drafting {
+  stroke: var(--arena-detail);
+  stroke-width: 0.6;
+  opacity: 0.32;
 }
-.reasoning-options {
-  stroke: var(--line);
-  stroke-width: 1.5;
+.arena-foundation {
+  fill: var(--arena-edge);
+  stroke: var(--arena-edge);
 }
-.reasoning-trace {
+.arena-ribs {
+  stroke: var(--sage);
+  stroke-width: 0.7;
+  opacity: 0.55;
+}
+.arena-floor {
+  fill: var(--arena-floor);
+  stroke: var(--arena-detail);
+  stroke-width: 1;
+}
+.arena-terraces {
+  stroke: var(--arena-detail);
+  stroke-width: 0.7;
+}
+.arena-tracks {
+  stroke: var(--arena-detail);
+  stroke-width: 0.85;
+  opacity: 0.6;
+}
+.arena-trace {
   stroke: var(--olive);
-  stroke-width: 2.5;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-  opacity: 0;
+  stroke-width: 3;
 }
-.reasoning-attempt {
+.trace-1 {
   stroke: var(--clay);
+  stroke-width: 4;
 }
-.reasoning-junctions {
+.trace-2 {
   stroke: var(--muted);
-  stroke-width: 1.5;
+  stroke-width: 2;
+}
+.arena-infield {
+  stroke: var(--arena-detail);
+  stroke-width: 0.6;
+  opacity: 0.4;
+}
+.podium-left {
+  fill: var(--arena-left);
+  stroke: var(--arena-detail);
+  stroke-width: 0.8;
+}
+.podium-right {
+  fill: var(--arena-right);
+  stroke: var(--arena-detail);
+  stroke-width: 0.8;
+}
+.podium-top {
+  fill: var(--arena-top);
+  stroke: var(--arena-detail);
+  stroke-width: 0.8;
+}
+.podium-inlay {
+  stroke: var(--arena-detail);
+  stroke-width: 0.7;
+  opacity: 0.65;
+}
+.arena-piece-ground {
+  fill: var(--olive);
+  opacity: 0.18;
+}
+.arena-piece-side {
+  fill: var(--olive);
+  stroke: var(--olive);
+  stroke-width: 0.7;
+}
+.arena-piece-light {
+  fill: var(--muted);
+}
+.arena-piece-top {
+  fill: var(--sage);
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.arena-piece-glint {
+  stroke: var(--paper);
+  stroke-width: 1.2;
+}
+.arena-piece-ring {
+  stroke: var(--sage);
+  stroke-width: 0.7;
+}
+.player-1 .arena-piece-side,
+.player-4 .arena-piece-side {
+  fill: var(--clay);
+}
+.player-1 .arena-piece-light,
+.player-4 .arena-piece-light {
+  fill: var(--clay);
+  stroke: var(--paper);
+  stroke-width: 0.4;
+}
+.player-1 .arena-piece-top,
+.player-4 .arena-piece-top {
   fill: var(--paper);
 }
-.reasoning-feedback {
+.player-2 .arena-piece-side,
+.player-5 .arena-piece-side {
+  fill: var(--sage);
+}
+.player-2 .arena-piece-light,
+.player-5 .arena-piece-light {
+  fill: var(--paper);
+}
+.arena-start-line {
+  fill: var(--arena-detail);
+}
+.award-laurels {
+  fill: var(--sage);
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+.award-handle {
   stroke: var(--clay);
-  stroke-width: 2;
-  fill: var(--paper);
-  opacity: 0;
+  stroke-width: 7;
 }
-.reasoning-feedback path,
-.reasoning-insight path {
+.award-base-left,
+.award-stem {
+  fill: var(--sage);
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.award-base-right {
+  fill: var(--muted);
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.award-base-top,
+.award-rim {
+  fill: var(--paper);
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.award-cup {
+  fill: var(--sage);
+  stroke: var(--olive);
+  stroke-width: 0.8;
+}
+.award-cup-facet {
+  fill: var(--clay);
+}
+.award-inside {
+  fill: var(--muted);
+  stroke: var(--olive);
+  stroke-width: 0.7;
+}
+.award-engraving {
+  stroke: var(--paper);
+  stroke-width: 0.9;
+}
+.award-emblem {
+  fill: var(--paper);
+  stroke: var(--olive);
+  stroke-width: 1;
+}
+.award-emblem path {
   fill: none;
-}
-.reasoning-insight {
-  stroke: var(--olive);
-  stroke-width: 2;
-  fill: var(--paper);
-  opacity: 0;
-}
-.reasoning-return-tip {
-  stroke: var(--olive);
-  stroke-width: 2.5;
-  opacity: 0;
-}
-.reasoning-paths[data-stage='1'] .reasoning-attempt,
-.reasoning-paths[data-stage='1'] .reasoning-feedback,
-.reasoning-paths[data-stage='2'] .reasoning-feedback,
-.reasoning-paths[data-stage='2'] .reasoning-revision,
-.reasoning-paths[data-stage='2'] .reasoning-insight,
-.reasoning-paths[data-stage='3'] .reasoning-return,
-.reasoning-paths[data-stage='3'] .reasoning-return-tip {
-  opacity: 1;
-}
-.reasoning-paths[data-stage='2'] .reasoning-attempt,
-.reasoning-paths[data-stage='3'] .reasoning-attempt,
-.reasoning-paths[data-stage='3'] .reasoning-revision,
-.reasoning-paths[data-stage='3'] .reasoning-feedback,
-.reasoning-paths[data-stage='3'] .reasoning-insight {
-  opacity: 0.35;
+  stroke-width: 1.4;
 }
 .intro-reasoning {
   position: absolute;
   pointer-events: none;
-  width: min(680px, 72%);
-  height: 24svh;
+  width: min(1080px, 86%);
+  height: 51svh;
   left: 50%;
-  bottom: 10svh;
+  bottom: 9svh;
   transform: translateX(-50%);
 }
-.intro-reasoning .reasoning-options {
+.intro-reasoning .competition-arena {
+  --arena-floor: var(--sage);
+  --arena-edge: var(--ink);
+  --arena-detail: var(--olive);
+  --arena-top: var(--paper);
+  --arena-left: var(--on-dark);
+  --arena-right: var(--muted);
+}
+.intro-reasoning .arena-drafting {
   stroke: var(--sage);
-  opacity: 0.35;
+  opacity: 0.5;
 }
-.intro-reasoning .reasoning-trace:not(.reasoning-attempt),
-.intro-reasoning .reasoning-insight {
-  stroke: var(--on-dark);
+.introduction[data-enhanced='true'] .scene-inner {
+  display: block;
+  padding-top: 27svh;
 }
-.intro-reasoning .reasoning-junctions {
-  stroke: var(--sage);
-}
-.intro-reasoning .reasoning-junctions,
-.intro-reasoning .reasoning-feedback,
-.intro-reasoning .reasoning-insight {
-  fill: var(--olive);
+.introduction:not([data-enhanced]) .intro-reasoning {
+  display: none;
 }
 .reasoning-rail {
   display: flex;
@@ -1079,10 +1198,10 @@ details[open] > summary svg {
 }
 .reasoning-journey {
   position: sticky;
-  top: max(36px, calc(50svh - 260px));
+  top: max(24px, calc(50svh - 320px));
   background: var(--paper);
-  border: 1px solid var(--line);
-  padding: var(--s6);
+  border-block: 1px solid var(--line);
+  padding: var(--s6) 0;
   margin: 0;
 }
 .journey-heading {
@@ -1101,46 +1220,9 @@ details[open] > summary svg {
 .journey-diagram {
   position: relative;
   width: 100%;
-  max-width: 430px;
-  aspect-ratio: 1.8;
-  margin: var(--s4) auto;
-}
-.journey-label {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  padding: 2px 4px;
-  white-space: nowrap;
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 12px;
-  line-height: 1.2;
-}
-.journey-label[data-visible='false'] {
-  visibility: hidden;
-}
-.journey-question {
-  left: 11.1%;
-  top: 63%;
-}
-.journey-idea {
-  left: 34.7%;
-  top: 10%;
-}
-.journey-feedback {
-  left: 63.2%;
-  top: 33%;
-}
-.journey-revise {
-  left: 45%;
-  top: 52%;
-}
-.journey-strategy {
-  left: 85.4%;
-  top: 64%;
-}
-.journey-again {
-  left: 51%;
-  top: 91%;
+  max-width: 650px;
+  aspect-ratio: 900 / 580;
+  margin: var(--s2) auto;
 }
 .journey-controls {
   min-width: 0;
@@ -1200,14 +1282,14 @@ details[open] > summary svg {
 }
 @media (max-width: 1000px) {
   .reasoning-journey {
-    padding: var(--s6);
+    padding-block: var(--s6);
   }
 }
 @media (max-width: 700px) {
   .intro-reasoning {
-    width: 88%;
-    height: 22svh;
-    bottom: 12svh;
+    width: 112%;
+    height: 43svh;
+    bottom: 16svh;
   }
   .reasoning-rail {
     gap: var(--s1);
@@ -1223,16 +1305,13 @@ details[open] > summary svg {
   .reasoning-journey {
     top: 0;
     z-index: 3;
-    padding: var(--s4);
+    padding: var(--s4) 0;
   }
   .journey-heading .section-label {
     font-size: 11px;
   }
   .journey-diagram {
     margin-block: var(--s3);
-  }
-  .journey-label {
-    font-size: 10px;
   }
   .journey-controls button {
     font-size: 11px;
@@ -1255,6 +1334,53 @@ details[open] > summary svg {
   .thinking-sequence {
     margin-top: var(--s6);
     padding-top: 0;
+  }
+}
+/* The evidence sequence describes what a consented study can record. */
+.research-evidence {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  margin-top: var(--s8);
+  padding-top: var(--s6);
+  border-top: 1px solid var(--line);
+}
+.research-evidence span {
+  font-size: 13px;
+  color: var(--ink);
+  margin: 0;
+}
+.research-question::after {
+  display: none;
+}
+@media (max-width: 700px) {
+  .introduction[data-enhanced='true'] .scene-inner {
+    padding-top: 28svh;
+  }
+  .journey-diagram {
+    max-width: 460px;
+  }
+  .reasoning-journey figcaption {
+    min-height: 136px;
+  }
+  .reasoning-rail span {
+    font-size: 11px;
+  }
+  .research-evidence span {
+    font-size: 12px;
+  }
+}
+@media (max-height: 650px) {
+  .intro-reasoning {
+    height: 48svh;
+    bottom: 10svh;
+  }
+  .introduction[data-enhanced='true'] .scene-inner {
+    padding-top: 24svh;
+  }
+  .intro-next {
+    bottom: 16px;
   }
 }
 @media (max-height: 650px) {

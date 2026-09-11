@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IntroGestureGate } from './intro-gesture';
-import { revealReasoning } from './reasoning-motion';
+import { animateArena } from './arena-motion';
 
 export function installIntroduction() {
   const intro = document.querySelector<HTMLElement>('.introduction');
@@ -118,11 +118,11 @@ export function installIntroduction() {
     hasShown = true;
     activate(index);
     if (focus) scenes[index].focus({ preventScroll: true });
-    fieldTransition?.revert();
+    fieldTransition?.kill();
     if (field)
-      fieldTransition = revealReasoning(
+      fieldTransition = animateArena(
         field.querySelector('svg')!,
-        index,
+        [0, 2, 3][index],
         !preference.matches,
       );
     gsap.set(statements, { clearProps: 'transform,opacity,willChange' });
@@ -290,7 +290,7 @@ export function installIntroduction() {
     gsap.set(cues, { clearProps: 'visibility,opacity' });
     if (field) {
       fieldTransition?.progress(1);
-      revealReasoning(field.querySelector('svg')!, current, false);
+      animateArena(field.querySelector('svg')!, [0, 2, 3][current], false);
       gsap.set(field.querySelector('svg'), { clearProps: 'transform,opacity' });
     }
     busy = false;

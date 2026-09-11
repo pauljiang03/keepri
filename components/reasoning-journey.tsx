@@ -1,65 +1,79 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ReasoningPaths } from '@/components/reasoning-paths';
-import { revealReasoning } from '@/lib/reasoning-motion';
+import { CompetitionArena } from '@/components/competition-arena';
+import { animateArena } from '@/lib/arena-motion';
 
 const stages = [
   {
     name: 'Discover',
-    title: 'A question. A few possible approaches.',
+    title: 'Curiosity gets you started.',
     description:
-      'An unfamiliar challenge gives you room to explore your own ideas.',
+      'Free reasoning games invite you to try an idea and find your own way forward.',
   },
   {
-    name: 'Experiment',
-    title: 'An attempt gives you feedback.',
-    description: 'One approach stops working. That is something to learn from.',
+    name: 'Improve',
+    title: 'Effort becomes an edge.',
+    description:
+      'Practice, learn from a mistake, and build a strategy worth testing against someone else.',
   },
   {
-    name: 'Refine',
-    title: 'Feedback changes your next move.',
+    name: 'Compete',
+    title: 'Give your best thinking a stage.',
     description:
-      'Revisit the idea, try a different approach, and develop your own strategy.',
+      'Shared challenges, rankings, and planned tournaments give players a reason to bring their best.',
   },
   {
-    name: 'Return',
-    title: 'A new challenge. More to discover.',
+    name: 'Earn',
+    title: 'Play for something that matters.',
     description:
-      'Bring what you learned, stay curious, and begin exploring again.',
+      'Recognition, rivalry, and planned cash-prize events make mastery something to pursue together.',
   },
 ];
 
 export function ReasoningJourney() {
   const [stage, setStage] = useState(0);
   const diagram = useRef<HTMLDivElement>(null);
+  const animation = useRef<ReturnType<typeof animateArena> | null>(null);
   useEffect(() => {
     const steps = Array.from(
       document.querySelectorAll<HTMLElement>('.thinking-step'),
     );
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const current = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              Math.abs(a.boundingClientRect.top - window.innerHeight * 0.5) -
-              Math.abs(b.boundingClientRect.top - window.innerHeight * 0.5),
-          )[0];
-        if (current) setStage(steps.indexOf(current.target as HTMLElement));
-      },
-      { rootMargin: '-55% 0px -25% 0px', threshold: 0 },
-    );
-    steps.forEach((step) => observer.observe(step));
-    return () => observer.disconnect();
+    const narrow = window.matchMedia('(max-width: 700px)');
+    let observer: IntersectionObserver;
+    const observe = () => {
+      observer?.disconnect();
+      observer = new IntersectionObserver(
+        (entries) => {
+          const current = entries.find((entry) => entry.isIntersecting);
+          if (current) setStage(steps.indexOf(current.target as HTMLElement));
+        },
+        // On phones, read the narrative below the pinned illustration.
+        {
+          rootMargin: narrow.matches
+            ? '-72% 0px -15% 0px'
+            : '-55% 0px -25% 0px',
+          threshold: 0,
+        },
+      );
+      steps.forEach((step) => observer.observe(step));
+    };
+    observe();
+    narrow.addEventListener('change', observe);
+    return () => {
+      observer.disconnect();
+      narrow.removeEventListener('change', observe);
+    };
   }, []);
   useEffect(() => {
     const element = diagram.current?.querySelector('svg');
     if (!element) return;
-    const animation = revealReasoning(element, stage);
+    // Keep current geometry when interrupted; the next scene continues from it.
+    animation.current?.kill();
+    animation.current = animateArena(element, stage);
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finish = () => {
-      if (preference.matches) animation.progress(1).pause();
+      if (preference.matches) animation.current?.progress(1).pause();
     };
     preference.addEventListener('change', finish);
     document
@@ -68,7 +82,7 @@ export function ReasoningJourney() {
         step.dataset.active = String(stage === index);
       });
     return () => {
-      animation.revert();
+      animation.current?.kill();
       preference.removeEventListener('change', finish);
     };
   }, [stage]);
@@ -76,39 +90,14 @@ export function ReasoningJourney() {
   return (
     <figure className="reasoning-journey">
       <div className="journey-heading">
-        <p className="section-label">Learning through play</p>
+        <p className="section-label">The competitive spirit</p>
         <span className="journey-count">0{stage + 1} / 04</span>
       </div>
       <div className="journey-diagram" ref={diagram}>
-        <ReasoningPaths stage={stage} />
-        <span className="journey-label journey-question">
-          {stage === 3 ? 'New question' : 'Your question'}
-        </span>
-        <span className="journey-label journey-idea">An idea</span>
-        <span
-          className="journey-label journey-feedback"
-          data-visible={stage > 0}
-        >
-          Doesn’t fit
-        </span>
-        <span className="journey-label journey-revise" data-visible={stage > 1}>
-          Reconsider
-        </span>
-        <span
-          className="journey-label journey-strategy"
-          data-visible={stage > 1}
-        >
-          Your strategy
-        </span>
-        <span
-          className="journey-label journey-again"
-          data-visible={stage === 3}
-        >
-          Keep exploring
-        </span>
+        <CompetitionArena />
       </div>
       <fieldset className="journey-controls">
-        <legend className="sr-only">Explore the learning process</legend>
+        <legend className="sr-only">Explore the player experience</legend>
         {stages.map((item, index) => (
           <button
             type="button"
@@ -124,7 +113,7 @@ export function ReasoningJourney() {
         <strong>{stages[stage].title}</strong>
         <p>{stages[stage].description}</p>
         <span className="journey-note">
-          An illustration of the learning process.
+          Concept illustration · Competition and prize programs in development.
         </span>
       </figcaption>
     </figure>

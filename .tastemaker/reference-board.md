@@ -22,3 +22,5 @@ The owner clarified the interaction after the first scroll revision: one full-sc
 The owner requested a more expressive result and smoother motion. Original procedural contour art now connects the intro, hero and scroll narrative. Its four states were rendered and visually inspected; it is abstract brand art, not product imagery or a chart. The visitor disclosure is removed.
 
 The owner subsequently rejected abstract art without a connection to KeepRI. Current visuals explain possible approaches, attempts, feedback, revision and returning to a new challenge. Layout and motion references never override this mission requirement. The four learning states were rendered from the SVG geometry for illustration review.
+
+The owner then found the decision figures too basic and clarified that competition, prizes, incentives and motivated effort are central to the pitch. The current direction is an original dimensional arena with tiered terraces, player pieces, rising podiums and a trophy reveal. It is a conceptual competition illustration, not a specific game preview. Both its light and dark states were rendered for artwork review; browser acceptance remains unverified.

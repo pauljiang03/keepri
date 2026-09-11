@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'KeepRI | Independent reasoning in the age of AI',
   description:
-    'KeepRI is building free reasoning games and a new foundation for human learning research. Currently in closed beta.',
+    'Free reasoning games. Competition and meaningful prizes. KeepRI is building a home for independent thinking and motivated human learning research. Closed beta.',
   alternates: { canonical: siteUrl },
   icons: {
     icon: asset('/assets/keepri-brand/icon.png'),
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KeepRI | Independent reasoning in the age of AI',
     description:
-      'Free reasoning games. Human learning research. Currently in closed beta.',
+      'Independent thinking, with something to play for. Free reasoning games, competition, and planned prizes. Closed beta.',
     type: 'website',
     locale: 'en_US',
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'KeepRI | Independent reasoning in the age of AI',
     description:
-      'Free reasoning games. Human learning research. Currently in closed beta.',
+      'Independent thinking, with something to play for. Free reasoning games, competition, and planned prizes. Closed beta.',
   },
 };
 
