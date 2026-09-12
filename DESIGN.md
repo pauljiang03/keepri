@@ -1,16 +1,18 @@
 # KeepRI website design
 
-The current direction is an original three-section website: opening and hero, philosophies, and industry. The hero uses an asymmetric composition, stable headline, and RI orbital artwork. This replaces the earlier centered hero, rotating phrases, canvas particles, and marquees.
+The current direction is an original three-section website: opening and hero, philosophies, and industry. The hero is centered, with small RI orbital artwork above a stable headline. It has no rotating phrases, canvas particles, or marquees.
 
 ## Visual system
 
 Use self-hosted DM Sans 400/500, warm paper #f6f3e9, ink #242820, olive #3c4435, deep green #263126, sage, gold, and clay. Regular-weight typography, fine rules, and restrained grain establish the visual language.
 
-Desktop pairs the left-aligned headline and purpose statement with the original orbital SVG. A three-column vision row names global leaderboards, significant prizes, and human learning data beneath an explicit development label. Small screens use a compact SVG and stacked vision rows. Short mobile viewports omit the artwork to preserve space for content.
+The hero uses a vertical composition: small orbital SVG, centered headline, purpose statement, and link. A centered three-column desktop vision row names global leaderboards, significant prizes, and human learning data beneath an explicit development label. Mobile vision rows use two left-aligned columns for each heading and description. Short mobile viewports omit the artwork to preserve space for content.
 
-The opening retains 18 points, three rings, curved connections, four labels, and the KeepRI wordmark. The network gathers into a circular reveal. Its scroll region is 280svh above 1024px and 240svh at smaller widths. Returning visitors and reduced-motion users start at the hero. Viewports no taller than 520px also bypass the opening and use a natural-height hero to prevent landscape overlap.
+The opening retains 18 points, three rings, curved connections, four labels, and the KeepRI wordmark. The network gathers into a circular reveal. Its scroll region is 280svh above 1024px and 240svh at smaller widths. It replays on every normal homepage load or reload, including navigation through the header wordmark. Direct section links and reduced motion bypass it. Viewports no taller than 520px also bypass the opening and use a natural-height hero.
 
 Philosophies use two cream panels with vertical tabs on desktop and six swipe cards on smaller screens. Industry is a direct section with a proposed research diagram and native disclosures. The compact footer includes Back to top and Pause motion.
+
+Use “For Industry” in the header only. The section label remains “For industry”.
 
 ## Content contract
 
@@ -26,6 +28,6 @@ Research enrollment is inactive. Free play and future prize eligibility remain i
 
 The stable hero headline carries its full meaning without animation. Two decorative SVG traces travel in opposite directions over 14s and 10s. They stop offscreen, in a hidden tab, during the opening, under reduced motion, and when paused. The opening and philosophy entrance respond to scrolling; Lenis uses lerp .1 for wheel input and native touch behavior.
 
-Preserve accessible tabs, native disclosures, focusable anchor destinations, mobile menu Escape/focus return, and hidden intro focus controls. The hero is inert until the reveal reaches its access threshold. Motion-preference and compact-viewport changes bypass the opening while preserving content position. Without JavaScript, the hero, industry content, and philosophy answers remain readable.
+Preserve accessible tabs, native disclosures, focusable anchor destinations, mobile menu Escape/focus return, and hidden intro focus controls. The hero is inert until the reveal reaches its access threshold. Normal homepage loads use manual scroll restoration and reset to the top before Lenis starts. Motion-preference and compact-viewport changes bypass the opening while preserving content position, without replay. Without JavaScript, the hero, industry content, and philosophy answers remain readable.
 
 See [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md) for source settings and the distinction between historical evidence and current verification.

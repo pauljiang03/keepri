@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { installOpeningMotion, INTRO_STORAGE_KEY } from '@/lib/opening-motion';
+import { installOpeningMotion } from '@/lib/opening-motion';
 
 export function PageMotion() {
   useEffect(() => {
@@ -40,11 +40,6 @@ export function PageMotion() {
       const position = Math.max(0, scrollY - range);
       removeOpening();
       document.documentElement.dataset.intro = 'seen';
-      try {
-        sessionStorage.setItem(INTRO_STORAGE_KEY, '1');
-      } catch {
-        /* Optional storage. */
-      }
       removeOpening = installOpeningMotion(false);
       window.scrollTo({ top: position, behavior: 'instant' });
       ScrollTrigger.refresh();

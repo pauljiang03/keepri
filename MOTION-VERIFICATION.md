@@ -1,8 +1,8 @@
 # KeepRI motion verification
 
-September 11, 2026. The current revision retains the constellation opening and uses an original asymmetric hero, stable headline, and RI orbital SVG. Canvas particles, rotating phrases, and marquees are removed.
+September 11, 2026. The current revision retains the constellation sequence and centers a small RI orbital SVG above the stable hero headline, purpose statement, and link. Canvas particles, rotating phrases, and marquees are removed.
 
-Source settings and current Chrome measurements are recorded separately below. Earlier browser measurements remain historical evidence for their tested revisions.
+Current source settings and centered-layout replay checks are recorded below. Previous asymmetric-layout measurements and trace timings remain explicitly historical.
 
 ## Current opening settings
 
@@ -20,7 +20,9 @@ The opening contains 18 points, three rings, curved connections, four labels, an
 | Hero becomes interactive | after .82 |
 | Circle clip removed; final hold | .86 to 1.00 |
 
-These source-derived values are scroll positions, not elapsed seconds. Scroll may reverse during the first visit. Session key `keepri:opening-seen:v3` skips the opening on later loads in the same tab. Reduced motion, direct section links, and viewports no taller than 520px also bypass it. Hidden intro cues leave the focus order; the hero remains inert until the reveal threshold.
+These source-derived values are scroll positions, not elapsed seconds. The timeline can reverse with scrolling. Every normal homepage load or reload replays the opening; session storage no longer suppresses it. Before Lenis starts, manual scroll restoration and a reset to the top prevent an old scroll position from skipping the opening. The header wordmark links to the real homepage URL, including the deployment base path, to replay it.
+
+Reduced motion, direct section links other than `#top`, and viewports no taller than 520px bypass the opening. Runtime motion-preference and compact-height changes preserve content position without replay. Hidden intro cues leave the focus order; the hero remains inert until the reveal threshold.
 
 ## Current hero and navigation settings
 
@@ -35,7 +37,27 @@ These source-derived values are scroll positions, not elapsed seconds. Scroll ma
 - Compact height: at 520px or less, the hero uses natural height. Changes to this media condition or reduced motion rebuild the opening behavior while preserving content position.
 - Small mobile viewports: at widths and heights no greater than 700px, CSS hides the orbital visual.
 
-## Current Chrome measurements
+## Current centered-layout and replay checks
+
+Isolated Chrome QA passed 13 cases with zero document overflow. Screenshots of the desktop and mobile constellation at 30% progress, the centered hero at 91%, and the 320 × 568 and 844 × 390 layouts were visually reviewed without layout issues.
+
+| Viewport | Hero client / scroll height | Headline and copy center deviation | Visible artwork center deviation | Link center deviation |
+| --- | --- | --- | --- | --- |
+| 1440 × 900 | 900 / 900px | 0px | 0px | -0.01px |
+| 390 × 844 | 844 / 844px | 0px | 0px | -0.01px |
+| 320 × 568 | 568 / 568px | 0px | hidden | -0.01px |
+| 844 × 390 | 531 / 531px | 0px | hidden | -0.01px |
+
+The old session key was seeded with `1` before every load. Normal desktop and mobile loads started with intro state `active` at scroll 0. Desktop reloads after the intro and footer, and the header wordmark from a deep section, also replayed at 0. Direct `#thesis` navigation set intro state `seen` and reached scroll 820px. Reduced motion set intro state `seen` and orbital playback to false.
+
+| 91% handoff | Opening wrapper | Scroll position | Hero clip | Hero inert | Intro state |
+| --- | --- | --- | --- | --- | --- |
+| 1440 × 900 | 2520px | 1474px | none | false | done |
+| 390 × 844 | 2026px | 1076px | none | false | done |
+
+All cases retained “For Industry” in the header and “For industry” in the section. Results are in `/private/tmp/keepri-final-review/replay/results.json`. The constellation sequence is unchanged; this review adds no animation timing sample. Prior trace timings below remain historical.
+
+## Previous layout: Chrome measurements
 
 | Viewport | Hero client / scroll height | Headline client / scroll width | Document overflow | Vision bottom |
 | --- | --- | --- | --- | --- |
@@ -47,15 +69,15 @@ The vision bottom is measured within the visible hero. All philosophy cards repo
 
 For the configured 14s outer trace, the animation clock advanced 1000ms over a 1001ms desktop sample and 999ms over a 1001ms mobile sample. Pause set `data-motion="paused"` and orbital `data-animated="false"`. An 8ms advance during transition paint was followed by stopped playback.
 
-## Current landscape check
+## Previous layout: landscape check
 
 An isolated headless Chrome profile at 844 × 390 skipped the opening and displayed an interactive hero without a circle clip. Document overflow was zero. The natural-height hero measured 531 / 531px and the headline measured 434 / 434px, using client / scroll dimensions. The vision bottom was 513px within the hero. Screenshot review found no overlap. Content below the 390px viewport remains available through normal scrolling.
 
 This check establishes landscape layout and the compact opening exception. Virtual-time animation results were excluded from timing evidence. Orbital timing is established by the native Chrome samples above and real wall-clock checks below.
 
-## Final opening and offscreen playback checks
+## Previous layout: opening and offscreen playback checks
 
-Isolated headless Chrome profiles checked the current intro at 91% normalized progress. Both screenshots were visually reviewed and showed a complete, unclipped hero handoff.
+Isolated headless Chrome profiles checked the previous revision at 91% normalized progress. Both screenshots were visually reviewed and showed a complete, unclipped hero handoff.
 
 | Viewport | Scroll position | Opening wrapper | Hero clip | Hero inert | Intro state | Document overflow |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -64,7 +86,7 @@ Isolated headless Chrome profiles checked the current intro at 91% normalized pr
 
 Real wall-clock samples measured 1000ms of outer-trace advance over 1001ms after each handoff. At the philosophy section, `data-animated="false"` and a paused trace produced zero advance over 1001ms on desktop and 1002ms on mobile. These checks used no virtual-time acceleration.
 
-Desktop and mobile philosophy screenshots showed the current heading and first principle, six entries, and zero card or document overflow. The mobile view displayed `01 / 06` and navigation arrows. Recorded values are in `/private/tmp/keepri-final-review/results.json`, outside the published site.
+Desktop and mobile philosophy screenshots from that revision showed the heading and first principle, six entries, and zero card or document overflow. The mobile view displayed `01 / 06` and navigation arrows. Recorded values are in `/private/tmp/keepri-final-review/results.json`, outside the published site.
 
 ## Historical browser evidence
 
@@ -76,4 +98,4 @@ That earlier hero used rotating text and a marquee, measured at approximately 28
 
 ## Verification boundary
 
-The current Chrome record covers hero layouts, the landscape exception, opening handoffs, philosophy screenshots, card overflow, orbital timing, and pause and offscreen behavior. Physical touch hardware, screen-reader testing, and frame-rate profiling were not performed. Final build checks are recorded in [VALIDATION.md](VALIDATION.md); publication is separate.
+Current evidence covers centered layouts, constellation and handoff screenshots, homepage replay, direct-section navigation, and reduced motion. Earlier trace timing and philosophy screenshot evidence applies to its tested revision. Physical touch hardware, screen-reader testing, and frame-rate profiling were not performed. Final build evidence is recorded in [VALIDATION.md](VALIDATION.md); publication is separate.

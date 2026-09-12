@@ -1,15 +1,31 @@
 # Website validation
 
-September 11, 2026. Current revision: three sections, an asymmetric hero with a stable headline and RI orbital SVG, six principles, and a compact footer.
+September 11, 2026. Current revision: centered hero, homepage opening replay, and header-only “For Industry” capitalization. Product copy and the constellation sequence are unchanged.
 
-## Build and source checks
+## Current revision
+
+Final `npm run prepare:pages` passed type checking, production build, static validation, and staging for `/keepri/`, with 28 local references. Targeted Oxlint and `git diff --check` passed.
+
+Isolated Chrome QA passed 13 cases. Every case had zero document overflow. Hero client and scroll heights matched: 900px at 1440 × 900, 844px at 390 × 844, 568px at 320 × 568, and 531px at 844 × 390. Headline, copy, and visible orbital artwork had 0px center deviation; the link differed by -0.01px. Desktop and mobile constellation screenshots at 30% progress and centered-hero screenshots at 91%, plus small and landscape layouts, were visually reviewed without layout issues.
+
+The old session key was seeded with `1` before every load. Normal desktop and mobile loads still began with the intro active at scroll 0. Reloads after the intro and footer, and the header wordmark from a deep section, also replayed from 0. A direct `#thesis` link bypassed the intro and reached scroll 820px. Reduced motion bypassed the intro and disabled orbital playback.
+
+At the 91% handoff, desktop measured a 2520px wrapper and scroll 1474px; mobile measured 2026px and scroll 1076px. Both had intro state `done`, no hero clip, and an interactive hero. All cases retained “For Industry” in the header and “For industry” in the section.
+
+Results: `/private/tmp/keepri-final-review/replay/results.json`. The constellation sequence is unchanged. No new animation timing sample was taken; prior trace timings remain historical.
+
+## Historical evidence
+
+The remaining checks apply to the previous asymmetric layout and session-based opening behavior.
+
+## Previous revision: build and source checks
 
 - The final `npm run prepare:pages` passed type checking, production Vinext build, static validation, and staging into `docs/` for `/keepri/`.
 - Static validation passed with 28 local asset and anchor references.
 - Targeted Oxlint passed without diagnostics. `git diff --check` was clean.
 - Content checks found six principles, three sections, no em dashes, and no image elements. Closed beta, planned competition and significant prizes, proposed industry offerings, and separate research consent remain explicit.
 
-## Current Chrome measurements
+## Previous layout: Chrome measurements
 
 Dimensions are pixels. Paired values report client size and scroll size. The vision bottom is its vertical position in the visible hero.
 
@@ -25,13 +41,13 @@ The outer orbital trace uses a 14s cycle. Its animation clock advanced 1000ms ov
 
 An isolated headless Chrome profile checked 844 × 390 landscape. The opening was skipped, document overflow was zero, the natural-height hero measured 531 / 531px, and the headline measured 434 / 434px. The vision bottom was 513px within the hero. The hero had no clip and was interactive. Screenshot review found no overlap; the vision continues below the viewport through normal scrolling. Virtual-time results were excluded from animation timing evidence.
 
-## Final opening and philosophy review
+## Previous layout: opening and philosophy review
 
-Isolated headless Chrome profiles verified the current opening at its 91% handoff. At 1440 × 900, scroll position was 1474px and the wrapper was 2520px high. At 390 × 844, scroll position was 1076px and the wrapper was 2026px high. Both had zero document overflow, no hero clip, an interactive hero, and intro state `done`. Screenshots were visually reviewed and showed no layout issues.
+Isolated headless Chrome profiles verified the previous revision's opening at its 91% handoff. At 1440 × 900, scroll position was 1474px and the wrapper was 2520px high. At 390 × 844, scroll position was 1076px and the wrapper was 2026px high. Both had zero document overflow, no hero clip, an interactive hero, and intro state `done`. Screenshots were visually reviewed and showed no layout issues.
 
 Real wall-clock samples after both handoffs measured 1000ms of outer-trace advance over 1001ms. At the philosophy section, orbital playback was false and the trace was paused, with zero advance over 1001ms on desktop and 1002ms on mobile. These measurements did not use virtual time.
 
-Desktop and mobile philosophy screenshots showed the current heading and first principle, with six entries and no card or document overflow. The mobile view displayed `01 / 06` and navigation arrows. The recorded results are in `/private/tmp/keepri-final-review/results.json`, outside the published site.
+Desktop and mobile philosophy screenshots showed the heading and first principle, with six entries and no card or document overflow. The mobile view displayed `01 / 06` and navigation arrows. The recorded results are in `/private/tmp/keepri-final-review/results.json`, outside the published site.
 
 ## Scope
 

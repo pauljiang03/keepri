@@ -35,7 +35,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{document.documentElement.dataset.intro=(location.hash&&location.hash!=='#top')||matchMedia('(prefers-reduced-motion: reduce)').matches||matchMedia('(max-height: 520px)').matches||sessionStorage.getItem('keepri:opening-seen:v3')==='1'?'seen':'active'}catch(e){document.documentElement.dataset.intro='active'}`,
+            __html: `try{const skip=(location.hash&&location.hash!=='#top')||matchMedia('(prefers-reduced-motion: reduce)').matches||matchMedia('(max-height: 520px)').matches;document.documentElement.dataset.intro=skip?'seen':'active';if(!skip){history.scrollRestoration='manual';window.scrollTo(0,0)}}catch(e){document.documentElement.dataset.intro='active'}`,
           }}
         />
       </head>

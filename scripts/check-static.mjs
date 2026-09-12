@@ -68,7 +68,7 @@ for (const expected of [
   'Free play and future prize eligibility remain independent',
   'research enrollment is not active',
   'Skip intro',
-  'For industry',
+  'For Industry',
   'Pause motion',
 ])
   assert(
@@ -118,8 +118,13 @@ assert(
   'Reduced-motion first-paint handling is missing',
 );
 assert(
-  html.includes('keepri:opening-seen:v3'),
-  'Opening session behavior is missing',
+  !html.includes('keepri:opening-seen') &&
+    html.includes("scrollRestoration='manual'"),
+  'Homepage opening replay behavior is missing',
+);
+assert(
+  /<nav\b[\s\S]*?For Industry[\s\S]*?<\/nav>/.test(html),
+  'Header Industry capitalization regressed',
 );
 console.log(
   `Static validation passed: ${checks} asset/anchor references and product-status constraints.`,

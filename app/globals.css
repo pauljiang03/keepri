@@ -1210,7 +1210,7 @@ html[data-motion='paused'] .chevrons i {
   }
 }
 
-/* KeepRI hero: an editorial layout and original reasoning instrument. */
+/* KeepRI hero: centered typography and an original reasoning instrument. */
 .hero {
   position: relative;
   width: 100%;
@@ -1225,15 +1225,18 @@ html[data-motion='paused'] .chevrons i {
 .hero-main {
   flex: 1;
   min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 16px;
 }
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 20px 0 36px;
+  width: 100%;
+  padding: 0 0 28px;
+  text-align: center;
 }
 .hero-eyebrow {
   display: block;
@@ -1256,8 +1259,8 @@ html[data-motion='paused'] .chevrons i {
   color: #d5b473;
 }
 .hero-content > p {
-  max-width: 505px;
-  margin-top: 28px;
+  max-width: 610px;
+  margin: 28px auto 0;
   color: var(--on-dark);
   font-size: 18px;
   line-height: 1.5;
@@ -1288,9 +1291,14 @@ html[data-motion='paused'] .chevrons i {
 }
 .hero-visual {
   position: relative;
-  width: 100%;
-  max-width: 510px;
-  justify-self: end;
+  width: 130px;
+  flex-shrink: 0;
+  order: -1;
+}
+.instrument-labels,
+.instrument-corners,
+.instrument-axis {
+  display: none;
 }
 .hero-visual::before {
   content: '';
@@ -1397,6 +1405,7 @@ html[data-motion='paused'] .chevrons i {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 30px;
   padding-top: 22px;
+  text-align: center;
 }
 .hero-vision-grid > div + div {
   border-left: 1px solid #8f9b7c44;
@@ -1423,8 +1432,7 @@ html[data-motion='paused'] .chevrons i {
     padding: 92px 0 26px;
   }
   .hero-main {
-    gap: 20px;
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 16px;
   }
   .hero h1 {
     font-size: 6.5vw;
@@ -1453,17 +1461,14 @@ html[data-motion='paused'] .chevrons i {
     padding: 82px 0 26px;
   }
   .hero-main {
-    position: relative;
-    display: flex;
-    align-items: center;
+    gap: 8px;
   }
   .hero-content {
     width: 100%;
-    padding: 80px 0 24px;
+    padding: 0 0 24px;
   }
   .hero-eyebrow {
-    max-width: 185px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-size: 9px;
   }
   .hero h1 {
@@ -1484,15 +1489,7 @@ html[data-motion='paused'] .chevrons i {
     gap: 36px;
   }
   .hero-visual {
-    position: absolute;
-    top: 5px;
-    right: -6px;
-    width: 122px;
-  }
-  .instrument-labels,
-  .instrument-corners,
-  .instrument-axis {
-    display: none;
+    width: 112px;
   }
   .hero-vision {
     padding-top: 12px;
@@ -1504,6 +1501,7 @@ html[data-motion='paused'] .chevrons i {
     grid-template-columns: 1fr;
     gap: 0;
     padding-top: 8px;
+    text-align: left;
   }
   .hero-vision-grid > div,
   .hero-vision-grid > div + div {
@@ -1551,7 +1549,7 @@ html[data-motion='paused'] .chevrons i {
     min-height: 42px;
   }
   .hero-visual {
-    max-width: 340px;
+    display: none;
   }
   .hero-vision {
     padding-top: 12px;

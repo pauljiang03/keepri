@@ -2,14 +2,23 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
-export const INTRO_STORAGE_KEY = 'keepri:opening-seen:v3';
-
 export function installOpeningMotion(restoreInitialHash = true) {
   const root = document.documentElement;
   const opening = document.querySelector<HTMLElement>('.opening')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const cleanups: (() => void)[] = [];
+  const entered =
+    root.dataset.intro === 'seen' ||
+    preference.matches ||
+    matchMedia('(max-height: 520px)').matches ||
+    Boolean(location.hash && location.hash !== '#top');
+  if (!entered) {
+    // A homepage reload should begin with the opening, even if the browser
+    // previously stored a position farther down the page.
+    history.scrollRestoration = 'manual';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
   const lenis = new Lenis({
     lerp: 0.1,
     smoothWheel: !preference.matches,
@@ -21,16 +30,6 @@ export function installOpeningMotion(restoreInitialHash = true) {
   gsap.ticker.lagSmoothing(0);
   lenis.on('scroll', () => ScrollTrigger.update());
   const travel = () => opening.offsetHeight - window.innerHeight;
-  let entered =
-    root.dataset.intro === 'seen' ||
-    preference.matches ||
-    matchMedia('(max-height: 520px)').matches;
-  try {
-    entered ||= sessionStorage.getItem(INTRO_STORAGE_KEY) === '1';
-  } catch {
-    /* Optional storage. */
-  }
-  if (location.hash && location.hash !== '#top') entered = true;
   root.dataset.intro = entered ? 'seen' : 'active';
   hero.inert = !entered;
   const context = gsap.context(() => {
@@ -64,13 +63,6 @@ export function installOpeningMotion(restoreInitialHash = true) {
           onUpdate: (self) => {
             root.dataset.intro = self.progress > 0.82 ? 'done' : 'active';
             hero.inert = self.progress <= 0.82;
-            if (self.progress > 0.82) {
-              try {
-                sessionStorage.setItem(INTRO_STORAGE_KEY, '1');
-              } catch {
-                /* Optional storage. */
-              }
-            }
           },
         },
       });

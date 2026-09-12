@@ -2,7 +2,7 @@
 
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The current design has three sections: opening and hero, philosophies, and industry. An original constellation opens into an asymmetric hero with a stable headline and an RI orbital SVG. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
+The current design has three sections: opening and hero, philosophies, and industry. An original constellation opens into a centered hero with a small RI orbital SVG above its stable headline, purpose statement, and link. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
 
 ## Develop and validate
 
@@ -30,7 +30,9 @@ KeepRI addresses the need for people to assess evidence, evaluate AI recommendat
 
 Public status is closed beta. Global leaderboards, tournaments, funded cash-prize events, and research programs are in development. Research enrollment is inactive. Free play and future prize eligibility remain independent of research participation. The website has no signup, analytics, installation, or data-upload endpoint.
 
-The scroll-controlled constellation is retained. The hero has no rotating text, canvas field, or marquee. Its two SVG traces animate only while visible and can be paused from the footer. Reduced motion skips the opening and stops autonomous motion. Viewports no taller than 520px also skip the opening and use a natural-height hero. Desktop philosophy tabs become swipe cards on smaller screens; industry content remains directly visible.
+The scroll-controlled constellation replays on every normal homepage load or reload. The header wordmark loads the homepage to replay it. Direct section links, reduced motion, and viewports no taller than 520px bypass the opening; compact heights use a natural-height hero. Motion-preference and compact-height changes preserve position without replaying the opening.
+
+The hero has no rotating text, canvas field, or marquee. Its two SVG traces animate only while visible and can be paused from the footer. Reduced motion stops autonomous motion. Desktop philosophy tabs become swipe cards on smaller screens; industry content remains directly visible. The header label is “For Industry”; the section label remains “For industry”.
 
 Use concise, professional copy without em dashes. Do not restore game screenshots, personal biographies/contact details, invented results, or active prize offers.
 

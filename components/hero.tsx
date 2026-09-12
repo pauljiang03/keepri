@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { HeroVisual } from './hero-visual';
+import { asset } from '@/lib/site';
 
 const thoughts = Array.from({ length: 18 }, (_, i) => {
   const angle = (i * 137.508 * Math.PI) / 180;
@@ -30,7 +31,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="masthead shell">
-        <a className="brand" href="#site" aria-label="KeepRI home">
+        <a className="brand" href={asset('/')} aria-label="KeepRI home">
           KeepRI<span className="brand-dot">·</span>
         </a>
         <nav
@@ -41,7 +42,7 @@ export function SiteHeader() {
             Philosophies
           </a>
           <a href="#research" onClick={() => setOpen(false)}>
-            For industry
+            For Industry
           </a>
         </nav>
         <span className="beta-status">
