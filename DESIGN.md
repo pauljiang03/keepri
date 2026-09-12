@@ -1,25 +1,31 @@
 # KeepRI website design
 
-The latest owner direction is a shorter site with three main sections: the opening/hero, philosophies, and industry. Keep the liked hero and philosophy surfaces, remove game-specific pages and visuals, and make the intro distinctly KeepRI while retaining Virio's sense of motion. This supersedes the earlier literal reproduction and screenshot requirements.
+The current direction is an original three-section website: opening and hero, philosophies, and industry. The hero uses an asymmetric composition, stable headline, and RI orbital artwork. This replaces the earlier centered hero, rotating phrases, canvas particles, and marquees.
 
-## Visual and motion system
+## Visual system
 
-Self-hosted DM Sans 400/500, warm paper #f6f3e9, olive #3c4435, ink #242820, sage, gold and clay. Regular-weight typography, restrained line work, grain and an interactive dot field. Desktop gutters are 50px; small-screen gutters are 16–24px.
+Use self-hosted DM Sans 400/500, warm paper #f6f3e9, ink #242820, olive #3c4435, deep green #263126, sage, gold, and clay. Regular-weight typography, fine rules, and restrained grain establish the visual language.
 
-The opening starts with the KeepRI wordmark. Eighteen points, three rings and curved connections form a constellation. Four quiet labels appear, the points gather, and a circular olive aperture reveals the hero. No repeated word wall, radial brick explosion or successive background flashes. The opening scroll region is 280svh desktop / 240svh mobile, including the stationary hero viewport. Returning visitors and reduced-motion users go directly to the hero.
+Desktop pairs the left-aligned headline and purpose statement with the original orbital SVG. A three-column vision row names global leaderboards, significant prizes, and human learning data beneath an explicit development label. Small screens use a compact SVG and stacked vision rows. Short mobile viewports omit the artwork to preserve space for content.
 
-The headline changes every 2800ms, with 800ms blur/fade and 900ms vertical movement. Lenis lerp .1 smooths wheel input; touch remains native. The single hero marquee travels at 50px/s with drag/inertia and horizontal-wheel steering. It uses single words rather than repeated promotional sentences.
+The opening retains 18 points, three rings, curved connections, four labels, and the KeepRI wordmark. The network gathers into a circular reveal. Its scroll region is 280svh above 1024px and 240svh at smaller widths. Returning visitors and reduced-motion users start at the hero. Viewports no taller than 520px also bypass the opening and use a natural-height hero to prevent landscape overlap.
 
-Philosophies retain the cream two-panel desktop tabs and mobile swipe cards. The lead sentence has a shorter, quieter scroll entrance. Industry is a direct section with a research diagram, explanatory copy and native disclosures. A compact footer replaces the extra closing section and footer marquee.
+Philosophies use two cream panels with vertical tabs on desktop and six swipe cards on smaller screens. Industry is a direct section with a proposed research diagram and native disclosures. The compact footer includes Back to top and Pause motion.
 
 ## Content contract
 
-Independent thought without AI is the lead promise. KeepRI is in closed beta. Expanded competition, tournaments, funded cash prizes and research programs are in development. The industry proposition is proposed licensed human learning data and commissioned collections with separate participant consent. Motivated effort is a thesis, not an established data-quality result. Research enrollment is inactive. Free play and future prize eligibility remain independent of research participation.
+Lead with the societal need for independent judgment: assessing evidence, questioning AI recommendations, and taking responsibility for decisions. AI may inform judgment without replacing it. Learning challenges and competition provide a place to practice.
 
-Do not restore game screenshots, invented metrics/testimonials, active prize offers, installation links, release dates, personal biographies/contact details or reference-site logos/copy. Avoid the removed “Make the effort count,” “free reasoning games,” and “strategies of your own” slogans.
+Global leaderboards and significant prizes are central to the planned player experience. KeepRI remains in closed beta. Public leaderboards, tournaments, funded cash-prize events, and research are in development; do not imply they are operational.
 
-## Interaction and accessibility
+Explain the need for more human learning data and the proposed study of attempts, feedback, assistance, and revisions. AI teams would license separately consented datasets and commission targeted collections for training and evaluation. Research revenue would support free access, new challenges, and significant prizes. These are plans and hypotheses, not established revenue or data-quality results.
 
-Native anchors; accessible vertical Base UI tabs; native details/summary; mobile menu Escape and focus return. A stable accessible headline hides decorative rotating variants. The intro hero stays inert until revealed; hidden scroll cues leave the focus order. Reduced motion skips opening/loops, uses static particles, and handles preference changes without returning to the intro. The non-JavaScript page exposes the hero, direct industry content and all philosophy answers.
+Research enrollment is inactive. Free play and future prize eligibility remain independent of participation. Use concise, professional language and no em dashes. Exclude game screenshots, personal biographies/contact details, installation links, release dates, invented metrics/testimonials, active prize offers, and reference-site logos or copy.
 
-See MOTION-VERIFICATION.md for measurements and scope of browser verification.
+## Motion and accessibility
+
+The stable hero headline carries its full meaning without animation. Two decorative SVG traces travel in opposite directions over 14s and 10s. They stop offscreen, in a hidden tab, during the opening, under reduced motion, and when paused. The opening and philosophy entrance respond to scrolling; Lenis uses lerp .1 for wheel input and native touch behavior.
+
+Preserve accessible tabs, native disclosures, focusable anchor destinations, mobile menu Escape/focus return, and hidden intro focus controls. The hero is inert until the reveal reaches its access threshold. Motion-preference and compact-viewport changes bypass the opening while preserving content position. Without JavaScript, the hero, industry content, and philosophy answers remain readable.
+
+See [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md) for source settings and the distinction between historical evidence and current verification.

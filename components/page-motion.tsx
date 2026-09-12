@@ -31,6 +31,7 @@ export function PageMotion() {
       },
     );
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    const compact = matchMedia('(max-height: 520px)');
     const change = () => {
       const opening = document.querySelector<HTMLElement>('.opening');
       const range = opening?.dataset.enhanced
@@ -49,8 +50,10 @@ export function PageMotion() {
       ScrollTrigger.refresh();
     };
     preference.addEventListener('change', change);
+    compact.addEventListener('change', change);
     return () => {
       preference.removeEventListener('change', change);
+      compact.removeEventListener('change', change);
       media.revert();
       removeOpening();
     };

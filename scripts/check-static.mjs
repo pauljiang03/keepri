@@ -55,7 +55,11 @@ for (const expected of [
   'Keep reasoning',
   'Closed beta',
   'Our philosophies',
-  'Curiosity',
+  'Global leaderboards',
+  'Significant prizes',
+  'society shaped by AI',
+  'AI should inform that judgment without replacing it',
+  'AI research needs more data',
   'funded cash-prize events',
   'separate participant consent',
   'Human learning histories',
@@ -96,6 +100,14 @@ assert(
     html,
   ),
   'Removed artwork or redundant copy remains',
+);
+assert(
+  !/—|&mdash;|&#8212;|&#x2014;/i.test(html),
+  'Em dashes remain in published copy',
+);
+assert(
+  !/rotating-headline|particle-field|hero-marquee/.test(html),
+  'Retired hero design remains',
 );
 assert(
   html.includes('<noscript>'),

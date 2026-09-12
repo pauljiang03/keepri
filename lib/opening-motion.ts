@@ -1,27 +1,14 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Draggable } from 'gsap/Draggable';
-import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import Lenis from 'lenis';
-import { installParticleField } from './particle-field';
 
 export const INTRO_STORAGE_KEY = 'keepri:opening-seen:v3';
-export const MOTION = {
-  introHeightVh: 280,
-  introMobileHeightVh: 240,
-  headlineIntervalMs: 2800,
-  headlineFadeMs: 800,
-  headlineTravelMs: 900,
-  heroMarqueePxPerSecond: 50,
-};
 
 export function installOpeningMotion(restoreInitialHash = true) {
-  gsap.registerPlugin(Draggable, InertiaPlugin);
   const root = document.documentElement;
   const opening = document.querySelector<HTMLElement>('.opening')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
-  const dotExit = { value: 0 };
   const cleanups: (() => void)[] = [];
   const lenis = new Lenis({
     lerp: 0.1,
@@ -34,7 +21,10 @@ export function installOpeningMotion(restoreInitialHash = true) {
   gsap.ticker.lagSmoothing(0);
   lenis.on('scroll', () => ScrollTrigger.update());
   const travel = () => opening.offsetHeight - window.innerHeight;
-  let entered = root.dataset.intro === 'seen' || preference.matches;
+  let entered =
+    root.dataset.intro === 'seen' ||
+    preference.matches ||
+    matchMedia('(max-height: 520px)').matches;
   try {
     entered ||= sessionStorage.getItem(INTRO_STORAGE_KEY) === '1';
   } catch {
@@ -179,105 +169,6 @@ export function installOpeningMotion(restoreInitialHash = true) {
         .set(hero, { clipPath: 'none' }, 0.86)
         .to('.opening-progress i', { scaleX: 1, duration: 0.58 }, 0)
         .to({}, { duration: 0.14 }, 0.86);
-      ScrollTrigger.create({
-        trigger: opening,
-        start: () => `top+=${0.96 * travel()} top`,
-        end: () => `top+=${travel() + 0.45 * innerHeight} top`,
-        onUpdate: (self) => {
-          dotExit.value = self.progress;
-        },
-      });
-    }
-    if (!preference.matches) {
-      document.querySelectorAll<HTMLElement>('.marquee').forEach((marquee) => {
-        const track = marquee.querySelector<HTMLElement>('.marquee-track')!;
-        const group = track.firstElementChild as HTMLElement;
-        let tween: gsap.core.Tween;
-        function build() {
-          tween?.kill();
-          const width = group.getBoundingClientRect().width;
-          if (!width) return;
-          gsap.set(track, { x: 0 });
-          tween = gsap.to(track, {
-            x: -width,
-            duration: width / Number(marquee.dataset.speed || 24),
-            ease: 'none',
-            repeat: -1,
-            paused: root.dataset.motion === 'paused',
-          });
-        }
-        build();
-        const observer = new ResizeObserver(build);
-        observer.observe(group);
-        let progress = 0;
-        const proxy = document.createElement('div');
-        const synchronize = function (this: Draggable) {
-          tween?.progress(
-            gsap.utils.wrap(0, 1, progress - this.x / group.offsetWidth),
-          );
-        };
-        const [drag] = Draggable.create(proxy, {
-          trigger: marquee,
-          type: 'x',
-          inertia: true,
-          overshootTolerance: 0,
-          snap: function (this: Draggable, value: number) {
-            return Math.round(
-              gsap.utils.clamp(this.x - 1000, this.x + 1000, value),
-            );
-          },
-          allowNativeTouchScrolling: true,
-          onPressInit() {
-            progress = tween?.progress() || 0;
-            gsap.set(proxy, { x: 0 });
-            this.update();
-            tween?.pause();
-          },
-          onDrag: synchronize,
-          onThrowUpdate: synchronize,
-          onRelease() {
-            if (!this.isThrowing && root.dataset.motion !== 'paused')
-              tween?.resume();
-          },
-          onThrowComplete() {
-            if (root.dataset.motion !== 'paused') tween?.resume();
-          },
-        });
-        const steer = (event: WheelEvent) => {
-          if (!event.deltaX || Math.abs(event.deltaX) <= Math.abs(event.deltaY))
-            return;
-          event.preventDefault();
-          const scale =
-            event.deltaMode === 1
-              ? 16
-              : event.deltaMode === 2
-                ? marquee.clientWidth
-                : 1;
-          tween?.progress(
-            gsap.utils.wrap(
-              0,
-              1,
-              tween.progress() + (event.deltaX * scale) / group.offsetWidth,
-            ),
-          );
-        };
-        marquee.addEventListener('wheel', steer, { passive: false });
-        const toggle = () => {
-          if (root.dataset.motion === 'paused') {
-            drag.tween?.kill();
-            tween?.pause();
-          } else tween?.resume();
-        };
-        window.addEventListener('keepri:motionchange', toggle);
-        cleanups.push(() => {
-          drag.kill();
-          gsap.killTweensOf(proxy);
-          tween?.kill();
-          observer.disconnect();
-          marquee.removeEventListener('wheel', steer);
-          window.removeEventListener('keepri:motionchange', toggle);
-        });
-      });
     }
   });
   const navigate = (event: MouseEvent) => {
@@ -305,9 +196,6 @@ export function installOpeningMotion(restoreInitialHash = true) {
     });
   };
   document.addEventListener('click', navigate);
-  document
-    .querySelectorAll<HTMLCanvasElement>('.particle-field')
-    .forEach((canvas) => cleanups.push(installParticleField(canvas, dotExit)));
   let lastY = lenis.scroll,
     introEndedAt = 0;
   const header = document.querySelector<HTMLElement>('.site-header')!;

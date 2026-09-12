@@ -17,27 +17,26 @@ export function ResearchPanels() {
       <div className="shell">
         <div className="research-top">
           <h2 id="research-title">
-            Human effort.
+            Human learning.
             <br />
-            Lasting value.
+            For AI research.
           </h2>
           <span className="industry-label">For industry</span>
         </div>
         <div className="research-panel">
           <div className="research-panel-copy">
             <h3>
-              Human data.
+              How judgment
               <br />
-              From human effort.
+              develops.
             </h3>
             <p>
-              We’re developing human learning datasets for AI research and
-              evaluation. Our thesis is that people who care about learning and
-              competing will invest real effort, creating an opportunity to
-              study how strategies develop over time.
+              We’re developing human learning datasets for AI training and
+              evaluation. We plan to study how motivated participants explore
+              problems, respond to feedback and revise decisions.
             </p>
             <p>
-              AI teams would buy licensed human learning data and commissioned
+              AI teams would license these datasets and commission targeted
               collections, gathered with separate participant consent.
             </p>
             <div className="research-accordion">
@@ -47,8 +46,8 @@ export function ResearchPanels() {
                   <Plus size={20} />
                 </summary>
                 <div>
-                  Versioned rules, controlled variants, scoring, and replay.
-                  Reproducible environments for studying unfamiliar problems.
+                  Versioned rules, controlled variants, scoring and replay for
+                  reproducible studies.
                 </div>
               </details>
               <details name="research-deliverables">
@@ -57,9 +56,8 @@ export function ResearchPanels() {
                   <Plus size={20} />
                 </summary>
                 <div>
-                  Actions, feedback, assistance, and outcomes in context.
-                  Separately consented records that show how a strategy develops
-                  across attempts.
+                  Actions, feedback, assistance and outcomes across attempts,
+                  recorded with separate consent.
                 </div>
               </details>
               <details name="research-deliverables">
@@ -68,9 +66,8 @@ export function ResearchPanels() {
                   <Plus size={20} />
                 </summary>
                 <div>
-                  Human baselines for learning, error recovery, and adaptation,
-                  with documented conditions, quality checks, and exposure
-                  controls.
+                  Human baselines for learning, error recovery and adaptation,
+                  with documented conditions and quality controls.
                 </div>
               </details>
             </div>
@@ -80,25 +77,25 @@ export function ResearchPanels() {
               Research program in development
             </span>
             <p>
-              Beyond the
+              Learning
               <br />
-              final score.
+              over time.
             </p>
             <ol>
               <li>
                 <span>01</span>
                 <strong>Attempts</strong>
-                <small>A strategy takes shape.</small>
+                <small>Decisions in context.</small>
               </li>
               <li>
                 <span>02</span>
                 <strong>Feedback</strong>
-                <small>New evidence changes the picture.</small>
+                <small>Responses to new evidence.</small>
               </li>
               <li>
                 <span>03</span>
                 <strong>Revision</strong>
-                <small>Understanding develops over time.</small>
+                <small>Changes across attempts.</small>
               </li>
             </ol>
             <span className="fine-print">
@@ -117,39 +114,34 @@ export function ResearchPanels() {
 
 const questions = [
   {
-    title: 'The thesis',
-    text: 'As AI makes answers easier to obtain, we believe people will seek out places to exercise their own judgment.',
-    more: 'KeepRI gives that practice a home. Our mission is to make independent thinking something people choose to practice, improve at, and celebrate together.',
+    title: 'Independent judgment',
+    text: 'Independent judgment is essential to a society shaped by AI.',
+    more: 'People must be able to evaluate evidence, question recommendations and take responsibility for decisions. AI should inform that judgment without replacing it.',
   },
   {
-    title: 'Why games?',
-    text: 'Games make the effort enjoyable. An unfamiliar problem gives you a reason to experiment, learn from a mistake, and discover why a move works.',
-    more: 'The satisfaction starts with figuring it out yourself. KeepRI is a place to practice independent thought without AI supplying the answer.',
+    title: 'Learning through challenge',
+    text: 'Learning requires people to test ideas, assess alternatives and revise their decisions.',
+    more: 'KeepRI pairs challenges with feedback so players can develop their judgment without AI supplying answers.',
   },
   {
-    title: 'Why competition?',
-    text: 'A shared challenge. A worthy rival. A reason to give it your all. Competition and recognition give independent practice a social dimension.',
-    more: 'Expanded competition, tournaments, and funded cash-prize events are part of the product we’re building toward. These are planned features, not current prize offers.',
+    title: 'Global competition',
+    text: 'Our vision combines global leaderboards with significant prizes for learning and competition.',
+    more: 'Public leaderboards, tournaments and funded cash-prize events are in development.',
   },
   {
-    title: 'What is available today?',
-    text: 'KeepRI is in closed beta. The current player experience centers on reasoning challenges, tutorials, feedback, and reviewing solutions.',
-    more: 'Public installation, expanded competition, funded prizes, and research enrollment are not offered through this website.',
+    title: 'Human learning data',
+    text: 'We believe AI research needs more data on how people learn and exercise judgment.',
+    more: 'With separate consent, we plan to capture attempts, feedback and revisions to support AI training and evaluation.',
   },
   {
-    title: 'What would research study?',
-    text: 'What does learning look like when someone really wants to get better? We plan to study attempts, feedback, and strategy changes—not just the final score.',
-    more: 'The proposed research program would pair separately consented human learning histories with executable environments and evaluation packages. Controlled tasks, documented assistance, and quality checks are part of the design.',
+    title: 'Participant choice',
+    text: 'Research requires separate consent. Free play and future prize eligibility remain independent of participation.',
+    more: 'The research program is in development. Research enrollment is not active in the closed beta.',
   },
   {
-    title: 'Is research optional?',
-    text: 'Yes. Free play and future prize eligibility remain independent of research participation.',
-    more: 'Research requires separate participant consent. The research program is in development; research enrollment is not active in the closed beta.',
-  },
-  {
-    title: 'How would the model work?',
-    text: 'Independent play brings people in. Optional, separately consented research creates human learning data for industry.',
-    more: 'Revenue from data licensing and research programs would fund free access, fresh challenges, and meaningful prizes. The player experience comes first.',
+    title: 'Our model',
+    text: 'AI teams would license human learning data and commission targeted collections.',
+    more: 'Research revenue would help fund free access, new challenges and significant prizes.',
   },
 ];
 
@@ -186,8 +178,8 @@ export function Philosophy() {
       aria-labelledby="thesis-title"
     >
       <div className="thesis-sentence">
-        <h2 id="thesis-title">Independent thought is worth practicing.</h2>
-        <span>[ Keep thinking for yourself ]</span>
+        <h2 id="thesis-title">Independent judgment matters.</h2>
+        <span>[ Our purpose ]</span>
       </div>
       <div className="shell philosophy-inner">
         <Tabs
@@ -197,7 +189,7 @@ export function Philosophy() {
         >
           <div className="philosophy-questions">
             <h3>Our philosophies</h3>
-            <TabsList aria-label="Questions about Keepri">
+            <TabsList aria-label="KeepRI principles">
               {questions.map((q, i) => (
                 <TabsTrigger value={String(i)} key={q.title}>
                   <span>[</span>
@@ -227,7 +219,7 @@ export function Philosophy() {
             // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
             aria-roledescription="carousel"
-            aria-label="Swipe through questions about Keepri"
+            aria-label="Swipe through KeepRI principles"
             onScroll={() => {
               const el = rail.current;
               if (!el) return;
@@ -259,15 +251,18 @@ export function Philosophy() {
             <button
               onClick={() => move(-1)}
               disabled={active === 0}
-              aria-label="Previous question"
+              aria-label="Previous principle"
             >
               <ArrowLeft />
             </button>
-            <span>{String(active + 1).padStart(2, '0')} / 07</span>
+            <span>
+              {String(active + 1).padStart(2, '0')} /{' '}
+              {String(questions.length).padStart(2, '0')}
+            </span>
             <button
               onClick={() => move(1)}
               disabled={active === questions.length - 1}
-              aria-label="Next question"
+              aria-label="Next principle"
             >
               <ArrowRight />
             </button>

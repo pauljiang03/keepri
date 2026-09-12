@@ -1,12 +1,15 @@
 # KeepRI brand and content sources
 
-- Identity: KeepRI — Keep Reasoning Independently. Existing app icon remains the favicon; text wordmark, self-hosted DM Sans, cream/olive/sage/gold/clay palette.
-- Positioning: independent thought without AI, made enjoyable through learning and competition. Meaningful prizes are a planned supporting incentive.
-- Status: closed beta. Expanded competition, tournaments, funded cash prizes and research are in development. No public install or active research enrollment.
-- Industry: proposed licensed human learning data and commissioned collections; motivated effort is a thesis. Separate participant consent. Free play and future prize eligibility are independent.
-- Latest user direction: three main sections (hero, philosophies, industry), remove specific-game pages/screenshots and redundant slogans, give the Virio-inspired intro its own KeepRI identity.
-- Visuals: independently authored constellation, canvas particles and research diagram. The previous gameplay/tutorial/solution screenshots and future competition/reward cards are removed.
-- Excluded: personal identities, biographies, contact addresses, private proposal, invented metrics/testimonials, release dates, reference-site artwork and customer logos.
-- Reference: https://www.virio.ai/ inspected live; source measurements informed timing. No proprietary font, artwork or copy imported.
+- Identity: KeepRI, Keep Reasoning Independently. Text wordmark, original RI orbital SVG, existing app favicon, self-hosted DM Sans, and paper/green/sage/gold/clay palette.
+- Purpose: society needs people who can assess evidence, evaluate AI recommendations, and exercise independent judgment. AI should inform decisions without replacing human responsibility.
+- Player vision: learning challenges, global leaderboards, and significant prizes. Competition and rewards are central to the plan.
+- Public status: closed beta. Public leaderboards, tournaments, funded cash prizes, and research programs are in development. No active research enrollment or website installation offer.
+- Industry: more human learning data for AI training and evaluation. Proposed licensed datasets and targeted collections would document attempts, feedback, assistance, and revisions with separate participant consent.
+- Model: research revenue would support free access, new challenges, and significant prizes. Free play and future prize eligibility remain independent of research participation. No proven data-quality advantage or commercial result is claimed.
+- Current design: original constellation opening, asymmetric hero with stable text and orbital artwork, philosophies, and directly visible industry content. No canvas, rotating headline, marquee, game screenshots, or separate rewards/closing section.
+- Voice: professional and concise. No em dashes. Avoid redundant slogans and unsupported claims.
+- Exclusions: personal identities/biographies/contact addresses, private proposal, invented metrics/testimonials, release dates, active prize offers, reference-site artwork and customer logos.
 
-DESIGN.md defines the current contract; MOTION-VERIFICATION.md records browser evidence; ASSET-PROVENANCE.md records asset origins.
+[Virio](https://www.virio.ai/) was inspected live during earlier layout and motion research. Its proprietary typeface, artwork, customer logos, and marketing copy were not imported. The latest owner direction replaces literal reproduction with the current KeepRI composition.
+
+[DESIGN.md](DESIGN.md) defines the design contract. [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md) distinguishes current source settings from historical browser evidence. [ASSET-PROVENANCE.md](ASSET-PROVENANCE.md) records asset origins.

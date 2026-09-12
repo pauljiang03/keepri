@@ -1,14 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Plus, Menu, X } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { HeroVisual } from './hero-visual';
 
-const phrases = [
-  'independently.',
-  'through play.',
-  'for yourself.',
-  'with purpose.',
-];
 const thoughts = Array.from({ length: 18 }, (_, i) => {
   const angle = (i * 137.508 * Math.PI) / 180;
   const radius = 150 + (i % 3) * 86;
@@ -68,37 +63,6 @@ export function SiteHeader() {
 }
 
 export function OpeningHero() {
-  const [current, setCurrent] = useState(0);
-  const [previous, setPrevious] = useState(-1);
-  useEffect(() => {
-    const query = matchMedia('(prefers-reduced-motion: reduce)');
-    let index = 0;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    function reset() {
-      clearInterval(timer);
-      index = 0;
-      setCurrent(0);
-      setPrevious(-1);
-      if (query.matches) return;
-      timer = setInterval(() => {
-        if (
-          document.hidden ||
-          document.documentElement.dataset.motion === 'paused' ||
-          document.documentElement.dataset.intro === 'active'
-        )
-          return;
-        setPrevious(index);
-        index = (index + 1) % phrases.length;
-        setCurrent(index);
-      }, 2800);
-    }
-    reset();
-    query.addEventListener('change', reset);
-    return () => {
-      clearInterval(timer);
-      query.removeEventListener('change', reset);
-    };
-  }, []);
   return (
     <section
       className="opening"
@@ -164,61 +128,46 @@ export function OpeningHero() {
         </a>
         <div className="hero-layer" id="site" tabIndex={-1}>
           <section className="hero" aria-labelledby="hero-title">
-            <canvas className="particle-field" aria-hidden="true" />
-            <div className="hero-content">
-              <h1 id="hero-title" aria-label="Keep reasoning independently.">
-                Keep reasoning
-                <span className="rotating-headline" aria-hidden="true">
-                  {phrases.map((phrase, i) => (
-                    <span
-                      key={phrase}
-                      data-phrase={i}
-                      className={
-                        i === current
-                          ? 'is-active'
-                          : i === previous
-                            ? 'is-leaving'
-                            : ''
-                      }
-                    >
-                      {phrase}
-                    </span>
-                  ))}
-                </span>
-              </h1>
-              <p>A place to practice independent thought without AI.</p>
-              <a className="pill-button" href="#thesis">
-                <Plus size={18} strokeWidth={1.5} />
-                <span>Our philosophies</span>
-              </a>
+            <div className="hero-main shell">
+              <div className="hero-content">
+                <span className="hero-eyebrow">Built for human judgment</span>
+                <h1 id="hero-title">
+                  Keep reasoning.
+                  <br />
+                  <span>Independently.</span>
+                </h1>
+                <p>
+                  Society needs people who can assess evidence and make their
+                  own decisions. We’re building a place to practice through
+                  learning and competition.
+                </p>
+                <a className="hero-link" href="#thesis">
+                  <span>Our philosophies</span>
+                  <ArrowUpRight size={20} />
+                </a>
+              </div>
+              <HeroVisual />
             </div>
-            <div
-              className="hero-marquee marquee"
-              data-speed="50"
-              aria-label="Curiosity. Practice. Discovery. Play."
-            >
-              <div className="marquee-track">
-                {[0, 1, 2, 3].map((i) => (
-                  <div className="marquee-group" aria-hidden="true" key={i}>
-                    <span>Curiosity</span>
-                    <span className="marquee-mark">✳</span>
-                    <span>Practice</span>
-                    <span className="marquee-mark">✳</span>
-                    <span>Discovery</span>
-                    <span className="marquee-mark">✳</span>
-                    <span>Play</span>
-                    <span className="marquee-mark">✳</span>
-                  </div>
-                ))}
+            <div className="hero-vision shell">
+              <div className="hero-vision-heading">
+                <span>The vision</span>
+                <span>In development</span>
+              </div>
+              <div className="hero-vision-grid">
+                <div>
+                  <h2>Global leaderboards</h2>
+                  <p>Compete with a worldwide community.</p>
+                </div>
+                <div>
+                  <h2>Significant prizes</h2>
+                  <p>Rewards for learning and competition.</p>
+                </div>
+                <div>
+                  <h2>Human learning data</h2>
+                  <p>AI research with separate consent.</p>
+                </div>
               </div>
             </div>
-            <a
-              className="hero-scroll"
-              href="#thesis"
-              aria-label="Read our philosophies"
-            >
-              <ArrowDown size={18} />
-            </a>
           </section>
         </div>
       </div>
