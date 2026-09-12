@@ -1,23 +1,25 @@
-# KeepRI reproduction design
+# KeepRI website design
 
-The current user request is to reproduce Virio's layout and motion with KeepRI's branding, positioning and product visuals. This supersedes the previous three-chapter entrance, motion restraint, text-row layout and screenshot exclusion. The retired arena, trophy and assembly illustrations remain absent.
+The latest owner direction is a shorter site with three main sections: the opening/hero, philosophies, and industry. Keep the liked hero and philosophy surfaces, remove game-specific pages and visuals, and make the intro distinctly KeepRI while retaining Virio's sense of motion. This supersedes the earlier literal reproduction and screenshot requirements.
 
-## Visual system
+## Visual and motion system
 
-Keep the self-hosted DM Sans 400/500, warm paper `#f6f3e9`, dark olive `#3c4435`, ink `#242820`, sage and muted gold. Use a centered hero, regular-weight typography, restrained line work, film grain and an interactive dot field. Desktop uses 50px page gutters; small screens use 16–24px gutters. Breakpoints are 700/1024/1600px, following the reference.
+Self-hosted DM Sans 400/500, warm paper #f6f3e9, olive #3c4435, ink #242820, sage, gold and clay. Regular-weight typography, restrained line work, grain and an interactive dot field. Desktop gutters are 50px; small-screen gutters are 16–24px.
 
-The opening has a 480vh scroll region, a sticky viewport, a 207-word wall, radial scatter, colored bloom transition and hero handoff. Headlines blur/fade over 800ms and translate over 900ms every 2800ms. Lenis uses lerp .1 and native touch scrolling. Marquees move at 50px/s in the hero and 24px/s below. Their content uses KeepRI principles in place of customer logos.
+The opening starts with the KeepRI wordmark. Eighteen points, three rings and curved connections form a constellation. Four quiet labels appear, the points gather, and a circular olive aperture reveals the hero. No repeated word wall, radial brick explosion or successive background flashes. The opening scroll region is 280svh desktop / 240svh mobile, including the stationary hero viewport. Returning visitors and reduced-motion users go directly to the hero.
 
-Three desktop portrait cards reveal during a 110vh sticky sequence. On mobile, product cards and their explanations are stacked and fully visible. A fourth card describes the planned rewards experience. The research section stays cream with manual tabs, a visual on the left and copy on the right. The philosophy section has a sliding lead sentence, two cream desktop panels and mobile swipe cards. A cream ellipse scrolls away to reveal the olive closing section.
+The headline changes every 2800ms, with 800ms blur/fade and 900ms vertical movement. Lenis lerp .1 smooths wheel input; touch remains native. The single hero marquee travels at 50px/s with drag/inertia and horizontal-wheel steering. It uses single words rather than repeated promotional sentences.
+
+Philosophies retain the cream two-panel desktop tabs and mobile swipe cards. The lead sentence has a shorter, quieter scroll entrance. Industry is a direct section with a research diagram, explanatory copy and native disclosures. A compact footer replaces the extra closing section and footer marquee.
 
 ## Content contract
 
-Independent thought without AI is the lead promise. Free reasoning play, learning, competition and recognition support it. KeepRI is in closed beta. Expanded competition, tournaments, funded cash prizes and research programs are in development. Product screenshots show existing tutorial/solution experiences; future competition/rewards graphics are explicitly conceptual. No invented metrics, customer logos, testimonials, release dates, installation links, personal biographies or personal contact details.
+Independent thought without AI is the lead promise. KeepRI is in closed beta. Expanded competition, tournaments, funded cash prizes and research programs are in development. The industry proposition is proposed licensed human learning data and commissioned collections with separate participant consent. Motivated effort is a thesis, not an established data-quality result. Research enrollment is inactive. Free play and future prize eligibility remain independent of research participation.
 
-The industry proposition is licensed human learning data and commissioned collections with separate consent. Motivated effort is a thesis, not an established data-quality result. Research enrollment is not active. Free play and future prize eligibility remain independent of research participation.
+Do not restore game screenshots, invented metrics/testimonials, active prize offers, installation links, release dates, personal biographies/contact details or reference-site logos/copy. Avoid the removed “Make the effort count,” “free reasoning games,” and “strategies of your own” slogans.
 
 ## Interaction and accessibility
 
-Native anchors, accessible Base UI tabs and native details/summary disclosures. Mobile menu supports Escape and restores toggle focus. Vertical tabs receive vertical orientation. Heading text has a stable accessible name while decorative rotating variants are hidden. Reduced-motion preference skips the opening, uses static particles, removes continuous loops and keeps all product text visible. Dynamic preference changes are handled. Without JavaScript, the hero and content remain readable; noscript sections include inactive industry/FAQ content.
+Native anchors; accessible vertical Base UI tabs; native details/summary; mobile menu Escape and focus return. A stable accessible headline hides decorative rotating variants. The intro hero stays inert until revealed; hidden scroll cues leave the focus order. Reduced motion skips opening/loops, uses static particles, and handles preference changes without returning to the intro. The non-JavaScript page exposes the hero, direct industry content and all philosophy answers.
 
-See MOTION-VERIFICATION.md for measurements, observations and remaining differences. This is a reference adaptation, not a claim of pixel-identical reproduction.
+See MOTION-VERIFICATION.md for measurements and scope of browser verification.

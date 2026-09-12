@@ -9,33 +9,13 @@ const phrases = [
   'for yourself.',
   'with purpose.',
 ];
-const palette = [
-  '#52685e',
-  '#d5b473',
-  '#3c4435',
-  '#c06a43',
-  '#8a8d48',
-  '#f6f3e9',
-  '#242820',
-];
-const random = (n: number) => {
-  const x = Math.sin(n * 127.1 + 7 * 311.7) * 43758.5453;
-  return x - Math.floor(x);
-};
-const bricks = Array.from({ length: 207 }, (_, n) => {
-  const row = Math.floor(n / 9) - 11,
-    col = (n % 9) - 4;
-  const x = col + (((row % 2) + 2) % 2) * 0.5,
-    y = row * 0.6;
-  const distance = Math.hypot(x, y) || 1;
+const thoughts = Array.from({ length: 18 }, (_, i) => {
+  const angle = (i * 137.508 * Math.PI) / 180;
+  const radius = 150 + (i % 3) * 86;
   return {
-    row,
-    col,
-    x,
-    dx: x / distance,
-    dy: y / distance,
-    keeper: row === 0 && col === 0,
-    color: Math.floor(random(n) * palette.length),
+    x: Math.round(400 + Math.cos(angle) * radius),
+    y: Math.round(400 + Math.sin(angle) * radius),
+    color: ['#b7bca6', '#c06a43', '#d5b473'][i % 3],
   };
 });
 
@@ -63,10 +43,7 @@ export function SiteHeader() {
           aria-label="Main navigation"
         >
           <a href="#thesis" onClick={() => setOpen(false)}>
-            Thesis
-          </a>
-          <a href="#experience" onClick={() => setOpen(false)}>
-            For players
+            Philosophies
           </a>
           <a href="#research" onClick={() => setOpen(false)}>
             For industry
@@ -130,35 +107,50 @@ export function OpeningHero() {
     >
       <div className="opening-stage">
         <div className="opening-layer" aria-hidden="true">
-          <div className="color-blooms">
-            <i />
-            <i />
+          <div className="thought-glow" />
+          <div className="thought-field">
+            <svg className="thought-network" viewBox="0 0 800 800" fill="none">
+              <g className="thought-orbits">
+                {[150, 236, 322].map((radius) => (
+                  <circle key={radius} cx="400" cy="400" r={radius} />
+                ))}
+              </g>
+              <g className="thought-connections">
+                {thoughts.map((point, i) => {
+                  const next = thoughts[(i + 5) % thoughts.length];
+                  return (
+                    <path
+                      key={i}
+                      pathLength="1"
+                      d={`M${point.x},${point.y} Q400,400 ${next.x},${next.y}`}
+                    />
+                  );
+                })}
+              </g>
+              <g className="thought-points">
+                {thoughts.map((point, i) => (
+                  <circle
+                    key={i}
+                    cx={point.x}
+                    cy={point.y}
+                    r={i % 3 === 1 ? 5 : 3.5}
+                    fill={point.color}
+                  />
+                ))}
+              </g>
+            </svg>
+            <span className="thought-word thought-word-1">Question</span>
+            <span className="thought-word thought-word-2">Explore</span>
+            <span className="thought-word thought-word-3">Reconsider</span>
+            <span className="thought-word thought-word-4">Discover</span>
+          </div>
+          <span className="opening-wordmark">
+            KeepRI<span>·</span>
+          </span>
+          <div className="opening-progress">
+            <span />
             <i />
           </div>
-          <div className="word-cloud">
-            {bricks.map((b, i) => (
-              <span
-                key={i}
-                className={`reason-brick ${b.keeper ? 'reason-keeper' : ''}`}
-                data-dx={b.dx}
-                data-dy={b.dy}
-                style={{
-                  left: b.keeper
-                    ? '50%'
-                    : `calc(50% + ${b.x - 0.5} * var(--cell))`,
-                  top: `calc(50% + ${b.row - 0.5} * var(--pitch))`,
-                  backgroundColor: b.keeper ? 'transparent' : palette[b.color],
-                  color:
-                    b.keeper || b.color === 1 || b.color === 5
-                      ? '#242820'
-                      : '#f6f3e9',
-                }}
-              >
-                REASONING
-              </span>
-            ))}
-          </div>
-          <span className="opening-subline">is worth practicing.</span>
         </div>
         <a className="intro-skip" href="#site">
           Skip intro
@@ -194,29 +186,27 @@ export function OpeningHero() {
                   ))}
                 </span>
               </h1>
-              <p>
-                A place to practice independent thought without AI.
-                <br className="desktop-break" /> Free reasoning games.
-                Strategies of your own.
-              </p>
-              <a className="pill-button" href="#experience">
+              <p>A place to practice independent thought without AI.</p>
+              <a className="pill-button" href="#thesis">
                 <Plus size={18} strokeWidth={1.5} />
-                <span>Explore KeepRI</span>
+                <span>Our philosophies</span>
               </a>
             </div>
             <div
               className="hero-marquee marquee"
               data-speed="50"
-              aria-label="Think for yourself. Learn without AI. Make the effort count."
+              aria-label="Curiosity. Practice. Discovery. Play."
             >
               <div className="marquee-track">
                 {[0, 1, 2, 3].map((i) => (
                   <div className="marquee-group" aria-hidden="true" key={i}>
-                    <span>Think for yourself.</span>
+                    <span>Curiosity</span>
                     <span className="marquee-mark">✳</span>
-                    <span>Learn without AI.</span>
+                    <span>Practice</span>
                     <span className="marquee-mark">✳</span>
-                    <span>Make the effort count.</span>
+                    <span>Discovery</span>
+                    <span className="marquee-mark">✳</span>
+                    <span>Play</span>
                     <span className="marquee-mark">✳</span>
                   </div>
                 ))}
@@ -224,8 +214,8 @@ export function OpeningHero() {
             </div>
             <a
               className="hero-scroll"
-              href="#experience"
-              aria-label="Explore the player experience"
+              href="#thesis"
+              aria-label="Read our philosophies"
             >
               <ArrowDown size={18} />
             </a>

@@ -5,23 +5,21 @@ import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import Lenis from 'lenis';
 import { installParticleField } from './particle-field';
 
-export const INTRO_STORAGE_KEY = 'keepri:opening-seen:v2';
+export const INTRO_STORAGE_KEY = 'keepri:opening-seen:v3';
 export const MOTION = {
-  introHeightVh: 480,
+  introHeightVh: 280,
+  introMobileHeightVh: 240,
   headlineIntervalMs: 2800,
   headlineFadeMs: 800,
   headlineTravelMs: 900,
   heroMarqueePxPerSecond: 50,
-  sectionMarqueePxPerSecond: 24,
 };
 
 export function installOpeningMotion(restoreInitialHash = true) {
   gsap.registerPlugin(Draggable, InertiaPlugin);
   const root = document.documentElement;
   const opening = document.querySelector<HTMLElement>('.opening')!;
-  const stage = document.querySelector<HTMLElement>('.opening-stage')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
-  const keeper = document.querySelector<HTMLElement>('.reason-keeper')!;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const dotExit = { value: 0 };
   const cleanups: (() => void)[] = [];
@@ -42,19 +40,29 @@ export function installOpeningMotion(restoreInitialHash = true) {
   } catch {
     /* Optional storage. */
   }
-  let locked = false;
   if (location.hash && location.hash !== '#top') entered = true;
   root.dataset.intro = entered ? 'seen' : 'active';
   hero.inert = !entered;
   const context = gsap.context(() => {
     if (!entered) {
       opening.dataset.enhanced = 'true';
-      const bricks = gsap.utils.toArray<HTMLElement>(
-        '.reason-brick:not(.reason-keeper)',
+      // Three scroll-controlled beats: connect, gather, open. The complete
+      // timeline is one unit so its positions are fractions of scroll travel.
+      const points = gsap.utils.toArray<SVGCircleElement>(
+        '.thought-points circle',
       );
-      gsap.set(bricks, { opacity: 0, scale: 0.5, transformOrigin: '50% 50%' });
-      gsap.set('.color-blooms > i', { opacity: 0, scale: 0.8 });
-      gsap.set(hero, { opacity: 0 });
+      const paths = gsap.utils.toArray<SVGPathElement>(
+        '.thought-connections path',
+      );
+      gsap.set(points, { opacity: 0, scale: 0, transformOrigin: '50% 50%' });
+      gsap.set(paths, { strokeDasharray: 1, strokeDashoffset: 1 });
+      gsap.set('.thought-orbits', {
+        opacity: 0,
+        scale: 0.8,
+        transformOrigin: '50% 50%',
+      });
+      gsap.set('.thought-word', { opacity: 0, y: 12 });
+      gsap.set(hero, { opacity: 1, clipPath: 'circle(0% at 50% 50%)' });
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
@@ -64,103 +72,113 @@ export function installOpeningMotion(restoreInitialHash = true) {
           scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            root.dataset.intro = self.progress > 0.72 ? 'done' : 'active';
-            hero.inert = self.progress <= 0.72;
-            if (self.progress > 0.72) {
+            root.dataset.intro = self.progress > 0.82 ? 'done' : 'active';
+            hero.inert = self.progress <= 0.82;
+            if (self.progress > 0.82) {
               try {
                 sessionStorage.setItem(INTRO_STORAGE_KEY, '1');
               } catch {
-                /* Storage is optional. */
+                /* Optional storage. */
               }
             }
-            if (self.progress > 0.9) locked = true;
-            opening.dataset.clickable = String(
-              self.progress > 0.185 && self.progress < 0.235,
-            );
           },
         },
       });
       timeline
-        .to('.scroll-cue', { opacity: 0, duration: 0.03 }, 0)
+        .to('.scroll-cue', { autoAlpha: 0, duration: 0.07 }, 0)
         .to(
-          bricks,
+          '.thought-orbits',
+          { opacity: 1, scale: 1, duration: 0.24, ease: 'power2.out' },
+          0.02,
+        )
+        .to(
+          points,
           {
             opacity: 1,
             scale: 1,
             duration: 0.1,
-            ease: 'back.out(1.4)',
-            stagger: { amount: 0.06, from: 'random' },
+            stagger: 0.008,
+            ease: 'back.out(1.5)',
           },
-          0.02,
+          0.04,
         )
-        .to(keeper, { backgroundColor: '#d5b473', duration: 0.06 }, 0.03)
         .to(
-          bricks,
+          paths,
           {
-            x: (_, el) =>
-              Number(el.dataset.dx) * 0.7 * Math.hypot(innerWidth, innerHeight),
-            y: (_, el) =>
-              Number(el.dataset.dy) * 0.7 * Math.hypot(innerWidth, innerHeight),
-            opacity: 0,
-            scale: 0.85,
-            duration: 0.1,
-            ease: 'power2.in',
-            stagger: { amount: 0.12, from: 'random' },
+            strokeDashoffset: 0,
+            duration: 0.22,
+            stagger: 0.006,
+            ease: 'power1.inOut',
           },
-          0.24,
+          0.08,
         )
         .to(
-          '.color-blooms > i',
-          { opacity: 1, scale: 1.05, duration: 0.12 },
-          0.4,
-        )
-        .to(stage, { backgroundColor: '#3c4435', duration: 0.12 }, 0.42)
-        .to(
-          keeper,
+          '.thought-word',
           {
-            backgroundColor: 'rgba(213,180,115,0)',
-            color: '#f6f3e9',
-            duration: 0.1,
-          },
-          0.42,
-        )
-        .to('.color-blooms > i', { opacity: 0, duration: 0.1 }, 0.54)
-        .to(stage, { backgroundColor: '#242820', duration: 0.1 }, 0.54)
-        .to(
-          keeper,
-          { y: () => -0.03 * innerHeight, duration: 0.12, ease: 'power2.out' },
-          0.46,
-        )
-        .fromTo(
-          '.opening-subline',
-          { y: () => 0.15 * innerHeight },
-          {
-            y: () => 0.05 * innerHeight,
             opacity: 1,
-            duration: 0.14,
+            y: 0,
+            duration: 0.12,
+            stagger: 0.025,
             ease: 'power2.out',
           },
-          0.46,
+          0.14,
         )
-        .to('.opening-layer', { opacity: 0, duration: 0.06 }, 0.66)
-        .to(hero, { opacity: 1, duration: 0.08 }, 0.74)
-        .set(hero, { backgroundColor: '#242820' }, 0.74)
-        .to(hero, { backgroundColor: '#3c4435', duration: 0.06 }, 0.8)
-        .set(hero, { backgroundColor: '#3c4435' }, 0.865)
-        .to({}, { duration: 0.2 });
-      gsap.fromTo(
-        '.chevrons i',
-        { y: -4, opacity: 0.25 },
-        {
-          y: 5,
-          opacity: 1,
-          duration: 0.85,
-          ease: 'sine.inOut',
-          repeat: -1,
-          yoyo: true,
-          stagger: 0.16,
-        },
-      );
+        .to(
+          '.thought-glow',
+          { opacity: 0.75, scale: 1.15, duration: 0.34 },
+          0.1,
+        )
+        .to(
+          '.thought-network',
+          {
+            rotation: 32,
+            duration: 0.42,
+            transformOrigin: '50% 50%',
+            ease: 'power1.inOut',
+          },
+          0.18,
+        )
+        .to(
+          '.thought-word',
+          { opacity: 0, y: -8, duration: 0.12, stagger: 0.018 },
+          0.42,
+        )
+        .to('.thought-connections', { opacity: 0, duration: 0.16 }, 0.44)
+        .to(
+          points,
+          {
+            x: (_, el) => 400 - Number(el.getAttribute('cx')),
+            y: (_, el) => 400 - Number(el.getAttribute('cy')),
+            scale: 0.4,
+            duration: 0.2,
+            stagger: 0.003,
+            ease: 'power2.inOut',
+          },
+          0.43,
+        )
+        .to(
+          '.thought-orbits',
+          { scale: 0.12, opacity: 0, duration: 0.22, ease: 'power2.in' },
+          0.43,
+        )
+        .to(
+          '.opening-wordmark',
+          { opacity: 0, scale: 0.94, duration: 0.12, ease: 'power1.in' },
+          0.48,
+        )
+        .to(
+          hero,
+          {
+            clipPath: 'circle(75% at 50% 50%)',
+            duration: 0.28,
+            ease: 'power2.inOut',
+          },
+          0.58,
+        )
+        .to('.opening-layer', { opacity: 0, duration: 0.16 }, 0.68)
+        .set(hero, { clipPath: 'none' }, 0.86)
+        .to('.opening-progress i', { scaleX: 1, duration: 0.58 }, 0)
+        .to({}, { duration: 0.14 }, 0.86);
       ScrollTrigger.create({
         trigger: opening,
         start: () => `top+=${0.96 * travel()} top`,
@@ -169,35 +187,6 @@ export function installOpeningMotion(restoreInitialHash = true) {
           dotExit.value = self.progress;
         },
       });
-      const clampIntro = () => {
-        if (locked && lenis.scroll < 0.9 * travel() - 1)
-          lenis.scrollTo(0.9 * travel(), { immediate: true, force: true });
-      };
-      lenis.on('scroll', clampIntro);
-      const pop = (event: MouseEvent) => {
-        const target = (event.target as HTMLElement).closest<HTMLElement>(
-          '.reason-brick:not(.reason-keeper)',
-        );
-        if (
-          !target ||
-          opening.dataset.clickable !== 'true' ||
-          target.dataset.popped
-        )
-          return;
-        target.dataset.popped = 'true';
-        gsap
-          .timeline()
-          .to(target, { scale: 1.28, duration: 0.09, ease: 'power2.out' })
-          .to(target, {
-            scale: 0,
-            opacity: 0,
-            rotation: 20,
-            duration: 0.2,
-            ease: 'back.in(2)',
-          });
-      };
-      opening.addEventListener('click', pop);
-      cleanups.push(() => opening.removeEventListener('click', pop));
     }
     if (!preference.matches) {
       document.querySelectorAll<HTMLElement>('.marquee').forEach((marquee) => {
@@ -300,8 +289,6 @@ export function installOpeningMotion(restoreInitialHash = true) {
     const destination = document.querySelector<HTMLElement>(hash);
     if (!destination) return;
     event.preventDefault();
-    if (hash === '#research')
-      window.dispatchEvent(new Event('keepri:industry'));
     const target = hash === '#site' && !entered ? travel() * 0.91 : destination;
     lenis.scrollTo(target, {
       immediate: preference.matches,
@@ -393,7 +380,9 @@ export function installOpeningMotion(restoreInitialHash = true) {
         location.hash !== initialHash
       )
         return;
-      const target = document.getElementById(initialHash.slice(1));
+      const target = document.getElementById(
+        initialHash === '#experience' ? 'thesis' : initialHash.slice(1),
+      );
       if (target)
         lenis.scrollTo(target, {
           immediate: true,

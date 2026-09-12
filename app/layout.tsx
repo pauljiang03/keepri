@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'KeepRI | Independent reasoning in the age of AI',
   description:
-    'Practice independent thought without AI. Free reasoning games, competition and planned prizes for players. Planned consented human learning data for industry. Closed beta.',
+    'A place to practice independent thought without AI. Closed beta. Human learning research in development.',
   alternates: { canonical: siteUrl },
   icons: {
     icon: asset('/assets/keepri-brand/icon.png'),
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KeepRI | Independent reasoning in the age of AI',
     description:
-      'Independent thought without AI. Competition and planned prizes for players. Planned consented human learning data for industry. Closed beta.',
+      'A place to practice independent thought without AI. Closed beta. Human learning research in development.',
     type: 'website',
     locale: 'en_US',
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'KeepRI | Independent reasoning in the age of AI',
     description:
-      'Independent thought without AI. Competition and planned prizes for players. Planned consented human learning data for industry. Closed beta.',
+      'A place to practice independent thought without AI. Closed beta. Human learning research in development.',
   },
 };
 
@@ -35,7 +35,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{document.documentElement.dataset.intro=(location.hash&&location.hash!=='#top')||matchMedia('(prefers-reduced-motion: reduce)').matches||sessionStorage.getItem('keepri:opening-seen:v2')==='1'?'seen':'active'}catch(e){document.documentElement.dataset.intro='active'}`,
+            __html: `try{document.documentElement.dataset.intro=(location.hash&&location.hash!=='#top')||matchMedia('(prefers-reduced-motion: reduce)').matches||sessionStorage.getItem('keepri:opening-seen:v3')==='1'?'seen':'active'}catch(e){document.documentElement.dataset.intro='active'}`,
           }}
         />
       </head>

@@ -1,20 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Plus } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { ProductVisual } from './product-visual';
 
 export function ResearchPanels() {
-  const [tab, setTab] = useState('players');
-  useEffect(() => {
-    const showIndustry = () => setTab('research');
-    if (location.hash === '#research') showIndustry();
-    window.addEventListener('keepri:industry', showIndustry);
-    return () => window.removeEventListener('keepri:industry', showIndustry);
-  }, []);
   return (
     <section
       className="research-section"
@@ -23,161 +15,101 @@ export function ResearchPanels() {
       aria-labelledby="research-title"
     >
       <div className="shell">
-        <Tabs
-          value={tab}
-          onValueChange={(value) => setTab(String(value))}
-          className="research-tabs"
-        >
-          <div className="research-top">
-            <h2 id="research-title">
-              Human effort.
+        <div className="research-top">
+          <h2 id="research-title">
+            Human effort.
+            <br />
+            Lasting value.
+          </h2>
+          <span className="industry-label">For industry</span>
+        </div>
+        <div className="research-panel">
+          <div className="research-panel-copy">
+            <h3>
+              Human data.
               <br />
-              Lasting value.
-            </h2>
-            <TabsList aria-label="Explore the Keepri model">
-              <TabsTrigger value="players">For players</TabsTrigger>
-              <TabsTrigger value="research">For industry</TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value="players" className="research-panel">
-            <div className="research-panel-copy">
-              <span className="section-label">[ The player experience ]</span>
-              <h3>
-                Understanding is
-                <br />
-                the reward.
-              </h3>
-              <p>
-                Work through an unfamiliar problem. Test an idea, learn from a
-                mistake, and understand why your next move works.
-              </p>
-              <p>
-                We’re building free reasoning games where you develop your own
-                strategies, with competition and meaningful prizes giving you
-                more reasons to return.
-              </p>
-              <p className="fine-print">
-                Expanded competition, tournaments, and funded cash-prize events
-                are in development.
-              </p>
-            </div>
-            <div className="beta-showcase">
-              <div className="preview-caption">
-                <span>KeepRI</span>
-                <span>Closed-beta product view</span>
-              </div>
-              <div className="showcase-screen">
-                <ProductVisual step={1} />
-              </div>
-            </div>
-            <div className="status-grid">
-              <div>
-                <strong>Closed beta</strong>
-                <span>Current product status</span>
-              </div>
-              <div>
-                <strong>Your own thinking</strong>
-                <span>Practice without AI</span>
-              </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="research" className="research-panel">
-            <div className="research-panel-copy">
-              <span className="section-label">[ For industry ]</span>
-              <h3>
-                Human data.
-                <br />
-                From human effort.
-              </h3>
-              <p>
-                We’re developing human learning datasets for AI research and
-                evaluation. Our thesis is that people who care about learning
-                and competing will invest real effort, creating an opportunity
-                to study how strategies develop over time.
-              </p>
-              <p>
-                AI teams would buy licensed human learning data and commissioned
-                collections, gathered with separate participant consent.
-              </p>
-              <div className="research-accordion">
-                <details name="research-deliverables">
-                  <summary>
-                    Executable environments
-                    <Plus size={20} />
-                  </summary>
-                  <div>
-                    Versioned rules, controlled variants, scoring, and replay.
-                    Reproducible environments for studying unfamiliar problems.
-                  </div>
-                </details>
-                <details name="research-deliverables">
-                  <summary>
-                    Human learning histories
-                    <Plus size={20} />
-                  </summary>
-                  <div>
-                    Actions, feedback, assistance, and outcomes in context.
-                    Separately consented records that show how a strategy
-                    develops across attempts.
-                  </div>
-                </details>
-                <details name="research-deliverables">
-                  <summary>
-                    Evaluation packages
-                    <Plus size={20} />
-                  </summary>
-                  <div>
-                    Human baselines for learning, error recovery, and
-                    adaptation, with documented conditions, quality checks, and
-                    exposure controls.
-                  </div>
-                </details>
-              </div>
-            </div>
-            <div className="research-map">
-              <span className="visual-label">
-                Research program in development
-              </span>
-              <p>
-                Beyond the
-                <br />
-                final score.
-              </p>
-              <ol>
-                <li>
-                  <span>01</span>
-                  <strong>Attempts</strong>
-                  <small>A strategy takes shape.</small>
-                </li>
-                <li>
-                  <span>02</span>
-                  <strong>Feedback</strong>
-                  <small>New evidence changes the picture.</small>
-                </li>
-                <li>
-                  <span>03</span>
-                  <strong>Revision</strong>
-                  <small>Understanding develops over time.</small>
-                </li>
-              </ol>
-              <span className="fine-print">
-                Proposed research structure · Enrollment is not active.
-              </span>
-            </div>
-          </TabsContent>
-        </Tabs>
-        <noscript>
-          <div className="noscript-copy">
-            <h3>For industry</h3>
+              From human effort.
+            </h3>
             <p>
-              We’re developing licensed human learning data and commissioned
-              collections for AI research, gathered with separate participant
-              consent. The research program would pair executable environments,
-              human learning histories, and evaluation packages. Research
-              enrollment is not active.
+              We’re developing human learning datasets for AI research and
+              evaluation. Our thesis is that people who care about learning and
+              competing will invest real effort, creating an opportunity to
+              study how strategies develop over time.
             </p>
+            <p>
+              AI teams would buy licensed human learning data and commissioned
+              collections, gathered with separate participant consent.
+            </p>
+            <div className="research-accordion">
+              <details name="research-deliverables">
+                <summary>
+                  Executable environments
+                  <Plus size={20} />
+                </summary>
+                <div>
+                  Versioned rules, controlled variants, scoring, and replay.
+                  Reproducible environments for studying unfamiliar problems.
+                </div>
+              </details>
+              <details name="research-deliverables">
+                <summary>
+                  Human learning histories
+                  <Plus size={20} />
+                </summary>
+                <div>
+                  Actions, feedback, assistance, and outcomes in context.
+                  Separately consented records that show how a strategy develops
+                  across attempts.
+                </div>
+              </details>
+              <details name="research-deliverables">
+                <summary>
+                  Evaluation packages
+                  <Plus size={20} />
+                </summary>
+                <div>
+                  Human baselines for learning, error recovery, and adaptation,
+                  with documented conditions, quality checks, and exposure
+                  controls.
+                </div>
+              </details>
+            </div>
           </div>
-        </noscript>
+          <div className="research-map">
+            <span className="visual-label">
+              Research program in development
+            </span>
+            <p>
+              Beyond the
+              <br />
+              final score.
+            </p>
+            <ol>
+              <li>
+                <span>01</span>
+                <strong>Attempts</strong>
+                <small>A strategy takes shape.</small>
+              </li>
+              <li>
+                <span>02</span>
+                <strong>Feedback</strong>
+                <small>New evidence changes the picture.</small>
+              </li>
+              <li>
+                <span>03</span>
+                <strong>Revision</strong>
+                <small>Understanding develops over time.</small>
+              </li>
+            </ol>
+            <span className="fine-print">
+              Proposed research structure · Enrollment is not active.
+            </span>
+          </div>
+        </div>
+        <p className="research-consent">
+          Free play and future prize eligibility remain independent of research
+          participation. Research enrollment is not active in the closed beta.
+        </p>
       </div>
     </section>
   );

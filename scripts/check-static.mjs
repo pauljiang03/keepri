@@ -54,9 +54,8 @@ walk(root);
 for (const expected of [
   'Keep reasoning',
   'Closed beta',
-  'Think for yourself.',
-  'Learn without AI.',
-  'Make the effort count.',
+  'Our philosophies',
+  'Curiosity',
   'funded cash-prize events',
   'separate participant consent',
   'Human learning histories',
@@ -72,6 +71,11 @@ for (const expected of [
     html.toLowerCase().includes(expected.toLowerCase()),
     `Missing primary content: ${expected}`,
   );
+assert(
+  !existsSync(join(root, 'assets/product/tutorial.png')) &&
+    !existsSync(join(root, 'assets/product/solution.png')),
+  'Retired game screenshots remain published',
+);
 for (const file of [
   'licenses/lucide.txt',
   'licenses/GSAP-notice.txt',
@@ -79,7 +83,7 @@ for (const file of [
   'fonts/DM-Sans-OFL.txt',
 ])
   assert(existsSync(join(root, file)), `Missing license: ${file}`);
-for (const id of ['top', 'site', 'main', 'experience', 'research', 'thesis'])
+for (const id of ['top', 'site', 'main', 'research', 'thesis'])
   assert(ids.has(id), `Missing destination: ${id}`);
 assert(
   !/testflight|join the beta|October 5|November 1|Paul Jiang|mailto:/i.test(
@@ -88,8 +92,10 @@ assert(
   'Public release or personal details remain',
 );
 assert(
-  !/competition-arena|reasoning-assembly|arena-award/.test(html),
-  'Retired artwork remains',
+  !/competition-arena|reasoning-assembly|arena-award|assets\/product\/|Make the effort count|free reasoning games|Strategies of your own/i.test(
+    html,
+  ),
+  'Removed artwork or redundant copy remains',
 );
 assert(
   html.includes('<noscript>'),
@@ -100,7 +106,7 @@ assert(
   'Reduced-motion first-paint handling is missing',
 );
 assert(
-  html.includes('keepri:opening-seen:v2'),
+  html.includes('keepri:opening-seen:v3'),
   'Opening session behavior is missing',
 );
 console.log(

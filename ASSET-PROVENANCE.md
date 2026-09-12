@@ -17,12 +17,12 @@ OpenAI's [Terms of Use](https://openai.com/policies/row-terms-of-use/) assign it
 
 The [GSAP standard license](https://gsap.com/community/standard-license/) expressly allows commercial website use and AI-generated GSAP code. Library rights remain with their respective owners. Font and icon licenses were checked from the actual bundled files. No paid stock-art subscription or attribution to a reference site's artist is required for the custom illustrations.
 
-## Current reproduction assets
+## Current website assets
 
-- `public/assets/product/tutorial.png`: copied from the owner's existing `output/weekly-app/preview-final.png` in the parent workspace. Actual closed-beta tutorial view; CSS crop focuses on tutorial/board.
-- `public/assets/product/solution.png`: copied from existing `output/weekly-app/screenshots/F8B43D7F-28B3-4A67-B8DD-E7819C654887.png`. Actual closed-beta solution view.
-- Future competition/rewards layouts: independently authored HTML/CSS with standard Lucide icons, explicitly labeled as in development.
-- `public/assets/grain.png`: locally generated independent noise texture. Dot field: independently authored Canvas 2D using measured reference motion parameters, recolored for KeepRI.
+- Constellation opening: original inline SVG/TypeScript coordinates, curved connections and GSAP sequence in `components/hero.tsx` and `lib/opening-motion.ts`. Drawn for KeepRI; no reference-site artwork imported.
+- Research diagram: independently authored HTML/CSS showing proposed attempts, feedback and revision records.
+- `public/assets/grain.png`: locally generated noise texture. Dot field: independently authored Canvas 2D using measured reference motion parameters in KeepRI colors.
 - Lenis1.3.11: MIT-licensed scroll runtime; notice in `public/licenses/lenis.txt`.
+- Previous tutorial and solution screenshots, product visual component, competition/rewards layouts: removed from the source and published assets at the owner's request. Original assets remain in the parent native-app workspace and Git history.
 
 Virio's public scripts/styles were inspected to measure motion and layout. Its proprietary typeface, customer logos, graphics and marketing copy are not assets in this repository.

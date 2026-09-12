@@ -1,13 +1,11 @@
 # Interface review
 
-This revision follows the current explicit Virio reproduction request. Previous typography-only review results are preserved in Git history and do not apply to the new motion system.
+The latest owner direction is three main sections with a distinct KeepRI intro: hero, philosophies, industry. Specific game views, player/rewards content, the separate closing section and repeated promotional sentences have been removed. The industry section is directly visible; the philosophy surfaces and hero remain recognizable.
 
-The opening/hero was built and compared first. Observed differences led to changes in hero height, line height, paragraph spacing, mobile content offset and header gutters. Lower sections then followed the measured sticky-card sequence and responsive layout. A late source comparison corrected research/philosophy surfaces from olive to cream and added the reference's two-panel FAQ structure.
+The opening was checked first at desktop and mobile sizes. It draws a constellation, gathers its points and opens an olive aperture into the hero. The circle clip is removed after the reveal. The hidden scroll cue now leaves keyboard focus order. Native scrolling can reverse during a first visit, without a forced minimum scroll position. Returning visits and reduced-motion users skip the opening.
 
-Content review preserved closed-beta and in-development language, optional research participation, separate consent and player independence. Current product screenshots and labeled planned graphics replace third-party case studies. No fabricated social proof or active prize offer was added.
+Content review preserves closed beta, planned competition/prizes/research, separate consent and independence of play/prize eligibility. Industry offerings remain proposed. No signup, installation, active prize offers, personal details or invented evidence were introduced.
 
-Interaction review fixed industry navigation opening the wrong panel, vertical tabs lacking correct keyboard orientation, mobile-menu Escape focus, and back-to-top preserving a stale fragment. Reduced motion, autonomous-motion pause, no-JavaScript content and native mobile scrolling are implemented.
+Desktop philosophy panels retain equal widths and readable text. Mobile cards grow to fit their longest answer. The compact footer replaces duplicate closing messages. The exact staged build was inspected in a native browser at1440,390 and320px; browser motion measurements and responsive checks are recorded in MOTION-VERIFICATION.md and VALIDATION.md.
 
-The release follow-up corrected and visually rechecked the desktop philosophy panel columns/list direction, long headline fit, mobile philosophy layout, and no-JavaScript closing. Exact-width browser measurements verified no document overflow at320px,390px and1440px, matching card content/client heights, and correct product-image URLs. Header alignment/contrast, static caption layout, initial deep-link positioning and browser asset-prefix exposure were also fixed.
-
-Animation timing evidence remains the original live Chrome inspection plus reference-source measurements. Later Safari snapshots ran in a background window and settled finite CSS entrance animations for layout review; they are not a frame-rate or timing certification. Intentional font/artwork and native mobile-carousel differences remain documented in MOTION-VERIFICATION.md.
+The QA harness originally used iframe scrollIntoView, which could scroll the outer review page. It now confines scrolling to the iframe. These review artifacts are not part of the published site. Physical touch, screen-reader and frame-rate testing remain outside this review.
