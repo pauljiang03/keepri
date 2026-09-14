@@ -516,7 +516,11 @@ test('text appears only in the reveal timeline and never transforms', () => {
     }
   }
   const words = steps.find(({ target }) => target === '.opening-spelling-word');
-  assert(words.values.duration >= 1, 'Words should reveal slowly');
+  assert(words.values.duration >= 2, 'Each word should fade in gradually');
+  assert(
+    words.at + words.values.duration + 2 * words.values.stagger >= 6,
+    'The complete text transition should take at least six seconds',
+  );
   env.cleanup();
 });
 

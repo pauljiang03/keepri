@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Slower text transition
+
+The second gesture now takes six seconds: the constellation fades out over 1.6 seconds, then each word fades in over 2.4 seconds with a one-second stagger. Text remains stationary. The first-swipe spin, third-swipe upward peel and scrollable figure are unchanged. Older timing records below are historical.
+
 ## Three independently triggered stages
 
 Spin lasts 1.8 seconds and holds the constellation. A second gesture triggers a three-second reveal: the scene fades out for 0.6 seconds, then each word fades in over 1.25 seconds with a 0.55-second stagger. A third gesture triggers the bottom-up peel. All timelines start paused. Reduced motion, visibility changes and momentum guards preserve the three boundaries.
