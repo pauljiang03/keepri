@@ -53,8 +53,12 @@ function walk(dir) {
 walk(root);
 for (const expected of [
   'Independent thought',
-  'Bayesian updating',
-  'Posterior mean',
+  'How KeepRI would work',
+  'Planned model',
+  'Optional research',
+  'AI teams pay',
+  'Fund the next round',
+  'Initial funding and event sponsorship',
   'Peel to enter',
   'Closed beta',
   'Our philosophies',
@@ -138,8 +142,10 @@ assert(
 );
 
 assert(
-  !/Find the rule|Test a sequence|RULE FOUND|sequence-inputs/.test(html),
-  'Retired game remains in the public page',
+  !/Bayesian updating|Posterior mean|simulation-controls|Find the rule|Test a sequence|RULE FOUND|sequence-inputs/.test(
+    html,
+  ),
+  'Retired game or simulation remains in the public page',
 );
 
 console.log(

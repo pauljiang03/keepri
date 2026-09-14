@@ -33,20 +33,6 @@ export function PageMotion() {
       media.revert();
       if (root.dataset.motion === 'paused') return;
       media.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.fromTo(
-          '.orbital-stage',
-          { y: 0 },
-          {
-            y: -18,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: '.hero',
-              start: 'top top',
-              end: 'bottom top',
-              scrub: 1,
-            },
-          },
-        );
         gsap.utils
           .toArray<HTMLElement>(
             '.thesis-sentence, .philosophy-inner, .research-top, .research-panel, .research-consent',

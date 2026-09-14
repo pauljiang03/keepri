@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Current business-model revision
+
+The business diagram is readable without animation or JavaScript. Removed the unused simulation parallax from PageMotion; the manual peel lifecycle and global motion preference remain unchanged. Earlier simulation-camera checks below are historical.
+
 ## Latest revision: mathematical simulation, game removed
 
 The game is replaced by an independently authored beta–binomial probability surface. Adjustable successes, failures and symmetric prior strength determine the posterior. Twenty-five density slices show proportional accumulation of evidence; their vertical scale is shared and normalized. The bright curve is the final posterior. Mean, standard deviation in percentage points, and observation count are reported explicitly.

@@ -22,8 +22,8 @@
     "file": "keepri/_next/static/chunks/rolldown-runtime-CPYLWiKu.js",
     "name": "rolldown-runtime"
   },
-  "_wordmark-B5jj0eEC.js": {
-    "file": "keepri/_next/static/chunks/wordmark-B5jj0eEC.js",
+  "_wordmark-DIFyICmi.js": {
+    "file": "keepri/_next/static/chunks/wordmark-DIFyICmi.js",
     "name": "wordmark",
     "imports": [
       "_rolldown-runtime-CPYLWiKu.js",
@@ -32,18 +32,18 @@
     ]
   },
   "components/hero.tsx": {
-    "file": "keepri/_next/static/chunks/hero-DOLviUYg.js",
+    "file": "keepri/_next/static/chunks/hero-B-h7Okkn.js",
     "name": "hero",
     "src": "components/hero.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-CPYLWiKu.js",
-      "_wordmark-B5jj0eEC.js",
+      "_wordmark-DIFyICmi.js",
       "_framework-DauzXuyt.js"
     ]
   },
   "components/page-motion.tsx": {
-    "file": "keepri/_next/static/chunks/page-motion-Bdp2mLwm.js",
+    "file": "keepri/_next/static/chunks/page-motion-BwBStDzq.js",
     "name": "page-motion",
     "src": "components/page-motion.tsx",
     "isDynamicEntry": true,
@@ -54,19 +54,19 @@
     ]
   },
   "components/story-panels.tsx": {
-    "file": "keepri/_next/static/chunks/story-panels-DSv70yX6.js",
+    "file": "keepri/_next/static/chunks/story-panels-vhB6sKIB.js",
     "name": "story-panels",
     "src": "components/story-panels.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-CPYLWiKu.js",
-      "_wordmark-B5jj0eEC.js",
+      "_wordmark-DIFyICmi.js",
       "_gsap-BT4Rv3pp.js",
       "_framework-DauzXuyt.js"
     ]
   },
   "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
-    "file": "keepri/_next/static/chunks/app-route-prefetch-policy-C60hOZO0.js",
+    "file": "keepri/_next/static/chunks/app-route-prefetch-policy-7Ejsh95v.js",
     "name": "app-route-prefetch-policy",
     "src": "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
     "isDynamicEntry": true,
@@ -75,7 +75,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "keepri/_next/static/chunks/layout-segment-context-BospFVbl.js",
+    "file": "keepri/_next/static/chunks/layout-segment-context-CznY4bTm.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -96,7 +96,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "keepri/_next/static/chunks/index-DC6iFAJP.js",
+    "file": "keepri/_next/static/chunks/index-BylcYLHU.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,

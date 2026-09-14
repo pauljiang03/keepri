@@ -1773,293 +1773,240 @@ html[data-motion='paused'] .chevrons i {
   text-align: left;
 }
 
-/* A beta posterior surface, reconstructed from the selected observations. */
-.hero-visual.probability-instrument {
+/* The business model: free play branches into competition and optional research. */
+.hero-visual.model-flow {
+  --flow-line: #82936c77;
+  --flow-accent: #d5b473;
   width: 100%;
-  max-width: 530px;
+  max-width: 550px;
   margin: 0 0 0 auto;
   aspect-ratio: auto;
 }
-.simulation-heading {
-  padding-inline: 12px;
-}
-.simulation-kicker {
-  color: var(--sage);
-  font:
-    12px/1.5 ui-monospace,
-    monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.simulation-heading h2 {
-  font-size: 30px;
-  margin: 12px 0 10px;
-  letter-spacing: -0.035em;
-  line-height: 1.2;
-}
-.simulation-heading p {
-  color: var(--on-dark);
-  font-size: 15px;
-  line-height: 1.6;
-}
-.probability-figure {
-  margin: 4px 0 22px;
-}
-.probability-instrument .orbital-stage {
-  position: relative;
-  width: 112%;
-  margin-left: -6%;
-  aspect-ratio: 600 / 440;
-}
-.probability-instrument .orbital-stage > svg {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.probability-aura {
-  position: absolute;
-  inset: 5%;
-  background: radial-gradient(ellipse at 50% 55%, #b7c68915, transparent 65%);
-  pointer-events: none;
-}
-.density-corners {
-  stroke: #b9c5a5;
-  stroke-width: 0.8;
-  opacity: 0.26;
-}
-.density-base {
-  stroke: #9daf8855;
-  stroke-width: 0.8;
-}
-.density-slice {
-  stroke: url(#density-ink);
-  stroke-width: 0.8;
-}
-.density-rail {
-  stroke: #b8cda155;
-  stroke-width: 0.5;
-}
-.density-prior {
-  stroke: #d8dec7;
-  stroke-width: 1.2;
-  stroke-dasharray: 3 3;
-}
-.density-posterior {
-  stroke: #e0ba77;
-  stroke-width: 2.3;
-  filter: drop-shadow(0 0 5px #d5b47344);
-}
-.density-mean-trail {
-  stroke: #e0ba7780;
-  stroke-width: 1;
-  stroke-dasharray: 2 5;
-}
-.density-axis-label {
-  fill: #bdc8aa;
-  font:
-    13px ui-monospace,
-    monospace;
-  letter-spacing: 0.02em;
-}
-.simulation-legend {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding-inline: 12px;
-  color: var(--on-dark);
-  font-size: 12px;
-}
-.simulation-legend > span {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-}
-.simulation-legend i {
-  display: block;
-  height: 2px;
-  width: 13px;
-  flex-shrink: 0;
-}
-.legend-prior {
-  background: #d8dec7;
-}
-.legend-evidence {
-  background: #7f9d75;
-}
-.legend-posterior {
-  background: #e0ba77;
-}
-.simulation-controls {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  padding: 20px 12px 16px;
-  border-top: 1px solid #82936c55;
-}
-.simulation-control-label {
+.model-heading {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: var(--on-dark);
-}
-.simulation-control-label output {
-  font:
-    14px ui-monospace,
-    monospace;
-  font-variant-numeric: tabular-nums;
-  color: var(--paper);
-}
-.simulation-control [data-slot='slider'] > div {
-  min-height: 22px;
-}
-.simulation-control [data-slot='slider-track'] {
-  background: #a9b79633;
-  height: 2px;
-}
-.simulation-control [data-slot='slider-range'] {
-  background: #d5b473;
-}
-.simulation-control [data-slot='slider-thumb'] {
-  height: 13px;
-  width: 13px;
-  border: 2px solid #d5b473;
-  background: #263126;
-  box-shadow: none;
-}
-.simulation-control [data-slot='slider-thumb']:focus-within {
-  outline: 2px solid #f4e4c4;
-  outline-offset: 4px;
-}
-.simulation-readout {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 0.8fr;
   gap: 12px;
-  padding: 18px 12px;
-  border-block: 1px solid #82936c55;
+  margin-bottom: 24px;
 }
-.simulation-readout > div {
+.model-heading h2 {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.model-heading > span,
+.model-label {
+  color: var(--sage);
+  font:
+    0.75rem/1.5 ui-monospace,
+    monospace;
+}
+.model-heading > span {
+  flex-shrink: 0;
+}
+.model-circuit {
+  position: relative;
+  padding-left: 20px;
+}
+/* The outside return line connects reinvestment back to free play. */
+.model-circuit::before {
+  content: '';
+  position: absolute;
+  inset: 38px auto 36px 0;
+  width: 20px;
+  border: 1px solid var(--flow-accent);
+  border-right: 0;
+  opacity: 0.6;
+}
+.model-game,
+.model-reinvestment {
+  position: relative;
+  padding: 18px 20px;
+  border: 1px solid var(--flow-line);
+  background: #2b362a;
+}
+.model-game::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 34px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--flow-accent);
+  border-right: 1px solid var(--flow-accent);
+  transform: rotate(45deg);
+}
+.model-game h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+  margin: 6px 0;
+}
+.model-flow p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--on-dark);
+}
+.model-branches {
   display: grid;
-  gap: 7px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  position: relative;
+  padding: 34px 0 0;
 }
-.simulation-readout span {
-  color: var(--on-dark);
-  font-size: 12px;
+.model-branches::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 18px;
+  border-left: 1px solid var(--flow-line);
 }
-.simulation-readout output {
-  font:
-    26px/1.2 ui-monospace,
-    monospace;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.05em;
+.model-branches::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 25%;
+  right: 25%;
+  height: 16px;
+  border: 1px solid var(--flow-line);
+  border-bottom: 0;
 }
-.simulation-readout small {
-  color: var(--sage);
-  font-size: 14px;
-  letter-spacing: 0;
-}
-.simulation-actions {
+.model-lane {
+  min-width: 0;
   display: flex;
-  justify-content: space-between;
-  padding-top: 6px;
+  flex-direction: column;
 }
-.simulation-actions button {
-  min-height: 38px;
-  padding: 7px 12px;
-  background: none;
-  color: var(--on-dark);
-  border-radius: 0;
-  font-size: 12px;
-}
-.simulation-actions button:hover {
-  color: var(--paper);
-  background: #ffffff09;
-}
-.simulation-model {
-  padding: 8px 12px 0;
-  color: var(--on-dark);
-  font-size: 14px;
-  line-height: 1.6;
-}
-.simulation-model summary {
-  cursor: pointer;
-  width: fit-content;
+.model-lane > h3 {
   color: var(--sage);
-  font-size: 13px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding-bottom: 14px;
+  text-align: center;
 }
-.simulation-model p {
-  margin-top: 14px;
+.model-research > h3 {
+  color: var(--flow-accent);
 }
-.simulation-model .simulation-equation {
-  font:
-    12px/1.7 ui-monospace,
-    monospace;
-  color: #e0ba77;
+.model-lane ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 20px;
 }
-.simulation-model a {
-  display: inline-block;
-  margin-top: 14px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.model-lane li {
+  position: relative;
+  border-top: 1px solid var(--flow-line);
+  padding: 12px 0 0;
 }
-@media (max-width: 1024px) and (min-width: 701px) {
+.model-lane li + li::before {
+  content: '↓';
+  position: absolute;
+  top: -21px;
+  left: 0;
+  font-size: 14px;
+  color: var(--sage);
+}
+.model-lane h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  margin-bottom: 6px;
+}
+.model-research li {
+  border-color: #d5b47366;
+}
+.model-return,
+.model-revenue {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding-block: 17px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--sage);
+}
+.model-return svg,
+.model-revenue svg,
+.model-reinvestment > svg {
+  flex-shrink: 0;
+}
+.model-revenue {
+  color: var(--flow-accent);
+}
+.model-reinvestment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-color: #d5b47377;
+  padding: 16px;
+}
+.model-reinvestment > svg {
+  color: var(--flow-accent);
+}
+.model-reinvestment h3 {
+  color: var(--flow-accent);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.model-flow .model-choice {
+  margin: 18px 0 14px 20px;
+  font-size: 0.875rem;
+}
+.model-details {
+  margin-left: 20px;
+  border-top: 1px solid var(--flow-line);
+}
+.model-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--sage);
+  list-style: none;
+}
+.model-details summary::-webkit-details-marker {
+  display: none;
+}
+.model-details[open] summary svg {
+  transform: rotate(45deg);
+}
+.model-details p {
+  margin: 0 0 16px;
+}
+@media (min-width: 701px) and (max-width: 1100px) {
   .hero-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-  .simulation-heading,
-  .simulation-controls,
-  .simulation-readout,
-  .simulation-legend {
-    padding-inline: 0;
-  }
-  .simulation-legend {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    column-gap: 16px;
-  }
-  .simulation-readout {
-    gap: 8px;
-  }
-  .simulation-readout output {
-    font-size: 23px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 32px;
   }
 }
 @media (max-width: 700px) {
-  .hero-visual.probability-instrument {
-    margin: 46px auto 0;
-    max-width: 450px;
+  .hero-visual.model-flow {
+    max-width: 550px;
+    margin: 48px auto 0;
   }
-  .simulation-heading,
-  .simulation-controls,
-  .simulation-readout,
-  .simulation-legend {
-    padding-inline: 0;
+  .model-branches {
+    gap: 20px;
   }
-  .simulation-heading h2 {
-    font-size: 28px;
-  }
-  .simulation-legend {
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-  .simulation-readout {
-    gap: 8px;
-  }
-  .simulation-readout output {
-    font-size: 24px;
-  }
-  .simulation-model {
-    padding-inline: 0;
+  .model-game,
+  .model-reinvestment {
+    padding-inline: 12px;
   }
 }
-
-@media (max-width: 1024px) {
-  .simulation-controls {
-    grid-template-columns: 1fr;
+@media (max-width: 380px) {
+  .model-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .model-branches {
+    gap: 14px;
   }
 }

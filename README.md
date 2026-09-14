@@ -2,7 +2,7 @@
 
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The current design has three sections: opening and hero, philosophies, and industry. A constellation cover waits for the visitor to peel it away, revealing a split hero and an interactive Bayesian probability surface. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
+The current design has three sections: opening and hero, philosophies, and industry. A constellation cover waits for the visitor to peel it away, revealing a split hero and a diagram of the planned business model. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
 
 ## Develop and validate
 
@@ -36,9 +36,7 @@ The intro appears on every load or reload, including URLs with section hashes. I
 
 Reduced motion shows a still opening that also waits for the visitor. Preference or visibility changes do not start the peel. The page remains inert until entry, and focus leaves the cover when needed. No-JavaScript content remains readable; a bootstrap timeout restores access if hydration never starts.
 
-The main visual is an interactive beta–binomial simulation. Successes, failures and symmetric prior strength determine the posterior density. A custom perspective renderer draws a 3D family of curves showing proportional accumulation of the selected observations; a gold curve highlights the final posterior. Readouts show its mean, standard deviation in percentage points, and observation count. Height is normalized on a shared scale across the displayed family. The game, guesses, scores and rule-discovery controls are removed.
-
-The camera responds to the pointer and rotates gently at a capped 30fps without React renders per frame. Local pause, global pause, reduced motion, tab visibility and offscreen state stop autonomous motion. Evidence controls continue to work with motion disabled. All calculations stay in page memory.
+The main visual is a responsive HTML/CSS flowchart. Free play branches into competition (per-game leaderboards, tournaments, verified prizes, and returning players) and optional research (separate consent, quality-checked learning records, and organizational purchases). An outside return line connects research revenue to free access, new games and prizes. A native disclosure explains customer-directed game design, research deliverables, initial funding, sponsorship and operating costs. All diagram content is available without JavaScript. The probability simulation is retired from the page; its standalone math module and tests remain as historical source.
 
 The existing main headline, dot-free RI wordmark, original philosophy and industry wording, and visitor-controlled intro remain intact. Mathematical sources and third-party notices are documented in `ASSET-PROVENANCE.md`. The build collects license/notice files from the installed runtime packages into the published `licenses/runtime-notices.txt`.
 

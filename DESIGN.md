@@ -1,5 +1,9 @@
 # KeepRI website design
 
+## Current main-page model diagram
+
+The hero now presents the planned KeepRI business workflow instead of the probability simulation. Two connected columns separate competition from optional research. A gold return line links revenue to free access, new games and prizes. Labels are HTML with responsive sizing; no scaled SVG text, external diagram package, or copied reference artwork is used. The original headline, philosophies, industry prose and manual intro are preserved.
+
 The latest September 14 direction keeps the three-section site and its established identity, with a diagonal page-peel opening, a larger orbital instrument, stronger typography and concise mission-led copy.
 
 ## Visual system

@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Current hero diagram
+
+The September 14 business-model revision replaces the probability surface on the public page with independently authored HTML/CSS in components/hero-visual.tsx and app/globals.css. Its content follows the owner-approved KeepRI workflow. Lucide supplies the small licensed direction/disclosure icons. Mathematical sources below describe the retired simulation, not the current hero.
+
 Current inventory, September 14, 2026. This records source origins and retained notices; it does not assert exclusive rights or independent legal clearance.
 
 | Asset                        | Origin and use                                                                                                                                                                                                                                                                   |

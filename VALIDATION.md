@@ -1,5 +1,11 @@
 # Website validation
 
+## Main-page business workflow, September 14
+
+Replaced the probability simulation with the owner-approved business flow: free games, per-game leaderboards, tournaments and prizes, optional research, organizational purchases and reinvestment. Preserved the headline, original philosophies and industry prose, and the visitor-controlled intro.
+
+Validation: typecheck, the 10 opening lifecycle tests, focused lint and production build passed. Static checks passed for 28 local asset/anchor references, required workflow and consent wording, retained notices and the absence of retired simulation controls. The flow uses semantic HTML, a native details disclosure and responsive CSS; it requires no JavaScript to read. No browser visual or interaction QA was performed.
+
 ## Latest revision: mathematical simulation, game removed
 
 The game is replaced by an independently authored beta–binomial probability surface. Adjustable successes, failures and symmetric prior strength determine the posterior. Twenty-five density slices show proportional accumulation of evidence; their vertical scale is shared and normalized. The bright curve is the final posterior. Mean, standard deviation in percentage points, and observation count are reported explicitly.
