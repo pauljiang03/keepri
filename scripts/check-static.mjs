@@ -55,11 +55,12 @@ for (const expected of [
   'Independent thought',
   'How KeepRI would work',
   'Planned model',
-  'Optional research',
+  'Research from prize play',
+  'Prize-entry agreement',
   'AI teams pay',
   'Fund the next round',
   'Initial funding and event sponsorship',
-  'Peel to enter',
+  'Swipe to spin',
   'opening-spelling',
   'opening-letter',
   'Closed beta',
@@ -74,7 +75,8 @@ for (const expected of [
   'Human learning histories',
   'Executable environments',
   'Evaluation packages',
-  'Free play and future prize eligibility remain independent',
+  'Free practice requires no research participation',
+  'require agreement to research data collection and commercial use',
   'research enrollment is not active',
   'Skip intro',
   'For Industry',
@@ -152,4 +154,9 @@ assert(
 
 console.log(
   `Static validation passed: ${checks} asset/anchor references and product-status constraints.`,
+);
+
+assert(
+  !/prize eligibility remain independent|Optional research/.test(html),
+  'Superseded prize participation model remains',
 );

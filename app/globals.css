@@ -1726,7 +1726,7 @@ html[data-motion='paused'] .chevrons i {
   text-align: left;
 }
 
-/* The business model: free play branches into competition and optional research. */
+/* The business model: free practice, prize competition and agreed research participation. */
 .hero-visual.model-flow {
   --flow-line: #82936c77;
   --flow-accent: #d5b473;
@@ -1992,15 +1992,18 @@ html[data-motion='paused'] .chevrons i {
   color: var(--clay);
 }
 @media (prefers-reduced-motion: reduce) {
-  .opening-wordmark {
+  .intro-overlay[data-step='ready'] .opening-wordmark {
     display: none;
   }
-  .opening-spelling,
+  .intro-overlay:not([data-step='ready']) .opening-spelling {
+    opacity: 0 !important;
+  }
+  .intro-overlay[data-step='ready'] .opening-spelling,
   .opening-letter {
     opacity: 1 !important;
     transform: none !important;
   }
-  .opening-progress > i {
+  .intro-overlay[data-step='ready'] .opening-progress > i {
     transform: scaleX(1) !important;
   }
 }
@@ -2008,5 +2011,17 @@ html[data-motion='paused'] .chevrons i {
   .opening-spelling {
     padding-block: 52px 68px;
     font-size: clamp(24px, min(6vw, 12svh), 52px);
+  }
+}
+
+.scroll-cue[aria-disabled='true'] .chevrons {
+  visibility: hidden;
+}
+
+/* Anchor the headline independently of the expanding funding disclosure. */
+@media (min-width: 701px) {
+  .hero-content {
+    align-self: start;
+    padding-top: clamp(80px, 11vw, 176px);
   }
 }

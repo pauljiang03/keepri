@@ -25,12 +25,12 @@ export function HeroVisual() {
                 <p>Verified scores for each game.</p>
               </li>
               <li>
-                <h4>Tournaments &amp; prizes</h4>
-                <p>Funded events. Verified results and awards.</p>
+                <h4>Enter for cash prizes</h4>
+                <p>Agree to research terms, then compete.</p>
               </li>
               <li>
                 <h4>Return &amp; improve</h4>
-                <p>Learn new games. Compete again.</p>
+                <p>Verified awards. New games and fresh competition.</p>
               </li>
             </ol>
             <div className="model-return">
@@ -41,11 +41,13 @@ export function HeroVisual() {
             className="model-lane model-research"
             aria-labelledby="research-path"
           >
-            <h3 id="research-path">Optional research</h3>
+            <h3 id="research-path">Research from prize play</h3>
             <ol>
               <li>
-                <h4>Separate consent</h4>
-                <p>Players choose whether to contribute.</p>
+                <h4>Prize-entry agreement</h4>
+                <p>
+                  Research collection and commercial use, agreed before entry.
+                </p>
               </li>
               <li>
                 <h4>Learning records</h4>
@@ -70,8 +72,8 @@ export function HeroVisual() {
         </div>
       </div>
       <p className="model-choice">
-        Free play and future prize eligibility remain independent of research
-        participation.
+        Free practice requires no research participation. Cash-prize entry would
+        require agreement to research data collection and commercial use.
       </p>
       <details className="model-details">
         <summary>

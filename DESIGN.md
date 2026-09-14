@@ -1,12 +1,16 @@
 # KeepRI website design
 
+## Current interaction and prize model
+
+The intro starts paused. One gesture triggers spin and spelling; a second gesture peels. The headline uses a fixed top alignment independent of the funding disclosure height. Cash-prize entry would require an explicit research and commercial-use agreement; free practice remains available without research participation. This supersedes the earlier prize-eligibility model.
+
 ## Two-stage intro
 
 The opening now spins the KeepRI wordmark and constellation once, fades that scene, then spells Keep Reasoning Independently letter by letter over three centered lines. The completed phrase holds until manual peel or skip. No change to the main-page business diagram or prose.
 
 ## Current main-page model diagram
 
-The hero now presents the planned KeepRI business workflow instead of the probability simulation. Two connected columns separate competition from optional research. A gold return line links revenue to free access, new games and prizes. Labels are HTML with responsive sizing; no scaled SVG text, external diagram package, or copied reference artwork is used. The original headline, philosophies, industry prose and manual intro are preserved.
+The hero now presents the planned KeepRI business workflow instead of the probability simulation. Two connected columns separate competition from research contributed under the prize-entry agreement. A gold return line links revenue to free access, new games and prizes. Labels are HTML with responsive sizing; no scaled SVG text, external diagram package, or copied reference artwork is used. The original headline, philosophies, industry prose and manual intro are preserved.
 
 The latest September 14 direction keeps the three-section site and its established identity, with a diagonal page-peel opening, a larger orbital instrument, stronger typography and concise mission-led copy.
 
@@ -34,7 +38,7 @@ Global leaderboards and significant prizes are central to the planned player exp
 
 Explain the need for more human learning data and the proposed study of attempts, feedback, assistance, and revisions. AI teams would license separately consented datasets and commission targeted collections for training and evaluation. Research revenue would support free access, new challenges, and significant prizes. These are plans and hypotheses, not established revenue or data-quality results.
 
-Research enrollment is inactive. Free play and future prize eligibility remain independent of participation. Use concise, professional language and no em dashes. Exclude game screenshots, personal biographies/contact details, installation links, release dates, invented metrics/testimonials, active prize offers, and reference-site logos or copy.
+Research enrollment is inactive. Free practice requires no research participation; cash-prize entry would require explicit agreement to research collection and commercial use. Use concise, professional language and no em dashes. Exclude game screenshots, personal biographies/contact details, installation links, release dates, invented metrics/testimonials, active prize offers, and reference-site logos or copy.
 
 ## Motion and accessibility
 

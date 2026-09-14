@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Two gestures required
+
+Both timelines start paused. Only the first gesture plays the spin and spelling; completion enables the second-step peel cue. Wheel bursts are grouped by a 240ms idle gap with accumulated deltas; a touch is consumed until a fresh touchstart, and repeated keydown events cannot advance. Visibility resumes only an already-running spin. Reduced motion preserves two gestures. Skip and Escape remain immediate. Earlier automatic-cover descriptions below are historical.
+
 ## Spin then spell intro
 
 The mark spins from 0.15 to 1.8 seconds; the constellation spins from 0 to 1.8 seconds. Their fade ends at 2.15 seconds, when spelling begins. Letter reveals finish at 3.6 seconds. The separate peel timeline remains paused until explicit entry. Initial reduced motion and preference changes settle the cover at its completed spelling without triggering the peel. Sequencing and preference changes are covered by lifecycle tests; browser animation QA has not been performed.

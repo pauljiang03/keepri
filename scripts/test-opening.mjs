@@ -55,9 +55,12 @@ function surface() {
 }
 function setup({ hash = '', reduced = false } = {}) {
   const root = surface();
+  let now = 0;
   const elements = Object.fromEntries(
     [
       '.intro-overlay',
+      '.scroll-cue',
+      '.intro-cue-label',
       '.opening-layer',
       '.peel-fold',
       '#peel-shading',
@@ -126,6 +129,7 @@ function setup({ hash = '', reduced = false } = {}) {
         },
         progress(value) {
           this.position = value;
+          if (value === 1) this.complete();
           return this;
         },
         timeScale(value) {
@@ -173,6 +177,7 @@ function setup({ hash = '', reduced = false } = {}) {
     innerWidth: 1440,
     innerHeight: 900,
     matchMedia: () => preference,
+    performance: { now: () => now },
     gsap,
     Lenis,
     peelGeometry,
@@ -187,6 +192,9 @@ function setup({ hash = '', reduced = false } = {}) {
   const cleanup = install();
   return {
     root,
+    elapse: (ms) => {
+      now += ms;
+    },
     elements,
     blocked,
     window,
@@ -244,7 +252,12 @@ for (const hash of ['', '#site', '#research', '#thesis']) {
       assert.equal(env.root.dataset.intro, 'active');
       assert.equal(env.lenis.stopped, true);
       assert(env.blocked.every((element) => element.inert));
+      assert.equal(env.cover.paused, true);
+      env.window.emit('wheel', { deltaY: 100, preventDefault() {} });
+      assert.equal(env.cover.paused, false);
+      assert.equal(env.timeline.paused, true);
       env.cover.complete();
+      env.elapse(300);
       assert.equal(
         env.root.dataset.intro,
         'active',
@@ -276,15 +289,15 @@ test('upward scrolling and Home cannot return to a completed introduction', () =
   env.cleanup();
 });
 
-test('scroll starts the peel; Escape dismisses it and restores focus', () => {
+test('first scroll starts the spin; Escape dismisses it and restores focus', () => {
   const env = setup();
   let prevented = 0;
   const preventDefault = () => {
     prevented++;
   };
   env.window.emit('wheel', { deltaY: 120, preventDefault });
-  assert.equal(env.timeline.paused, false);
-  assert.equal(env.cover.paused, true);
+  assert.equal(env.timeline.paused, true);
+  assert.equal(env.cover.paused, false);
   env.window.emit('keydown', { key: 'Escape', preventDefault });
   assert.equal(prevented, 2);
   assert.equal(env.elements['.hero-layer'].focused, true);
@@ -294,6 +307,8 @@ test('scroll starts the peel; Escape dismisses it and restores focus', () => {
 
 test('reduced motion waits for entry and preference changes never replay it', () => {
   const env = setup({ reduced: true });
+  assert.equal(env.root.dataset.intro, 'active');
+  env.window.emit('keydown', { key: 'ArrowDown', preventDefault() {} });
   assert.equal(env.root.dataset.intro, 'active');
   env.window.emit('keydown', { key: 'ArrowDown', preventDefault() {} });
   env.preference.matches = false;
@@ -334,6 +349,7 @@ test('upward input and visibility changes never start the peel', () => {
   env.document.hidden = false;
   env.document.emit('visibilitychange');
   assert.equal(env.timeline.paused, true);
+  assert.equal(env.cover.paused, true);
   assert.equal(env.root.dataset.intro, 'active');
   env.cleanup();
 });
@@ -365,6 +381,8 @@ test('reduced motion settles the spelling without entering or restarting the int
       env.preference.matches = true;
       env.preference.emit('change');
     }
+    assert.equal(env.cover.position, 0);
+    env.window.emit('keydown', { key: 'ArrowDown', preventDefault() {} });
     assert.equal(env.cover.position, 1);
     assert.equal(env.cover.paused, true);
     assert.equal(env.timeline.paused, true);
@@ -374,4 +392,95 @@ test('reduced motion settles the spelling without entering or restarting the int
     assert.equal(env.cover.position, 1);
     env.cleanup();
   }
+});
+
+test('one continuous trackpad gesture cannot perform both steps', () => {
+  const env = setup();
+  const wheel = () =>
+    env.window.emit('wheel', { deltaY: 90, preventDefault() {} });
+  wheel();
+  assert.equal(env.elements['.intro-overlay'].dataset.step, 'spinning');
+  for (let i = 0; i < 100; i++) {
+    env.elapse(40);
+    wheel();
+  }
+  env.cover.complete();
+  for (let i = 0; i < 20; i++) {
+    env.elapse(40);
+    wheel();
+  }
+  assert.equal(env.timeline.paused, true);
+  assert.equal(env.elements['.intro-cue-label'].textContent, 'Peel to enter');
+  env.elapse(300);
+  wheel();
+  assert.equal(env.timeline.paused, false);
+  env.cleanup();
+});
+
+test('a held touch cannot peel after starting the spin; a fresh swipe can', () => {
+  const env = setup();
+  const overlay = env.elements['.intro-overlay'];
+  overlay.emit('touchstart', { touches: [{ clientY: 400 }] });
+  overlay.emit('touchmove', {
+    touches: [{ clientY: 300 }],
+    preventDefault() {},
+  });
+  assert.equal(env.cover.paused, false);
+  env.cover.complete();
+  overlay.emit('touchmove', {
+    touches: [{ clientY: 100 }],
+    preventDefault() {},
+  });
+  assert.equal(env.timeline.paused, true);
+  overlay.emit('touchstart', { touches: [{ clientY: 400 }] });
+  overlay.emit('touchmove', {
+    touches: [{ clientY: 300 }],
+    preventDefault() {},
+  });
+  assert.equal(env.timeline.paused, false);
+  env.cleanup();
+});
+
+test('held keys cannot cross both stages', () => {
+  const env = setup();
+  env.window.emit('keydown', { key: ' ', repeat: false, preventDefault() {} });
+  env.cover.complete();
+  env.window.emit('keydown', { key: ' ', repeat: true, preventDefault() {} });
+  assert.equal(env.timeline.paused, true);
+  env.window.emit('keydown', { key: ' ', repeat: false, preventDefault() {} });
+  assert.equal(env.timeline.paused, false);
+  env.cleanup();
+});
+
+test('cue clicks perform the two steps and ignore clicks during the spin', () => {
+  const env = setup();
+  const anchor = {
+    getAttribute: () => '#site',
+    classList: { contains: () => true },
+  };
+  const click = () =>
+    env.document.emit('click', {
+      button: 0,
+      target: { closest: () => anchor },
+      preventDefault() {},
+    });
+  assert.equal(env.elements['.intro-cue-label'].textContent, 'Swipe to spin');
+  click();
+  click();
+  assert.equal(env.timeline.paused, true);
+  env.cover.complete();
+  click();
+  assert.equal(env.timeline.paused, false);
+  env.cleanup();
+});
+
+test('small trackpad deltas accumulate into one deliberate gesture', () => {
+  const env = setup();
+  for (let i = 0; i < 6; i++) {
+    env.window.emit('wheel', { deltaY: 2, preventDefault() {} });
+    env.elapse(20);
+  }
+  assert.equal(env.cover.paused, false);
+  assert.equal(env.timeline.paused, true);
+  env.cleanup();
 });

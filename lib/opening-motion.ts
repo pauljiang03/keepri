@@ -12,6 +12,8 @@ export function installOpeningMotion() {
     document.querySelector<SVGLinearGradientElement>('#peel-shading')!;
   const foldSvg = document.querySelector<SVGSVGElement>('.peel-surface')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
+  const cue = document.querySelector<HTMLAnchorElement>('.scroll-cue')!;
+  const cueLabel = document.querySelector<HTMLElement>('.intro-cue-label')!;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const initialHash = location.hash;
   const previousRestoration = history.scrollRestoration;
@@ -22,6 +24,7 @@ export function installOpeningMotion() {
   ];
   let done = false;
   let entering = false;
+  let stage: 'idle' | 'spinning' | 'ready' = 'idle';
   let disposed = false;
   let width = innerWidth;
   let height = innerHeight;
@@ -31,6 +34,9 @@ export function installOpeningMotion() {
   window.scrollTo({ top: 0, behavior: 'instant' });
   root.dataset.intro = 'active';
   overlay.hidden = false;
+  overlay.dataset.step = 'idle';
+  cueLabel.textContent = 'Swipe to spin';
+  cue.setAttribute('aria-disabled', 'false');
   blocked.forEach((element) => {
     element.inert = true;
   });
@@ -98,6 +104,13 @@ export function installOpeningMotion() {
       navigateTo(initialHash, true, focusWasInside);
     else if (focus || focusWasInside) hero.focus({ preventScroll: true });
   };
+  const readyToPeel = () => {
+    if (done || disposed || stage !== 'spinning') return;
+    stage = 'ready';
+    overlay.dataset.step = 'ready';
+    cueLabel.textContent = 'Peel to enter';
+    cue.setAttribute('aria-disabled', 'false');
+  };
   let timeline: gsap.core.Timeline;
   let peelTimeline: gsap.core.Timeline;
   const context = gsap.context(() => {
@@ -110,7 +123,7 @@ export function installOpeningMotion() {
       strokeDashoffset: 1,
     });
     gsap.set('.opening-letter', { opacity: 0, yPercent: 105 });
-    timeline = gsap.timeline({ paused: preference.matches });
+    timeline = gsap.timeline({ paused: true, onComplete: readyToPeel });
     // The cover animation and the exit are independent timelines. Nothing
     // advances into the peel until the visitor explicitly enters.
     peelTimeline = gsap.timeline({ paused: true, onComplete: () => finish() });
@@ -129,15 +142,6 @@ export function installOpeningMotion() {
     // Stage one: the mark turns once inside the spinning constellation.
     // Stage two begins only after the spin has settled and faded away.
     timeline
-      .from(
-        '.opening-wordmark',
-        {
-          opacity: 0,
-          duration: 0.3,
-          ease: 'power2.out',
-        },
-        0,
-      )
       .to(
         '.opening-wordmark',
         {
@@ -211,12 +215,20 @@ export function installOpeningMotion() {
         },
         0,
       );
-    // Reduced motion rests on the completed spelling, still awaiting entry.
-    if (preference.matches) timeline.progress(1).pause();
+    // Both motion preferences wait for the first gesture before spelling.
   });
 
   const advance = () => {
-    if (done || entering) return;
+    if (done || entering || stage === 'spinning') return;
+    if (stage === 'idle') {
+      stage = 'spinning';
+      overlay.dataset.step = 'spinning';
+      cueLabel.textContent = 'Spinning…';
+      cue.setAttribute('aria-disabled', 'true');
+      if (preference.matches) timeline.progress(1).pause();
+      else timeline.play(0);
+      return;
+    }
     entering = true;
     timeline.pause();
     if (preference.matches) finish(true, true);
@@ -252,24 +264,54 @@ export function installOpeningMotion() {
     );
     navigateTo(hash);
   };
+  // Wheel events arrive in bursts, including trackpad momentum. A single
+  // continuous gesture must never trigger both the spin and the peel.
+  let lastWheel = -Infinity;
+  let wheelUsed = false;
+  let wheelDistance = 0;
   const wheel = (event: WheelEvent) => {
-    if (done || event.ctrlKey || event.deltaY < 8) return;
+    if (done || event.ctrlKey) return;
+    const now = performance.now();
+    const freshGesture = now - lastWheel > 240;
+    lastWheel = now;
+    if (freshGesture) {
+      wheelUsed = false;
+      wheelDistance = 0;
+    }
+    const delta =
+      event.deltaY *
+      (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? height : 1);
+    wheelDistance = Math.max(0, wheelDistance + delta);
+    if (delta <= 0) return;
     event.preventDefault();
-    advance();
+    if (!wheelUsed && wheelDistance >= 12) {
+      wheelUsed = true;
+      advance();
+    }
   };
   let touchY = 0;
+  let touchUsed = false;
   const touchStart = (event: TouchEvent) => {
     touchY = event.touches[0]?.clientY ?? 0;
+    touchUsed = event.touches.length !== 1;
   };
   const touchMove = (event: TouchEvent) => {
-    if (done || event.touches.length !== 1) return;
+    if (done || touchUsed || event.touches.length !== 1) return;
     if (touchY - (event.touches[0]?.clientY ?? touchY) > 12) {
       event.preventDefault();
+      touchUsed = true;
       advance();
     }
   };
   const keydown = (event: KeyboardEvent) => {
     if (done) return;
+    if (
+      event.repeat &&
+      ['Enter', 'ArrowDown', 'PageDown', 'End', ' '].includes(event.key)
+    ) {
+      event.preventDefault();
+      return;
+    }
     if (event.key === 'Escape') {
       event.preventDefault();
       finish(false, true);
@@ -284,14 +326,15 @@ export function installOpeningMotion() {
       timeline.pause();
       peelTimeline.pause();
     } else if (entering) peelTimeline.resume();
-    else if (!preference.matches) timeline.resume();
+    else if (stage === 'spinning' && !preference.matches) timeline.resume();
   };
   const preferenceChange = () => {
     lenis.options.smoothWheel = !preference.matches;
     if (preference.matches) {
-      timeline.progress(1).pause();
+      if (stage === 'spinning') timeline.progress(1).pause();
       if (entering) finish();
-    } else if (!done && !entering && !document.hidden) timeline.resume();
+    } else if (!done && !entering && stage === 'spinning' && !document.hidden)
+      timeline.resume();
   };
   const hashChange = () => {
     if (!done) finish(false);

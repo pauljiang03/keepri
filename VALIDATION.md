@@ -1,5 +1,9 @@
 # Website validation
 
+## Two-gesture intro and prize-entry model
+
+Updated the entry lifecycle, anchored hero copy independently of disclosure expansion, and replaced the prior prize-independent research wording with the owner’s required research agreement for cash-prize entry. Free practice remains available without participation. Browser visual and interaction QA has not been performed; all 17 lifecycle tests, typecheck, focused lint, production build and static checks passed. The local preview returned HTTP 200. Static validation covered 28 local asset/anchor references and rejected superseded prize-independent research wording.
+
 ## Two-stage intro, September 14
 
 The intro now completes a spin before spelling the full phrase, then waits for explicit peel or skip. Typecheck, focused lint, production build and all 12 opening lifecycle tests passed, including stage ordering and reduced-motion settlement. Static checks passed for 28 local asset/anchor references and the required business-model content. The local preview returned HTTP 200. No browser visual or animation QA was performed.

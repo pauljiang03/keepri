@@ -71,7 +71,11 @@ export function OpeningHero() {
       aria-label="Keep reasoning independently"
     >
       <div className="opening-stage">
-        <div className="intro-overlay" aria-label="KeepRI introduction">
+        <div
+          className="intro-overlay"
+          data-step="idle"
+          aria-label="KeepRI introduction"
+        >
           <div className="opening-layer" aria-hidden="true">
             <div className="thought-glow" />
             <div className="thought-field">
@@ -152,7 +156,9 @@ export function OpeningHero() {
             Skip intro
           </a>
           <a className="scroll-cue" href="#site">
-            <span>Peel to enter</span>
+            <span className="intro-cue-label" aria-live="polite">
+              Swipe to spin
+            </span>
             <span className="chevrons">
               <i>⌄</i>
               <i>⌄</i>

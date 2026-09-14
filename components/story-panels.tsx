@@ -105,8 +105,9 @@ export function ResearchPanels() {
           </div>
         </div>
         <p className="research-consent">
-          Free play and future prize eligibility remain independent of research
-          participation. Research enrollment is not active in the closed beta.
+          Free practice requires no research participation. Cash-prize entry
+          would require agreement to research data collection and commercial
+          use. Research enrollment is not active in the closed beta.
         </p>
       </div>
     </section>
@@ -136,7 +137,7 @@ const questions = [
   },
   {
     title: 'Participant choice',
-    text: 'Research requires separate consent. Free play and future prize eligibility remain independent of participation.',
+    text: 'Free practice remains available without research participation. Cash-prize entrants would agree to research collection and commercial use before competing.',
     more: 'The research program is in development. Research enrollment is not active in the closed beta.',
   },
   {
