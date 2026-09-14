@@ -1,5 +1,19 @@
 # Website validation
 
+## September 14, 2026 revision
+
+The page-peel revision supersedes the scroll-controlled opening and centered-hero behavior recorded below. The older browser results are historical and do not validate this revision.
+
+- Nine automated geometry/lifecycle tests pass via `npm run test:opening`. Coverage: decreasing paper coverage at desktop/mobile/landscape aspect ratios; every load/reload including section hashes; permanent completion under upward input; scroll acceleration; Escape/focus; reduced motion; preference changes; listener teardown and scroll restoration.
+- Tests execute the production controller with deterministic GSAP, Lenis and browser-environment stubs. They verify state and geometry, not rendered animation or frame rate.
+- TypeScript and lint for the authored app, components, libraries and validation scripts pass. Repository-wide lint still reports existing errors in vendored UI components and `hooks/use-mobile.ts`; those unrelated files are unchanged. Generated `docs/` output is now correctly excluded from lint.
+- Production export, local asset references, repository base paths and product-status checks pass with `npm run prepare:pages`.
+- No browser interaction or screenshot QA was requested or performed for this revision. The preview route responded successfully; no browser was available for the preview handoff.
+
+The opening runs for 3.8 seconds, with its peel beginning at 2.15 seconds. Scroll/touch input advances to the peel and increases playback speed. Reduced motion uses a 450ms still cover. Completion hides the fixed overlay and releases inert content; no intro scroll region remains. A direct section hash is resolved after completion. Resize updates viewport geometry, without replay. The orbital frame loop stops offscreen, in hidden tabs and under reduced/paused motion.
+
+## Historical evidence from September 11
+
 September 11, 2026. Current revision: centered hero, homepage opening replay, and header-only “For Industry” capitalization. Product copy and the constellation sequence are unchanged.
 
 ## Current revision
@@ -29,11 +43,11 @@ The remaining checks apply to the previous asymmetric layout and session-based o
 
 Dimensions are pixels. Paired values report client size and scroll size. The vision bottom is its vertical position in the visible hero.
 
-| Viewport | Hero height | Headline width | Document overflow | Vision bottom |
-| --- | --- | --- | --- | --- |
-| 1440 × 900 | 900 / 900 | 763 / 763 | 0 | 868 |
-| 390 × 844 | 844 / 844 | 350 / 350 | 0 | 818 |
-| 320 × 568 | 568 / 568 | 280 / 280 | 0 | 550 |
+| Viewport   | Hero height | Headline width | Document overflow | Vision bottom |
+| ---------- | ----------- | -------------- | ----------------- | ------------- |
+| 1440 × 900 | 900 / 900   | 763 / 763      | 0                 | 868           |
+| 390 × 844  | 844 / 844   | 350 / 350      | 0                 | 818           |
+| 320 × 568  | 568 / 568   | 280 / 280      | 0                 | 550           |
 
 All philosophy cards reported zero content overflow. At 320 × 568, CSS hides the orbital visual under the mobile rule for heights no greater than 700px.
 

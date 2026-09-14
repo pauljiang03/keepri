@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { HeroVisual } from './hero-visual';
-import { asset } from '@/lib/site';
 
 const thoughts = Array.from({ length: 18 }, (_, i) => {
   const angle = (i * 137.508 * Math.PI) / 180;
@@ -31,7 +30,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="masthead shell">
-        <a className="brand" href={asset('/')} aria-label="KeepRI home">
+        <a className="brand" href="#site" aria-label="KeepRI home">
           KeepRI<span className="brand-dot">·</span>
         </a>
         <nav
@@ -71,76 +70,100 @@ export function OpeningHero() {
       aria-label="Keep reasoning independently"
     >
       <div className="opening-stage">
-        <div className="opening-layer" aria-hidden="true">
-          <div className="thought-glow" />
-          <div className="thought-field">
-            <svg className="thought-network" viewBox="0 0 800 800" fill="none">
-              <g className="thought-orbits">
-                {[150, 236, 322].map((radius) => (
-                  <circle key={radius} cx="400" cy="400" r={radius} />
-                ))}
-              </g>
-              <g className="thought-connections">
-                {thoughts.map((point, i) => {
-                  const next = thoughts[(i + 5) % thoughts.length];
-                  return (
-                    <path
+        <div className="intro-overlay" aria-label="KeepRI introduction">
+          <div className="opening-layer" aria-hidden="true">
+            <div className="thought-glow" />
+            <div className="thought-field">
+              <svg
+                className="thought-network"
+                viewBox="0 0 800 800"
+                fill="none"
+              >
+                <g className="thought-orbits">
+                  {[150, 236, 322].map((radius) => (
+                    <circle key={radius} cx="400" cy="400" r={radius} />
+                  ))}
+                </g>
+                <g className="thought-connections">
+                  {thoughts.map((point, i) => {
+                    const next = thoughts[(i + 5) % thoughts.length];
+                    return (
+                      <path
+                        key={i}
+                        pathLength="1"
+                        d={`M${point.x},${point.y} Q400,400 ${next.x},${next.y}`}
+                      />
+                    );
+                  })}
+                </g>
+                <g className="thought-points">
+                  {thoughts.map((point, i) => (
+                    <circle
                       key={i}
-                      pathLength="1"
-                      d={`M${point.x},${point.y} Q400,400 ${next.x},${next.y}`}
+                      cx={point.x}
+                      cy={point.y}
+                      r={i % 3 === 1 ? 5 : 3.5}
+                      fill={point.color}
                     />
-                  );
-                })}
-              </g>
-              <g className="thought-points">
-                {thoughts.map((point, i) => (
-                  <circle
-                    key={i}
-                    cx={point.x}
-                    cy={point.y}
-                    r={i % 3 === 1 ? 5 : 3.5}
-                    fill={point.color}
-                  />
-                ))}
-              </g>
-            </svg>
-            <span className="thought-word thought-word-1">Question</span>
-            <span className="thought-word thought-word-2">Explore</span>
-            <span className="thought-word thought-word-3">Reconsider</span>
-            <span className="thought-word thought-word-4">Discover</span>
+                  ))}
+                </g>
+              </svg>
+              <span className="thought-word thought-word-1">Question</span>
+              <span className="thought-word thought-word-2">Explore</span>
+              <span className="thought-word thought-word-3">Reconsider</span>
+              <span className="thought-word thought-word-4">Discover</span>
+            </div>
+            <span className="opening-wordmark">
+              KeepRI<span>·</span>
+            </span>
+            <div className="opening-progress">
+              <span />
+              <i />
+            </div>
           </div>
-          <span className="opening-wordmark">
-            KeepRI<span>·</span>
-          </span>
-          <div className="opening-progress">
-            <span />
-            <i />
-          </div>
+          <svg
+            className="peel-surface"
+            aria-hidden="true"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="peel-shading" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stopColor="#8d8b7e" />
+                <stop offset="0.14" stopColor="#e2dfd2" />
+                <stop offset="0.48" stopColor="#fffdf5" />
+                <stop offset="0.82" stopColor="#eeeadd" />
+                <stop offset="1" stopColor="#c7c2b2" />
+              </linearGradient>
+            </defs>
+            <polygon className="peel-fold" fill="url(#peel-shading)" />
+          </svg>
+          <a className="intro-skip" href="#site">
+            Skip intro
+          </a>
+          <a className="scroll-cue" href="#site">
+            <span>Scroll to enter</span>
+            <span className="chevrons">
+              <i>⌄</i>
+              <i>⌄</i>
+            </span>
+          </a>
         </div>
-        <a className="intro-skip" href="#site">
-          Skip intro
-        </a>
-        <a className="scroll-cue" href="#site">
-          <span>Scroll down</span>
-          <span className="chevrons">
-            <i>⌄</i>
-            <i>⌄</i>
-          </span>
-        </a>
         <div className="hero-layer" id="site" tabIndex={-1}>
           <section className="hero" aria-labelledby="hero-title">
             <div className="hero-main shell">
               <div className="hero-content">
-                <span className="hero-eyebrow">Built for human judgment</span>
+                <span className="hero-eyebrow">
+                  Keep Reasoning Independently
+                </span>
                 <h1 id="hero-title">
                   Keep reasoning.
                   <br />
                   <span>Independently.</span>
                 </h1>
                 <p>
-                  Society needs people who can assess evidence and make their
-                  own decisions. We’re building a place to practice through
-                  learning and competition.
+                  AI can give you an answer. You still need to judge it. KeepRI
+                  is a place to practice: tackle a challenge, learn from a
+                  mistake, and try again.
                 </p>
                 <a className="hero-link" href="#thesis">
                   <span>Our philosophies</span>
@@ -156,14 +179,17 @@ export function OpeningHero() {
               </div>
               <div className="hero-vision-grid">
                 <div>
+                  <span className="vision-index">01</span>
                   <h2>Global leaderboards</h2>
                   <p>Compete with a worldwide community.</p>
                 </div>
                 <div>
+                  <span className="vision-index">02</span>
                   <h2>Significant prizes</h2>
                   <p>Rewards for learning and competition.</p>
                 </div>
                 <div>
+                  <span className="vision-index">03</span>
                   <h2>Human learning data</h2>
                   <p>AI research with separate consent.</p>
                 </div>

@@ -1,18 +1,18 @@
 # KeepRI asset provenance
 
-Current inventory, September 11, 2026. This records source origins and retained notices; it does not assert exclusive rights or independent legal clearance.
+Current inventory, September 14, 2026. This records source origins and retained notices; it does not assert exclusive rights or independent legal clearance.
 
-| Asset | Origin and use |
-| --- | --- |
-| Constellation opening | Original inline SVG and TypeScript in `components/hero.tsx`, with GSAP choreography in `lib/opening-motion.ts`. Eighteen points, three rings, curved connections, and a circular reveal authored for KeepRI. |
-| RI orbital hero | Original inline SVG in `components/hero-visual.tsx` and CSS in `app/globals.css`. An RI monogram, intersecting orbits, three decision labels, and two animated traces. Conceptual brand artwork, not a product screenshot or measured research result. |
-| Research diagram | Original HTML/CSS in `components/story-panels.tsx`, showing proposed attempts, feedback, and revisions. |
-| Grain | Locally generated noise texture at `public/assets/grain.png`. |
-| Brand favicon | Existing native project icon at `public/assets/keepri-brand/icon.png`, supplied in the workspace. Underlying ownership was not independently audited. |
-| DM Sans | Existing self-hosted font files, with 400/500 WOFF2 faces used by the website. SIL OFL notice in `public/fonts/DM-Sans-OFL.txt`. |
-| Lucide icons | Third-party arrows, menu, and disclosure icons. ISC/MIT notices in `public/licenses/lucide.txt`. |
-| GSAP | Third-party animation runtime. Current authored code uses GSAP, ScrollTrigger, and ScrollToPlugin. Retained notice in `public/licenses/GSAP-notice.txt`; the notice also lists plugins used by earlier revisions. |
-| Lenis | Third-party scrolling runtime, version 1.3.11. MIT notice in `public/licenses/lenis.txt`. |
+| Asset                 | Origin and use                                                                                                                                                                                                                                                                                     |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Constellation opening | Original inline SVG and TypeScript in `components/hero.tsx`, with GSAP choreography in `lib/opening-motion.ts`. Eighteen points, three rings, curved connections, and a diagonal peel with original clipping/reflection geometry in `lib/peel-geometry.ts`, authored for KeepRI.                   |
+| RI orbital hero       | Original inline SVG in `components/hero-visual.tsx` and CSS in `app/globals.css`. An RI monogram, seven perspective-projected meridians, three depth-scaled orbital points, pointer response, and decision labels. Conceptual brand artwork, not a product screenshot or measured research result. |
+| Research diagram      | Original HTML/CSS in `components/story-panels.tsx`, showing proposed attempts, feedback, and revisions.                                                                                                                                                                                            |
+| Grain                 | Locally generated noise texture at `public/assets/grain.png`.                                                                                                                                                                                                                                      |
+| Brand favicon         | Existing native project icon at `public/assets/keepri-brand/icon.png`, supplied in the workspace. Underlying ownership was not independently audited.                                                                                                                                              |
+| DM Sans               | Existing self-hosted font files, with 400/500 WOFF2 faces used by the website. SIL OFL notice in `public/fonts/DM-Sans-OFL.txt`.                                                                                                                                                                   |
+| Lucide icons          | Third-party arrows, menu, and disclosure icons. ISC/MIT notices in `public/licenses/lucide.txt`.                                                                                                                                                                                                   |
+| GSAP                  | Third-party animation runtime. Current authored code uses GSAP, ScrollTrigger, and ScrollToPlugin. Retained notice in `public/licenses/GSAP-notice.txt`; the notice also lists plugins used by earlier revisions.                                                                                  |
+| Lenis                 | Third-party scrolling runtime, version 1.3.11. MIT notice in `public/licenses/lenis.txt`.                                                                                                                                                                                                          |
 
 ## Historical assets and reference
 

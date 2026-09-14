@@ -31,13 +31,14 @@ export function ResearchPanels() {
               develops.
             </h3>
             <p>
-              We’re developing human learning datasets for AI training and
-              evaluation. We plan to study how motivated participants explore
-              problems, respond to feedback and revise decisions.
+              A final answer tells you little about how someone learned. We plan
+              to study the attempts before it: what people tried, where they got
+              stuck, and what they changed.
             </p>
             <p>
-              AI teams would license these datasets and commission targeted
-              collections, gathered with separate participant consent.
+              AI teams would license these learning histories for training and
+              evaluation, or commission focused collections. Both require
+              separate participant consent.
             </p>
             <div className="research-accordion">
               <details name="research-deliverables">
@@ -115,33 +116,33 @@ export function ResearchPanels() {
 const questions = [
   {
     title: 'Independent judgment',
-    text: 'Independent judgment is essential to a society shaped by AI.',
-    more: 'People must be able to evaluate evidence, question recommendations and take responsibility for decisions. AI should inform that judgment without replacing it.',
+    text: 'In a society shaped by AI, people still need to make up their own minds.',
+    more: 'Assess the evidence. Question the recommendation. Take responsibility for the decision. AI should inform that judgment without replacing it.',
   },
   {
     title: 'Learning through challenge',
-    text: 'Learning requires people to test ideas, assess alternatives and revise their decisions.',
-    more: 'KeepRI pairs challenges with feedback so players can develop their judgment without AI supplying answers.',
+    text: 'Try an idea. Find out where it fails. Try something better.',
+    more: 'Our challenges give you room to work things out. Feedback helps you learn from a decision; the next attempt is yours.',
   },
   {
     title: 'Global competition',
-    text: 'Our vision combines global leaderboards with significant prizes for learning and competition.',
-    more: 'Public leaderboards, tournaments and funded cash-prize events are in development.',
+    text: 'We’re building toward global leaderboards and significant prizes.',
+    more: 'A reason to keep practicing, and people to measure yourself against. Public leaderboards, tournaments and funded cash-prize events are in development.',
   },
   {
     title: 'Human learning data',
-    text: 'We believe AI research needs more data on how people learn and exercise judgment.',
-    more: 'With separate consent, we plan to capture attempts, feedback and revisions to support AI training and evaluation.',
+    text: 'AI research needs more data on the process of learning, not just the final answer.',
+    more: 'With separate consent, we plan to record attempts, feedback and revisions so researchers can study how judgment develops.',
   },
   {
     title: 'Participant choice',
-    text: 'Research requires separate consent. Free play and future prize eligibility remain independent of participation.',
-    more: 'The research program is in development. Research enrollment is not active in the closed beta.',
+    text: 'Playing and joining a study are separate choices.',
+    more: 'You can play for free and remain eligible for future prizes without joining research. The program is in development; enrollment is not active.',
   },
   {
     title: 'Our model',
-    text: 'AI teams would license human learning data and commission targeted collections.',
-    more: 'Research revenue would help fund free access, new challenges and significant prizes.',
+    text: 'Research revenue would help keep the challenges free.',
+    more: 'We plan to license consented learning data to AI teams and run commissioned studies. That revenue would support free access, new challenges and significant prizes.',
   },
 ];
 
@@ -192,9 +193,11 @@ export function Philosophy() {
             <TabsList aria-label="KeepRI principles">
               {questions.map((q, i) => (
                 <TabsTrigger value={String(i)} key={q.title}>
-                  <span>[</span>
+                  <span className="principle-index">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                   {q.title}
-                  <span>]</span>
+                  <ArrowRight size={18} className="principle-arrow" />
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -205,6 +208,9 @@ export function Philosophy() {
             </div>
             {questions.map((q, i) => (
               <TabsContent value={String(i)} key={q.title}>
+                <span className="answer-index" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')} / 06
+                </span>
                 <p>{q.text}</p>
                 <p>{q.more}</p>
               </TabsContent>

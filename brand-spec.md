@@ -6,8 +6,8 @@
 - Public status: closed beta. Public leaderboards, tournaments, funded cash prizes, and research programs are in development. No active research enrollment or website installation offer.
 - Industry: more human learning data for AI training and evaluation. Proposed licensed datasets and targeted collections would document attempts, feedback, assistance, and revisions with separate participant consent.
 - Model: research revenue would support free access, new challenges, and significant prizes. Free play and future prize eligibility remain independent of research participation. No proven data-quality advantage or commercial result is claimed.
-- Current design: original constellation opening, centered hero with small orbital artwork above stable text, philosophies, and directly visible industry content. No canvas, rotating headline, marquee, game screenshots, or separate rewards/closing section.
-- Opening: replay on every normal homepage load or reload, including the header wordmark link. Direct section links, reduced motion, and compact heights bypass it. Runtime preference changes preserve position without replay.
+- Current design: constellation cover with diagonal page peel, split hero with a large perspective-projected orbital instrument beside stable text, philosophies, and directly visible industry content. No canvas, rotating headline, marquee, game screenshots, or separate rewards/closing section.
+- Opening: play automatically on every load or reload, including section hashes; hide the fixed cover permanently after entry. Header wordmark and Back to top stay on the main page. Reduced motion uses a brief still cover. Runtime preference changes never replay it.
 - Navigation: “For Industry” in the header; “For industry” in the section label.
 - Voice: professional and concise. No em dashes. Avoid redundant slogans and unsupported claims.
 - Exclusions: personal identities/biographies/contact addresses, private proposal, invented metrics/testimonials, release dates, active prize offers, reference-site artwork and customer logos.

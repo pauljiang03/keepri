@@ -35,7 +35,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{const skip=(location.hash&&location.hash!=='#top')||matchMedia('(prefers-reduced-motion: reduce)').matches||matchMedia('(max-height: 520px)').matches;document.documentElement.dataset.intro=skip?'seen':'active';if(!skip){history.scrollRestoration='manual';window.scrollTo(0,0)}}catch(e){document.documentElement.dataset.intro='active'}`,
+            __html: `try{document.documentElement.dataset.intro='active';history.scrollRestoration='manual';window.scrollTo(0,0);window.__keepriIntroFallback=setTimeout(function(){if(!document.documentElement.classList.contains('lenis')){delete document.documentElement.dataset.intro}},6500)}catch(e){delete document.documentElement.dataset.intro}`,
           }}
         />
       </head>

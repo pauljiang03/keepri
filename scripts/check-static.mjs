@@ -114,8 +114,14 @@ assert(
   'No-JavaScript content fallback is missing',
 );
 assert(
-  html.includes('prefers-reduced-motion'),
-  'Reduced-motion first-paint handling is missing',
+  [...readdirSync(join(root, '_next/static/chunks'))].some(
+    (name) =>
+      name.endsWith('.js') &&
+      readFileSync(join(root, '_next/static/chunks', name), 'utf8').includes(
+        'prefers-reduced-motion',
+      ),
+  ),
+  'Reduced-motion handling is missing',
 );
 assert(
   !html.includes('keepri:opening-seen') &&

@@ -206,110 +206,99 @@ html[data-intro='active'] .site-header {
   background: none;
   cursor: pointer;
 }
+/* The cover is fixed above a normal-flow page. It never creates scroll travel. */
 .opening {
   position: relative;
   width: 100%;
-  background: var(--olive);
 }
 .opening-stage {
   position: relative;
-  background: var(--paper);
-  overflow: clip;
 }
-.opening-stage::after,
+.hero-layer {
+  position: relative;
+  color: var(--paper);
+  background: #263126;
+}
+.intro-overlay {
+  display: none;
+}
+html[data-intro='active'] {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html[data-intro='active'] .intro-overlay:not([hidden]) {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: pan-x pinch-zoom;
+}
+.intro-overlay[hidden] {
+  display: none !important;
+}
+.opening-layer {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  z-index: 1;
+  will-change: clip-path;
+}
+.opening-layer::after,
 .site-footer::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('../public/assets/grain.png');
-  background-size: 90px 90px;
+  background: url('../public/assets/grain.png') 0 0 / 90px 90px;
+  opacity: 0.42;
   pointer-events: none;
-  opacity: 0.6;
-  z-index: 8;
 }
-.opening-layer,
-.scroll-cue,
+.peel-surface {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.peel-fold {
+  filter: drop-shadow(-14px 18px 16px #111a164d);
+}
 .intro-skip {
-  display: none;
-}
-.opening[data-enhanced='true'],
-html[data-intro='active'] .opening {
-  height: 280svh;
-}
-.opening[data-enhanced='true'] .opening-stage,
-html[data-intro='active'] .opening-stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-}
-.opening[data-enhanced='true'] .opening-layer,
-html[data-intro='active'] .opening-layer {
-  display: block;
   position: absolute;
-  inset: 0;
-  z-index: 4;
-}
-.opening[data-enhanced='true'] .hero-layer,
-html[data-intro='active'] .hero-layer {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-}
-.hero-layer {
-  position: relative;
-  background: var(--olive);
-  color: var(--paper);
-  z-index: 5;
-  display: grid;
-  place-items: center;
-}
-.hero-layer:focus {
-  outline: none;
-}
-.opening[data-enhanced='true'] .scroll-cue,
-html[data-intro='active'] .scroll-cue {
-  display: flex;
-}
-html[data-intro='active'] .intro-skip {
-  display: block;
-  position: absolute;
-  z-index: 10;
-  top: 24px;
-  right: 36px;
+  z-index: 3;
+  top: 22px;
+  right: 32px;
+  padding: 12px;
+  font-size: 14px;
   color: var(--muted);
-  font-size: 12px;
-  opacity: 0.7;
-}
-html[data-intro='done'] .intro-skip {
-  display: none;
 }
 .scroll-cue {
   position: absolute;
-  bottom: 56px;
+  z-index: 3;
+  bottom: 42px;
   left: 50%;
   translate: -50% 0;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  z-index: 10;
+  gap: 16px;
   font:
-    500 13px/1.2 ui-monospace,
-    SFMono-Regular,
-    Consolas,
+    12px/1.3 ui-monospace,
     monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  opacity: 0.7;
 }
 .chevrons {
   display: flex;
   flex-direction: column;
-  line-height: 0.42;
-  font-size: 15px;
+  line-height: 0.5;
+  font-size: 18px;
 }
 .chevrons i {
   font-style: normal;
-  display: block;
 }
 @media (max-width: 1024px) {
   .navigation {
@@ -938,7 +927,7 @@ section[tabindex='-1']:focus {
   transform: translateX(-10px);
 }
 
-/* KeepRI opening: a constellation gathers into a single aperture. */
+/* The cover retains the original KeepRI constellation. */
 .thought-field {
   position: absolute;
   left: 50%;
@@ -1123,10 +1112,6 @@ html[data-motion='paused'] .chevrons i {
   margin-left: 0;
 }
 @media (max-width: 1024px) {
-  .opening[data-enhanced='true'],
-  html[data-intro='active'] .opening {
-    height: 240svh;
-  }
   .thought-field {
     width: min(108vw, 80svh);
   }
@@ -1210,192 +1195,180 @@ html[data-motion='paused'] .chevrons i {
   }
 }
 
-/* KeepRI hero: centered typography and an original reasoning instrument. */
+/* A working instrument: projected orbital geometry, depth and quiet motion. */
 .hero {
   position: relative;
   width: 100%;
-  min-height: 100svh;
-  height: 100svh;
-  padding: 92px 0 32px;
   display: flex;
   flex-direction: column;
-  background: #263126;
   isolation: isolate;
+  height: auto;
+  min-height: 100svh;
+  padding: clamp(112px, 12vh, 160px) 0 34px;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 85% 35%, #60704429, transparent 48%),
+    linear-gradient(120deg, #222d23, #283526 65%, #1e2a21);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#bfc6a908 1px, transparent 1px),
+    linear-gradient(90deg, #bfc6a908 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: linear-gradient(90deg, transparent 20%, #000);
 }
 .hero-main {
   flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr);
   align-items: center;
   gap: 16px;
+  min-height: 510px;
+  padding-bottom: 56px;
 }
 .hero-content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: 0 0 28px;
-  text-align: center;
+  padding: 20px 0;
+  text-align: left;
 }
 .hero-eyebrow {
-  display: block;
-  color: var(--sage);
-  font:
-    11px/1.5 ui-monospace,
-    monospace;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  margin-bottom: 30px;
 }
 .hero h1 {
-  font-size: clamp(60px, 6.7vw, 108px);
+  font-size: clamp(58px, 6.35vw, 100px);
   line-height: 1.04;
-  font-weight: 400;
-  letter-spacing: -0.058em;
-  white-space: nowrap;
+  letter-spacing: -0.065em;
 }
 .hero h1 > span {
   color: #d5b473;
 }
 .hero-content > p {
-  max-width: 610px;
-  margin: 28px auto 0;
-  color: var(--on-dark);
+  margin: 30px 0 0;
+  max-width: 440px;
   font-size: 18px;
-  line-height: 1.5;
+  line-height: 1.65;
+  color: var(--on-dark);
 }
 .hero-link {
+  margin-top: 30px;
   display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 44px;
-  min-height: 48px;
-  margin-top: 28px;
-  border-bottom: 1px solid #d5b473;
-  color: var(--paper);
   font-size: 16px;
-  transition:
-    color 0.25s,
-    border-color 0.25s;
+  padding: 12px 0;
+  border-bottom: 1px solid #9caa8866;
 }
 .hero-link svg {
-  transition: transform 0.3s;
-}
-.hero-link:hover {
-  color: #d5b473;
-  border-color: var(--paper);
+  transition: transform 0.25s ease;
 }
 .hero-link:hover svg {
-  transform: translate(3px, -3px);
+  transform: translate(4px, -4px);
 }
 .hero-visual {
+  order: 0;
   position: relative;
-  width: 130px;
-  flex-shrink: 0;
-  order: -1;
-}
-.instrument-labels,
-.instrument-corners,
-.instrument-axis {
-  display: none;
-}
-.hero-visual::before {
-  content: '';
-  position: absolute;
-  inset: 15%;
-  background: radial-gradient(circle, #d5b4730c, transparent 65%);
-  pointer-events: none;
-}
-.hero-visual svg {
   display: block;
+  width: 112%;
+  max-width: 620px;
+  margin-left: -6%;
+  aspect-ratio: 1;
+  align-self: center;
+  isolation: isolate;
+}
+.hero-visual > svg {
+  position: relative;
   width: 100%;
+  height: 100%;
   overflow: visible;
 }
-.instrument-corners {
-  stroke: #8f9b7c;
-  stroke-width: 0.8;
-  opacity: 0.5;
+.orbital-aura {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at var(--light-x, 50%) var(--light-y, 50%),
+    #b7c68916,
+    transparent 65%
+  );
 }
-.instrument-rings {
-  stroke: #8f9b7c;
+.orbital-calibration {
+  stroke: #bfc6a9;
+  stroke-width: 0.7;
+  opacity: 0.38;
+}
+.orbital-calibration > circle {
+  stroke-dasharray: 1 7;
+}
+.orbital-meridian {
+  stroke: url(#orbital-line);
   stroke-width: 1;
-  opacity: 0.62;
 }
-.instrument-rings > circle {
-  stroke: #d5b473;
-  opacity: 0.55;
+.orbital-center {
+  stroke: #a2b38955;
+  stroke-width: 1;
 }
-.instrument-core {
-  fill: #263126;
-}
-.instrument-monogram {
+.orbital-monogram {
   fill: var(--paper);
-  font: 500 160px var(--font-sans);
-  letter-spacing: -0.07em;
-  transition: fill 0.4s;
+  font: 400 84px var(--font-sans);
+  letter-spacing: -0.09em;
 }
-.hero-visual:hover .instrument-monogram {
+.orbital-node {
   fill: #d5b473;
 }
-.instrument-points {
-  fill: #d5b473;
+.orbital-node-1 {
+  fill: #c77d58;
 }
-.instrument-points circle:nth-child(2) {
-  fill: var(--clay);
+.orbital-node-2 {
+  fill: #d6dfbc;
 }
-.instrument-labels {
-  fill: var(--on-dark);
+.orbital-node-halo {
+  opacity: 0.12;
+}
+.orbital-label {
+  position: absolute;
+  color: var(--sage);
   font:
-    9px ui-monospace,
+    12px/1.4 ui-monospace,
     monospace;
-  letter-spacing: 0.045em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: #253224;
+  padding: 8px 12px;
+  border: 1px solid #bfc6a92b;
 }
-.instrument-axis {
-  stroke: #d5b473;
-  stroke-width: 1;
+.orbital-label-top {
+  top: 11%;
+  left: 8%;
 }
-.instrument-trace {
-  stroke: #d5b473;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 0.025 0.975;
-  animation: orbit-travel 14s linear infinite;
-  animation-play-state: paused;
+.orbital-label-right {
+  top: 45%;
+  right: -2%;
 }
-.trace-inner {
-  stroke: var(--clay);
-  stroke-width: 2.5;
-  animation-duration: 10s;
-  animation-direction: reverse;
-}
-.hero-visual[data-animated='true'] .instrument-trace {
-  animation-play-state: running;
-}
-@keyframes orbit-travel {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: -1;
-  }
+.orbital-label-bottom {
+  bottom: 10%;
+  left: 16%;
 }
 .hero-vision {
   border-top: 1px solid #8f9b7c66;
   flex-shrink: 0;
-  padding-top: 18px;
+  padding-top: 20px;
 }
 .hero-vision-heading {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  align-items: center;
   font:
-    10px/1.5 ui-monospace,
+    12px/1.5 ui-monospace,
     monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--sage);
+  font-size: 12px;
 }
 .hero-vision-heading > span:last-child {
   color: #d5b473;
@@ -1403,199 +1376,429 @@ html[data-motion='paused'] .chevrons i {
 .hero-vision-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 30px;
-  padding-top: 22px;
-  text-align: center;
+  text-align: left;
+  padding-top: 26px;
+  gap: 36px;
+}
+.hero-vision-grid > div {
+  position: relative;
+  padding: 0 0 6px 34px;
 }
 .hero-vision-grid > div + div {
   border-left: 1px solid #8f9b7c44;
-  padding-left: 30px;
+  padding-left: 64px;
+}
+.vision-index {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  color: #d5b473;
+  font:
+    12px ui-monospace,
+    monospace;
+}
+.hero-vision-grid > div + div .vision-index {
+  left: 30px;
 }
 .hero-vision h2 {
-  font-size: 22px;
   line-height: 1.2;
   letter-spacing: -0.025em;
-  color: var(--paper);
+  font-size: 21px;
 }
 .hero-vision p {
-  font-size: 13px;
-  line-height: 1.4;
   color: var(--on-dark);
-  margin-top: 7px;
+  line-height: 1.5;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.navigation a {
+  position: relative;
+  padding: 12px 0;
+}
+.navigation a::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #d5b473;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.navigation a[aria-current]::after,
+.navigation a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Larger type, numbered principles and a crisp editorial rhythm. */
+.philosophy-section {
+  padding-top: 60px;
+  background: var(--paper);
+}
+.thesis-sentence {
+  padding-top: 52px;
+}
+.thesis-sentence h2 {
+  font-size: clamp(36px, 5.3vw, 82px);
+}
+.thesis-sentence > span {
+  margin-top: 26px;
+  font-size: 12px;
+}
+.philosophy-inner {
+  padding-top: 75px;
+}
+.philosophy-desktop {
+  grid-template-columns: 1fr 1.1fr;
+  gap: 70px;
 }
 .philosophy-questions,
 .philosophy-answer {
-  min-height: 460px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  min-height: 470px;
+  background: transparent;
 }
-@media (max-width: 1024px) {
-  .hero {
-    padding: 92px 0 26px;
-  }
+.philosophy-questions h3 {
+  font-size: 26px;
+  margin-bottom: 28px;
+}
+.philosophy-desktop [data-slot='tabs-list'] {
+  gap: 0;
+}
+.philosophy-desktop [data-slot='tabs-trigger'] {
+  width: 100%;
+  min-height: 62px;
+  padding: 14px 6px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  font: 400 18px/1.4 var(--font-sans);
+  text-transform: none;
+  gap: 20px;
+  transform: none !important;
+}
+.philosophy-desktop [data-slot='tabs-trigger'] > .principle-index {
+  opacity: 1;
+  color: var(--muted);
+  font:
+    12px ui-monospace,
+    monospace;
+}
+.principle-arrow {
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+.philosophy-desktop [data-slot='tabs-trigger'][data-active] {
+  color: var(--ink);
+}
+.philosophy-desktop [data-slot='tabs-trigger'][data-active] .principle-index {
+  color: #a65332;
+}
+.philosophy-desktop [data-slot='tabs-trigger'][data-active] .principle-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+.philosophy-answer {
+  position: relative;
+  padding: 38px 42px;
+  background: #e9e7dc;
+  border-top: 2px solid var(--olive);
+}
+.philosophy-mark {
+  height: 48px;
+  font-size: 25px;
+  margin-bottom: 35px;
+}
+.answer-index {
+  display: block;
+  color: var(--muted);
+  font:
+    12px ui-monospace,
+    monospace;
+  margin-bottom: 24px;
+}
+.philosophy-desktop [data-slot='tabs-content'] > p:first-of-type {
+  font-size: clamp(25px, 2.6vw, 38px);
+  line-height: 1.23;
+  letter-spacing: -0.035em;
+}
+.philosophy-desktop [data-slot='tabs-content'] p + p {
+  font-size: 17px;
+  line-height: 1.65;
+  margin-top: 24px;
+}
+.research-top {
+  border-top-color: #747965;
+  border-bottom: 0;
+  padding-top: 50px;
+}
+.research-map {
+  position: relative;
+  border: 1px solid #526448;
+  border-radius: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 100% 0%, #4d6041, transparent 70%), #253225;
+}
+.research-map::before {
+  content: '';
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border: 1px solid #bfc6a91f;
+  border-radius: 50%;
+  right: -200px;
+  top: -180px;
+  box-shadow:
+    0 0 0 40px #bfc6a908,
+    0 0 0 80px #bfc6a908;
+  pointer-events: none;
+}
+.research-map .visual-label {
+  font-size: 12px;
+}
+.research-map > p {
+  margin-top: 46px;
+}
+.research-map ol {
+  position: relative;
+}
+.research-map li {
+  grid-template-columns: 50px 1fr;
+  padding: 20px 0;
+}
+.research-map li > span {
+  font-size: 12px;
+}
+.research-map small {
+  font-size: 14px;
+}
+.research-consent {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.motion-toggle,
+.footer-copyright {
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
   .hero-main {
-    gap: 16px;
-  }
-  .hero h1 {
-    font-size: 6.5vw;
-  }
-  .hero-content > p {
-    font-size: 16px;
+    min-height: 460px;
   }
   .hero-vision-grid {
     gap: 20px;
   }
   .hero-vision-grid > div + div {
-    padding-left: 20px;
+    padding-left: 44px;
+  }
+  .hero-vision-grid > div + div .vision-index {
+    left: 15px;
   }
   .hero-vision h2 {
     font-size: 18px;
   }
-  .hero-vision p {
+  .philosophy-desktop {
+    gap: 40px;
+  }
+}
+@media (max-width: 1024px) {
+  .philosophy-desktop {
+    display: none;
+  }
+  .hero-main {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6.4vw, 66px);
+  }
+  .hero-content > p {
+    font-size: 17px;
+  }
+  .hero-visual {
+    width: 108%;
+    margin-left: -4%;
+  }
+  .orbital-label {
     font-size: 12px;
+    padding: 5px 7px;
+  }
+  .orbital-label-right {
+    right: -5%;
   }
   .philosophy-card {
-    min-height: 420px;
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--olive);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: none;
+    min-height: 340px;
+  }
+  .philosophy-card > p:first-of-type {
+    font-size: 26px;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+  }
+  .philosophy-card-heading {
+    min-height: 58px;
+  }
+  .philosophy-card-heading > span {
+    font-size: 23px;
+  }
+  .research-panel {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 700px) {
   .hero {
-    padding: 82px 0 26px;
+    padding: 112px 0 30px;
   }
   .hero-main {
+    grid-template-columns: 1fr;
     gap: 8px;
+    min-height: 0;
+    padding-bottom: 28px;
   }
   .hero-content {
-    width: 100%;
-    padding: 0 0 24px;
-  }
-  .hero-eyebrow {
-    margin-bottom: 16px;
-    font-size: 9px;
+    padding: 0;
   }
   .hero h1 {
-    font-size: 11vw;
-    line-height: 1.08;
-    letter-spacing: -0.05em;
+    font-size: clamp(38px, 11vw, 72px);
+    white-space: normal;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    margin-bottom: 24px;
   }
   .hero-content > p {
-    margin-top: 22px;
-    font-size: 15px;
-    max-width: 335px;
-    line-height: 1.5;
+    font-size: 16px;
+    max-width: 390px;
+    margin-top: 24px;
   }
   .hero-link {
-    margin-top: 17px;
-    min-height: 44px;
-    font-size: 14px;
-    gap: 36px;
+    font-size: 15px;
+    margin-top: 22px;
   }
   .hero-visual {
-    width: 112px;
+    width: min(80%, 330px);
+    margin: 12px auto 0;
+    display: block;
   }
-  .hero-vision {
-    padding-top: 12px;
+  .orbital-label {
+    font-size: 12px;
+  }
+  .orbital-label-top {
+    left: -7%;
+  }
+  .orbital-label-right {
+    right: -12%;
+  }
+  .orbital-label-bottom {
+    bottom: 5%;
   }
   .hero-vision-heading {
-    font-size: 9px;
+    font-size: 12px;
+    gap: 12px;
   }
   .hero-vision-grid {
     grid-template-columns: 1fr;
     gap: 0;
-    padding-top: 8px;
-    text-align: left;
+    padding-top: 12px;
   }
   .hero-vision-grid > div,
   .hero-vision-grid > div + div {
     display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    align-items: baseline;
-    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 18px 0 18px 30px;
     border-left: 0;
-    padding: 12px 0;
+  }
+  .vision-index,
+  .hero-vision-grid > div + div .vision-index {
+    left: 0;
+    top: 20px;
   }
   .hero-vision-grid > div + div {
     border-top: 1px solid #8f9b7c33;
   }
   .hero-vision h2 {
-    font-size: 14px;
-    line-height: 1.25;
-    letter-spacing: -0.025em;
+    font-size: 16px;
   }
   .hero-vision p {
-    font-size: 11px;
-    line-height: 1.35;
+    font-size: 14px;
     margin: 0;
   }
+  .philosophy-section {
+    padding-top: 10px;
+    padding-bottom: 70px;
+  }
+  .thesis-sentence {
+    padding-top: 50px;
+  }
+  .thesis-sentence h2 {
+    font-size: 10vw;
+  }
+  .philosophy-inner {
+    padding-top: 45px;
+  }
+  .philosophy-card {
+    min-height: 390px;
+    padding: 26px;
+  }
+  .philosophy-card > p:first-of-type {
+    font-size: 26px;
+  }
+  .research-section {
+    padding-bottom: 60px;
+  }
+  .research-top {
+    padding-top: 35px;
+  }
+  .intro-skip {
+    top: 12px;
+    right: 12px;
+  }
+  .scroll-cue {
+    bottom: 40px;
+  }
 }
-@media (max-height: 700px) {
-  .hero {
-    padding-top: 76px;
-    padding-bottom: 18px;
-  }
-  .hero-content {
-    padding-block: 10px 20px;
-  }
-  .hero-eyebrow {
-    margin-bottom: 12px;
-  }
-  .hero h1 {
-    font-size: clamp(38px, 5.6vw, 76px);
-  }
-  .hero-content > p {
-    font-size: 15px;
-    margin-top: 18px;
-  }
-  .hero-link {
-    margin-top: 14px;
-    min-height: 42px;
+@media (max-height: 520px) and (min-width: 701px) {
+  .hero-main {
+    min-height: 390px;
   }
   .hero-visual {
-    display: none;
+    display: block;
+    max-width: 360px;
+    margin-inline: auto;
   }
-  .hero-vision {
-    padding-top: 12px;
+  .thought-field {
+    width: min(65vw, 90svh);
   }
-  .hero-vision-grid {
-    padding-top: 14px;
+  .opening-wordmark {
+    font-size: 58px;
   }
-}
-@media (max-width: 700px) and (max-height: 700px) {
-  .hero-visual {
-    display: none;
-  }
-  .hero h1 {
-    font-size: 10.5vw;
-  }
-  .hero-eyebrow {
-    max-width: none;
-  }
-  .hero-content > p {
-    font-size: 14px;
-    margin-top: 16px;
-  }
-  .hero-vision-grid {
-    padding-top: 5px;
-  }
-  .hero-vision-grid > div,
-  .hero-vision-grid > div + div {
-    padding-block: 9px;
+  .scroll-cue {
+    bottom: 22px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .instrument-trace {
-    animation: none;
+  .thought-field,
+  .thought-glow,
+  .peel-surface {
+    display: none;
   }
-}
-
-/* Short viewports use normal page flow instead of a clipped opening stage. */
-@media (max-height: 520px) {
-  .hero {
-    height: auto;
+  .opening-wordmark {
+    opacity: 1;
   }
-  .hero-main {
-    min-height: 350px;
-    flex: none;
-  }
-  .hero-content {
-    padding-block: 25px;
+  .orbital-node,
+  .hero-visual {
+    will-change: auto;
   }
 }

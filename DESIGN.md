@@ -1,16 +1,16 @@
 # KeepRI website design
 
-The current direction is an original three-section website: opening and hero, philosophies, and industry. The hero is centered, with small RI orbital artwork above a stable headline. It has no rotating phrases, canvas particles, or marquees.
+The September 14 direction keeps the three-section site and its established identity, with a diagonal page-peel opening, a larger orbital instrument, stronger typography and concise mission-led copy.
 
 ## Visual system
 
-Use self-hosted DM Sans 400/500, warm paper #f6f3e9, ink #242820, olive #3c4435, deep green #263126, sage, gold, and clay. Regular-weight typography, fine rules, and restrained grain establish the visual language.
+Self-hosted DM Sans 400/500, warm paper #f6f3e9, ink #242820, deep greens, sage, gold and clay. Fine rules, subtle grain and a restrained coordinate grid connect the opening to the main page.
 
-The hero uses a vertical composition: small orbital SVG, centered headline, purpose statement, and link. A centered three-column desktop vision row names global leaderboards, significant prizes, and human learning data beneath an explicit development label. Mobile vision rows use two left-aligned columns for each heading and description. Short mobile viewports omit the artwork to preserve space for content.
+The desktop hero pairs left-aligned text with a large perspective-projected orbital SVG. Seven meridians rotate around RI; three points move through depth. Pointer input changes the viewing angle with damping. A numbered three-column vision row names global leaderboards, significant prizes and human learning data under an explicit development label. Mobile stacks text, artwork and two-column vision rows in natural flow.
 
-The opening retains 18 points, three rings, curved connections, four labels, and the KeepRI wordmark. The network gathers into a circular reveal. Its scroll region is 280svh above 1024px and 240svh at smaller widths. It replays on every normal homepage load or reload, including navigation through the header wordmark. Direct section links and reduced motion bypass it. Viewports no taller than 520px also bypass the opening and use a natural-height hero.
+The original constellation is a fixed cover over the page, not a scroll section. It plays for 3.8 seconds, including a 1.65-second diagonal peel with viewport-correct geometry, a reflected paper strip, directional shading and a moving shadow. Scroll, swipe or the entry cue accelerates the peel; Skip intro and Escape dismiss it. Completion hides the cover permanently until the next document load. Hash links also get the intro and resolve afterward. The header wordmark returns to the main-page top without replaying it.
 
-Philosophies use two cream panels with vertical tabs on desktop and six swipe cards on smaller screens. Industry is a direct section with a proposed research diagram and native disclosures. The compact footer includes Back to top and Pause motion.
+Philosophies pair numbered desktop tabs with a larger answer panel; smaller screens use swipe cards. Industry uses a proposed research diagram, native disclosures and staged entrances. Header links indicate the current section. The footer retains Back to top and Pause motion.
 
 Use “For Industry” in the header only. The section label remains “For industry”.
 
@@ -26,8 +26,8 @@ Research enrollment is inactive. Free play and future prize eligibility remain i
 
 ## Motion and accessibility
 
-The stable hero headline carries its full meaning without animation. Two decorative SVG traces travel in opposite directions over 14s and 10s. They stop offscreen, in a hidden tab, during the opening, under reduced motion, and when paused. The opening and philosophy entrance respond to scrolling; Lenis uses lerp .1 for wheel input and native touch behavior.
+The stable headline carries the mission without animation. Orbital projection uses direct SVG updates, with no React renders per frame, and a single requestAnimationFrame loop. It stops offscreen, in hidden tabs, during the intro, under reduced motion and when paused. GSAP owns the intro and section entrances; Lenis smooths wheel scrolling and preserves native touch scrolling after entry.
 
-Preserve accessible tabs, native disclosures, focusable anchor destinations, mobile menu Escape/focus return, and hidden intro focus controls. The hero is inert until the reveal reaches its access threshold. Normal homepage loads use manual scroll restoration and reset to the top before Lenis starts. Motion-preference and compact-viewport changes bypass the opening while preserving content position, without replay. Without JavaScript, the hero, industry content, and philosophy answers remain readable.
+Reduced motion retains a 450ms still opening without a peel. Runtime preference changes dismiss an active intro and never replay it. Viewport changes recompute the crease without creating scroll travel. Preserve native zoom gestures, accessible tabs, disclosures, mobile menu Escape/focus return and focusable anchor destinations. The underlying page is inert while the cover is present. No-JavaScript content is readable. Do not add storage flags or scroll-controlled reverse entry.
 
-See [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md) for source settings and the distinction between historical evidence and current verification.
+See [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md) for automated checks and historical browser evidence.
