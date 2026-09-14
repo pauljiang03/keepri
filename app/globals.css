@@ -2108,3 +2108,21 @@ html[data-motion='paused'] .chevrons i {
     display: none;
   }
 }
+
+/* The diagram and disclosure share one stable, independently scrollable area. */
+.hero-visual.model-flow {
+  block-size: clamp(340px, calc(100svh - 180px), 540px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #82936c77 transparent;
+  padding-right: 10px;
+  scroll-padding-block: 12px;
+}
+@media (max-width: 700px) {
+  .hero-visual.model-flow {
+    block-size: min(520px, 70svh);
+  }
+}

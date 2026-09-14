@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Three independently triggered stages
+
+Spin lasts 1.8 seconds and holds the constellation. A second gesture triggers a three-second reveal: the scene fades out for 0.6 seconds, then each word fades in over 1.25 seconds with a 0.55-second stagger. A third gesture triggers the bottom-up peel. All timelines start paused. Reduced motion, visibility changes and momentum guards preserve the three boundaries.
+
 The current peel lifts a horizontal fold from the bottom edge to the top. Only the constellation spins; intro text stays stationary and fades in as whole words.
 
 ## Current text motion

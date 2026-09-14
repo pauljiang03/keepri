@@ -2,7 +2,14 @@ import { ArrowDown, ArrowUp, CornerUpLeft, Plus } from 'lucide-react';
 
 export function HeroVisual() {
   return (
-    <figure className="hero-visual model-flow" aria-labelledby="model-title">
+    <figure
+      className="hero-visual model-flow"
+      aria-labelledby="model-title"
+      // Keyboard access to the scrollable diagram and its expanded details.
+      // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={0}
+      data-lenis-prevent
+    >
       <figcaption className="model-heading">
         <h2 id="model-title">How KeepRI would work</h2>
         <span>Planned model</span>

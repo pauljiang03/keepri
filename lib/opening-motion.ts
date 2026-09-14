@@ -24,7 +24,7 @@ export function installOpeningMotion() {
   ];
   let done = false;
   let entering = false;
-  let stage: 'idle' | 'spinning' | 'ready' = 'idle';
+  let stage: 'idle' | 'spinning' | 'spun' | 'revealing' | 'ready' = 'idle';
   let disposed = false;
   let width = innerWidth;
   let height = innerHeight;
@@ -87,6 +87,7 @@ export function installOpeningMotion() {
     if (done || disposed) return;
     done = true;
     timeline?.pause();
+    revealTimeline?.pause();
     peelTimeline?.pause();
     const focusWasInside = overlay.contains(document.activeElement);
     // Remove the intro from layout, hit testing and the accessibility tree.
@@ -104,14 +105,22 @@ export function installOpeningMotion() {
       navigateTo(initialHash, true, focusWasInside);
     else if (focus || focusWasInside) hero.focus({ preventScroll: true });
   };
-  const readyToPeel = () => {
+  const readyToReveal = () => {
     if (done || disposed || stage !== 'spinning') return;
+    stage = 'spun';
+    overlay.dataset.step = 'spun';
+    cueLabel.textContent = 'Swipe to reveal';
+    cue.setAttribute('aria-disabled', 'false');
+  };
+  const readyToPeel = () => {
+    if (done || disposed || stage !== 'revealing') return;
     stage = 'ready';
     overlay.dataset.step = 'ready';
     cueLabel.textContent = 'Peel to enter';
     cue.setAttribute('aria-disabled', 'false');
   };
   let timeline: gsap.core.Timeline;
+  let revealTimeline: gsap.core.Timeline;
   let peelTimeline: gsap.core.Timeline;
   const context = gsap.context(() => {
     const points = gsap.utils.toArray<SVGCircleElement>(
@@ -123,7 +132,8 @@ export function installOpeningMotion() {
       strokeDashoffset: 1,
     });
     gsap.set('.opening-spelling-word', { opacity: 0 });
-    timeline = gsap.timeline({ paused: true, onComplete: readyToPeel });
+    timeline = gsap.timeline({ paused: true, onComplete: readyToReveal });
+    revealTimeline = gsap.timeline({ paused: true, onComplete: readyToPeel });
     // The cover animation and the exit are independent timelines. Nothing
     // advances into the peel until the visitor explicitly enters.
     peelTimeline = gsap.timeline({ paused: true, onComplete: () => finish() });
@@ -140,7 +150,7 @@ export function installOpeningMotion() {
         0,
       );
     // The constellation spins; the wordmark and words never transform.
-    // Stage two begins only after the spin has settled and faded away.
+    // Each stage waits for its own gesture; no text is revealed by the spin.
     timeline
       .to('.thought-orbits', { opacity: 0.8, duration: 0.45 }, 0)
       .to(
@@ -176,39 +186,47 @@ export function installOpeningMotion() {
       )
       .to('.thought-glow', { opacity: 0.65, duration: 0.7 }, 0)
       .to(
+        '.opening-progress i',
+        { scaleX: 0.5, duration: 1.8, ease: 'none' },
+        0,
+      );
+    // A second, fresh gesture reveals the stationary words at a slower pace.
+    revealTimeline
+      .to(
         '.thought-field, .opening-wordmark, .thought-glow',
         {
           opacity: 0,
-          duration: 0.3,
+          duration: 0.6,
           ease: 'power2.out',
         },
-        1.85,
+        0,
       )
-      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 2.15)
+      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 0.6)
       .to(
         '.opening-spelling-word',
         {
           opacity: 1,
-          duration: 0.4,
-          stagger: 0.12,
-          ease: 'power3.out',
+          duration: 1.25,
+          stagger: 0.55,
+          ease: 'sine.inOut',
         },
-        2.15,
+        0.6,
       )
       .to(
         '.opening-progress i',
         {
           scaleX: 1,
-          duration: 2.8,
+          duration: 3,
           ease: 'none',
         },
         0,
       );
-    // Both motion preferences wait for the first gesture before spelling.
+    // Reduced motion preserves all three deliberate input steps.
   });
 
   const advance = () => {
-    if (done || entering || stage === 'spinning') return;
+    if (done || entering || stage === 'spinning' || stage === 'revealing')
+      return;
     if (stage === 'idle') {
       stage = 'spinning';
       overlay.dataset.step = 'spinning';
@@ -218,8 +236,18 @@ export function installOpeningMotion() {
       else timeline.play(0);
       return;
     }
+    if (stage === 'spun') {
+      stage = 'revealing';
+      overlay.dataset.step = 'revealing';
+      cueLabel.textContent = 'Revealing…';
+      cue.setAttribute('aria-disabled', 'true');
+      if (preference.matches) revealTimeline.progress(1).pause();
+      else revealTimeline.play(0);
+      return;
+    }
     entering = true;
     timeline.pause();
+    revealTimeline.pause();
     if (preference.matches) finish(true, true);
     else peelTimeline.play(0);
   };
@@ -313,17 +341,23 @@ export function installOpeningMotion() {
     if (done) return;
     if (document.hidden) {
       timeline.pause();
+      revealTimeline.pause();
       peelTimeline.pause();
     } else if (entering) peelTimeline.resume();
     else if (stage === 'spinning' && !preference.matches) timeline.resume();
+    else if (stage === 'revealing' && !preference.matches)
+      revealTimeline.resume();
   };
   const preferenceChange = () => {
     lenis.options.smoothWheel = !preference.matches;
     if (preference.matches) {
       if (stage === 'spinning') timeline.progress(1).pause();
+      else if (stage === 'revealing') revealTimeline.progress(1).pause();
       if (entering) finish();
-    } else if (!done && !entering && stage === 'spinning' && !document.hidden)
-      timeline.resume();
+    } else if (!done && !entering && !document.hidden) {
+      if (stage === 'spinning') timeline.resume();
+      else if (stage === 'revealing') revealTimeline.resume();
+    }
   };
   const hashChange = () => {
     if (!done) finish(false);

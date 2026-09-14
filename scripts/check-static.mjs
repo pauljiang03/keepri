@@ -55,6 +55,7 @@ for (const expected of [
   'Independent thought',
   'How KeepRI would work',
   'Planned model',
+  'data-lenis-prevent',
   'Prize-play research',
   'Prize-entry agreement',
   'AI teams pay',

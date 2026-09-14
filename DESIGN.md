@@ -1,5 +1,9 @@
 # KeepRI website design
 
+## Three gestures and contained disclosure
+
+The intro waits separately for spin, slow text reveal and upward peel. The diagram and its dropdown now scroll together within a fixed-height figure, with stable scrollbar space and native keyboard access. Opening the disclosure does not change the figure height or move surrounding page text.
+
 ## Compact main-page flow
 
 The business flow shows concise step labels in its two branches, with the supporting explanations retained in Research & funding. Reduced vertical spacing, hero padding and excess minimum height let the closed diagram fit the first desktop view. The headline stays top-anchored when the disclosure expands. The hero no longer clips its contents.
