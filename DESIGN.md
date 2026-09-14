@@ -1,5 +1,9 @@
 # KeepRI website design
 
+## Horizontal model views
+
+The diagram and research explanation now occupy two horizontally swipable panels, using the existing Embla carousel and labeled buttons. No vertical scrolling or dropdown remains. Both panels retain the height of the taller content so switching does not move the headline. The intro text reveal is shortened to 3.8 seconds.
+
 ## Three gestures and contained disclosure
 
 The intro waits separately for spin, slow text reveal and upward peel. The diagram and its dropdown now scroll together within a fixed-height figure, with stable scrollbar space and native keyboard access. Opening the disclosure does not change the figure height or move surrounding page text.

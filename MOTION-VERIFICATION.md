@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Rapid-input protection
+
+The intro uses a native button cue, rejects hash navigation while active, consumes touches and wheel bursts that start during animation, and waits 400ms after each stage completes before accepting a new gesture. A gesture begun too early stays rejected even if it crosses the completion boundary. The text reveal lasts 3.8 seconds. Surrounding geometry still spins; text remains stationary; the third gesture peels upward.
+
 ## Adjusted reveal pace
 
 The second-swipe transition now lasts 4.5 seconds: a 1.1-second scene fade, then 1.8-second word fades with a 0.8-second stagger. This supersedes the six-second timing below. Gesture boundaries, stationary typography and bottom-up peeling remain unchanged.

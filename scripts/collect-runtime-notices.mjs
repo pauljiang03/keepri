@@ -24,13 +24,29 @@ function collect(name, from = siteRequire, recurse = true) {
     );
     return;
   }
-  if (!files.length)
+  const emblaFallback =
+    !files.length &&
+    [
+      'embla-carousel-react',
+      'embla-carousel',
+      'embla-carousel-reactive-utils',
+    ].includes(name) &&
+    pkg.version === '8.5.2' &&
+    pkg.license === 'MIT';
+  if (!files.length && !emblaFallback)
     throw new Error(`No license/notice file found for ${identity}`);
   notices.push(
-    `${identity}\nDeclared license: ${pkg.license}\n\n${files
-      .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
-      .map((file) => `${file}\n${readFileSync(join(directory, file), 'utf8')}`)
-      .join('\n\n')}`,
+    `${identity}\nDeclared license: ${pkg.license}\n\n${
+      emblaFallback
+        ? readFileSync('public/licenses/embla-8.5.2.txt', 'utf8')
+        : files
+            .sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+            .map(
+              (file) =>
+                `${file}\n${readFileSync(join(directory, file), 'utf8')}`,
+            )
+            .join('\n\n')
+    }`,
   );
   if (recurse)
     for (const dependency of Object.keys(pkg.dependencies || {}))
@@ -39,6 +55,7 @@ function collect(name, from = siteRequire, recurse = true) {
 for (const name of [
   'react',
   'react-dom',
+  'embla-carousel-react',
   'react-server-dom-webpack',
   '@base-ui/react',
   'gsap',

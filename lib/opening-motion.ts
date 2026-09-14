@@ -12,7 +12,7 @@ export function installOpeningMotion() {
     document.querySelector<SVGLinearGradientElement>('#peel-shading')!;
   const foldSvg = document.querySelector<SVGSVGElement>('.peel-surface')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
-  const cue = document.querySelector<HTMLAnchorElement>('.scroll-cue')!;
+  const cue = document.querySelector<HTMLButtonElement>('.scroll-cue')!;
   const cueLabel = document.querySelector<HTMLElement>('.intro-cue-label')!;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const initialHash = location.hash;
@@ -26,6 +26,7 @@ export function installOpeningMotion() {
   let entering = false;
   let stage: 'idle' | 'spinning' | 'spun' | 'revealing' | 'ready' = 'idle';
   let disposed = false;
+  let availableAt = 0;
   let width = innerWidth;
   let height = innerHeight;
   let refreshFrame = 0;
@@ -108,6 +109,7 @@ export function installOpeningMotion() {
   const readyToReveal = () => {
     if (done || disposed || stage !== 'spinning') return;
     stage = 'spun';
+    availableAt = performance.now() + 400;
     overlay.dataset.step = 'spun';
     cueLabel.textContent = 'Swipe to reveal';
     cue.setAttribute('aria-disabled', 'false');
@@ -115,6 +117,7 @@ export function installOpeningMotion() {
   const readyToPeel = () => {
     if (done || disposed || stage !== 'revealing') return;
     stage = 'ready';
+    availableAt = performance.now() + 400;
     overlay.dataset.step = 'ready';
     cueLabel.textContent = 'Peel to enter';
     cue.setAttribute('aria-disabled', 'false');
@@ -196,27 +199,27 @@ export function installOpeningMotion() {
         '.thought-field, .opening-wordmark, .thought-glow',
         {
           opacity: 0,
-          duration: 1.1,
+          duration: 1,
           ease: 'sine.inOut',
         },
         0,
       )
-      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 1.1)
+      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 1)
       .to(
         '.opening-spelling-word',
         {
           opacity: 1,
-          duration: 1.8,
-          stagger: 0.8,
+          duration: 1.6,
+          stagger: 0.6,
           ease: 'sine.inOut',
         },
-        1.1,
+        1,
       )
       .to(
         '.opening-progress i',
         {
           scaleX: 1,
-          duration: 4.5,
+          duration: 3.8,
           ease: 'none',
         },
         0,
@@ -224,9 +227,14 @@ export function installOpeningMotion() {
     // Reduced motion preserves all three deliberate input steps.
   });
 
+  const canAdvance = () =>
+    !done &&
+    !entering &&
+    stage !== 'spinning' &&
+    stage !== 'revealing' &&
+    performance.now() >= availableAt;
   const advance = () => {
-    if (done || entering || stage === 'spinning' || stage === 'revealing')
-      return;
+    if (!canAdvance()) return;
     if (stage === 'idle') {
       stage = 'spinning';
       overlay.dataset.step = 'spinning';
@@ -267,10 +275,6 @@ export function installOpeningMotion() {
     const hash = anchor?.getAttribute('href');
     if (!hash || !destinationFor(hash)) return;
     event.preventDefault();
-    if (!done && anchor?.classList.contains('scroll-cue')) {
-      advance();
-      return;
-    }
     if (!done) finish(false, true);
     history.replaceState(
       null,
@@ -292,7 +296,7 @@ export function installOpeningMotion() {
     const freshGesture = now - lastWheel > 240;
     lastWheel = now;
     if (freshGesture) {
-      wheelUsed = false;
+      wheelUsed = !canAdvance();
       wheelDistance = 0;
     }
     const delta =
@@ -307,14 +311,22 @@ export function installOpeningMotion() {
     }
   };
   let touchY = 0;
+  let touchX = 0;
   let touchUsed = false;
   const touchStart = (event: TouchEvent) => {
     touchY = event.touches[0]?.clientY ?? 0;
-    touchUsed = event.touches.length !== 1;
+    touchX = event.touches[0]?.clientX ?? 0;
+    touchUsed = event.touches.length !== 1 || !canAdvance();
   };
   const touchMove = (event: TouchEvent) => {
-    if (done || touchUsed || event.touches.length !== 1) return;
-    if (touchY - (event.touches[0]?.clientY ?? touchY) > 12) {
+    if (done || event.touches.length !== 1) return;
+    if (touchUsed) {
+      event.preventDefault();
+      return;
+    }
+    const dy = touchY - (event.touches[0]?.clientY ?? touchY);
+    const dx = Math.abs(touchX - (event.touches[0]?.clientX ?? touchX));
+    if (dy > 28 && dy > dx) {
       event.preventDefault();
       touchUsed = true;
       advance();
@@ -360,13 +372,14 @@ export function installOpeningMotion() {
     }
   };
   const hashChange = () => {
-    if (!done) finish(false);
-    navigateTo(location.hash);
+    // Hash changes are navigation, not permission to skip an active intro.
+    if (done) navigateTo(location.hash);
   };
   const pageShow = (event: PageTransitionEvent) => {
     // BFCache restores the completed document; only real loads replay it.
     if (event.persisted) visibility();
   };
+  cue.addEventListener('click', advance);
   document.addEventListener('click', navigate);
   window.addEventListener('wheel', wheel, { passive: false });
   overlay.addEventListener('touchstart', touchStart, { passive: true });
@@ -406,6 +419,7 @@ export function installOpeningMotion() {
     history.scrollRestoration = previousRestoration;
     layout.disconnect();
     cancelAnimationFrame(refreshFrame);
+    cue.removeEventListener('click', advance);
     document.removeEventListener('click', navigate);
     window.removeEventListener('wheel', wheel);
     overlay.removeEventListener('touchstart', touchStart);

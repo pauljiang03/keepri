@@ -148,7 +148,7 @@ export function OpeningHero() {
           <a className="intro-skip" href="#site">
             Skip intro
           </a>
-          <a className="scroll-cue" href="#site">
+          <button className="scroll-cue" type="button">
             <span className="intro-cue-label" aria-live="polite">
               Swipe to spin
             </span>
@@ -156,7 +156,7 @@ export function OpeningHero() {
               <i>⌃</i>
               <i>⌃</i>
             </span>
-          </a>
+          </button>
         </div>
         <div className="hero-layer" id="site" tabIndex={-1}>
           <section className="hero" aria-labelledby="hero-title">

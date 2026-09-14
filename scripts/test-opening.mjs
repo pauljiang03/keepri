@@ -247,13 +247,16 @@ test('paper coverage decreases continuously on desktop, mobile and landscape', (
 });
 
 function press(env, repeat = false) {
+  if (!repeat) env.elapse(450);
   env.window.emit('keydown', { key: ' ', repeat, preventDefault() {} });
 }
 function completeIntro(env) {
   press(env);
   env.cover.complete();
+  env.elapse(450);
   press(env);
   env.reveal.complete();
+  env.elapse(450);
   press(env);
   env.timeline.complete();
 }
@@ -267,6 +270,7 @@ for (const hash of ['', '#site', '#research', '#thesis']) {
       assert.equal(env.cover.paused, false);
       assert.equal(env.reveal.paused, true);
       env.cover.complete();
+      env.elapse(450);
       assert.equal(
         env.elements['.intro-cue-label'].textContent,
         'Swipe to reveal',
@@ -276,6 +280,7 @@ for (const hash of ['', '#site', '#research', '#thesis']) {
       assert.equal(env.reveal.paused, false);
       assert.equal(env.timeline.paused, true);
       env.reveal.complete();
+      env.elapse(450);
       assert.equal(
         env.elements['.intro-cue-label'].textContent,
         'Peel to enter',
@@ -309,6 +314,7 @@ test('Escape exits during either animation and restores focus', () => {
     press(env);
     if (reveal) {
       env.cover.complete();
+      env.elapse(450);
       press(env);
     }
     env.window.emit('keydown', { key: 'Escape', preventDefault() {} });
@@ -341,6 +347,7 @@ test('motion preference changes finish only the running stage', () => {
     press(env);
     if (revealing) {
       env.cover.complete();
+      env.elapse(450);
       press(env);
     }
     env.preference.matches = true;
@@ -361,10 +368,12 @@ test('visibility changes never advance a waiting stage', () => {
     if (stage === 'spun') {
       press(env);
       env.cover.complete();
+      env.elapse(450);
     }
     if (stage === 'ready') {
       press(env);
       env.reveal.complete();
+      env.elapse(450);
     }
     env.document.hidden = true;
     env.document.emit('visibilitychange');
@@ -380,6 +389,7 @@ test('visibility pauses and resumes the active text reveal only', () => {
   const env = setup();
   press(env);
   env.cover.complete();
+  env.elapse(450);
   press(env);
   env.document.hidden = true;
   env.document.emit('visibilitychange');
@@ -431,10 +441,12 @@ test('touch needs a fresh swipe for each stage', () => {
   };
   swipe();
   env.cover.complete();
+  env.elapse(450);
   move();
   assert.equal(env.reveal.paused, true);
   swipe();
   env.reveal.complete();
+  env.elapse(450);
   move();
   assert.equal(env.timeline.paused, true);
   swipe();
@@ -446,10 +458,12 @@ test('held keys cannot skip the reveal or peel step', () => {
   const env = setup();
   press(env);
   env.cover.complete();
+  env.elapse(450);
   press(env, true);
   assert.equal(env.reveal.paused, true);
   press(env);
   env.reveal.complete();
+  env.elapse(450);
   press(env, true);
   assert.equal(env.timeline.paused, true);
   press(env);
@@ -459,24 +473,17 @@ test('held keys cannot skip the reveal or peel step', () => {
 
 test('cue clicks advance three stages and ignore input during animation', () => {
   const env = setup();
-  const anchor = {
-    getAttribute: () => '#site',
-    classList: { contains: () => true },
-  };
-  const click = () =>
-    env.document.emit('click', {
-      button: 0,
-      target: { closest: () => anchor },
-      preventDefault() {},
-    });
+  const click = () => env.elements['.scroll-cue'].emit('click');
   click();
   click();
   assert.equal(env.reveal.paused, true);
   env.cover.complete();
+  env.elapse(450);
   click();
   click();
   assert.equal(env.timeline.paused, true);
   env.reveal.complete();
+  env.elapse(450);
   click();
   assert.equal(env.timeline.paused, false);
   env.cleanup();
@@ -519,9 +526,9 @@ test('text appears only in the reveal timeline and never transforms', () => {
   assert(words.values.duration >= 1.5, 'Each word should fade in gradually');
   assert(
     Math.abs(
-      words.at + words.values.duration + 2 * words.values.stagger - 4.5,
+      words.at + words.values.duration + 2 * words.values.stagger - 3.8,
     ) < 0.01,
-    'The complete text transition should take 4.5 seconds',
+    'The complete text transition should take 3.8 seconds',
   );
   env.cleanup();
 });
@@ -533,7 +540,8 @@ test('teardown removes all intro input listeners', () => {
     env.window.listenerCount() +
       env.document.listenerCount() +
       env.preference.listenerCount() +
-      env.elements['.intro-overlay'].listenerCount(),
+      env.elements['.intro-overlay'].listenerCount() +
+      env.elements['.scroll-cue'].listenerCount(),
     0,
   );
   assert.equal(env.lenis.destroyed, true);
@@ -568,4 +576,82 @@ test('peeling reveals the bottom first with a level crease across every viewport
       assert(shape.edge - shape.curl >= 0);
     }
   }
+});
+
+test('rapid double activation cannot skip either animation or its settling period', () => {
+  const env = setup();
+  const click = () => env.elements['.scroll-cue'].emit('click');
+  click();
+  click();
+  assert.equal(env.reveal.paused, true);
+  env.cover.complete();
+  click();
+  assert.equal(env.reveal.paused, true);
+  env.elapse(450);
+  click();
+  click();
+  assert.equal(env.timeline.paused, true);
+  env.reveal.complete();
+  click();
+  assert.equal(env.timeline.paused, true);
+  env.elapse(450);
+  click();
+  assert.equal(env.timeline.paused, false);
+  env.cleanup();
+});
+
+test('a swipe begun during animation stays rejected even if it ends after completion', () => {
+  const env = setup();
+  const overlay = env.elements['.intro-overlay'];
+  const start = () =>
+    overlay.emit('touchstart', { touches: [{ clientY: 400 }] });
+  const move = () =>
+    overlay.emit('touchmove', {
+      touches: [{ clientY: 200 }],
+      preventDefault() {},
+    });
+  start();
+  move();
+  for (const [current, next] of [
+    [env.cover, env.reveal],
+    [env.reveal, env.timeline],
+  ]) {
+    start();
+    current.complete();
+    env.elapse(500);
+    move();
+    assert.equal(next.paused, true);
+    start();
+    move();
+    assert.equal(next.paused, false);
+  }
+  env.cleanup();
+});
+
+test('wheel momentum that begins during settlement cannot become the next gesture', () => {
+  const env = setup();
+  env.elements['.scroll-cue'].emit('click');
+  env.cover.complete();
+  for (let i = 0; i < 30; i++) {
+    env.window.emit('wheel', { deltaY: 40, preventDefault() {} });
+    env.elapse(20);
+  }
+  assert.equal(env.reveal.paused, true);
+  env.elapse(300);
+  env.window.emit('wheel', { deltaY: 40, preventDefault() {} });
+  assert.equal(env.reveal.paused, false);
+  env.cleanup();
+});
+
+test('hash navigation cannot bypass an active intro', () => {
+  const env = setup();
+  press(env);
+  env.window.emit('hashchange');
+  assert.equal(env.root.dataset.intro, 'active');
+  env.cover.complete();
+  env.elapse(450);
+  press(env);
+  env.window.emit('hashchange');
+  assert.equal(env.root.dataset.intro, 'active');
+  env.cleanup();
 });

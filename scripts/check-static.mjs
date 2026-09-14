@@ -55,7 +55,8 @@ for (const expected of [
   'Independent thought',
   'How KeepRI would work',
   'Planned model',
-  'data-lenis-prevent',
+  'model-carousel',
+  '2 of 2: Research and funding',
   'Prize-play research',
   'Prize-entry agreement',
   'AI teams pay',
@@ -94,6 +95,7 @@ assert(
 );
 for (const file of [
   'licenses/runtime-notices.txt',
+  'licenses/embla-8.5.2.txt',
   'licenses/lucide.txt',
   'licenses/GSAP-notice.txt',
   'licenses/lenis.txt',

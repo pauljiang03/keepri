@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Horizontal business model carousel
+
+The diagram-to-text swipe uses the already-installed embla-carousel-react package through the existing local carousel component. Its runtime dependencies and license notices are now included by collect-runtime-notices.mjs. The installed 8.5.2 packages omit their license file, so public/licenses/embla-8.5.2.txt retains the [official version-tagged MIT notice](https://github.com/davidjerleke/embla-carousel/blob/v8.5.2/LICENSE). All panel layout and content are authored for KeepRI.
+
 ## Two-stage opening revision
 
 The spin and spelling choreography, character markup and responsive typography are authored locally for KeepRI using the existing GSAP runtime, DM Sans font and wordmark. No new external code or visual assets were introduced.
@@ -34,7 +38,7 @@ The distribution formulas were verified against [NIST’s beta-distribution refe
 
 The prior is Beta(k/2, k/2); selected successes and failures update its two shape parameters. Intermediate slices use proportional accumulation of the selected counts, not a claimed historical order of observations. A shared vertical normalization is disclosed in the figure. The gold curve is the posterior; the dotted path follows the means of the slices.
 
-`public/licenses/runtime-notices.txt` retains license/NOTICE files for 27 installed runtime/core package versions, collected by `scripts/collect-runtime-notices.mjs`. These include React, Base UI and supporting packages, shadcn components, class-variance-authority (Apache-2.0), clsx, tailwind-merge, Tailwind, Vinext, Lucide, Lenis and GSAP. The build regenerates this file. Separate DM Sans OFL and icon notices remain published.
+`public/licenses/runtime-notices.txt` retains license/NOTICE files for 30 installed runtime/core package versions, collected by `scripts/collect-runtime-notices.mjs`. These include React, Embla Carousel, Base UI and supporting packages, shadcn components, class-variance-authority (Apache-2.0), clsx, tailwind-merge, Tailwind, Vinext, Lucide, Lenis and GSAP. The build regenerates this file. Separate DM Sans OFL and icon notices remain published.
 
 On September 14, the [official GSAP standard license](https://gsap.com/community/standard-license/) and [SIL Open Font License guidance](https://openfontlicense.org/) were checked. Existing copyright and license notices are retained. This document records provenance and license handling, not a guarantee about exclusivity, trademark clearance or future disputes.
 
