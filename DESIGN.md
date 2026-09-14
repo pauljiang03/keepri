@@ -1,5 +1,9 @@
 # KeepRI website design
 
+## Contained intro lettering
+
+The spelling is limited to a centered 38rem column and a 3.75rem maximum type size. Viewport width and height can reduce the font without a fixed minimum, while each word uses intrinsic, non-stretching letter widths. Narrow and landscape screens keep side gutters.
+
 ## Current interaction and prize model
 
 The intro starts paused. One gesture triggers spin and spelling; a second gesture peels. The headline uses a fixed top alignment independent of the funding disclosure height. Cash-prize entry would require an explicit research and commercial-use agreement; free practice remains available without research participation. This supersedes the earlier prize-eligibility model.

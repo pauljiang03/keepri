@@ -1965,28 +1965,36 @@ html[data-motion='paused'] .chevrons i {
 }
 
 /* Stage two spells the name after the spin, then waits for manual peeling. */
+/* Bounded lines: no minimum font floor that can overflow a narrow viewport. */
 .opening-spelling {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 38rem);
+  align-content: center;
   justify-content: center;
-  align-items: center;
-  padding: 80px 18px 110px;
+  justify-items: center;
+  padding: 72px clamp(24px, 6vw, 80px) 104px;
   opacity: 0;
-  font-size: clamp(28px, min(7vw, 13svh), 92px);
+  font-size: min(3.75rem, 6vw, 10svh);
   font-weight: 500;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.04em;
   line-height: 1.12;
+  text-align: center;
 }
 .opening-spelling-word {
-  display: block;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   padding: 0.08em 0.12em;
   white-space: nowrap;
 }
 .opening-letter {
   display: inline-block;
+  flex: 0 0 auto;
 }
 .opening-initial {
   color: var(--clay);
@@ -2010,7 +2018,7 @@ html[data-motion='paused'] .chevrons i {
 @media (max-height: 520px) {
   .opening-spelling {
     padding-block: 52px 68px;
-    font-size: clamp(24px, min(6vw, 12svh), 52px);
+    font-size: min(3rem, 6vw, 10svh);
   }
 }
 
