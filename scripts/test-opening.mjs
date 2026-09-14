@@ -102,13 +102,15 @@ function setup({ hash = '', reduced = false } = {}) {
     timeline(options = {}) {
       timeline = {
         position: 0,
+        steps: [],
         speed: 1,
         paused: options.paused || false,
         complete: options.onComplete || (() => {}),
         play() {
           this.paused = false;
         },
-        to() {
+        to(target, values, at) {
+          this.steps.push({ target, values, at });
           return this;
         },
         from() {
@@ -119,6 +121,10 @@ function setup({ hash = '', reduced = false } = {}) {
         },
         time(value) {
           if (value === undefined) return this.position;
+          this.position = value;
+          return this;
+        },
+        progress(value) {
           this.position = value;
           return this;
         },
@@ -330,4 +336,42 @@ test('upward input and visibility changes never start the peel', () => {
   assert.equal(env.timeline.paused, true);
   assert.equal(env.root.dataset.intro, 'active');
   env.cleanup();
+});
+
+test('the spin finishes before spelling starts, and completion still waits for input', () => {
+  const env = setup();
+  const spins = env.cover.steps.filter(
+    ({ values }) => values.rotation || values.rotationY,
+  );
+  const spelling = env.cover.steps.find(
+    ({ target }) => target === '.opening-letter',
+  );
+  assert(spins.length > 0);
+  assert(spelling);
+  const spinEnd = Math.max(
+    ...spins.map(({ at, values }) => at + values.duration),
+  );
+  assert(spelling.at >= spinEnd, 'Spelling must follow the completed spin');
+  env.cover.complete();
+  assert.equal(env.elements['.intro-overlay'].hidden, false);
+  assert.equal(env.timeline.paused, true);
+  env.cleanup();
+});
+
+test('reduced motion settles the spelling without entering or restarting the intro', () => {
+  for (const reduced of [false, true]) {
+    const env = setup({ reduced });
+    if (!reduced) {
+      env.preference.matches = true;
+      env.preference.emit('change');
+    }
+    assert.equal(env.cover.position, 1);
+    assert.equal(env.cover.paused, true);
+    assert.equal(env.timeline.paused, true);
+    assert.equal(env.root.dataset.intro, 'active');
+    env.preference.matches = false;
+    env.preference.emit('change');
+    assert.equal(env.cover.position, 1);
+    env.cleanup();
+  }
 });

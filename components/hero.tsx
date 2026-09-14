@@ -109,14 +109,24 @@ export function OpeningHero() {
                   ))}
                 </g>
               </svg>
-              <span className="thought-word thought-word-1">Question</span>
-              <span className="thought-word thought-word-2">Explore</span>
-              <span className="thought-word thought-word-3">Reconsider</span>
-              <span className="thought-word thought-word-4">Discover</span>
             </div>
             <span className="opening-wordmark">
               <Wordmark />
             </span>
+            <div className="opening-spelling">
+              {['Keep', 'Reasoning', 'Independently'].map((word) => (
+                <span className="opening-spelling-word" key={word}>
+                  {Array.from(word).map((letter, index) => (
+                    <span
+                      className={`opening-letter${index === 0 && word !== 'Keep' ? ' opening-initial' : ''}`}
+                      key={`${word}-${index}`}
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </div>
             <div className="opening-progress">
               <span />
               <i />

@@ -109,7 +109,8 @@ export function installOpeningMotion() {
       strokeDasharray: 1,
       strokeDashoffset: 1,
     });
-    timeline = gsap.timeline();
+    gsap.set('.opening-letter', { opacity: 0, yPercent: 105 });
+    timeline = gsap.timeline({ paused: preference.matches });
     // The cover animation and the exit are independent timelines. Nothing
     // advances into the peel until the visitor explicitly enters.
     peelTimeline = gsap.timeline({ paused: true, onComplete: () => finish() });
@@ -125,56 +126,93 @@ export function installOpeningMotion() {
         },
         0,
       );
-    if (preference.matches) {
-      // Every load still gets an opening, without the spatial animation.
-      timeline.set('.opening-wordmark', { opacity: 1 });
-      return;
-    }
+    // Stage one: the mark turns once inside the spinning constellation.
+    // Stage two begins only after the spin has settled and faded away.
     timeline
       .from(
         '.opening-wordmark',
-        { opacity: 0, y: 15, duration: 0.7, ease: 'power3.out' },
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power2.out',
+        },
         0,
       )
-      .to('.thought-orbits', { opacity: 0.8, duration: 0.8 }, 0.1)
+      .to(
+        '.opening-wordmark',
+        {
+          rotationY: 360,
+          transformPerspective: 900,
+          duration: 1.65,
+          ease: 'power2.inOut',
+        },
+        0.15,
+      )
+      .to('.thought-orbits', { opacity: 0.8, duration: 0.45 }, 0)
       .to(
         points,
         {
           opacity: 1,
           scale: 1,
-          duration: 0.5,
-          stagger: 0.035,
+          duration: 0.35,
+          stagger: 0.02,
           ease: 'power2.out',
         },
-        0.15,
+        0,
       )
       .to(
         '.thought-connections path',
         {
           strokeDashoffset: 0,
-          duration: 1.1,
-          stagger: 0.018,
+          duration: 0.7,
+          stagger: 0.015,
           ease: 'power2.inOut',
         },
-        0.25,
+        0.1,
       )
-      .to('.thought-word', { opacity: 1, duration: 0.5, stagger: 0.09 }, 0.6)
-      .to('.thought-glow', { opacity: 0.8, duration: 1.2 }, 0.1)
       .to(
         '.thought-network',
         {
-          rotation: 12,
+          rotation: 360,
           transformOrigin: '50% 50%',
-          duration: 3.5,
-          ease: 'none',
+          duration: 1.8,
+          ease: 'power2.inOut',
         },
         0,
       )
+      .to('.thought-glow', { opacity: 0.65, duration: 0.7 }, 0)
+      .to(
+        '.thought-field, .opening-wordmark, .thought-glow',
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power2.out',
+        },
+        1.85,
+      )
+      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 2.15)
+      .to(
+        '.opening-letter',
+        {
+          opacity: 1,
+          yPercent: 0,
+          duration: 0.45,
+          stagger: 0.04,
+          ease: 'power3.out',
+        },
+        2.15,
+      )
       .to(
         '.opening-progress i',
-        { scaleX: 1, duration: 2.15, ease: 'none' },
+        {
+          scaleX: 1,
+          duration: 3.6,
+          ease: 'none',
+        },
         0,
       );
+    // Reduced motion rests on the completed spelling, still awaiting entry.
+    if (preference.matches) timeline.progress(1).pause();
   });
 
   const advance = () => {
@@ -251,7 +289,7 @@ export function installOpeningMotion() {
   const preferenceChange = () => {
     lenis.options.smoothWheel = !preference.matches;
     if (preference.matches) {
-      timeline.pause();
+      timeline.progress(1).pause();
       if (entering) finish();
     } else if (!done && !entering && !document.hidden) timeline.resume();
   };

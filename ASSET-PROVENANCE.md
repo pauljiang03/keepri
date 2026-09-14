@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Two-stage opening revision
+
+The spin and spelling choreography, character markup and responsive typography are authored locally for KeepRI using the existing GSAP runtime, DM Sans font and wordmark. No new external code or visual assets were introduced.
+
 ## Current hero diagram
 
 The September 14 business-model revision replaces the probability surface on the public page with independently authored HTML/CSS in components/hero-visual.tsx and app/globals.css. Its content follows the owner-approved KeepRI workflow. Lucide supplies the small licensed direction/disclosure icons. Mathematical sources below describe the retired simulation, not the current hero.

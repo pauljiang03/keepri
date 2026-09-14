@@ -918,7 +918,7 @@ section[tabindex='-1']:focus {
   transform: translateX(-10px);
 }
 
-/* The cover retains the original KeepRI constellation. */
+/* Stage one of the cover: a single spin of the KeepRI constellation. */
 .thought-field {
   position: absolute;
   left: 50%;
@@ -955,36 +955,6 @@ section[tabindex='-1']:focus {
 }
 .thought-points circle:hover {
   r: 9;
-}
-.thought-word {
-  position: absolute;
-  padding: 5px 10px;
-  background: var(--paper);
-  border: 1px solid #b6bca44d;
-  border-radius: 100px;
-  color: var(--muted);
-  font:
-    11px/1.3 ui-monospace,
-    monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0;
-}
-.thought-word-1 {
-  left: 10%;
-  top: 25%;
-}
-.thought-word-2 {
-  right: 5%;
-  top: 32%;
-}
-.thought-word-3 {
-  right: 11%;
-  bottom: 23%;
-}
-.thought-word-4 {
-  left: 9%;
-  bottom: 31%;
 }
 .thought-glow {
   position: absolute;
@@ -1127,23 +1097,6 @@ html[data-motion='paused'] .chevrons i {
   }
 }
 @media (max-width: 700px) {
-  .thought-word {
-    font-size: 9px;
-    padding: 5px 8px;
-  }
-  .thought-word-1 {
-    left: 13%;
-    top: 24%;
-  }
-  .thought-word-2 {
-    right: 10%;
-  }
-  .thought-word-3 {
-    right: 12%;
-  }
-  .thought-word-4 {
-    left: 11%;
-  }
   .opening-progress {
     left: 20px;
     bottom: 32px;
@@ -2008,5 +1961,52 @@ html[data-motion='paused'] .chevrons i {
   }
   .model-branches {
     gap: 14px;
+  }
+}
+
+/* Stage two spells the name after the spin, then waits for manual peeling. */
+.opening-spelling {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 18px 110px;
+  opacity: 0;
+  font-size: clamp(28px, min(7vw, 13svh), 92px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.12;
+}
+.opening-spelling-word {
+  display: block;
+  overflow: hidden;
+  padding: 0.08em 0.12em;
+  white-space: nowrap;
+}
+.opening-letter {
+  display: inline-block;
+}
+.opening-initial {
+  color: var(--clay);
+}
+@media (prefers-reduced-motion: reduce) {
+  .opening-wordmark {
+    display: none;
+  }
+  .opening-spelling,
+  .opening-letter {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .opening-progress > i {
+    transform: scaleX(1) !important;
+  }
+}
+@media (max-height: 520px) {
+  .opening-spelling {
+    padding-block: 52px 68px;
+    font-size: clamp(24px, min(6vw, 12svh), 52px);
   }
 }

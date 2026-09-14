@@ -60,6 +60,8 @@ for (const expected of [
   'Fund the next round',
   'Initial funding and event sponsorship',
   'Peel to enter',
+  'opening-spelling',
+  'opening-letter',
   'Closed beta',
   'Our philosophies',
   'Global leaderboards',

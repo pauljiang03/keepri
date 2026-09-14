@@ -1,5 +1,9 @@
 # KeepRI website design
 
+## Two-stage intro
+
+The opening now spins the KeepRI wordmark and constellation once, fades that scene, then spells Keep Reasoning Independently letter by letter over three centered lines. The completed phrase holds until manual peel or skip. No change to the main-page business diagram or prose.
+
 ## Current main-page model diagram
 
 The hero now presents the planned KeepRI business workflow instead of the probability simulation. Two connected columns separate competition from optional research. A gold return line links revenue to free access, new games and prizes. Labels are HTML with responsive sizing; no scaled SVG text, external diagram package, or copied reference artwork is used. The original headline, philosophies, industry prose and manual intro are preserved.

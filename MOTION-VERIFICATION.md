@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Spin then spell intro
+
+The mark spins from 0.15 to 1.8 seconds; the constellation spins from 0 to 1.8 seconds. Their fade ends at 2.15 seconds, when spelling begins. Letter reveals finish at 3.6 seconds. The separate peel timeline remains paused until explicit entry. Initial reduced motion and preference changes settle the cover at its completed spelling without triggering the peel. Sequencing and preference changes are covered by lifecycle tests; browser animation QA has not been performed.
+
 ## Current business-model revision
 
 The business diagram is readable without animation or JavaScript. Removed the unused simulation parallax from PageMotion; the manual peel lifecycle and global motion preference remain unchanged. Earlier simulation-camera checks below are historical.

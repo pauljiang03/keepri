@@ -1,5 +1,9 @@
 # Website validation
 
+## Two-stage intro, September 14
+
+The intro now completes a spin before spelling the full phrase, then waits for explicit peel or skip. Typecheck, focused lint, production build and all 12 opening lifecycle tests passed, including stage ordering and reduced-motion settlement. Static checks passed for 28 local asset/anchor references and the required business-model content. The local preview returned HTTP 200. No browser visual or animation QA was performed.
+
 ## Main-page business workflow, September 14
 
 Replaced the probability simulation with the owner-approved business flow: free games, per-game leaderboards, tournaments and prizes, optional research, organizational purchases and reinvestment. Preserved the headline, original philosophies and industry prose, and the visitor-controlled intro.

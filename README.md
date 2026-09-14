@@ -2,7 +2,7 @@
 
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The current design has three sections: opening and hero, philosophies, and industry. A constellation cover waits for the visitor to peel it away, revealing a split hero and a diagram of the planned business model. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
+The current design has three sections: opening and hero, philosophies, and industry. A two-stage cover spins the mark and constellation, then spells Keep Reasoning Independently and waits for the visitor to peel it away, revealing a split hero and a diagram of the planned business model. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
 
 ## Develop and validate
 
@@ -32,9 +32,9 @@ KeepRI addresses the need for people to assess evidence, evaluate AI recommendat
 
 Public status is closed beta. Global leaderboards, tournaments, funded cash-prize events, and research programs are in development. Research enrollment is inactive. Free play and future prize eligibility remain independent of research participation. The website has no signup, analytics, installation, or data-upload endpoint.
 
-The intro appears on every load or reload, including URLs with section hashes. Its constellation animates, then waits. Only a click on Peel to enter, a downward scroll, an upward swipe, or the entry keyboard controls starts the 1.65-second peel. Skip intro and Escape dismiss it. The fixed cover stays hidden after completion, with no scroll region to return to. Section hashes resolve after entry. The header wordmark and Back to top stay within the main page.
+The intro appears on every load or reload, including URLs with section hashes. Its mark and constellation complete one spin, then the full phrase appears letter by letter. The completed spelling waits for visitor input. Only a click on Peel to enter, a downward scroll, an upward swipe, or the entry keyboard controls starts the 1.65-second peel. Skip intro and Escape dismiss it. The fixed cover stays hidden after completion, with no scroll region to return to. Section hashes resolve after entry. The header wordmark and Back to top stay within the main page.
 
-Reduced motion shows a still opening that also waits for the visitor. Preference or visibility changes do not start the peel. The page remains inert until entry, and focus leaves the cover when needed. No-JavaScript content remains readable; a bootstrap timeout restores access if hydration never starts.
+Reduced motion shows the completed spelling and also waits for the visitor. Changing to reduced motion during the spin or spelling settles the final text without entering the page. Preference or visibility changes do not start the peel. The page remains inert until entry, and focus leaves the cover when needed. No-JavaScript content remains readable; a bootstrap timeout restores access if hydration never starts.
 
 The main visual is a responsive HTML/CSS flowchart. Free play branches into competition (per-game leaderboards, tournaments, verified prizes, and returning players) and optional research (separate consent, quality-checked learning records, and organizational purchases). An outside return line connects research revenue to free access, new games and prizes. A native disclosure explains customer-directed game design, research deliverables, initial funding, sponsorship and operating costs. All diagram content is available without JavaScript. The probability simulation is retired from the page; its standalone math module and tests remain as historical source.
 
