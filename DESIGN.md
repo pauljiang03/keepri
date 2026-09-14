@@ -6,11 +6,11 @@ The latest September 14 direction keeps the three-section site and its establish
 
 Self-hosted DM Sans 400/500, warm paper #f6f3e9, ink #242820, deep greens, sage, gold and clay. Fine rules, subtle grain and a restrained coordinate grid connect the opening to the main page.
 
-The desktop hero pairs left-aligned text with a large perspective-projected orbital SVG. Seven meridians rotate around RI; three points move through depth. Pointer input changes the viewing angle with damping. A numbered three-column vision row names global leaderboards, significant prizes and human learning data under an explicit development label. Mobile stacks text, artwork and two-column vision rows in natural flow.
+The desktop hero pairs left-aligned text with a custom 3D Bayesian probability surface. The surface depicts a beta prior updated by successes and failures. Three sliders control successes, failures and prior strength; readouts display mean, standard deviation and observation count. Wireframe curves show proportional evidence accumulation and a gold curve highlights the final posterior. The height scale is shared and normalized across the family. Motion is confined to the mathematical visual; controls remain stationary. Mobile stacks text, surface and controls in natural flow.
 
 The original constellation is a fixed cover over the page, not a scroll section. The constellation animates and waits for entry. Only Peel to enter, downward scroll, upward swipe or keyboard entry starts the 1.65-second diagonal peel. Skip intro and Escape dismiss it. Completion hides the cover permanently until the next document load. Hash links also get the intro and resolve afterward. The header wordmark returns to the main-page top without replaying it. Reduced motion waits on a still cover; preference and visibility changes never initiate entry.
 
-The orbital graphic now supports a rule-discovery challenge. Users test sequences and choose between three explanations. Results dim and freeze explanations contradicted by evidence. A correct choice reveals the increasing-order rule. The exercise runs entirely in memory, with no server or persistence. Keep controls stationary; apply parallax only to the drawing. The type-only KeepRI signature uses an open corner beneath RI, without a dot. Reuse the Wordmark component across the intro, header, footer and philosophy panels.
+The earlier sequence game is retired. There are no guesses, answers, scores or winning states. Use the independently authored geometry in `lib/bayesian-surface.ts`, not third-party chart artwork, source examples or copied website styling. Standard mathematical formulas are documented separately from the rendering implementation. Preserve license notices for reused fonts and software. The dot-free KeepRI wordmark remains shared across the intro, header, footer and philosophy panels.
 
 The main headline is “Independent thought. In the age of AI.” Remove the repeated expansion above it. Headline and supporting paragraph share one left alignment. Preserve the September 11 philosophy and industry prose, restored at the owner's request.
 
@@ -30,7 +30,7 @@ Research enrollment is inactive. Free play and future prize eligibility remain i
 
 ## Motion and accessibility
 
-The stable headline carries the mission without animation. Orbital projection uses direct SVG updates, with no React renders per frame, and a single requestAnimationFrame loop. It stops offscreen, in hidden tabs, during the intro, under reduced motion and when paused. GSAP owns the intro and section entrances; Lenis smooths wheel scrolling and preserves native touch scrolling after entry.
+The stable headline carries the mission without animation. The probability surface uses direct SVG camera updates at a capped 30fps, with no React renders per frame. Density geometry is recomputed only when parameters change. It stops offscreen, in hidden tabs, during the intro, under reduced motion and when paused. GSAP owns the intro and section entrances; Lenis smooths wheel scrolling and preserves native touch scrolling after entry.
 
 Reduced motion retains a still opening until the visitor enters. Runtime preference changes never initiate or replay entry. Viewport changes recompute the crease without creating scroll travel. Preserve native zoom gestures, accessible tabs, disclosures, mobile menu Escape/focus return and focusable anchor destinations. The underlying page is inert while the cover is present. No-JavaScript content is readable. Do not add storage flags or scroll-controlled reverse entry.
 

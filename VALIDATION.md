@@ -1,5 +1,15 @@
 # Website validation
 
+## Latest revision: mathematical simulation, game removed
+
+The game is replaced by an independently authored beta–binomial probability surface. Adjustable successes, failures and symmetric prior strength determine the posterior. Twenty-five density slices show proportional accumulation of evidence; their vertical scale is shared and normalized. The bright curve is the final posterior. Mean, standard deviation in percentage points, and observation count are reported explicitly.
+
+Four mathematical tests pass: exact uniform/polynomial densities and endpoints, numerical normalization including extreme cases, posterior moments and symmetry, and finite surface geometry with an exact final-posterior slice across all control-boundary combinations. TypeScript, authored-source lint, production export, asset/content checks and license-notice checks pass. No browser visual QA was requested or performed; no browser is connected in this session.
+
+Camera updates are capped at 30fps and stop under local/global pause, reduced motion, hidden tabs and offscreen state. Parameter changes still update the static diagram when rotation is disabled. The existing visitor-controlled intro is unchanged. No game or rule-discovery code remains in the authored site. The build retains full license/notice files for 27 runtime/core package versions, alongside the existing font and icon notices.
+
+## Previous revision (historical)
+
 ## Latest September 14 revision: visitor-controlled entry and reasoning exercise
 
 This revision supersedes the timed auto-entry behavior documented below. The cover now waits for explicit entry. A separate paused GSAP timeline owns the peel; the constellation timeline cannot initiate it. Reduced-motion and visibility changes also preserve the waiting state. Completion remains permanent for the document lifetime.

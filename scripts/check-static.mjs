@@ -53,7 +53,8 @@ function walk(dir) {
 walk(root);
 for (const expected of [
   'Independent thought',
-  'Find the rule',
+  'Bayesian updating',
+  'Posterior mean',
   'Peel to enter',
   'Closed beta',
   'Our philosophies',
@@ -83,6 +84,7 @@ assert(
   'Retired game screenshots remain published',
 );
 for (const file of [
+  'licenses/runtime-notices.txt',
   'licenses/lucide.txt',
   'licenses/GSAP-notice.txt',
   'licenses/lenis.txt',
@@ -134,6 +136,12 @@ assert(
   /<nav\b[\s\S]*?For Industry[\s\S]*?<\/nav>/.test(html),
   'Header Industry capitalization regressed',
 );
+
+assert(
+  !/Find the rule|Test a sequence|RULE FOUND|sequence-inputs/.test(html),
+  'Retired game remains in the public page',
+);
+
 console.log(
   `Static validation passed: ${checks} asset/anchor references and product-status constraints.`,
 );
