@@ -196,27 +196,27 @@ export function installOpeningMotion() {
         '.thought-field, .opening-wordmark, .thought-glow',
         {
           opacity: 0,
-          duration: 1.6,
+          duration: 1.1,
           ease: 'sine.inOut',
         },
         0,
       )
-      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 1.6)
+      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 1.1)
       .to(
         '.opening-spelling-word',
         {
           opacity: 1,
-          duration: 2.4,
-          stagger: 1,
+          duration: 1.8,
+          stagger: 0.8,
           ease: 'sine.inOut',
         },
-        1.6,
+        1.1,
       )
       .to(
         '.opening-progress i',
         {
           scaleX: 1,
-          duration: 6,
+          duration: 4.5,
           ease: 'none',
         },
         0,

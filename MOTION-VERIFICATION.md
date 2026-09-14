@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Adjusted reveal pace
+
+The second-swipe transition now lasts 4.5 seconds: a 1.1-second scene fade, then 1.8-second word fades with a 0.8-second stagger. This supersedes the six-second timing below. Gesture boundaries, stationary typography and bottom-up peeling remain unchanged.
+
 ## Slower text transition
 
 The second gesture now takes six seconds: the constellation fades out over 1.6 seconds, then each word fades in over 2.4 seconds with a one-second stagger. Text remains stationary. The first-swipe spin, third-swipe upward peel and scrollable figure are unchanged. Older timing records below are historical.
