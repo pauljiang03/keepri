@@ -360,7 +360,7 @@ test('the spin finishes before spelling starts, and completion still waits for i
     ({ values }) => values.rotation || values.rotationY,
   );
   const spelling = env.cover.steps.find(
-    ({ target }) => target === '.opening-letter',
+    ({ target }) => target === '.opening-spelling-word',
   );
   assert(spins.length > 0);
   assert(spelling);
@@ -483,4 +483,53 @@ test('small trackpad deltas accumulate into one deliberate gesture', () => {
   assert.equal(env.cover.paused, false);
   assert.equal(env.timeline.paused, true);
   env.cleanup();
+});
+
+test('intro text animation changes opacity only, never its shape or position', () => {
+  const env = setup();
+  const textSteps = env.cover.steps.filter(
+    ({ target }) =>
+      typeof target === 'string' &&
+      /opening-wordmark|opening-spelling/.test(target),
+  );
+  assert(textSteps.length > 0);
+  for (const { values } of textSteps) {
+    for (const property of Object.keys(values)) {
+      assert(
+        ['opacity', 'duration', 'stagger', 'ease'].includes(property),
+        `Text must not animate ${property}`,
+      );
+    }
+  }
+  env.cleanup();
+});
+
+test('peeling reveals the bottom first with a level crease across every viewport', () => {
+  for (const [width, height] of [
+    [1440, 900],
+    [390, 844],
+    [844, 390],
+    [320, 900],
+  ]) {
+    assert.equal(peelGeometry(width, height, 0).edge, height);
+    assert.equal(peelGeometry(width, height, 1).edge, 0);
+    for (const progress of [0.1, 0.5, 0.9]) {
+      const shape = peelGeometry(width, height, progress);
+      const paper = clipPaper(
+        [
+          { x: 0, y: 0 },
+          { x: width, y: 0 },
+          { x: width, y: height },
+          { x: 0, y: height },
+        ],
+        shape.edge,
+      );
+      assert(paper.some((p) => p.x === 0 && p.y === 0));
+      assert(paper.some((p) => p.x === width && p.y === 0));
+      assert(paper.some((p) => p.x === 0 && p.y === shape.edge));
+      assert(paper.some((p) => p.x === width && p.y === shape.edge));
+      assert(paper.every((p) => p.y <= shape.edge));
+      assert(shape.edge - shape.curl >= 0);
+    }
+  }
 });

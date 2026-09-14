@@ -1,5 +1,13 @@
 # Website validation
 
+## Stationary text, upward peel and compact flow
+
+Intro words now only fade, the surrounding constellation spins, and the peel lifts a horizontal bottom edge upward. The main-page flow uses concise labels with its supporting detail preserved in the disclosure; excess hero height and clipping are removed. On desktop screens up to 800px high, the repeated vision summary yields space to the flowchart. All 19 opening tests passed, including opacity-only text motion and bottom-first peel geometry. Typecheck, focused lint, production build and 28 static asset/anchor checks passed; the preview returned HTTP 200. Browser visual QA has not been performed.
+
+## Remove text deformation
+
+Removed the 3D wordmark transform and per-character movement. Intro text now uses fixed-size natural typography and word-level opacity fades. A regression check rejects any non-opacity text-animation properties. Browser visual QA has not been performed.
+
 ## Intro text containment
 
 Reduced and bounded the spelling typography, removed the minimum font-size floor and constrained each word to the centered text column. No changes to gesture handling, main-page layout or business copy. Typecheck, production build and static validation of 28 asset/anchor references passed. Browser visual QA has not been performed.

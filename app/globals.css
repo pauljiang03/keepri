@@ -261,7 +261,7 @@ html[data-intro='active'] .intro-overlay:not([hidden]) {
   overflow: visible;
 }
 .peel-fold {
-  filter: drop-shadow(-14px 18px 16px #111a164d);
+  filter: drop-shadow(0 12px 16px #111a164d);
 }
 .intro-skip {
   position: absolute;
@@ -1965,7 +1965,7 @@ html[data-motion='paused'] .chevrons i {
 }
 
 /* Stage two spells the name after the spin, then waits for manual peeling. */
-/* Bounded lines: no minimum font floor that can overflow a narrow viewport. */
+/* Plain, fixed-size typography. Only opacity is animated on these words. */
 .opening-spelling {
   position: absolute;
   inset: 0;
@@ -1976,28 +1976,31 @@ html[data-motion='paused'] .chevrons i {
   justify-items: center;
   padding: 72px clamp(24px, 6vw, 80px) 104px;
   opacity: 0;
-  font-size: min(3.75rem, 6vw, 10svh);
+  font-size: 2.5rem;
   font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1.12;
+  letter-spacing: normal;
+  line-height: 1.2;
   text-align: center;
 }
 .opening-spelling-word {
-  display: inline-flex;
-  flex-wrap: nowrap;
-  gap: 0;
-  min-width: 0;
+  display: block;
   max-width: 100%;
-  overflow: hidden;
-  padding: 0.08em 0.12em;
-  white-space: nowrap;
+  padding: 0.08em 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  font-stretch: normal;
 }
-.opening-letter {
-  display: inline-block;
-  flex: 0 0 auto;
+.opening-wordmark,
+.opening-spelling,
+.opening-spelling-word {
+  transform: none;
+  scale: none;
+  rotate: none;
 }
-.opening-initial {
-  color: var(--clay);
+@media (max-width: 700px) {
+  .opening-spelling {
+    font-size: 2rem;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .intro-overlay[data-step='ready'] .opening-wordmark {
@@ -2007,7 +2010,7 @@ html[data-motion='paused'] .chevrons i {
     opacity: 0 !important;
   }
   .intro-overlay[data-step='ready'] .opening-spelling,
-  .opening-letter {
+  .opening-spelling-word {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -2018,7 +2021,7 @@ html[data-motion='paused'] .chevrons i {
 @media (max-height: 520px) {
   .opening-spelling {
     padding-block: 52px 68px;
-    font-size: min(3rem, 6vw, 10svh);
+    font-size: 2rem;
   }
 }
 
@@ -2031,5 +2034,77 @@ html[data-motion='paused'] .chevrons i {
   .hero-content {
     align-self: start;
     padding-top: clamp(80px, 11vw, 176px);
+  }
+}
+
+/* Keep the closed business flow within the first desktop view. Detail expands
+   in normal flow without repositioning the headline. */
+.model-heading {
+  margin-bottom: 12px;
+}
+.model-game,
+.model-reinvestment {
+  padding-block: 10px;
+}
+.model-game h3 {
+  font-size: 1.125rem;
+  margin-block: 3px;
+}
+.model-branches {
+  padding-top: 26px;
+}
+.model-branches::before {
+  height: 13px;
+}
+.model-branches::after {
+  top: 13px;
+  height: 13px;
+}
+.model-lane > h3 {
+  padding-bottom: 8px;
+}
+.model-lane ol {
+  gap: 12px;
+}
+.model-lane li {
+  padding-top: 8px;
+}
+.model-lane li + li::before {
+  top: -17px;
+  font-size: 12px;
+}
+.model-lane h4 {
+  margin-bottom: 0;
+}
+.model-return,
+.model-revenue {
+  padding-block: 10px;
+}
+.model-flow .model-choice {
+  margin-block: 10px;
+}
+@media (min-width: 701px) {
+  .hero {
+    padding-block: 88px 24px;
+    overflow: visible;
+  }
+  .hero-main {
+    min-height: 0;
+    padding-bottom: 24px;
+  }
+  .hero-content {
+    padding-top: clamp(24px, 5svh, 48px);
+  }
+  .hero-vision {
+    padding-top: 12px;
+  }
+  .hero-vision-grid {
+    padding-top: 14px;
+  }
+}
+@media (min-width: 701px) and (max-height: 800px) {
+  /* These three vision items repeat the visible flow; prioritize the diagram. */
+  .hero-vision {
+    display: none;
   }
 }

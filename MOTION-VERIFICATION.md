@@ -1,5 +1,11 @@
 # KeepRI motion verification
 
+The current peel lifts a horizontal fold from the bottom edge to the top. Only the constellation spins; intro text stays stationary and fades in as whole words.
+
+## Current text motion
+
+The constellation alone rotates. All intro text remains stationary and reveals with opacity only. Word fades run from 2.15 to 2.79 seconds; the progress indicator finishes at 2.8 seconds. Earlier wordmark rotation and character-motion descriptions are historical.
+
 ## Two gestures required
 
 Both timelines start paused. Only the first gesture plays the spin and spelling; completion enables the second-step peel cue. Wheel bursts are grouped by a 240ms idle gap with accumulated deltas; a touch is consumed until a fresh touchstart, and repeated keydown events cannot advance. Visibility resumes only an already-running spin. Reduced motion preserves two gestures. Skip and Escape remain immediate. Earlier automatic-cover descriptions below are historical.

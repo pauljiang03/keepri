@@ -10,8 +10,8 @@ export function HeroVisual() {
       <div className="model-circuit">
         <div className="model-game">
           <span className="model-label">01 / Free play</span>
-          <h3>A growing library of games.</h3>
-          <p>Original games, new variants and weekly challenges.</p>
+          <h3>Play different games.</h3>
+          <p>Free practice. New weekly challenges.</p>
         </div>
         <div className="model-branches">
           <section
@@ -22,15 +22,12 @@ export function HeroVisual() {
             <ol>
               <li>
                 <h4>Leaderboards</h4>
-                <p>Verified scores for each game.</p>
               </li>
               <li>
-                <h4>Enter for cash prizes</h4>
-                <p>Agree to research terms, then compete.</p>
+                <h4>Cash-prize entry</h4>
               </li>
               <li>
-                <h4>Return &amp; improve</h4>
-                <p>Verified awards. New games and fresh competition.</p>
+                <h4>Verified awards</h4>
               </li>
             </ol>
             <div className="model-return">
@@ -41,21 +38,16 @@ export function HeroVisual() {
             className="model-lane model-research"
             aria-labelledby="research-path"
           >
-            <h3 id="research-path">Research from prize play</h3>
+            <h3 id="research-path">Prize-play research</h3>
             <ol>
               <li>
                 <h4>Prize-entry agreement</h4>
-                <p>
-                  Research collection and commercial use, agreed before entry.
-                </p>
               </li>
               <li>
                 <h4>Learning records</h4>
-                <p>Attempts, feedback and revisions. Checked for quality.</p>
               </li>
               <li>
                 <h4>AI teams pay</h4>
-                <p>Commissioned studies, dataset licenses and evaluations.</p>
               </li>
             </ol>
             <div className="model-revenue">
@@ -72,13 +64,24 @@ export function HeroVisual() {
         </div>
       </div>
       <p className="model-choice">
-        Free practice requires no research participation. Cash-prize entry would
-        require agreement to research data collection and commercial use.
+        Cash-prize entry requires research agreement. Free practice stays
+        separate.
       </p>
       <details className="model-details">
         <summary>
           Research &amp; funding <Plus size={16} aria-hidden="true" />
         </summary>
+        <p>
+          Free practice requires no research participation. Cash-prize entry
+          would require agreement to research data collection and commercial
+          use. Leaderboards use verified scores for each game; funded
+          tournaments award prizes after results are checked.
+        </p>
+        <p>
+          Research records would capture attempts, feedback and revisions, with
+          quality checks before delivery. AI teams would pay for commissioned
+          studies, dataset licenses and evaluations.
+        </p>
         <p>
           Customer research questions would guide new games and controlled
           variants. Separately consented records would support datasets,

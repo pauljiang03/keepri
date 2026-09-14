@@ -56,10 +56,10 @@ export function installOpeningMotion() {
     const shape = peelGeometry(width, height, peel.progress);
     paper.style.clipPath = shape.clip;
     fold.setAttribute('points', shape.fold);
-    gradient.setAttribute('x1', String(shape.edge / 2));
-    gradient.setAttribute('y1', String(-shape.edge / 2));
-    gradient.setAttribute('x2', String((shape.edge - shape.curl) / 2));
-    gradient.setAttribute('y2', String(-(shape.edge - shape.curl) / 2));
+    gradient.setAttribute('x1', '0');
+    gradient.setAttribute('y1', String(shape.edge));
+    gradient.setAttribute('x2', '0');
+    gradient.setAttribute('y2', String(shape.edge - shape.curl));
   };
   const resize = () => {
     width = innerWidth;
@@ -122,7 +122,7 @@ export function installOpeningMotion() {
       strokeDasharray: 1,
       strokeDashoffset: 1,
     });
-    gsap.set('.opening-letter', { opacity: 0, yPercent: 105 });
+    gsap.set('.opening-spelling-word', { opacity: 0 });
     timeline = gsap.timeline({ paused: true, onComplete: readyToPeel });
     // The cover animation and the exit are independent timelines. Nothing
     // advances into the peel until the visitor explicitly enters.
@@ -139,19 +139,9 @@ export function installOpeningMotion() {
         },
         0,
       );
-    // Stage one: the mark turns once inside the spinning constellation.
+    // The constellation spins; the wordmark and words never transform.
     // Stage two begins only after the spin has settled and faded away.
     timeline
-      .to(
-        '.opening-wordmark',
-        {
-          rotationY: 360,
-          transformPerspective: 900,
-          duration: 1.65,
-          ease: 'power2.inOut',
-        },
-        0.15,
-      )
       .to('.thought-orbits', { opacity: 0.8, duration: 0.45 }, 0)
       .to(
         points,
@@ -196,12 +186,11 @@ export function installOpeningMotion() {
       )
       .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 2.15)
       .to(
-        '.opening-letter',
+        '.opening-spelling-word',
         {
           opacity: 1,
-          yPercent: 0,
-          duration: 0.45,
-          stagger: 0.04,
+          duration: 0.4,
+          stagger: 0.12,
           ease: 'power3.out',
         },
         2.15,
@@ -210,7 +199,7 @@ export function installOpeningMotion() {
         '.opening-progress i',
         {
           scaleX: 1,
-          duration: 3.6,
+          duration: 2.8,
           ease: 'none',
         },
         0,

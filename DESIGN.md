@@ -1,5 +1,15 @@
 # KeepRI website design
 
+## Compact main-page flow
+
+The business flow shows concise step labels in its two branches, with the supporting explanations retained in Research & funding. Reduced vertical spacing, hero padding and excess minimum height let the closed diagram fit the first desktop view. The headline stays top-anchored when the disclosure expands. The hero no longer clips its contents.
+
+The current peel lifts a horizontal fold from the bottom edge to the top. Only the constellation spins; intro text stays stationary and fades in as whole words.
+
+## Static intro text
+
+The wordmark no longer rotates in 3D. Only the constellation spins. The phrase uses three plain words at fixed 40px desktop / 32px mobile sizes, normal letter spacing and opacity-only fades. There are no per-character spans, text translations, perspective or scaling. Two distinct gestures still control spin and peel.
+
 ## Contained intro lettering
 
 The spelling is limited to a centered 38rem column and a 3.75rem maximum type size. Viewport width and height can reduce the font without a fixed minimum, while each word uses intrinsic, non-stretching letter widths. Narrow and landscape screens keep side gutters.
