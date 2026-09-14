@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { HeroVisual } from './hero-visual';
+import { Wordmark } from './wordmark';
 
 const thoughts = Array.from({ length: 18 }, (_, i) => {
   const angle = (i * 137.508 * Math.PI) / 180;
@@ -31,7 +32,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="masthead shell">
         <a className="brand" href="#site" aria-label="KeepRI home">
-          KeepRI<span className="brand-dot">·</span>
+          <Wordmark />
         </a>
         <nav
           className={`navigation ${open ? 'is-open' : ''}`}
@@ -114,7 +115,7 @@ export function OpeningHero() {
               <span className="thought-word thought-word-4">Discover</span>
             </div>
             <span className="opening-wordmark">
-              KeepRI<span>·</span>
+              <Wordmark />
             </span>
             <div className="opening-progress">
               <span />
@@ -141,7 +142,7 @@ export function OpeningHero() {
             Skip intro
           </a>
           <a className="scroll-cue" href="#site">
-            <span>Scroll to enter</span>
+            <span>Peel to enter</span>
             <span className="chevrons">
               <i>⌄</i>
               <i>⌄</i>
@@ -152,18 +153,14 @@ export function OpeningHero() {
           <section className="hero" aria-labelledby="hero-title">
             <div className="hero-main shell">
               <div className="hero-content">
-                <span className="hero-eyebrow">
-                  Keep Reasoning Independently
-                </span>
                 <h1 id="hero-title">
-                  Keep reasoning.
+                  Independent thought.
                   <br />
-                  <span>Independently.</span>
+                  <span>In the age of AI.</span>
                 </h1>
                 <p>
-                  AI can give you an answer. You still need to judge it. KeepRI
-                  is a place to practice: tackle a challenge, learn from a
-                  mistake, and try again.
+                  KeepRI brings learning and competition together to strengthen
+                  independent judgment.
                 </p>
                 <a className="hero-link" href="#thesis">
                   <span>Our philosophies</span>

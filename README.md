@@ -2,7 +2,7 @@
 
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The current design has three sections: opening and hero, philosophies, and industry. A timed constellation cover peels diagonally away to reveal a split hero, stable headline, and pointer-responsive 3D orbital instrument. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
+The current design has three sections: opening and hero, philosophies, and industry. A constellation cover waits for the visitor to peel it away, revealing a split hero and an interactive reasoning instrument. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
 
 ## Develop and validate
 
@@ -13,6 +13,7 @@ npm ci
 npm run dev
 npm run typecheck
 npm run test:opening
+npm run test:reasoning
 npm run build
 npm run check:static
 ```
@@ -31,11 +32,13 @@ KeepRI addresses the need for people to assess evidence, evaluate AI recommendat
 
 Public status is closed beta. Global leaderboards, tournaments, funded cash-prize events, and research programs are in development. Research enrollment is inactive. Free play and future prize eligibility remain independent of research participation. The website has no signup, analytics, installation, or data-upload endpoint.
 
-The intro plays automatically on every load or reload, including URLs with section hashes. Its 3.8-second sequence ends with a diagonal paper peel. Scrolling or swiping accelerates the peel; Skip intro and Escape dismiss it. The fixed cover is hidden permanently after completion, with no scroll region to return to. Section hashes resolve after the intro. The header wordmark and Back to top stay within the main page.
+The intro appears on every load or reload, including URLs with section hashes. Its constellation animates, then waits. Only a click on Peel to enter, a downward scroll, an upward swipe, or the entry keyboard controls starts the 1.65-second peel. Skip intro and Escape dismiss it. The fixed cover stays hidden after completion, with no scroll region to return to. Section hashes resolve after entry. The header wordmark and Back to top stay within the main page.
 
-Reduced motion shows a brief, still opening instead of a peel. All viewport heights use the same one-way lifecycle, with the hero in natural document flow. Preference changes do not replay the intro. The underlying page is inert until the cover closes, and keyboard focus moves out of the cover when needed. A no-JavaScript page remains readable; a bootstrap timeout restores access if hydration never starts.
+Reduced motion shows a still opening that also waits for the visitor. Preference or visibility changes do not start the peel. The page remains inert until entry, and focus leaves the cover when needed. No-JavaScript content remains readable; a bootstrap timeout restores access if hydration never starts.
 
-The larger orbital SVG uses perspective projection, seven rotating meridians, three depth-scaled moving points and damped pointer input. It stops offscreen, in hidden tabs, during the intro, under reduced motion and when paused from the footer. Philosophy and industry sections have progressive entrance motion and active-section navigation. Desktop philosophy tabs become swipe cards on smaller screens; industry content remains directly visible.
+The orbital graphic is a local rule-discovery exercise. Visitors test three whole numbers against a hidden increasing-order rule, compare three candidate explanations, and select a rule. Contradicting evidence dims and freezes the corresponding orbits. Recent results and corrective feedback support further attempts. No test data leaves the page or persists after reload. This is an illustrative website exercise, not a beta enrollment or research collection.
+
+The orbital frame loop stops offscreen, in hidden tabs, during the intro, under reduced motion and when paused. Desktop philosophy tabs become swipe cards on smaller screens; industry content remains directly visible. Philosophy and industry wording is restored to the September 11 version. The main headline is “Independent thought. In the age of AI.” The duplicated expansion above it has been removed.
 
 Use concise, professional copy without em dashes. Do not restore game screenshots, personal biographies/contact details, invented results, or active prize offers.
 

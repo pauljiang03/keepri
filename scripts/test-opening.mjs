@@ -89,6 +89,7 @@ function setup({ hash = '', reduced = false } = {}) {
   };
   const history = { scrollRestoration: 'auto', replaceState() {} };
   let timeline;
+  const timelines = [];
   let lenis;
   const gsap = {
     ticker: { add() {}, remove() {} },
@@ -98,12 +99,15 @@ function setup({ hash = '', reduced = false } = {}) {
       callback();
       return { revert() {} };
     },
-    timeline(options) {
+    timeline(options = {}) {
       timeline = {
         position: 0,
         speed: 1,
-        paused: false,
-        complete: options.onComplete,
+        paused: options.paused || false,
+        complete: options.onComplete || (() => {}),
+        play() {
+          this.paused = false;
+        },
         to() {
           return this;
         },
@@ -128,6 +132,7 @@ function setup({ hash = '', reduced = false } = {}) {
           this.paused = false;
         },
       };
+      timelines.push(timeline);
       return timeline;
     },
   };
@@ -183,6 +188,7 @@ function setup({ hash = '', reduced = false } = {}) {
     preference,
     history,
     timeline,
+    cover: timelines[0],
     lenis,
     cleanup,
   };
@@ -232,6 +238,14 @@ for (const hash of ['', '#site', '#research', '#thesis']) {
       assert.equal(env.root.dataset.intro, 'active');
       assert.equal(env.lenis.stopped, true);
       assert(env.blocked.every((element) => element.inert));
+      env.cover.complete();
+      assert.equal(
+        env.root.dataset.intro,
+        'active',
+        'The cover must wait for visitor input',
+      );
+      assert.equal(env.timeline.paused, true);
+      env.window.emit('wheel', { deltaY: 100, preventDefault() {} });
       env.timeline.complete();
       assert.equal(env.elements['.intro-overlay'].hidden, true);
       assert.equal(env.root.dataset.intro, 'done');
@@ -256,15 +270,15 @@ test('upward scrolling and Home cannot return to a completed introduction', () =
   env.cleanup();
 });
 
-test('scroll accelerates the peel; Escape dismisses it and restores focus', () => {
+test('scroll starts the peel; Escape dismisses it and restores focus', () => {
   const env = setup();
   let prevented = 0;
   const preventDefault = () => {
     prevented++;
   };
   env.window.emit('wheel', { deltaY: 120, preventDefault });
-  assert.equal(env.timeline.position, 2.15);
-  assert.equal(env.timeline.speed, 1.7);
+  assert.equal(env.timeline.paused, false);
+  assert.equal(env.cover.paused, true);
   env.window.emit('keydown', { key: 'Escape', preventDefault });
   assert.equal(prevented, 2);
   assert.equal(env.elements['.hero-layer'].focused, true);
@@ -272,10 +286,10 @@ test('scroll accelerates the peel; Escape dismisses it and restores focus', () =
   env.cleanup();
 });
 
-test('reduced motion retains a brief intro and preference changes never replay it', () => {
+test('reduced motion waits for entry and preference changes never replay it', () => {
   const env = setup({ reduced: true });
   assert.equal(env.root.dataset.intro, 'active');
-  env.timeline.complete();
+  env.window.emit('keydown', { key: 'ArrowDown', preventDefault() {} });
   env.preference.matches = false;
   env.preference.emit('change');
   assert.equal(env.root.dataset.intro, 'done');
@@ -283,12 +297,12 @@ test('reduced motion retains a brief intro and preference changes never replay i
   env.cleanup();
 });
 
-test('mid-intro preference change unlocks the page; teardown removes all listeners', () => {
+test('preference changes do not enter the page; teardown removes all listeners', () => {
   const env = setup();
   env.preference.matches = true;
   env.preference.emit('change');
-  assert.equal(env.root.dataset.intro, 'done');
-  assert.equal(env.lenis.stopped, false);
+  assert.equal(env.root.dataset.intro, 'active');
+  assert.equal(env.lenis.stopped, true);
   env.cleanup();
   assert.equal(
     env.window.listenerCount() +
@@ -299,4 +313,21 @@ test('mid-intro preference change unlocks the page; teardown removes all listene
   );
   assert.equal(env.lenis.destroyed, true);
   assert.equal(env.history.scrollRestoration, 'auto');
+});
+
+test('upward input and visibility changes never start the peel', () => {
+  const env = setup();
+  env.window.emit('wheel', {
+    deltaY: -100,
+    preventDefault() {
+      assert.fail('Upward wheel must not enter');
+    },
+  });
+  env.document.hidden = true;
+  env.document.emit('visibilitychange');
+  env.document.hidden = false;
+  env.document.emit('visibilitychange');
+  assert.equal(env.timeline.paused, true);
+  assert.equal(env.root.dataset.intro, 'active');
+  env.cleanup();
 });

@@ -1,5 +1,17 @@
 # KeepRI motion verification
 
+## Latest September 14 revision: visitor-controlled entry and reasoning exercise
+
+This revision supersedes the timed auto-entry behavior documented below. The cover now waits for explicit entry. A separate paused GSAP timeline owns the peel; the constellation timeline cannot initiate it. Reduced-motion and visibility changes also preserve the waiting state. Completion remains permanent for the document lifetime.
+
+The dotted logo is replaced with a shared RI open-frame wordmark. The hero headline is “Independent thought. In the age of AI.” The repeated expansion above it is removed. Philosophy and industry paragraphs exactly match the earlier September 11 prose; the new layouts are retained.
+
+The orbit is now an interactive, client-only rule-discovery exercise. Input validation, rule evaluation, candidate elimination, accessible feedback, recent tests, answer selection and reset are implemented. Eliminated orbits dim and freeze; the diagram remains usable with motion disabled.
+
+Validation: 10 opening/geometry tests and four reasoning tests pass. TypeScript, lint of authored files, production export and static content/asset checks pass. Existing unrelated vendored-component lint errors remain outside this change. No browser visual QA was performed; the connected session has no browser available.
+
+## Earlier September 14 revision (historical)
+
 ## September 14, 2026 revision
 
 The page-peel revision supersedes the scroll-controlled opening and centered-hero behavior recorded below. The older browser results are historical and do not validate this revision.

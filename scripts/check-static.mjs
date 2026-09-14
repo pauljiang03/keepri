@@ -52,7 +52,9 @@ function walk(dir) {
 }
 walk(root);
 for (const expected of [
-  'Keep reasoning',
+  'Independent thought',
+  'Find the rule',
+  'Peel to enter',
   'Closed beta',
   'Our philosophies',
   'Global leaderboards',

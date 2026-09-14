@@ -1,6 +1,6 @@
 # KeepRI website design
 
-The September 14 direction keeps the three-section site and its established identity, with a diagonal page-peel opening, a larger orbital instrument, stronger typography and concise mission-led copy.
+The latest September 14 direction keeps the three-section site and its established identity, with a diagonal page-peel opening, a larger orbital instrument, stronger typography and concise mission-led copy.
 
 ## Visual system
 
@@ -8,7 +8,11 @@ Self-hosted DM Sans 400/500, warm paper #f6f3e9, ink #242820, deep greens, sage,
 
 The desktop hero pairs left-aligned text with a large perspective-projected orbital SVG. Seven meridians rotate around RI; three points move through depth. Pointer input changes the viewing angle with damping. A numbered three-column vision row names global leaderboards, significant prizes and human learning data under an explicit development label. Mobile stacks text, artwork and two-column vision rows in natural flow.
 
-The original constellation is a fixed cover over the page, not a scroll section. It plays for 3.8 seconds, including a 1.65-second diagonal peel with viewport-correct geometry, a reflected paper strip, directional shading and a moving shadow. Scroll, swipe or the entry cue accelerates the peel; Skip intro and Escape dismiss it. Completion hides the cover permanently until the next document load. Hash links also get the intro and resolve afterward. The header wordmark returns to the main-page top without replaying it.
+The original constellation is a fixed cover over the page, not a scroll section. The constellation animates and waits for entry. Only Peel to enter, downward scroll, upward swipe or keyboard entry starts the 1.65-second diagonal peel. Skip intro and Escape dismiss it. Completion hides the cover permanently until the next document load. Hash links also get the intro and resolve afterward. The header wordmark returns to the main-page top without replaying it. Reduced motion waits on a still cover; preference and visibility changes never initiate entry.
+
+The orbital graphic now supports a rule-discovery challenge. Users test sequences and choose between three explanations. Results dim and freeze explanations contradicted by evidence. A correct choice reveals the increasing-order rule. The exercise runs entirely in memory, with no server or persistence. Keep controls stationary; apply parallax only to the drawing. The type-only KeepRI signature uses an open corner beneath RI, without a dot. Reuse the Wordmark component across the intro, header, footer and philosophy panels.
+
+The main headline is “Independent thought. In the age of AI.” Remove the repeated expansion above it. Headline and supporting paragraph share one left alignment. Preserve the September 11 philosophy and industry prose, restored at the owner's request.
 
 Philosophies pair numbered desktop tabs with a larger answer panel; smaller screens use swipe cards. Industry uses a proposed research diagram, native disclosures and staged entrances. Header links indicate the current section. The footer retains Back to top and Pause motion.
 
@@ -28,6 +32,6 @@ Research enrollment is inactive. Free play and future prize eligibility remain i
 
 The stable headline carries the mission without animation. Orbital projection uses direct SVG updates, with no React renders per frame, and a single requestAnimationFrame loop. It stops offscreen, in hidden tabs, during the intro, under reduced motion and when paused. GSAP owns the intro and section entrances; Lenis smooths wheel scrolling and preserves native touch scrolling after entry.
 
-Reduced motion retains a 450ms still opening without a peel. Runtime preference changes dismiss an active intro and never replay it. Viewport changes recompute the crease without creating scroll travel. Preserve native zoom gestures, accessible tabs, disclosures, mobile menu Escape/focus return and focusable anchor destinations. The underlying page is inert while the cover is present. No-JavaScript content is readable. Do not add storage flags or scroll-controlled reverse entry.
+Reduced motion retains a still opening until the visitor enters. Runtime preference changes never initiate or replay entry. Viewport changes recompute the crease without creating scroll travel. Preserve native zoom gestures, accessible tabs, disclosures, mobile menu Escape/focus return and focusable anchor destinations. The underlying page is inert while the cover is present. No-JavaScript content is readable. Do not add storage flags or scroll-controlled reverse entry.
 
 See [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md) for automated checks and historical browser evidence.

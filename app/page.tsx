@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { Wordmark } from '@/components/wordmark';
 import { PageMotion } from '@/components/page-motion';
 import { OpeningHero, SiteHeader, MotionToggle } from '@/components/hero';
 import { ResearchPanels, Philosophy } from '@/components/story-panels';
@@ -19,7 +20,7 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-main">
           <a className="footer-wordmark" href="#site">
-            KeepRI<span>·</span>
+            <Wordmark />
           </a>
           <span className="footer-copyright">© 2026 KeepRI · Closed beta</span>
           <MotionToggle />

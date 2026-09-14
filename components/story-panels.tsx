@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { Wordmark } from './wordmark';
 import { ArrowLeft, ArrowRight, Plus } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -31,14 +32,13 @@ export function ResearchPanels() {
               develops.
             </h3>
             <p>
-              A final answer tells you little about how someone learned. We plan
-              to study the attempts before it: what people tried, where they got
-              stuck, and what they changed.
+              We’re developing human learning datasets for AI training and
+              evaluation. We plan to study how motivated participants explore
+              problems, respond to feedback and revise decisions.
             </p>
             <p>
-              AI teams would license these learning histories for training and
-              evaluation, or commission focused collections. Both require
-              separate participant consent.
+              AI teams would license these datasets and commission targeted
+              collections, gathered with separate participant consent.
             </p>
             <div className="research-accordion">
               <details name="research-deliverables">
@@ -116,33 +116,33 @@ export function ResearchPanels() {
 const questions = [
   {
     title: 'Independent judgment',
-    text: 'In a society shaped by AI, people still need to make up their own minds.',
-    more: 'Assess the evidence. Question the recommendation. Take responsibility for the decision. AI should inform that judgment without replacing it.',
+    text: 'Independent judgment is essential to a society shaped by AI.',
+    more: 'People must be able to evaluate evidence, question recommendations and take responsibility for decisions. AI should inform that judgment without replacing it.',
   },
   {
     title: 'Learning through challenge',
-    text: 'Try an idea. Find out where it fails. Try something better.',
-    more: 'Our challenges give you room to work things out. Feedback helps you learn from a decision; the next attempt is yours.',
+    text: 'Learning requires people to test ideas, assess alternatives and revise their decisions.',
+    more: 'KeepRI pairs challenges with feedback so players can develop their judgment without AI supplying answers.',
   },
   {
     title: 'Global competition',
-    text: 'We’re building toward global leaderboards and significant prizes.',
-    more: 'A reason to keep practicing, and people to measure yourself against. Public leaderboards, tournaments and funded cash-prize events are in development.',
+    text: 'Our vision combines global leaderboards with significant prizes for learning and competition.',
+    more: 'Public leaderboards, tournaments and funded cash-prize events are in development.',
   },
   {
     title: 'Human learning data',
-    text: 'AI research needs more data on the process of learning, not just the final answer.',
-    more: 'With separate consent, we plan to record attempts, feedback and revisions so researchers can study how judgment develops.',
+    text: 'We believe AI research needs more data on how people learn and exercise judgment.',
+    more: 'With separate consent, we plan to capture attempts, feedback and revisions to support AI training and evaluation.',
   },
   {
     title: 'Participant choice',
-    text: 'Playing and joining a study are separate choices.',
-    more: 'You can play for free and remain eligible for future prizes without joining research. The program is in development; enrollment is not active.',
+    text: 'Research requires separate consent. Free play and future prize eligibility remain independent of participation.',
+    more: 'The research program is in development. Research enrollment is not active in the closed beta.',
   },
   {
     title: 'Our model',
-    text: 'Research revenue would help keep the challenges free.',
-    more: 'We plan to license consented learning data to AI teams and run commissioned studies. That revenue would support free access, new challenges and significant prizes.',
+    text: 'AI teams would license human learning data and commission targeted collections.',
+    more: 'Research revenue would help fund free access, new challenges and significant prizes.',
   },
 ];
 
@@ -204,7 +204,7 @@ export function Philosophy() {
           </div>
           <div className="philosophy-answer">
             <div className="philosophy-mark">
-              Keep<span>RI</span>
+              <Wordmark />
             </div>
             {questions.map((q, i) => (
               <TabsContent value={String(i)} key={q.title}>
@@ -246,7 +246,9 @@ export function Philosophy() {
               <article className="philosophy-card" key={q.title}>
                 <div className="philosophy-card-heading">
                   <h3>{q.title}</h3>
-                  <span aria-hidden="true">KeepRI</span>
+                  <span aria-hidden="true">
+                    <Wordmark />
+                  </span>
                 </div>
                 <p>{q.text}</p>
                 <p>{q.more}</p>
@@ -280,7 +282,9 @@ export function Philosophy() {
               <article key={q.title}>
                 <div className="philosophy-card-heading">
                   <h3>{q.title}</h3>
-                  <span aria-hidden="true">KeepRI</span>
+                  <span aria-hidden="true">
+                    <Wordmark />
+                  </span>
                 </div>
                 <p>{q.text}</p>
                 <p>{q.more}</p>

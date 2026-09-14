@@ -173,9 +173,6 @@ html[data-intro='active'] .site-header {
   letter-spacing: -0.065em;
   gap: 0;
 }
-.brand-dot {
-  color: #d5b473;
-}
 .navigation {
   display: flex;
   align-items: center;
@@ -605,9 +602,6 @@ summary::-webkit-details-marker {
   letter-spacing: -0.065em;
   line-height: 1;
 }
-.footer-wordmark > span {
-  color: #d5b473;
-}
 .footer-main > div {
   font-size: 16px;
 }
@@ -872,9 +866,6 @@ section[tabindex='-1']:focus {
   line-height: 1;
   letter-spacing: -0.07em;
 }
-.philosophy-mark > span {
-  color: var(--clay);
-}
 @media (max-width: 1024px) {
   .research-section {
     padding-bottom: 120px;
@@ -1015,9 +1006,6 @@ section[tabindex='-1']:focus {
   letter-spacing: -0.065em;
   padding: 0.15em 0.3em 0.25em;
   background: radial-gradient(ellipse, var(--paper) 40%, #f6f3e900 72%);
-}
-.opening-wordmark > span {
-  color: var(--clay);
 }
 .opening-progress {
   position: absolute;
@@ -1241,7 +1229,7 @@ html[data-motion='paused'] .chevrons i {
   margin-bottom: 30px;
 }
 .hero h1 {
-  font-size: clamp(58px, 6.35vw, 100px);
+  font-size: clamp(48px, 5.4vw, 82px);
   line-height: 1.04;
   letter-spacing: -0.065em;
 }
@@ -1617,7 +1605,7 @@ html[data-motion='paused'] .chevrons i {
     grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   }
   .hero h1 {
-    font-size: clamp(40px, 6.4vw, 66px);
+    font-size: clamp(36px, 5.3vw, 58px);
   }
   .hero-content > p {
     font-size: 17px;
@@ -1670,7 +1658,7 @@ html[data-motion='paused'] .chevrons i {
     padding: 0;
   }
   .hero h1 {
-    font-size: clamp(38px, 11vw, 72px);
+    font-size: clamp(34px, 8.7vw, 60px);
     white-space: normal;
   }
   .hero-eyebrow {
@@ -1801,4 +1789,317 @@ html[data-motion='paused'] .chevrons i {
   .hero-visual {
     will-change: auto;
   }
+}
+
+/* KeepRI's RI signature: an open frame and a separate vertical stroke. */
+.keepri-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 1.1;
+  color: inherit;
+}
+.wordmark-ri {
+  position: relative;
+  display: inline-block;
+  padding: 0.02em 0.17em 0.1em 0.1em;
+  margin-left: 0.1em;
+  letter-spacing: -0.095em;
+  color: #d5b473;
+}
+.wordmark-ri::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 82%;
+  height: 35%;
+  border-right: 0.055em solid currentColor;
+  border-bottom: 0.055em solid currentColor;
+}
+.opening-wordmark .wordmark-ri,
+.philosophy-mark .wordmark-ri,
+.philosophy-card .wordmark-ri,
+.noscript-copy .wordmark-ri {
+  color: #a65332;
+}
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hero h1 {
+  width: 100%;
+  margin: 0;
+  text-align: left;
+}
+.hero-content > p {
+  padding: 0;
+  text-align: left;
+}
+
+/* The orbit now shows which explanations survive a visitor's tests. */
+.hero-visual.reasoning-instrument {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 0 0 auto;
+  aspect-ratio: auto;
+}
+.challenge-heading {
+  padding-inline: 12px;
+}
+.challenge-kicker {
+  color: var(--sage);
+  font:
+    12px/1.5 ui-monospace,
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.challenge-heading h2 {
+  font-size: 30px;
+  line-height: 1.2;
+  margin: 10px 0;
+  letter-spacing: -0.035em;
+}
+.challenge-heading p {
+  max-width: 390px;
+  color: var(--on-dark);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.challenge-heading strong {
+  font-weight: 500;
+  color: var(--paper);
+  white-space: nowrap;
+}
+.orbital-stage {
+  position: relative;
+  width: min(100%, 370px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+.orbital-stage > svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.orbital-stage .orbital-monogram {
+  font-size: 76px;
+}
+.orbital-evidence {
+  fill: var(--sage);
+  font:
+    12px ui-monospace,
+    monospace;
+  letter-spacing: 0.04em;
+}
+.orbital-meridian,
+.orbital-node {
+  transition: opacity 0.5s;
+}
+.orbital-meridian[data-eliminated='true'] {
+  opacity: 0.1;
+}
+.orbital-node[data-eliminated='true'] {
+  opacity: 0.1 !important;
+}
+.orbital-stage .orbital-label {
+  display: inline-flex;
+  gap: 10px;
+  justify-content: space-between;
+  height: auto;
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: 0;
+  border: 1px solid #94a57d80;
+  background: #253224;
+  color: var(--paper);
+  font: 13px/1.3 var(--font-sans);
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    opacity 0.2s;
+}
+.orbital-stage .orbital-label:hover {
+  border-color: #d5b473;
+  background: #34432e;
+}
+.orbital-stage .orbital-label-top {
+  left: 0;
+  top: 15%;
+}
+.orbital-stage .orbital-label-right {
+  right: -2%;
+  top: 44%;
+}
+.orbital-stage .orbital-label-bottom {
+  left: 8%;
+  bottom: 11%;
+}
+.orbital-stage .orbital-label[data-eliminated='true'] {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+.reasoning-instrument[data-solved='true'] .orbital-center {
+  stroke: #d5b473;
+}
+.reasoning-instrument[data-solved='true'] .orbital-label-bottom {
+  opacity: 1;
+  border-color: #d5b473;
+}
+.sequence-form {
+  padding: 0 12px;
+}
+.sequence-form > label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--on-dark);
+  font-size: 14px;
+}
+.sequence-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 8px;
+}
+.sequence-inputs input {
+  height: 46px;
+  min-width: 0;
+  border: 1px solid #82936c80;
+  border-radius: 0;
+  color: var(--paper);
+  background: #ffffff05;
+  text-align: center;
+  box-shadow: none;
+  font:
+    400 17px/1.4 ui-monospace,
+    monospace;
+  padding: 8px 4px;
+}
+.sequence-inputs input::placeholder {
+  color: #a5b194;
+  opacity: 0.65;
+}
+.sequence-inputs .sequence-submit {
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 0;
+  background: #d5b473;
+  color: #242820;
+  font-size: 14px;
+  border: 0;
+}
+.sequence-submit:hover {
+  background: #e4c98f;
+}
+.sequence-error {
+  margin-top: 10px;
+  color: #f0bba0;
+  font-size: 14px;
+}
+.challenge-results {
+  padding: 12px 12px 0;
+  min-height: 58px;
+  color: var(--on-dark);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.challenge-results p {
+  animation: panel-enter 0.25s ease;
+}
+.sequence-history {
+  margin: 8px 12px 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #82936c55;
+}
+.sequence-history li {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 7px 0;
+  color: var(--on-dark);
+  font:
+    12px/1.5 ui-monospace,
+    monospace;
+}
+.sequence-history li > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.sequence-history li[data-accepted='false'] > span:last-child {
+  color: #edac8c;
+}
+.challenge-reset {
+  min-height: 38px;
+  padding: 6px 12px;
+  color: var(--on-dark);
+  font-size: 13px;
+  background: none;
+}
+.challenge-reset:hover {
+  background: #ffffff0a;
+  color: var(--paper);
+}
+.challenge-noscript {
+  font-size: 14px;
+  color: var(--on-dark);
+  padding: 12px;
+}
+@media (max-width: 1024px) and (min-width: 701px) {
+  .hero-main {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .challenge-heading {
+    padding-inline: 0;
+  }
+  .sequence-form {
+    padding: 0;
+  }
+  .sequence-inputs {
+    gap: 5px;
+  }
+  .sequence-inputs .sequence-submit {
+    padding: 0 9px;
+  }
+  .orbital-stage .orbital-label {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 700px) {
+  .hero-visual.reasoning-instrument {
+    margin: 42px auto 0;
+    max-width: 420px;
+  }
+  .challenge-heading,
+  .sequence-form {
+    padding-inline: 0;
+  }
+  .challenge-heading h2 {
+    font-size: 28px;
+  }
+  .orbital-stage {
+    max-width: 330px;
+  }
+  .orbital-stage .orbital-label-right {
+    right: 0;
+  }
+  .challenge-results {
+    padding-inline: 0;
+  }
+  .sequence-history {
+    margin-inline: 0;
+  }
+}
+.sequence-inputs input:focus-visible {
+  outline: 2px solid #d5b473;
+  outline-offset: 2px;
 }

@@ -34,10 +34,10 @@ export function PageMotion() {
       if (root.dataset.motion === 'paused') return;
       media.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.fromTo(
-          '.hero-visual',
+          '.orbital-stage',
           { y: 0 },
           {
-            y: -55,
+            y: -18,
             ease: 'none',
             scrollTrigger: {
               trigger: '.hero',

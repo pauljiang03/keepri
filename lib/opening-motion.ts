@@ -21,6 +21,7 @@ export function installOpeningMotion() {
     ),
   ];
   let done = false;
+  let entering = false;
   let disposed = false;
   let width = innerWidth;
   let height = innerHeight;
@@ -80,6 +81,7 @@ export function installOpeningMotion() {
     if (done || disposed) return;
     done = true;
     timeline?.pause();
+    peelTimeline?.pause();
     const focusWasInside = overlay.contains(document.activeElement);
     // Remove the intro from layout, hit testing and the accessibility tree.
     // There is no scroll range, history entry or reverse animation to re-enter.
@@ -97,6 +99,7 @@ export function installOpeningMotion() {
     else if (focus || focusWasInside) hero.focus({ preventScroll: true });
   };
   let timeline: gsap.core.Timeline;
+  let peelTimeline: gsap.core.Timeline;
   const context = gsap.context(() => {
     const points = gsap.utils.toArray<SVGCircleElement>(
       '.thought-points circle',
@@ -106,12 +109,25 @@ export function installOpeningMotion() {
       strokeDasharray: 1,
       strokeDashoffset: 1,
     });
-    timeline = gsap.timeline({ onComplete: () => finish() });
+    timeline = gsap.timeline();
+    // The cover animation and the exit are independent timelines. Nothing
+    // advances into the peel until the visitor explicitly enters.
+    peelTimeline = gsap.timeline({ paused: true, onComplete: () => finish() });
+    peelTimeline
+      .to('.intro-skip, .scroll-cue', { opacity: 0, duration: 0.25 }, 0)
+      .to(
+        peel,
+        {
+          progress: 1,
+          duration: 1.65,
+          ease: 'power3.inOut',
+          onUpdate: drawPeel,
+        },
+        0,
+      );
     if (preference.matches) {
       // Every load still gets an opening, without the spatial animation.
-      timeline
-        .set('.opening-wordmark', { opacity: 1 })
-        .to({}, { duration: 0.45 });
+      timeline.set('.opening-wordmark', { opacity: 1 });
       return;
     }
     timeline
@@ -154,27 +170,19 @@ export function installOpeningMotion() {
         },
         0,
       )
-      .to('.opening-progress i', { scaleX: 1, duration: 2.15, ease: 'none' }, 0)
-      .to('.intro-skip, .scroll-cue', { opacity: 0, duration: 0.25 }, 2.05)
       .to(
-        peel,
-        {
-          progress: 1,
-          duration: 1.65,
-          ease: 'power3.inOut',
-          onUpdate: drawPeel,
-        },
-        2.15,
+        '.opening-progress i',
+        { scaleX: 1, duration: 2.15, ease: 'none' },
+        0,
       );
   });
 
   const advance = () => {
-    if (done) return;
-    if (preference.matches) finish(false, true);
-    else {
-      timeline.time(Math.max(timeline.time(), 2.15));
-      timeline.timeScale(1.7);
-    }
+    if (done || entering) return;
+    entering = true;
+    timeline.pause();
+    if (preference.matches) finish(true, true);
+    else peelTimeline.play(0);
   };
   const navigate = (event: MouseEvent) => {
     if (
@@ -207,7 +215,7 @@ export function installOpeningMotion() {
     navigateTo(hash);
   };
   const wheel = (event: WheelEvent) => {
-    if (done || event.ctrlKey || Math.abs(event.deltaY) < 8) return;
+    if (done || event.ctrlKey || event.deltaY < 8) return;
     event.preventDefault();
     advance();
   };
@@ -217,7 +225,7 @@ export function installOpeningMotion() {
   };
   const touchMove = (event: TouchEvent) => {
     if (done || event.touches.length !== 1) return;
-    if (Math.abs((event.touches[0]?.clientY ?? touchY) - touchY) > 12) {
+    if (touchY - (event.touches[0]?.clientY ?? touchY) > 12) {
       event.preventDefault();
       advance();
     }
@@ -234,12 +242,18 @@ export function installOpeningMotion() {
   };
   const visibility = () => {
     if (done) return;
-    if (document.hidden) timeline.pause();
-    else timeline.resume();
+    if (document.hidden) {
+      timeline.pause();
+      peelTimeline.pause();
+    } else if (entering) peelTimeline.resume();
+    else if (!preference.matches) timeline.resume();
   };
   const preferenceChange = () => {
     lenis.options.smoothWheel = !preference.matches;
-    if (preference.matches) finish();
+    if (preference.matches) {
+      timeline.pause();
+      if (entering) finish();
+    } else if (!done && !entering && !document.hidden) timeline.resume();
   };
   const hashChange = () => {
     if (!done) finish(false);
@@ -247,7 +261,7 @@ export function installOpeningMotion() {
   };
   const pageShow = (event: PageTransitionEvent) => {
     // BFCache restores the completed document; only real loads replay it.
-    if (event.persisted && !done) finish();
+    if (event.persisted) visibility();
   };
   document.addEventListener('click', navigate);
   window.addEventListener('wheel', wheel, { passive: false });
