@@ -1,5 +1,11 @@
 # KeepRI motion verification
 
+## Restrained intro, September 15
+
+The first gesture turns the open frame 90 degrees with power3.out over 0.5 seconds. The second crossfades the full phrase in 0.5 seconds with no stagger. The third lifts the bottom edge in 0.5 seconds with power2.inOut. Paper and curl use transforms; a counter-translation keeps text stationary inside the clipped sheet. No SVG geometry, clip-path, layout property, or text transform is animated. Existing three-stage, 400ms settling, momentum, reload, reduced-motion and skip behavior remains.
+
+All 24 opening tests pass. An isolated headless Chrome session checked the production export at 1440×900, 390×844, 320×568 and 844×390. Real-time animation samples confirmed fixed text position and dimensions through all stages; viewport overflow was zero. Rapid mouse-wheel and emulated touch dispatch could not skip stages. Reload, reduced motion and completion lockout passed with no runtime exceptions. Screenshots were reviewed at desktop and mobile sizes. Results and captures: /private/tmp/keepri-premium-review/. This is browser emulation, not physical-device or sustained frame-rate profiling. Earlier records below describe superseded revisions.
+
 ## Rapid-input protection
 
 The intro uses a native button cue, rejects hash navigation while active, consumes touches and wheel bursts that start during animation, and waits 400ms after each stage completes before accepting a new gesture. A gesture begun too early stays rejected even if it crosses the completion boundary. The text reveal lasts 3.8 seconds. Surrounding geometry still spins; text remains stationary; the third gesture peels upward.

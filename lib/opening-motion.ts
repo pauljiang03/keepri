@@ -7,10 +7,8 @@ export function installOpeningMotion() {
   const root = document.documentElement;
   const overlay = document.querySelector<HTMLElement>('.intro-overlay')!;
   const paper = document.querySelector<HTMLElement>('.opening-layer')!;
-  const fold = document.querySelector<SVGPolygonElement>('.peel-fold')!;
-  const gradient =
-    document.querySelector<SVGLinearGradientElement>('#peel-shading')!;
-  const foldSvg = document.querySelector<SVGSVGElement>('.peel-surface')!;
+  const content = document.querySelector<HTMLElement>('.opening-content')!;
+  const fold = document.querySelector<HTMLElement>('.peel-fold')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
   const cue = document.querySelector<HTMLButtonElement>('.scroll-cue')!;
   const cueLabel = document.querySelector<HTMLElement>('.intro-cue-label')!;
@@ -55,17 +53,16 @@ export function installOpeningMotion() {
 
   const drawPeel = () => {
     const shape = peelGeometry(width, height, peel.progress);
-    paper.style.clipPath = shape.clip;
-    fold.setAttribute('points', shape.fold);
-    gradient.setAttribute('x1', '0');
-    gradient.setAttribute('y1', String(shape.edge));
-    gradient.setAttribute('x2', '0');
-    gradient.setAttribute('y2', String(shape.edge - shape.curl));
+    const lift = height - shape.edge;
+    // Counter-translate the contents inside the moving, clipped sheet so the
+    // type remains stationary. The paper and its curl only use transforms.
+    paper.style.transform = `translate3d(0, ${-lift}px, 0)`;
+    content.style.transform = `translate3d(0, ${lift}px, 0)`;
+    fold.style.transform = `translate3d(0, ${-lift}px, 0) scaleY(${shape.curl / height})`;
   };
   const resize = () => {
     width = innerWidth;
     height = innerHeight;
-    foldSvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     if (!done) drawPeel();
   };
   resize();
@@ -126,14 +123,6 @@ export function installOpeningMotion() {
   let revealTimeline: gsap.core.Timeline;
   let peelTimeline: gsap.core.Timeline;
   const context = gsap.context(() => {
-    const points = gsap.utils.toArray<SVGCircleElement>(
-      '.thought-points circle',
-    );
-    gsap.set(points, { opacity: 0, scale: 0, transformOrigin: '50% 50%' });
-    gsap.set('.thought-connections path', {
-      strokeDasharray: 1,
-      strokeDashoffset: 1,
-    });
     gsap.set('.opening-spelling-word', { opacity: 0 });
     timeline = gsap.timeline({ paused: true, onComplete: readyToReveal });
     revealTimeline = gsap.timeline({ paused: true, onComplete: readyToPeel });
@@ -141,88 +130,48 @@ export function installOpeningMotion() {
     // advances into the peel until the visitor explicitly enters.
     peelTimeline = gsap.timeline({ paused: true, onComplete: () => finish() });
     peelTimeline
-      .to('.intro-skip, .scroll-cue', { opacity: 0, duration: 0.25 }, 0)
+      .to('.intro-skip, .scroll-cue', { opacity: 0, duration: 0.15 }, 0)
       .to(
         peel,
         {
           progress: 1,
-          duration: 1.65,
-          ease: 'power3.inOut',
+          duration: 0.5,
+          ease: 'power2.inOut',
           onUpdate: drawPeel,
         },
         0,
       );
-    // The constellation spins; the wordmark and words never transform.
-    // Each stage waits for its own gesture; no text is revealed by the spin.
-    timeline
-      .to('.thought-orbits', { opacity: 0.8, duration: 0.45 }, 0)
+    // A quarter turn of the brand's open frame is the only first-stage motion.
+    timeline.to(
+      '.opening-frame',
+      {
+        rotation: 90,
+        transformOrigin: '50% 50%',
+        duration: 0.5,
+        ease: 'power3.out',
+      },
+      0,
+    );
+    // Crossfade the complete phrase together, with no stagger or blank pause.
+    revealTimeline
       .to(
-        points,
+        '.opening-frame-wrap, .opening-wordmark',
         {
-          opacity: 1,
-          scale: 1,
-          duration: 0.35,
-          stagger: 0.02,
+          opacity: 0,
+          duration: 0.18,
           ease: 'power2.out',
         },
         0,
       )
-      .to(
-        '.thought-connections path',
-        {
-          strokeDashoffset: 0,
-          duration: 0.7,
-          stagger: 0.015,
-          ease: 'power2.inOut',
-        },
-        0.1,
-      )
-      .to(
-        '.thought-network',
-        {
-          rotation: 360,
-          transformOrigin: '50% 50%',
-          duration: 1.8,
-          ease: 'power2.inOut',
-        },
-        0,
-      )
-      .to('.thought-glow', { opacity: 0.65, duration: 0.7 }, 0)
-      .to(
-        '.opening-progress i',
-        { scaleX: 0.5, duration: 1.8, ease: 'none' },
-        0,
-      );
-    // A second, fresh gesture reveals the stationary words at a slower pace.
-    revealTimeline
-      .to(
-        '.thought-field, .opening-wordmark, .thought-glow',
-        {
-          opacity: 0,
-          duration: 1,
-          ease: 'sine.inOut',
-        },
-        0,
-      )
-      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 1)
+      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 0)
       .to(
         '.opening-spelling-word',
         {
           opacity: 1,
-          duration: 1.6,
-          stagger: 0.6,
-          ease: 'sine.inOut',
+          duration: 0.4,
+          ease: 'power3.out',
         },
-        1,
-      )
-      .to(
-        '.opening-progress i',
-        {
-          scaleX: 1,
-          duration: 3.8,
-          ease: 'none',
-        },
-        0,
+        0.1,
       );
     // Reduced motion preserves all three deliberate input steps.
   });
@@ -238,7 +187,6 @@ export function installOpeningMotion() {
     if (stage === 'idle') {
       stage = 'spinning';
       overlay.dataset.step = 'spinning';
-      cueLabel.textContent = 'Spinning…';
       cue.setAttribute('aria-disabled', 'true');
       if (preference.matches) timeline.progress(1).pause();
       else timeline.play(0);
@@ -247,7 +195,6 @@ export function installOpeningMotion() {
     if (stage === 'spun') {
       stage = 'revealing';
       overlay.dataset.step = 'revealing';
-      cueLabel.textContent = 'Revealing…';
       cue.setAttribute('aria-disabled', 'true');
       if (preference.matches) revealTimeline.progress(1).pause();
       else revealTimeline.play(0);
@@ -414,7 +361,9 @@ export function installOpeningMotion() {
       element.inert = false;
     });
     overlay.hidden = true;
-    paper.style.clipPath = '';
+    paper.style.transform = '';
+    content.style.transform = '';
+    fold.style.transform = '';
     delete root.dataset.intro;
     history.scrollRestoration = previousRestoration;
     layout.disconnect();

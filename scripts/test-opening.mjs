@@ -62,6 +62,7 @@ function setup({ hash = '', reduced = false } = {}) {
       '.scroll-cue',
       '.intro-cue-label',
       '.opening-layer',
+      '.opening-content',
       '.peel-fold',
       '#peel-shading',
       '.peel-surface',
@@ -523,12 +524,11 @@ test('text appears only in the reveal timeline and never transforms', () => {
     }
   }
   const words = steps.find(({ target }) => target === '.opening-spelling-word');
-  assert(words.values.duration >= 1.5, 'Each word should fade in gradually');
-  assert(
-    Math.abs(
-      words.at + words.values.duration + 2 * words.values.stagger - 3.8,
-    ) < 0.01,
-    'The complete text transition should take 3.8 seconds',
+  assert.equal(words.values.stagger, undefined, 'The phrase appears together');
+  assert.equal(
+    words.at + words.values.duration,
+    0.5,
+    'The phrase should be readable within half a second',
   );
   env.cleanup();
 });
@@ -653,5 +653,30 @@ test('hash navigation cannot bypass an active intro', () => {
   press(env);
   env.window.emit('hashchange');
   assert.equal(env.root.dataset.intro, 'active');
+  env.cleanup();
+});
+
+test('restrained motion turns only the frame and peels with stationary content', () => {
+  const env = setup();
+  assert.equal(env.cover.steps.length, 1);
+  assert.equal(env.cover.steps[0].target, '.opening-frame');
+  assert.equal(env.cover.steps[0].values.rotation, 90);
+  assert.equal(env.cover.steps[0].values.duration, 0.5);
+  const peelStep = env.timeline.steps.find(({ values }) => values.onUpdate);
+  assert.equal(peelStep.values.duration, 0.5);
+  for (const p of [0, 0.2, 0.5, 0.9, 1]) {
+    peelStep.target.progress = p;
+    peelStep.values.onUpdate();
+    const lift = 900 * p;
+    assert.equal(
+      env.elements['.opening-layer'].style.transform,
+      `translate3d(0, ${-lift}px, 0)`,
+    );
+    assert.equal(
+      env.elements['.opening-content'].style.transform,
+      `translate3d(0, ${lift}px, 0)`,
+    );
+    assert.equal(env.elements['.opening-layer'].style.clipPath, undefined);
+  }
   env.cleanup();
 });

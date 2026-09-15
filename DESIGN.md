@@ -1,8 +1,12 @@
 # KeepRI website design
 
+## Restrained intro, September 15
+
+Apply the owner-linked [premium-web-design skill](https://github.com/Lucxar/premium-web-design-skill/blob/main/SKILL.md) to the intro: restraint, purposeful short transitions and a single brand-derived focal point. The warm paper and existing DM Sans wordmark stay. Two fine corner strokes echo the RI signature and turn once by 90 degrees; the wordmark remains still. The whole phrase crossfades together without stagger or an empty pause. A transform-based bottom-up peel preserves stationary text. Each motion lasts 0.5 seconds and waits for its own gesture. Dots, connecting lines, glow, the progress bar and bouncing cues are removed. All later intro descriptions are historical.
+
 ## Horizontal model views
 
-The diagram and research explanation now occupy two horizontally swipable panels, using the existing Embla carousel and labeled buttons. No vertical scrolling or dropdown remains. Both panels retain the height of the taller content so switching does not move the headline. The intro text reveal is shortened to 3.8 seconds.
+The diagram and research explanation now occupy two horizontally swipable panels, using the existing Embla carousel and labeled buttons. No vertical scrolling or dropdown remains. Both panels retain the height of the taller content so switching does not move the headline. At that revision, the intro text reveal was shortened to 3.8 seconds.
 
 ## Three gestures and contained disclosure
 

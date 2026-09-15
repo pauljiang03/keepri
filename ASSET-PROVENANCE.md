@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Restrained intro, September 15
+
+The user requested the [premium-web-design skill](https://github.com/Lucxar/premium-web-design-skill/blob/main/SKILL.md). Its restraint and motion guidance informed this revision; no reference-brand artwork, fonts, copy, or sample implementation was imported. The two corner paths derive from KeepRI’s existing authored RI frame. The revised choreography and transform-based peel are authored locally with the existing licensed GSAP runtime. Font and software notices remain retained. The constellation described below is retired.
+
 ## Horizontal business model carousel
 
 The diagram-to-text swipe uses the already-installed embla-carousel-react package through the existing local carousel component. Its runtime dependencies and license notices are now included by collect-runtime-notices.mjs. The installed 8.5.2 packages omit their license file, so public/licenses/embla-8.5.2.txt retains the [official version-tagged MIT notice](https://github.com/davidjerleke/embla-carousel/blob/v8.5.2/LICENSE). All panel layout and content are authored for KeepRI.

@@ -1,19 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowUp, ArrowUpRight, Menu, X } from 'lucide-react';
 import { HeroVisual } from './hero-visual';
 import { Wordmark } from './wordmark';
-
-const thoughts = Array.from({ length: 18 }, (_, i) => {
-  const angle = (i * 137.508 * Math.PI) / 180;
-  const radius = 150 + (i % 3) * 86;
-  return {
-    x: Math.round(400 + Math.cos(angle) * radius),
-    y: Math.round(400 + Math.sin(angle) * radius),
-    color: ['#b7bca6', '#c06a43', '#d5b473'][i % 3],
-  };
-});
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -77,74 +67,31 @@ export function OpeningHero() {
           aria-label="KeepRI introduction"
         >
           <div className="opening-layer" aria-hidden="true">
-            <div className="thought-glow" />
-            <div className="thought-field">
-              <svg
-                className="thought-network"
-                viewBox="0 0 800 800"
-                fill="none"
-              >
-                <g className="thought-orbits">
-                  {[150, 236, 322].map((radius) => (
-                    <circle key={radius} cx="400" cy="400" r={radius} />
-                  ))}
-                </g>
-                <g className="thought-connections">
-                  {thoughts.map((point, i) => {
-                    const next = thoughts[(i + 5) % thoughts.length];
-                    return (
-                      <path
-                        key={i}
-                        pathLength="1"
-                        d={`M${point.x},${point.y} Q400,400 ${next.x},${next.y}`}
-                      />
-                    );
-                  })}
-                </g>
-                <g className="thought-points">
-                  {thoughts.map((point, i) => (
-                    <circle
-                      key={i}
-                      cx={point.x}
-                      cy={point.y}
-                      r={i % 3 === 1 ? 5 : 3.5}
-                      fill={point.color}
-                    />
-                  ))}
-                </g>
-              </svg>
-            </div>
-            <span className="opening-wordmark">
-              <Wordmark />
-            </span>
-            <div className="opening-spelling">
-              {['Keep', 'Reasoning', 'Independently'].map((word) => (
-                <span className="opening-spelling-word" key={word}>
-                  {word}
-                </span>
-              ))}
-            </div>
-            <div className="opening-progress">
-              <span />
-              <i />
+            <div className="opening-content">
+              <div className="opening-frame-wrap">
+                <svg
+                  className="opening-frame"
+                  viewBox="0 0 320 320"
+                  fill="none"
+                >
+                  <path d="M16 112V16h96 M208 304h96v-96" />
+                </svg>
+              </div>
+              <span className="opening-wordmark">
+                <Wordmark />
+              </span>
+              <div className="opening-spelling">
+                {['Keep', 'Reasoning', 'Independently'].map((word) => (
+                  <span className="opening-spelling-word" key={word}>
+                    {word}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-          <svg
-            className="peel-surface"
-            aria-hidden="true"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id="peel-shading" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stopColor="#8d8b7e" />
-                <stop offset="0.14" stopColor="#e2dfd2" />
-                <stop offset="0.48" stopColor="#fffdf5" />
-                <stop offset="0.82" stopColor="#eeeadd" />
-                <stop offset="1" stopColor="#c7c2b2" />
-              </linearGradient>
-            </defs>
-            <polygon className="peel-fold" fill="url(#peel-shading)" />
-          </svg>
+          <div className="peel-surface" aria-hidden="true">
+            <div className="peel-fold" />
+          </div>
           <a className="intro-skip" href="#site">
             Skip intro
           </a>
@@ -153,8 +100,7 @@ export function OpeningHero() {
               Swipe to spin
             </span>
             <span className="chevrons">
-              <i>⌃</i>
-              <i>⌃</i>
+              <ArrowUp size={16} aria-hidden="true" />
             </span>
           </button>
         </div>

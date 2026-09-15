@@ -1,5 +1,9 @@
 # Website validation
 
+## Restrained intro, September 15
+
+All 24 opening tests, typecheck, focused lint, production build and 27 static asset/anchor checks passed. The generated site was tested in isolated headless Chrome at 1440×900, 390×844, 320×568 and 844×390. Text bounds and position remained fixed during frame rotation, phrase reveal and peeling; there was no horizontal overflow. Rapid wheel/touch inputs, three separate stages, reload replay, completion lockout and reduced motion passed without runtime exceptions. Desktop and mobile screenshots were visually reviewed. The review used wall-clock animation samples, not virtual-time results. Artifacts are in /private/tmp/keepri-premium-review/; physical touch hardware and low-end-device performance were not tested. Earlier sections below are historical.
+
 ## Rapid gestures and horizontal model panels
 
 All 23 intro tests passed, including double activation, gestures crossing animation completion, wheel momentum during settlement, hash navigation and opacity-only text. Typecheck, focused lint, production build and 27 static asset/anchor checks passed. The build retains notices for 30 package versions, including the official version-tagged Embla MIT notice. The model now uses an existing Embla carousel with two equal-height panels, native touch dragging, horizontal wheel gestures and accessible selection buttons. Text reveal takes 3.8 seconds. Browser visual and interaction QA has not been performed.
