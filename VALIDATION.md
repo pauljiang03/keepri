@@ -1,5 +1,27 @@
 # Website validation
 
+## Continuous intro and main-page spacing, September 15
+
+The rejected ready-cue behavior was reproduced on the public site: the cue advertised a next action while the hidden 400ms settling interval ignored it. The replacement uses one continuous 2.35-second entry and no intermediate input gates. Both Industry labels are updated. The hero uses a clear gutter, aligned column tops and a stacked figure below 960px.
+
+`npm run test:opening` passed all 18 current lifecycle/geometry tests. Typecheck, focused lint and `npm run prepare:pages` passed; static validation covered 28 asset/anchor references including the new heading-font preload. `npm ls --depth=0` completed with the existing dependency set. Full repository lint still reports pre-existing errors in unmodified `components/ui` files; these were not suppressed.
+
+Production browser review covered 375×812, 768×1024, 1440×900, 1010×780, 320×568 and 844×390. A single wheel gesture, upward touch swipe, cue click or Space key reaches the name and main page. Rapid inputs cannot skip the name. Escape/keyboard skip restores focus; reload replays; reduced motion enters immediately; completion cannot reverse. The headline and figure have no intersection, and switching to the funding text preserves both headline position and hero height. Screenshots of the intro, name, main page and funding view were reviewed. Final checks found no runtime exceptions or failed network requests. Reflow was also checked at 720 CSS pixels with 2× device scale, equivalent to a 1440px desktop at 200% zoom. Physical touch hardware and field Core Web Vitals were not measured.
+
+The production server for audits serves the generated `docs` directory under `/keepri/` and uses gzip for text assets, matching verified GitHub Pages response headers. The full Lighthouse CLI is installed only under `/private/tmp/keepri-lighthouse-cli`; no project dependency changed. The older cached audit bundle omitted loading metrics and was excluded from performance evidence. Initial uncompressed measurements were retained separately because they did not represent Pages delivery. A real heading-font preload was added to reduce the font discovery delay. Limiting Tailwind sources to the used components reduced the stylesheet from 161,782 to 49,436 bytes; layouts and interactions were rechecked after that change.
+
+Final full Lighthouse medians (three runs with default simulated mobile throttling):
+
+| Route      | Performance | Accessibility | Best practices | SEO |     LCP | CLS | TBT |
+| ---------- | ----------: | ------------: | -------------: | --: | ------: | --: | --: |
+| `/keepri/` |          94 |           100 |            100 | 100 | 2,640ms |   0 | 0ms |
+
+The skill's checker passes the four score floors, CLS and TBT, but fails its 2,500ms LCP threshold by 140ms. This is an explicit performance exception, not a passing gate. The existing static framework's critical module delivery remains part of the load path; this change preserves the established stack and publishing pipeline rather than extending the intro repair into a framework rewrite. Main/funding-state snapshot accessibility scored 96; its remaining contrast findings concern existing offscreen section reveal opacity. No accessibility claim beyond these automated scores is made.
+
+Commands: `node /private/tmp/keepri-continuous-review/full-lighthouse.mjs` serves and audits the production output three times; `node /private/tmp/keepri-polished-skill/lighthouse-gate.mjs /private/tmp/keepri-continuous-review/full-lighthouse-{1,2,3}.json` evaluates the raw reports at the skill's unchanged thresholds. The final local audit URL was recorded in the JSON reports. Lighthouse is lab evidence; no field-performance claim is made.
+
+Raw reports, browser scripts and screenshots are retained in `/private/tmp/keepri-continuous-review/`. Earlier validation sections below refer to superseded revisions.
+
 ## Restrained intro, September 15
 
 All 24 opening tests, typecheck, focused lint, production build and 27 static asset/anchor checks passed. The generated site was tested in isolated headless Chrome at 1440×900, 390×844, 320×568 and 844×390. Text bounds and position remained fixed during frame rotation, phrase reveal and peeling; there was no horizontal overflow. Rapid wheel/touch inputs, three separate stages, reload replay, completion lockout and reduced motion passed without runtime exceptions. Desktop and mobile screenshots were visually reviewed. The review used wall-clock animation samples, not virtual-time results. Artifacts are in /private/tmp/keepri-premium-review/; physical touch hardware and low-end-device performance were not tested. Earlier sections below are historical.

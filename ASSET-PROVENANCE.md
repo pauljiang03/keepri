@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Continuous typographic intro, September 15
+
+The user requested [Virio](https://www.virio.ai/) as a motion reference and the [build-polished-websites skill](https://github.com/denfry/build-polished-websites/blob/main/build-polished-websites/SKILL.md). Virio was observed in a browser to understand its gradual change of focus. The KeepRI implementation uses its own short reasoning phrases, existing DM Sans, wordmark, color system, GSAP timeline and authored paper reveal. No Virio tiles, brand marks, proprietary fonts, copy or implementation were imported. The skill was read as workflow guidance; no new runtime dependency or visual asset was added.
+
 ## Restrained intro, September 15
 
 The user requested the [premium-web-design skill](https://github.com/Lucxar/premium-web-design-skill/blob/main/SKILL.md). Its restraint and motion guidance informed this revision; no reference-brand artwork, fonts, copy, or sample implementation was imported. The two corner paths derive from KeepRI’s existing authored RI frame. The revised choreography and transform-based peel are authored locally with the existing licensed GSAP runtime. Font and software notices remain retained. The constellation described below is retired.

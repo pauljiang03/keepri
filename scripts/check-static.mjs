@@ -62,9 +62,9 @@ for (const expected of [
   'AI teams pay',
   'Fund the next round',
   'Initial funding and event sponsorship',
-  'Swipe to spin',
-  'opening-spelling',
-  'opening-spelling-word',
+  'Scroll to begin',
+  'opening-thesis',
+  'opening-thesis-word',
   'Closed beta',
   'Our philosophies',
   'Global leaderboards',
@@ -81,7 +81,7 @@ for (const expected of [
   'require agreement to research data collection and commercial use',
   'research enrollment is not active',
   'Skip intro',
-  'For Industry',
+  'Industry',
   'Pause motion',
 ])
   assert(
@@ -144,7 +144,7 @@ assert(
   'Homepage opening replay behavior is missing',
 );
 assert(
-  /<nav\b[\s\S]*?For Industry[\s\S]*?<\/nav>/.test(html),
+  /<nav\b[\s\S]*?Industry[\s\S]*?<\/nav>/.test(html),
   'Header Industry capitalization regressed',
 );
 

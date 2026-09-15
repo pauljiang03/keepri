@@ -1,7 +1,10 @@
 @import './fonts.css';
-@import 'tailwindcss';
-@source not '../docs';
-@source not '../.tastemaker';
+@import 'tailwindcss' source(none);
+@source './';
+@source '../components/*.tsx';
+@source '../components/ui/button.tsx';
+@source '../components/ui/carousel.tsx';
+@source '../components/ui/tabs.tsx';
 :root {
   --paper: #f6f3e9;
   --surface: #e9e7dc;
@@ -923,34 +926,50 @@ section[tabindex='-1']:focus {
   transform: translateX(-10px);
 }
 
-/* A quiet open frame echoes the RI signature. Only the frame turns. */
+/* A typographic field resolves into the KeepRI name before the page opens. */
 .opening-content {
   position: absolute;
   inset: 0;
   will-change: transform;
 }
-.opening-frame-wrap {
+.opening-language {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  width: min(336px, 76vw, 64svh);
-  aspect-ratio: 1;
+  inset: 0;
+  overflow: hidden;
 }
-.opening-frame {
-  display: block;
-  width: 100%;
-  height: 100%;
-  stroke: #a65332;
-  stroke-width: 1;
-  opacity: 0.55;
+.opening-line {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #8b907b;
+  opacity: 0.38;
+  letter-spacing: -0.03em;
+}
+.opening-line:nth-child(1) {
+  top: 14%;
+  left: 8%;
+}
+.opening-line:nth-child(2) {
+  top: 26%;
+  right: -3%;
+}
+.opening-line:nth-child(3) {
+  bottom: 24%;
+  left: -3%;
+}
+.opening-line:nth-child(4) {
+  bottom: 12%;
+  right: 10%;
 }
 .opening-wordmark {
   position: absolute;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  font-size: 72px;
+  font-size: 88px;
+  opacity: 0;
   line-height: 1;
   font-weight: 500;
   letter-spacing: -0.065em;
@@ -1595,12 +1614,9 @@ section[tabindex='-1']:focus {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .opening-frame-wrap,
+  .opening-language,
   .peel-surface {
     display: none;
-  }
-  .opening-wordmark {
-    opacity: 1;
   }
   .orbital-node,
   .hero-visual {
@@ -1895,9 +1911,9 @@ section[tabindex='-1']:focus {
   }
 }
 
-/* Stage two reveals the whole phrase, then waits for manual peeling. */
+/* The mission is the first frame; it crossfades into the name. */
 /* Plain, fixed-size typography. Only opacity is animated on these words. */
-.opening-spelling {
+.opening-thesis {
   position: absolute;
   inset: 0;
   display: grid;
@@ -1906,14 +1922,14 @@ section[tabindex='-1']:focus {
   justify-content: center;
   justify-items: center;
   padding: 80px 24px;
-  opacity: 0;
+  opacity: 1;
   font-size: 2.5rem;
   font-weight: 500;
   letter-spacing: normal;
   line-height: 1.2;
   text-align: center;
 }
-.opening-spelling-word {
+.opening-thesis-word {
   display: block;
   max-width: 100%;
   padding: 0.08em 0;
@@ -1922,32 +1938,24 @@ section[tabindex='-1']:focus {
   font-stretch: normal;
 }
 .opening-wordmark,
-.opening-spelling,
-.opening-spelling-word {
+.opening-thesis,
+.opening-thesis-word {
   transform: none;
   scale: none;
   rotate: none;
 }
 @media (max-width: 700px) {
-  .opening-spelling {
+  .opening-thesis {
     font-size: 2rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .intro-overlay[data-step='ready'] .opening-wordmark {
-    display: none;
-  }
-  .intro-overlay:not([data-step='ready']) .opening-spelling {
-    opacity: 0 !important;
-  }
-  .intro-overlay[data-step='ready'] .opening-spelling,
-  .opening-spelling-word {
-    opacity: 1 !important;
-    transform: none !important;
+  .opening-thesis {
+    opacity: 1;
   }
 }
 @media (max-height: 520px) {
-  .opening-spelling {
+  .opening-thesis {
     padding-block: 52px 68px;
     font-size: 2rem;
   }
@@ -2126,5 +2134,131 @@ section[tabindex='-1']:focus {
 @media (max-width: 700px) {
   .opening-wordmark {
     font-size: 56px;
+  }
+}
+
+@media (max-width: 700px) {
+  .opening-line {
+    font-size: 24px;
+  }
+  .opening-line:nth-child(1) {
+    top: 17%;
+    left: -10%;
+  }
+  .opening-line:nth-child(2) {
+    top: 28%;
+    right: -15%;
+  }
+  .opening-line:nth-child(3) {
+    bottom: 27%;
+    left: -18%;
+  }
+  .opening-line:nth-child(4) {
+    bottom: 16%;
+    right: -6%;
+  }
+}
+@media (max-height: 520px) {
+  .opening-line {
+    font-size: 22px;
+  }
+  .opening-line:nth-child(2),
+  .opening-line:nth-child(3) {
+    display: none;
+  }
+}
+
+/* Give the headline and model independent columns with a real gutter. */
+.hero {
+  padding-block: 120px 32px;
+  overflow: visible;
+}
+.hero-main {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(40px, 5vw, 80px);
+  min-height: 0;
+  padding-bottom: 56px;
+}
+.hero-content {
+  min-width: 0;
+  padding: 0;
+  align-self: start;
+}
+.hero h1 {
+  font-size: clamp(40px, 4.4vw, 68px);
+  line-height: 1.08;
+}
+.hero-content > p {
+  margin-top: 28px;
+  max-width: 38ch;
+}
+.hero-visual.model-flow {
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  align-self: start;
+}
+.model-heading {
+  align-items: start;
+  margin-bottom: 20px;
+}
+.model-heading > span {
+  flex-shrink: 1;
+  text-align: right;
+}
+.model-lane ol {
+  gap: 18px;
+}
+.model-lane li {
+  padding-top: 10px;
+}
+.model-lane li + li::before {
+  top: -20px;
+  line-height: 16px;
+}
+.model-switch {
+  margin-top: 20px;
+}
+.hero-vision {
+  margin-top: 16px;
+}
+@media (max-width: 959px) {
+  .hero {
+    padding-top: 112px;
+  }
+  .hero-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 6.2vw, 54px);
+  }
+  .hero-visual.model-flow {
+    max-width: 640px;
+  }
+  .hero-content > p {
+    max-width: 46ch;
+  }
+}
+@media (max-width: 700px) {
+  .hero {
+    padding-block: 104px 28px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 8.4vw, 48px);
+  }
+  .hero-main {
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+  .model-heading {
+    gap: 16px;
+  }
+  .model-branches {
+    gap: 20px;
+  }
+  .model-lane h4 {
+    font-size: 0.9375rem;
   }
 }

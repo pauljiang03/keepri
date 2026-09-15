@@ -32,7 +32,7 @@ export function SiteHeader() {
             Philosophies
           </a>
           <a href="#research" onClick={() => setOpen(false)}>
-            For Industry
+            Industry
           </a>
         </nav>
         <span className="beta-status">
@@ -68,21 +68,24 @@ export function OpeningHero() {
         >
           <div className="opening-layer" aria-hidden="true">
             <div className="opening-content">
-              <div className="opening-frame-wrap">
-                <svg
-                  className="opening-frame"
-                  viewBox="0 0 320 320"
-                  fill="none"
-                >
-                  <path d="M16 112V16h96 M208 304h96v-96" />
-                </svg>
+              <div className="opening-language">
+                {[
+                  'Ask. Try. Reconsider.',
+                  'Look closer. Test again.',
+                  'Question. Check. Revise.',
+                  'Think it through.',
+                ].map((line) => (
+                  <div className="opening-line" key={line}>
+                    {line}
+                  </div>
+                ))}
               </div>
               <span className="opening-wordmark">
                 <Wordmark />
               </span>
-              <div className="opening-spelling">
+              <div className="opening-thesis">
                 {['Keep', 'Reasoning', 'Independently'].map((word) => (
-                  <span className="opening-spelling-word" key={word}>
+                  <span className="opening-thesis-word" key={word}>
                     {word}
                   </span>
                 ))}
@@ -97,7 +100,7 @@ export function OpeningHero() {
           </a>
           <button className="scroll-cue" type="button">
             <span className="intro-cue-label" aria-live="polite">
-              Swipe to spin
+              Scroll to begin
             </span>
             <span className="chevrons">
               <ArrowUp size={16} aria-hidden="true" />

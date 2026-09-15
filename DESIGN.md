@@ -1,5 +1,15 @@
 # KeepRI website design
 
+## Continuous entry and stable hero, September 15
+
+Visual thesis: a calm typographic sequence moves from independent reasoning to the KeepRI identity, then directly into the product story. The direction is deliberate, legible and continuous; the anti-goal is a series of effects that requires visitors to discover hidden input gates. The primary archetype remains product marketing with an editorial expression and a split narrative. The main action is to read the philosophies and planned business model, with development status serving as transparent process information.
+
+The user-linked build-polished-websites skill and Virio's observed progression informed the motion. KeepRI's authored words, warm paper, clay accent, DM Sans, dot-free wordmark and upward reveal are retained. The reasoning phrase is visible first, fades into the name, then opens the page in one 2.35-second sequence. No tiled reference artwork, fonts, source code, copy or logos were reused. This supersedes the three-gesture requirements below. Industry is the label in both navigation and section heading.
+
+The hero has a 40–80px gutter, aligned column tops, smaller bounded headline type and natural content height. Below 960px the figure follows the headline with a 40–48px gap. Figure rows have more vertical clearance. Switching diagram/text views preserves headline position and hero height.
+
+Platform contract: source edits belong in React components, app/globals.css and lib/opening-motion.ts. Content remains editable in the existing component source; no CMS was introduced. Vinext 1.0.0-beta.5 regenerates hashed production assets with npm run prepare:pages; generated docs is staged from that export. Committing docs and pushing main publishes through the existing GitHub Pages deployment. Existing licensed dependencies and notices remain unchanged. Later sections are historical.
+
 ## Restrained intro, September 15
 
 Apply the owner-linked [premium-web-design skill](https://github.com/Lucxar/premium-web-design-skill/blob/main/SKILL.md) to the intro: restraint, purposeful short transitions and a single brand-derived focal point. The warm paper and existing DM Sans wordmark stay. Two fine corner strokes echo the RI signature and turn once by 90 degrees; the wordmark remains still. The whole phrase crossfades together without stagger or an empty pause. A transform-based bottom-up peel preserves stationary text. Each motion lasts 0.5 seconds and waits for its own gesture. Dots, connecting lines, glow, the progress bar and bouncing cues are removed. All later intro descriptions are historical.

@@ -1,5 +1,11 @@
 # KeepRI motion verification
 
+## Continuous sequence, September 15
+
+A real browser reproduced the rejected interaction: at the old visibly-ready cue, a click still failed during the hidden 400ms settling interval. The replacement has one paused timeline and one start action. Repeated input cannot seek or restart it. The peripheral language fades over 0.85s, the thesis fades at 0.45s, the name appears from 0.65–1.20s, and the upward handoff runs from 1.55–2.35s. The name is stationary and readable before the paper opens. Reduced motion finishes immediately after input; changing preference during playback also completes safely.
+
+All 18 current lifecycle/geometry tests passed. The production build was exercised in isolated headless Chrome at 375×812, 768×1024, 1440×900, 1010×780, 320×568 and 844×390. One input reached name then main; rapid wheel/touch inputs did not skip the name. Escape, Space, reload, reduced motion and completion lockout passed. Both figure views preserved the headline position and hero height. There was no horizontal overflow or intersection between the headline column and figure. Desktop, mobile, intermediate and name-state screenshots were reviewed. Artifacts: /private/tmp/keepri-continuous-review/. Older records below describe superseded motion.
+
 ## Restrained intro, September 15
 
 The first gesture turns the open frame 90 degrees with power3.out over 0.5 seconds. The second crossfades the full phrase in 0.5 seconds with no stagger. The third lifts the bottom edge in 0.5 seconds with power2.inOut. Paper and curl use transforms; a counter-translation keeps text stationary inside the clipped sheet. No SVG geometry, clip-path, layout property, or text transform is animated. Existing three-stage, 400ms settling, momentum, reload, reduced-motion and skip behavior remains.

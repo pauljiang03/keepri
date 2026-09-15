@@ -110,7 +110,9 @@ function setup({ hash = '', reduced = false } = {}) {
         speed: 1,
         paused: options.paused || false,
         complete: options.onComplete || (() => {}),
+        plays: 0,
         play() {
+          this.plays++;
           this.paused = false;
         },
         to(target, values, at) {
@@ -247,293 +249,196 @@ test('paper coverage decreases continuously on desktop, mobile and landscape', (
   }
 });
 
-function press(env, repeat = false) {
-  if (!repeat) env.elapse(450);
-  env.window.emit('keydown', { key: ' ', repeat, preventDefault() {} });
-}
-function completeIntro(env) {
-  press(env);
-  env.cover.complete();
-  env.elapse(450);
-  press(env);
-  env.reveal.complete();
-  env.elapse(450);
-  press(env);
-  env.timeline.complete();
-}
+const press = (env, key = ' ', repeat = false) =>
+  env.window.emit('keydown', { key, repeat, preventDefault() {} });
+const click = (env) => env.elements['.scroll-cue'].emit('click');
 for (const hash of ['', '#site', '#research', '#thesis']) {
-  test(`three input stages reset on every load (${hash || 'homepage'})`, () => {
+  test(`one input plays the full entry and reload resets it (${hash || 'homepage'})`, () => {
     for (let reload = 0; reload < 2; reload++) {
       const env = setup({ hash });
-      assert(env.cover.paused && env.reveal.paused && env.timeline.paused);
-      assert(env.blocked.every((e) => e.inert));
-      press(env);
-      assert.equal(env.cover.paused, false);
-      assert.equal(env.reveal.paused, true);
-      env.cover.complete();
-      env.elapse(450);
-      assert.equal(
-        env.elements['.intro-cue-label'].textContent,
-        'Swipe to reveal',
-      );
-      assert.equal(env.reveal.paused, true);
-      press(env);
-      assert.equal(env.reveal.paused, false);
       assert.equal(env.timeline.paused, true);
-      env.reveal.complete();
-      env.elapse(450);
-      assert.equal(
-        env.elements['.intro-cue-label'].textContent,
-        'Peel to enter',
-      );
-      assert.equal(env.root.dataset.intro, 'active');
-      press(env);
+      assert(env.blocked.every((e) => e.inert));
+      click(env);
       assert.equal(env.timeline.paused, false);
       env.timeline.complete();
       assert.equal(env.root.dataset.intro, 'done');
+      assert.equal(env.elements['.intro-overlay'].hidden, true);
       assert(env.blocked.every((e) => !e.inert));
-      if (hash && hash !== '#site')
-        assert.equal(env.lenis.scroll, env.elements[hash]);
+      assert.equal(env.lenis.stopped, false);
       env.cleanup();
     }
   });
 }
-
-test('upward scrolling and Home cannot return to the completed intro', () => {
+test('rapid clicks, wheel bursts and held keys cannot restart or skip the entry', () => {
   const env = setup();
-  completeIntro(env);
-  const preventDefault = () => assert.fail('Completed intro intercepted input');
-  env.window.emit('wheel', { deltaY: -500, preventDefault });
-  env.window.emit('keydown', { key: 'Home', preventDefault });
-  assert.equal(env.elements['.intro-overlay'].hidden, true);
-  env.cleanup();
-});
-
-test('Escape exits during either animation and restores focus', () => {
-  for (const reveal of [false, true]) {
-    const env = setup();
+  click(env);
+  for (let i = 0; i < 80; i++) {
+    click(env);
     press(env);
-    if (reveal) {
-      env.cover.complete();
-      env.elapse(450);
-      press(env);
-    }
-    env.window.emit('keydown', { key: 'Escape', preventDefault() {} });
-    assert.equal(env.root.dataset.intro, 'done');
-    assert.equal(env.elements['.hero-layer'].focused, true);
-    assert(env.cover.paused && env.reveal.paused && env.timeline.paused);
-    env.cleanup();
-  }
-});
-
-test('reduced motion preserves three separate gestures', () => {
-  const env = setup({ reduced: true });
-  press(env);
-  assert.equal(env.elements['.intro-overlay'].dataset.step, 'spun');
-  assert.equal(env.reveal.position, 0);
-  press(env);
-  assert.equal(env.elements['.intro-overlay'].dataset.step, 'ready');
-  assert.equal(env.root.dataset.intro, 'active');
-  press(env);
-  assert.equal(env.root.dataset.intro, 'done');
-  env.preference.matches = false;
-  env.preference.emit('change');
-  assert.equal(env.root.dataset.intro, 'done');
-  env.cleanup();
-});
-
-test('motion preference changes finish only the running stage', () => {
-  for (const revealing of [false, true]) {
-    const env = setup();
-    press(env);
-    if (revealing) {
-      env.cover.complete();
-      env.elapse(450);
-      press(env);
-    }
-    env.preference.matches = true;
-    env.preference.emit('change');
-    assert.equal(
-      env.elements['.intro-overlay'].dataset.step,
-      revealing ? 'ready' : 'spun',
-    );
-    assert.equal(env.timeline.paused, true);
-    assert.equal(env.root.dataset.intro, 'active');
-    env.cleanup();
-  }
-});
-
-test('visibility changes never advance a waiting stage', () => {
-  const env = setup();
-  for (const stage of ['idle', 'spun', 'ready']) {
-    if (stage === 'spun') {
-      press(env);
-      env.cover.complete();
-      env.elapse(450);
-    }
-    if (stage === 'ready') {
-      press(env);
-      env.reveal.complete();
-      env.elapse(450);
-    }
-    env.document.hidden = true;
-    env.document.emit('visibilitychange');
-    env.document.hidden = false;
-    env.document.emit('visibilitychange');
-    assert(env.cover.paused && env.reveal.paused && env.timeline.paused);
-    assert.equal(env.elements['.intro-overlay'].dataset.step, stage);
-  }
-  env.cleanup();
-});
-
-test('visibility pauses and resumes the active text reveal only', () => {
-  const env = setup();
-  press(env);
-  env.cover.complete();
-  env.elapse(450);
-  press(env);
-  env.document.hidden = true;
-  env.document.emit('visibilitychange');
-  assert.equal(env.reveal.paused, true);
-  env.document.hidden = false;
-  env.document.emit('visibilitychange');
-  assert.equal(env.reveal.paused, false);
-  assert.equal(env.timeline.paused, true);
-  env.cleanup();
-});
-
-test('continuous trackpad momentum cannot cross either gesture boundary', () => {
-  const env = setup();
-  const wheel = () =>
+    press(env, ' ', true);
     env.window.emit('wheel', { deltaY: 90, preventDefault() {} });
-  wheel();
-  for (const [animation, next] of [
-    [env.cover, env.reveal],
-    [env.reveal, env.timeline],
-  ]) {
-    for (let i = 0; i < 80; i++) {
-      env.elapse(40);
-      wheel();
-    }
-    animation.complete();
-    for (let i = 0; i < 20; i++) {
-      env.elapse(40);
-      wheel();
-    }
-    assert.equal(next.paused, true);
-    env.elapse(300);
-    wheel();
-    assert.equal(next.paused, false);
+    env.elapse(40);
+  }
+  assert.equal(env.timeline.plays, 1);
+  assert.equal(env.timeline.position, 0);
+  assert.equal(env.root.dataset.intro, 'active');
+  env.timeline.complete();
+  click(env);
+  assert.equal(env.timeline.plays, 1);
+  env.cleanup();
+});
+test('name is revealed and given reading time before the upward handoff', () => {
+  const env = setup();
+  const name = env.timeline.steps.find((s) => s.target === '.opening-wordmark');
+  const peel = env.timeline.steps.find((s) => s.values.onUpdate);
+  assert(name.at >= 0.5);
+  assert(peel.at - name.at - name.values.duration >= 0.3);
+  assert(peel.at + peel.values.duration <= 2.5);
+  name.values.onStart();
+  assert.equal(env.elements['.intro-overlay'].dataset.step, 'name');
+  peel.values.onStart();
+  assert.equal(env.elements['.intro-overlay'].dataset.step, 'entering');
+  env.cleanup();
+});
+test('all meaningful intro text uses opacity only', () => {
+  const env = setup();
+  for (const step of env.timeline.steps.filter((s) =>
+    /opening-thesis|opening-wordmark/.test(s.target),
+  )) {
+    assert(
+      Object.keys(step.values).every((k) =>
+        ['opacity', 'duration', 'ease', 'onStart'].includes(k),
+      ),
+    );
   }
   env.cleanup();
 });
-
-test('touch needs a fresh swipe for each stage', () => {
+test('peeling counter-translates content and leaves text stationary', () => {
   const env = setup();
-  const overlay = env.elements['.intro-overlay'];
-  const move = () =>
+  const step = env.timeline.steps.find((s) => s.values.onUpdate);
+  for (const p of [0, 0.25, 0.5, 0.75, 1]) {
+    step.target.progress = p;
+    step.values.onUpdate();
+    assert.equal(
+      env.elements['.opening-layer'].style.transform,
+      `translate3d(0, ${-900 * p}px, 0)`,
+    );
+    assert.equal(
+      env.elements['.opening-content'].style.transform,
+      `translate3d(0, ${900 * p}px, 0)`,
+    );
+  }
+  env.cleanup();
+});
+test('single upward touch starts the full entry and ignores a second touch', () => {
+  const env = setup(),
+    overlay = env.elements['.intro-overlay'];
+  for (let i = 0; i < 2; i++) {
+    overlay.emit('touchstart', { touches: [{ clientY: 400, clientX: 100 }] });
     overlay.emit('touchmove', {
-      touches: [{ clientY: 200 }],
+      touches: [{ clientY: 250, clientX: 105 }],
       preventDefault() {},
     });
-  const swipe = () => {
-    overlay.emit('touchstart', { touches: [{ clientY: 400 }] });
-    move();
-  };
-  swipe();
-  env.cover.complete();
-  env.elapse(450);
-  move();
-  assert.equal(env.reveal.paused, true);
-  swipe();
-  env.reveal.complete();
-  env.elapse(450);
-  move();
-  assert.equal(env.timeline.paused, true);
-  swipe();
-  assert.equal(env.timeline.paused, false);
+  }
+  assert.equal(env.timeline.plays, 1);
   env.cleanup();
 });
-
-test('held keys cannot skip the reveal or peel step', () => {
-  const env = setup();
-  press(env);
-  env.cover.complete();
-  env.elapse(450);
-  press(env, true);
-  assert.equal(env.reveal.paused, true);
-  press(env);
-  env.reveal.complete();
-  env.elapse(450);
-  press(env, true);
-  assert.equal(env.timeline.paused, true);
-  press(env);
-  assert.equal(env.timeline.paused, false);
+test('pinch zoom and sideways swipes do not trigger entry', () => {
+  const env = setup(),
+    overlay = env.elements['.intro-overlay'];
+  overlay.emit('touchstart', {
+    touches: [
+      { clientY: 400, clientX: 100 },
+      { clientY: 300, clientX: 200 },
+    ],
+  });
+  overlay.emit('touchmove', {
+    touches: [
+      { clientY: 200, clientX: 100 },
+      { clientY: 100, clientX: 200 },
+    ],
+    preventDefault() {},
+  });
+  overlay.emit('touchstart', { touches: [{ clientY: 400, clientX: 100 }] });
+  overlay.emit('touchmove', {
+    touches: [{ clientY: 350, clientX: 250 }],
+    preventDefault() {},
+  });
+  env.window.emit('wheel', {
+    deltaY: 90,
+    ctrlKey: true,
+    preventDefault() {
+      throw Error('Zoom blocked');
+    },
+  });
+  assert.equal(env.timeline.plays, 0);
   env.cleanup();
 });
-
-test('cue clicks advance three stages and ignore input during animation', () => {
-  const env = setup();
-  const click = () => env.elements['.scroll-cue'].emit('click');
-  click();
-  click();
-  assert.equal(env.reveal.paused, true);
-  env.cover.complete();
-  env.elapse(450);
-  click();
-  click();
-  assert.equal(env.timeline.paused, true);
-  env.reveal.complete();
-  env.elapse(450);
-  click();
-  assert.equal(env.timeline.paused, false);
-  env.cleanup();
-});
-
-test('small trackpad deltas accumulate into one deliberate gesture', () => {
+test('small wheel deltas accumulate into one start', () => {
   const env = setup();
   for (let i = 0; i < 6; i++) {
     env.window.emit('wheel', { deltaY: 2, preventDefault() {} });
     env.elapse(20);
   }
-  assert.equal(env.cover.paused, false);
-  assert.equal(env.reveal.paused, true);
+  assert.equal(env.timeline.plays, 1);
   env.cleanup();
 });
-
-test('text appears only in the reveal timeline and never transforms', () => {
-  const env = setup();
-  assert(
-    !env.cover.steps.some(
-      ({ target }) =>
-        typeof target === 'string' && /opening-spelling/.test(target),
-    ),
-  );
-  const steps = env.reveal.steps.filter(
-    ({ target }) =>
-      typeof target === 'string' &&
-      /opening-wordmark|opening-spelling/.test(target),
-  );
-  assert(steps.length > 0);
-  for (const { values } of steps) {
-    for (const property of Object.keys(values)) {
-      assert(
-        ['opacity', 'duration', 'stagger', 'ease'].includes(property),
-        `Text must not animate ${property}`,
-      );
-    }
+test('reduced motion enters immediately after one input', () => {
+  const env = setup({ reduced: true });
+  assert.equal(env.root.dataset.intro, 'active');
+  click(env);
+  assert.equal(env.root.dataset.intro, 'done');
+  assert.equal(env.timeline.plays, 0);
+  env.cleanup();
+});
+test('runtime reduced-motion change only exits an already-started intro', () => {
+  for (const started of [false, true]) {
+    const env = setup();
+    if (started) click(env);
+    env.preference.matches = true;
+    env.preference.emit('change');
+    assert.equal(env.root.dataset.intro, started ? 'done' : 'active');
+    env.cleanup();
   }
-  const words = steps.find(({ target }) => target === '.opening-spelling-word');
-  assert.equal(words.values.stagger, undefined, 'The phrase appears together');
-  assert.equal(
-    words.at + words.values.duration,
-    0.5,
-    'The phrase should be readable within half a second',
-  );
+});
+test('visibility pauses and resumes the same sequence without advancing it', () => {
+  const env = setup();
+  click(env);
+  env.document.hidden = true;
+  env.document.emit('visibilitychange');
+  assert(env.timeline.paused);
+  env.document.hidden = false;
+  env.document.emit('visibilitychange');
+  assert(!env.timeline.paused);
+  assert.equal(env.timeline.plays, 1);
+  assert.equal(env.root.dataset.intro, 'active');
   env.cleanup();
 });
-
-test('teardown removes all intro input listeners', () => {
+test('Escape skips from idle or running and restores focus', () => {
+  for (const started of [false, true]) {
+    const env = setup();
+    if (started) click(env);
+    press(env, 'Escape');
+    assert.equal(env.root.dataset.intro, 'done');
+    assert(env.elements['.hero-layer'].focused);
+    env.cleanup();
+  }
+});
+test('hash changes and upward scrolling cannot skip or replay the intro', () => {
+  const env = setup();
+  env.window.emit('hashchange');
+  assert.equal(env.root.dataset.intro, 'active');
+  click(env);
+  env.window.emit('hashchange');
+  assert.equal(env.root.dataset.intro, 'active');
+  env.timeline.complete();
+  press(env, 'Home');
+  env.window.emit('wheel', { deltaY: -90, preventDefault() {} });
+  assert.equal(env.root.dataset.intro, 'done');
+  assert.equal(env.timeline.plays, 1);
+  env.cleanup();
+});
+test('cleanup removes listeners and releases scrolling', () => {
   const env = setup();
   env.cleanup();
   assert.equal(
@@ -546,137 +451,4 @@ test('teardown removes all intro input listeners', () => {
   );
   assert.equal(env.lenis.destroyed, true);
   assert.equal(env.history.scrollRestoration, 'auto');
-});
-
-test('peeling reveals the bottom first with a level crease across every viewport', () => {
-  for (const [width, height] of [
-    [1440, 900],
-    [390, 844],
-    [844, 390],
-    [320, 900],
-  ]) {
-    assert.equal(peelGeometry(width, height, 0).edge, height);
-    assert.equal(peelGeometry(width, height, 1).edge, 0);
-    for (const progress of [0.1, 0.5, 0.9]) {
-      const shape = peelGeometry(width, height, progress);
-      const paper = clipPaper(
-        [
-          { x: 0, y: 0 },
-          { x: width, y: 0 },
-          { x: width, y: height },
-          { x: 0, y: height },
-        ],
-        shape.edge,
-      );
-      assert(paper.some((p) => p.x === 0 && p.y === 0));
-      assert(paper.some((p) => p.x === width && p.y === 0));
-      assert(paper.some((p) => p.x === 0 && p.y === shape.edge));
-      assert(paper.some((p) => p.x === width && p.y === shape.edge));
-      assert(paper.every((p) => p.y <= shape.edge));
-      assert(shape.edge - shape.curl >= 0);
-    }
-  }
-});
-
-test('rapid double activation cannot skip either animation or its settling period', () => {
-  const env = setup();
-  const click = () => env.elements['.scroll-cue'].emit('click');
-  click();
-  click();
-  assert.equal(env.reveal.paused, true);
-  env.cover.complete();
-  click();
-  assert.equal(env.reveal.paused, true);
-  env.elapse(450);
-  click();
-  click();
-  assert.equal(env.timeline.paused, true);
-  env.reveal.complete();
-  click();
-  assert.equal(env.timeline.paused, true);
-  env.elapse(450);
-  click();
-  assert.equal(env.timeline.paused, false);
-  env.cleanup();
-});
-
-test('a swipe begun during animation stays rejected even if it ends after completion', () => {
-  const env = setup();
-  const overlay = env.elements['.intro-overlay'];
-  const start = () =>
-    overlay.emit('touchstart', { touches: [{ clientY: 400 }] });
-  const move = () =>
-    overlay.emit('touchmove', {
-      touches: [{ clientY: 200 }],
-      preventDefault() {},
-    });
-  start();
-  move();
-  for (const [current, next] of [
-    [env.cover, env.reveal],
-    [env.reveal, env.timeline],
-  ]) {
-    start();
-    current.complete();
-    env.elapse(500);
-    move();
-    assert.equal(next.paused, true);
-    start();
-    move();
-    assert.equal(next.paused, false);
-  }
-  env.cleanup();
-});
-
-test('wheel momentum that begins during settlement cannot become the next gesture', () => {
-  const env = setup();
-  env.elements['.scroll-cue'].emit('click');
-  env.cover.complete();
-  for (let i = 0; i < 30; i++) {
-    env.window.emit('wheel', { deltaY: 40, preventDefault() {} });
-    env.elapse(20);
-  }
-  assert.equal(env.reveal.paused, true);
-  env.elapse(300);
-  env.window.emit('wheel', { deltaY: 40, preventDefault() {} });
-  assert.equal(env.reveal.paused, false);
-  env.cleanup();
-});
-
-test('hash navigation cannot bypass an active intro', () => {
-  const env = setup();
-  press(env);
-  env.window.emit('hashchange');
-  assert.equal(env.root.dataset.intro, 'active');
-  env.cover.complete();
-  env.elapse(450);
-  press(env);
-  env.window.emit('hashchange');
-  assert.equal(env.root.dataset.intro, 'active');
-  env.cleanup();
-});
-
-test('restrained motion turns only the frame and peels with stationary content', () => {
-  const env = setup();
-  assert.equal(env.cover.steps.length, 1);
-  assert.equal(env.cover.steps[0].target, '.opening-frame');
-  assert.equal(env.cover.steps[0].values.rotation, 90);
-  assert.equal(env.cover.steps[0].values.duration, 0.5);
-  const peelStep = env.timeline.steps.find(({ values }) => values.onUpdate);
-  assert.equal(peelStep.values.duration, 0.5);
-  for (const p of [0, 0.2, 0.5, 0.9, 1]) {
-    peelStep.target.progress = p;
-    peelStep.values.onUpdate();
-    const lift = 900 * p;
-    assert.equal(
-      env.elements['.opening-layer'].style.transform,
-      `translate3d(0, ${-lift}px, 0)`,
-    );
-    assert.equal(
-      env.elements['.opening-content'].style.transform,
-      `translate3d(0, ${lift}px, 0)`,
-    );
-    assert.equal(env.elements['.opening-layer'].style.clipPath, undefined);
-  }
-  env.cleanup();
 });

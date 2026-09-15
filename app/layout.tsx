@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { asset, siteUrl } from '@/lib/site';
+import headingFont from '../public/fonts/dm-sans-500.woff2?url';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -33,6 +34,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link
+          rel="preload"
+          href={headingFont}
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `try{document.documentElement.dataset.intro='active';history.scrollRestoration='manual';window.scrollTo(0,0);window.__keepriIntroFallback=setTimeout(function(){if(!document.documentElement.classList.contains('lenis')){delete document.documentElement.dataset.intro}},6500)}catch(e){delete document.documentElement.dataset.intro}`,

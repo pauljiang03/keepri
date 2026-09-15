@@ -22,7 +22,7 @@ export function ResearchPanels() {
             <br />
             For AI research.
           </h2>
-          <span className="industry-label">For industry</span>
+          <span className="industry-label">Industry</span>
         </div>
         <div className="research-panel">
           <div className="research-panel-copy">

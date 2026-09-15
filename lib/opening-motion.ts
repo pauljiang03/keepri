@@ -22,9 +22,7 @@ export function installOpeningMotion() {
   ];
   let done = false;
   let entering = false;
-  let stage: 'idle' | 'spinning' | 'spun' | 'revealing' | 'ready' = 'idle';
   let disposed = false;
-  let availableAt = 0;
   let width = innerWidth;
   let height = innerHeight;
   let refreshFrame = 0;
@@ -34,7 +32,7 @@ export function installOpeningMotion() {
   root.dataset.intro = 'active';
   overlay.hidden = false;
   overlay.dataset.step = 'idle';
-  cueLabel.textContent = 'Swipe to spin';
+  cueLabel.textContent = 'Scroll to begin';
   cue.setAttribute('aria-disabled', 'false');
   blocked.forEach((element) => {
     element.inert = true;
@@ -85,13 +83,12 @@ export function installOpeningMotion() {
     if (done || disposed) return;
     done = true;
     timeline?.pause();
-    revealTimeline?.pause();
-    peelTimeline?.pause();
     const focusWasInside = overlay.contains(document.activeElement);
     // Remove the intro from layout, hit testing and the accessibility tree.
     // There is no scroll range, history entry or reverse animation to re-enter.
     overlay.hidden = true;
     root.dataset.intro = 'done';
+    overlay.dataset.step = 'done';
     blocked.forEach((element) => {
       element.inert = false;
     });
@@ -103,108 +100,74 @@ export function installOpeningMotion() {
       navigateTo(initialHash, true, focusWasInside);
     else if (focus || focusWasInside) hero.focus({ preventScroll: true });
   };
-  const readyToReveal = () => {
-    if (done || disposed || stage !== 'spinning') return;
-    stage = 'spun';
-    availableAt = performance.now() + 400;
-    overlay.dataset.step = 'spun';
-    cueLabel.textContent = 'Swipe to reveal';
-    cue.setAttribute('aria-disabled', 'false');
-  };
-  const readyToPeel = () => {
-    if (done || disposed || stage !== 'revealing') return;
-    stage = 'ready';
-    availableAt = performance.now() + 400;
-    overlay.dataset.step = 'ready';
-    cueLabel.textContent = 'Peel to enter';
-    cue.setAttribute('aria-disabled', 'false');
-  };
   let timeline: gsap.core.Timeline;
-  let revealTimeline: gsap.core.Timeline;
-  let peelTimeline: gsap.core.Timeline;
   const context = gsap.context(() => {
-    gsap.set('.opening-spelling-word', { opacity: 0 });
-    timeline = gsap.timeline({ paused: true, onComplete: readyToReveal });
-    revealTimeline = gsap.timeline({ paused: true, onComplete: readyToPeel });
-    // The cover animation and the exit are independent timelines. Nothing
-    // advances into the peel until the visitor explicitly enters.
-    peelTimeline = gsap.timeline({ paused: true, onComplete: () => finish() });
-    peelTimeline
-      .to('.intro-skip, .scroll-cue', { opacity: 0, duration: 0.15 }, 0)
+    gsap.set('.opening-wordmark', { opacity: 0 });
+    // One input owns the entire entry: reasoning, the name, then the page.
+    // Repeated input cannot seek, restart or skip any part of this timeline.
+    timeline = gsap.timeline({ paused: true, onComplete: () => finish() });
+    timeline
+      .to('.scroll-cue', { opacity: 0, duration: 0.2 }, 0)
+      .to(
+        '.opening-line:nth-child(odd)',
+        {
+          xPercent: -8,
+          opacity: 0,
+          duration: 0.85,
+          ease: 'power2.inOut',
+        },
+        0,
+      )
+      .to(
+        '.opening-line:nth-child(even)',
+        {
+          xPercent: 8,
+          opacity: 0,
+          duration: 0.85,
+          ease: 'power2.inOut',
+        },
+        0,
+      )
+      .to(
+        '.opening-thesis',
+        { opacity: 0, duration: 0.35, ease: 'power2.inOut' },
+        0.45,
+      )
+      .to(
+        '.opening-wordmark',
+        {
+          opacity: 1,
+          duration: 0.55,
+          ease: 'power2.out',
+          onStart: () => {
+            overlay.dataset.step = 'name';
+          },
+        },
+        0.65,
+      )
+      .to('.intro-skip', { opacity: 0, duration: 0.2 }, 1.55)
       .to(
         peel,
         {
           progress: 1,
-          duration: 0.5,
+          duration: 0.8,
           ease: 'power2.inOut',
+          onStart: () => {
+            overlay.dataset.step = 'entering';
+          },
           onUpdate: drawPeel,
         },
-        0,
+        1.55,
       );
-    // A quarter turn of the brand's open frame is the only first-stage motion.
-    timeline.to(
-      '.opening-frame',
-      {
-        rotation: 90,
-        transformOrigin: '50% 50%',
-        duration: 0.5,
-        ease: 'power3.out',
-      },
-      0,
-    );
-    // Crossfade the complete phrase together, with no stagger or blank pause.
-    revealTimeline
-      .to(
-        '.opening-frame-wrap, .opening-wordmark',
-        {
-          opacity: 0,
-          duration: 0.18,
-          ease: 'power2.out',
-        },
-        0,
-      )
-      .to('.opening-spelling', { opacity: 1, duration: 0.01 }, 0)
-      .to(
-        '.opening-spelling-word',
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: 'power3.out',
-        },
-        0.1,
-      );
-    // Reduced motion preserves all three deliberate input steps.
   });
-
-  const canAdvance = () =>
-    !done &&
-    !entering &&
-    stage !== 'spinning' &&
-    stage !== 'revealing' &&
-    performance.now() >= availableAt;
   const advance = () => {
-    if (!canAdvance()) return;
-    if (stage === 'idle') {
-      stage = 'spinning';
-      overlay.dataset.step = 'spinning';
-      cue.setAttribute('aria-disabled', 'true');
-      if (preference.matches) timeline.progress(1).pause();
-      else timeline.play(0);
-      return;
-    }
-    if (stage === 'spun') {
-      stage = 'revealing';
-      overlay.dataset.step = 'revealing';
-      cue.setAttribute('aria-disabled', 'true');
-      if (preference.matches) revealTimeline.progress(1).pause();
-      else revealTimeline.play(0);
-      return;
-    }
+    if (done || entering) return;
     entering = true;
-    timeline.pause();
-    revealTimeline.pause();
+    overlay.dataset.step = 'intro';
+    cue.setAttribute('aria-disabled', 'true');
+    cueLabel.textContent = 'Opening KeepRI';
     if (preference.matches) finish(true, true);
-    else peelTimeline.play(0);
+    else timeline.play(0);
   };
   const navigate = (event: MouseEvent) => {
     if (
@@ -233,7 +196,7 @@ export function installOpeningMotion() {
     navigateTo(hash);
   };
   // Wheel events arrive in bursts, including trackpad momentum. A single
-  // continuous gesture must never trigger both the spin and the peel.
+  // continuous gesture starts the sequence only once.
   let lastWheel = -Infinity;
   let wheelUsed = false;
   let wheelDistance = 0;
@@ -243,7 +206,7 @@ export function installOpeningMotion() {
     const freshGesture = now - lastWheel > 240;
     lastWheel = now;
     if (freshGesture) {
-      wheelUsed = !canAdvance();
+      wheelUsed = entering;
       wheelDistance = 0;
     }
     const delta =
@@ -263,7 +226,7 @@ export function installOpeningMotion() {
   const touchStart = (event: TouchEvent) => {
     touchY = event.touches[0]?.clientY ?? 0;
     touchX = event.touches[0]?.clientX ?? 0;
-    touchUsed = event.touches.length !== 1 || !canAdvance();
+    touchUsed = event.touches.length !== 1 || done || entering;
   };
   const touchMove = (event: TouchEvent) => {
     if (done || event.touches.length !== 1) return;
@@ -298,25 +261,12 @@ export function installOpeningMotion() {
   };
   const visibility = () => {
     if (done) return;
-    if (document.hidden) {
-      timeline.pause();
-      revealTimeline.pause();
-      peelTimeline.pause();
-    } else if (entering) peelTimeline.resume();
-    else if (stage === 'spinning' && !preference.matches) timeline.resume();
-    else if (stage === 'revealing' && !preference.matches)
-      revealTimeline.resume();
+    if (document.hidden) timeline.pause();
+    else if (entering) timeline.resume();
   };
   const preferenceChange = () => {
     lenis.options.smoothWheel = !preference.matches;
-    if (preference.matches) {
-      if (stage === 'spinning') timeline.progress(1).pause();
-      else if (stage === 'revealing') revealTimeline.progress(1).pause();
-      if (entering) finish();
-    } else if (!done && !entering && !document.hidden) {
-      if (stage === 'spinning') timeline.resume();
-      else if (stage === 'revealing') revealTimeline.resume();
-    }
+    if (preference.matches && entering) finish(true, true);
   };
   const hashChange = () => {
     // Hash changes are navigation, not permission to skip an active intro.
