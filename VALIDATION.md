@@ -1,5 +1,14 @@
 # Website validation
 
+## Curled intro and sideways book turns, September 15
+
+Restored the original bottom-up intro peel and added a bowed sideways curl for reading pages, with a shaded underside and reverse turns. The logic-word field now converges along curved, staggered paths. Nineteen lifecycle and geometry tests, typecheck, focused lint, production export and 24 static checks passed.
+
+The complete browser suite passed all thirteen pages forward and backward at 1440×900, 768×1024, 1010×780, 375×812, 320×568 and 844×390, with no overflow, internal scrollers or runtime exceptions. Mid-turn checks verified the curved clipping boundary, visible fold and stationary content. Wheel momentum, rapid keys, touch in both directions, history, reduced motion, resize and no-JavaScript fallback passed. A separate six-size intro check confirmed constant word dimensions, centered final alignment, reload, touch and reduced motion. Desktop and mobile curl, gathering, phrase and intro-peel screenshots were visually reviewed. Physical-device testing was not performed. Artifacts are in /private/tmp/keepri-book-curl-review/.
+
+
+The first audits identified a startup shift when the book layout became fixed after hydration. The existing early startup script now establishes the book layout before first paint and releases it on initialization failure. The final build was rechecked for mobile navigation, history, resize, reduced motion and the no-JavaScript fallback. Three final full Lighthouse runs pass the skill gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,266ms, CLS 0 and TBT 0ms. The preceding performance exceptions below are historical.
+
 ## Viewport pages, gesture navigation and gathered-word intro, September 15
 
 The site now presents thirteen viewport-sized pages with no bottom bar, Next/Previous controls or internal scrollers. The main headline is centered vertically beside the compact workflow. Original funding, philosophy and Industry content is distributed across pages. Wheel bursts, swipes and keyboard navigation turn the entire sheet with the same 720ms transform used by the intro. The intro now gathers three scattered mission words into the centered phrase at constant dimensions, holds for 0.4 seconds, then flips. Background vocabulary uses 60 logic terms.

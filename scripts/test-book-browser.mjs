@@ -175,10 +175,10 @@ try {
     await delay(200);
     assert.equal(await stage(), 'gathering');
     await shot(name + '-gathering');
-    await delay(920);
+    await delay(1180);
     assert.equal(await stage(), 'meaning');
     await shot(name + '-meaning');
-    await delay(550);
+    await delay(500);
     await shot(name + '-cover-flip');
     await waitFor("document.documentElement.dataset.intro==='done'");
     await settled('site');
@@ -229,6 +229,14 @@ try {
           await key('ArrowRight');
           await delay(230);
           await shot(name + '-page-flip');
+          const flip = await evaluate(
+            `(()=>{const page=document.querySelector('[data-turning]');const fold=getComputedStyle(page,'::after');return {clip:page.style.clipPath,curl:parseFloat(page.style.getPropertyValue('--fold-width')),transform:getComputedStyle(page.querySelector('.page-inner')).transform,fold:fold.opacity};})()`,
+          );
+          assert(flip.clip.startsWith('polygon('));
+          assert(flip.curl > 0);
+          assert.equal(flip.transform, 'none');
+          assert.equal(flip.fold, '1');
+
           assert.equal(
             await evaluate('document.documentElement.dataset.bookTurning'),
             'true',

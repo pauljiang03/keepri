@@ -1,5 +1,10 @@
 # KeepRI motion verification
 
+## Curled cover and sideways book turns, September 15
+
+The intro gathers the mission words over 1.31 seconds, holds for 0.4 seconds, then peels upward for 720ms. Background words converge with different x/y easing, producing curved paths. The cover and its content counter-translate, preserving text position and dimensions. Main-page turns animate a 25-point bowed crease and shaded underside from right to left; backward turns reverse the same geometry. Input locks, reduced motion and resize settlement remain in place.
+
+
 ## Gather, hold, flip
 
 One input starts a 2.17-second sequence: the scattered words gather over 1.05 seconds, the centered phrase holds for 0.4 seconds, then the entire sheet flips over 720ms. Mission-word motion is x/y translation and opacity only; there is no independent scale, font-size change or spin. Repeated inputs cannot restart or skip the sequence. Idle resize recalculates the starting positions. Escape, Skip and reduced motion retain immediate entry. Page-to-page navigation remains the shared 720ms whole-sheet flip.

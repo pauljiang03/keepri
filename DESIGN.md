@@ -1,5 +1,10 @@
 # KeepRI website design
 
+## Curled cover and sideways book turns, September 15
+
+Restored the original bottom-up cover peel. Logic words converge on curved paths with an edge-first stagger; the mission words settle in sequence at constant size. Main pages turn from right to left along a bowed crease with a shaded underside; backward navigation reverses the turn. No page content stretches, rotates or scrolls during navigation. Full-viewport layout and existing prose are unchanged.
+
+
 ## Words gather into the mission
 
 The cover now starts as a scattered word field. The three destination words travel into the centered Keep / Reasoning / Independently phrase while the surrounding logic terms gather and clear. Natural word size is preserved throughout. After a short hold, the cover uses the same whole-page flip as the rest of the site. All viewport-only pages and the centered main headline remain unchanged.

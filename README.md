@@ -2,11 +2,11 @@
 
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The intro starts with a scattered field of logic terms. A wheel gesture, upward swipe, cue click or entry key gathers Keep, Reasoning and Independently into the centered phrase over 1.05 seconds. The phrase holds for 0.4 seconds, then the whole page flips upward in 720ms. The words translate at their natural size; they never stretch or spin. Reload replays the cover; entering removes it as a backward destination. Skip and Escape enter immediately, and reduced motion makes navigation immediate.
+The intro starts with a scattered field of logic terms. A wheel gesture, upward swipe, cue click or entry key gathers Keep, Reasoning and Independently into the centered phrase over 1.31 seconds. The surrounding words follow staggered curved paths inward. The phrase holds for 0.4 seconds, then the original curled edge peels upward in 720ms. The words translate at their natural size; they never stretch or spin. Reload replays the cover; entering removes it as a backward destination. Skip and Escape enter immediately, and reduced motion makes navigation immediate.
 
 The publication has 13 viewport-sized pages: the main headline and workflow, two funding pages, six philosophies, three Industry pages and the vision. The original philosophy and Industry prose is retained across these pages. Every page fits its viewport without an internal scroller. There is no bottom bar or Next/Previous control. Wheel gestures, vertical or horizontal swipes, arrow keys and Page Up/Down turn pages; the header jumps to the main chapters. One wheel burst owns one turn, so momentum cannot skip several pages.
 
-The main headline is vertically centered beside its compact, bordered workflow on desktop. Narrow layouts stack the headline and diagram within the same viewport. Supporting funding text has its own bordered pages. Arrows occupy separate layout rows. Page flips use the same whole-sheet transform, 720ms duration and easing as the intro. Text is never individually scaled, stretched or spun.
+The main headline is vertically centered beside its compact, bordered workflow on desktop. Narrow layouts stack the headline and diagram within the same viewport. Supporting funding text has its own bordered pages. Arrows occupy separate layout rows. Main pages curl from right to left along a bowed vertical crease, revealing a shaded paper underside. Backward navigation reverses the curl. The intro retains its bottom-up peel; both transitions take 720ms. Text is never individually scaled, stretched or spun.
 
 ## Develop and validate
 
@@ -21,7 +21,7 @@ npm run prepare:pages
 npm run test:book
 ```
 
-`components/book-pages.tsx` holds the static page content and diagram. `components/hero.tsx` holds the cover, masthead and motion preference. Styling is in `app/globals.css`; `lib/page-turn.ts` supplies the shared transform, while `lib/opening-motion.ts` and `lib/book-motion.ts` own navigation lifecycles.
+`components/book-pages.tsx` holds the static page content and diagram. `components/hero.tsx` holds the cover, masthead and motion preference. Styling is in `app/globals.css`; `lib/page-turn.ts` supplies the intro peel and book crease geometry, while `lib/opening-motion.ts` and `lib/book-motion.ts` own navigation lifecycles.
 
 The production browser test launches an isolated Chrome profile and temporary static server against generated `docs`. No browser automation dependency is installed. `CHROME_PATH` overrides the standard macOS Chrome executable; `BOOK_REVIEW_DIR` controls screenshots/reports, and `BOOK_VIEW` optionally selects comma-separated viewport names. The suite checks every page for text outside the viewport and internal scrolling, along with forward/back turns, input bursts, history, reload, touch and reduced motion.
 

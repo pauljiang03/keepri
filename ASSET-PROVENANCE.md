@@ -1,5 +1,10 @@
 # KeepRI asset provenance
 
+## Curled-page revision, September 15
+
+The word convergence and page curls are original local GSAP, CSS-gradient and polygon geometry work. No new assets, copied animation code or dependencies were introduced.
+
+
 ## Viewport pages and rigid page flips
 
 The new static page layout, compact workflow and shared whole-sheet page transform are authored locally. Original philosophy, funding and Industry prose is distributed across pages. Small diagram arrows still use Lucide. No page-flip source, new asset or runtime package was imported; existing license notices remain retained.

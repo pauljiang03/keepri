@@ -3,7 +3,18 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { pageTurnTransform, PAGE_TURN_DURATION } from '../lib/page-turn.ts';
+import { peelGeometry } from '../lib/peel-geometry.ts';
+const turnSource = ts
+  .transpileModule(
+    readFileSync(new URL('../lib/page-turn.ts', import.meta.url), 'utf8'),
+    { compilerOptions: { module: ts.ModuleKind.ESNext } },
+  )
+  .outputText.replace(/^import .*;$/gm, '')
+  .replaceAll('export ', '');
+const { pageTurnFrame, bookTurnFrame, PAGE_TURN_DURATION } = runInNewContext(
+  turnSource + '; ({pageTurnFrame, bookTurnFrame, PAGE_TURN_DURATION})',
+  { peelGeometry },
+);
 
 const source = ts
   .transpileModule(
@@ -183,7 +194,7 @@ function setup({ hash = '', reduced = false } = {}) {
     performance: { now: () => now },
     gsap,
     Lenis,
-    pageTurnTransform,
+    pageTurnFrame,
     PAGE_TURN_DURATION,
     ScrollTrigger: { refresh() {}, update() {} },
     ResizeObserver: class {
@@ -213,11 +224,15 @@ function setup({ hash = '', reduced = false } = {}) {
   };
 }
 
-test('the shared page turn clamps progress and only rotates the whole sheet', () => {
-  assert.equal(pageTurnTransform(-1), pageTurnTransform(0));
-  assert.equal(pageTurnTransform(2), pageTurnTransform(1));
-  assert.equal(pageTurnTransform(0), 'perspective(2800px) rotateX(0deg)');
-  assert.equal(pageTurnTransform(1), 'perspective(2800px) rotateX(-90deg)');
+test('the shared peel clamps progress and lifts the bottom edge without moving text', () => {
+  assert.deepEqual(pageTurnFrame(1440, 900, -1), pageTurnFrame(1440, 900, 0));
+  assert.deepEqual(pageTurnFrame(1440, 900, 2), pageTurnFrame(1440, 900, 1));
+  for (const p of [0, 0.25, 0.5, 0.75, 1]) {
+    const frame = pageTurnFrame(1440, 900, p);
+    assert.equal(frame.paper, `translate3d(0, ${-900 * p}px, 0)`);
+    assert.equal(frame.content, `translate3d(0, ${900 * p}px, 0)`);
+    assert(frame.curl >= 0 && frame.curl <= 0.16);
+  }
 });
 
 const press = (env, key = ' ', repeat = false) =>
@@ -266,8 +281,8 @@ test('one input gathers the phrase, holds it, then flips the page', () => {
   const turn = env.timeline.steps.find((s) => s.values.onUpdate);
   assert.equal(gather.at, 0);
   assert.equal(turn.values.duration, 0.72);
-  assert(turn.at - gather.values.duration >= 0.35);
-  assert(turn.at + turn.values.duration < 2.3);
+  assert(turn.at - gather.values.duration - 2 * gather.values.stagger >= 0.35);
+  assert(turn.at + turn.values.duration < 2.5);
   gather.values.onStart();
   assert.equal(env.elements['.intro-overlay'].dataset.step, 'gathering');
   gather.values.onComplete();
@@ -288,6 +303,7 @@ test('the word gathering uses translation and opacity, never scaling or spinning
         'y',
         'opacity',
         'duration',
+        'stagger',
         'ease',
         'onStart',
         'onComplete',
@@ -298,7 +314,7 @@ test('the word gathering uses translation and opacity, never scaling or spinning
   assert.equal(words.values.y, 0);
   env.cleanup();
 });
-test('the cover turns as one sheet without separate text transforms', () => {
+test('the cover peels with a curled edge and counter-translates text', () => {
   const env = setup();
   const step = env.timeline.steps.find((s) => s.values.onUpdate);
   for (const p of [0, 0.25, 0.5, 0.75, 1]) {
@@ -306,9 +322,16 @@ test('the cover turns as one sheet without separate text transforms', () => {
     step.values.onUpdate();
     assert.equal(
       env.elements['.opening-layer'].style.transform,
-      pageTurnTransform(p),
+      pageTurnFrame(1440, 900, p).paper,
     );
-    assert.equal(env.elements['.opening-content'].style.transform, undefined);
+    assert.equal(
+      env.elements['.opening-content'].style.transform,
+      pageTurnFrame(1440, 900, p).content,
+    );
+    assert.equal(
+      env.elements['.peel-fold'].style.transform,
+      pageTurnFrame(1440, 900, p).fold,
+    );
   }
   env.cleanup();
 });
@@ -433,4 +456,20 @@ test('cleanup removes listeners and releases scrolling', () => {
   );
   assert.equal(env.lenis.destroyed, true);
   assert.equal(env.history.scrollRestoration, 'auto');
+});
+
+test('book crease travels right to left and curl disappears at both ends', () => {
+  for (const width of [320, 1440]) {
+    const start = bookTurnFrame(width, 900, 0);
+    const middle = bookTurnFrame(width, 900, 0.5);
+    const end = bookTurnFrame(width, 900, 1);
+    assert.equal(start.edge, width);
+    assert.equal(start.curl, 0);
+    assert.equal(middle.edge, width / 2);
+    assert(middle.curl > 0);
+    assert.equal(end.edge, 0);
+    assert.equal(end.curl, 0);
+    assert.deepEqual(bookTurnFrame(width, 900, 2), end);
+    assert.deepEqual(bookTurnFrame(width, 900, -1), start);
+  }
 });

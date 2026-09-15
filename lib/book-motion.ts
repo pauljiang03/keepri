@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { pageTurnTransform, PAGE_TURN_DURATION } from './page-turn';
+import { bookTurnFrame, PAGE_TURN_DURATION } from './page-turn';
 
 /** Every reading surface fits the viewport; gestures turn whole pages. */
 export function installBookMotion() {
@@ -17,6 +17,10 @@ export function installBookMotion() {
       page.inert = index !== current;
       page.style.zIndex = '';
       page.style.transform = '';
+      page.style.clipPath = '';
+      page.style.removeProperty('--fold-clip');
+      page.style.removeProperty('--fold-edge');
+      page.style.removeProperty('--fold-width');
       delete page.dataset.turning;
     });
     const id = pages[current].id;
@@ -82,7 +86,16 @@ export function installBookMotion() {
     underneath.style.zIndex = '1';
     sheet.dataset.turning = forward ? 'forward' : 'back';
     const turn = { progress: forward ? 0 : 1 };
-    sheet.style.transform = pageTurnTransform(turn.progress);
+    const width = sheet.clientWidth;
+    const height = sheet.clientHeight;
+    const drawTurn = () => {
+      const frame = bookTurnFrame(width, height, turn.progress);
+      sheet.style.clipPath = frame.clip;
+      sheet.style.setProperty('--fold-clip', frame.foldClip);
+      sheet.style.setProperty('--fold-edge', `${frame.edge}px`);
+      sheet.style.setProperty('--fold-width', `${frame.curl}px`);
+    };
+    drawTurn();
     settle = () => {
       settle = undefined;
       animation?.kill();
@@ -95,9 +108,7 @@ export function installBookMotion() {
       progress: forward ? 1 : 0,
       duration: PAGE_TURN_DURATION / 1000,
       ease: 'power2.inOut',
-      onUpdate: () => {
-        sheet.style.transform = pageTurnTransform(turn.progress);
-      },
+      onUpdate: drawTurn,
       onComplete: () => settle?.(),
     });
     return true;

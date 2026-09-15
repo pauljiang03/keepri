@@ -43,7 +43,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{document.documentElement.dataset.intro='active';history.scrollRestoration='manual';window.scrollTo(0,0);window.__keepriIntroFallback=setTimeout(function(){if(!document.documentElement.classList.contains('lenis')){delete document.documentElement.dataset.intro}},6500)}catch(e){delete document.documentElement.dataset.intro}`,
+            __html: `try{document.documentElement.dataset.intro='active';document.documentElement.dataset.book='active';history.scrollRestoration='manual';window.scrollTo(0,0);window.__keepriIntroFallback=setTimeout(function(){if(!document.documentElement.classList.contains('lenis')){delete document.documentElement.dataset.intro;delete document.documentElement.dataset.book}},6500)}catch(e){delete document.documentElement.dataset.intro;delete document.documentElement.dataset.book}`,
           }}
         />
       </head>
