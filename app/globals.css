@@ -2582,13 +2582,13 @@ html[data-book='active'] .book-page::after {
   pointer-events: none;
   opacity: 0;
   clip-path: var(--fold-clip);
-  background: linear-gradient(to right, #aaa998, #eeebdf 32%, #faf7eb 56%, #bcbbae 88%, #656c5b);
-  background-size: calc(var(--fold-width) * 1.28) 100%;
-  background-position: calc(var(--fold-edge) - var(--fold-width) * 1.28) 0;
-  background-repeat: repeat-y;
+  background: linear-gradient(to bottom, #aaa998, #eeebdf 32%, #faf7eb 56%, #bcbbae 88%, #656c5b);
+  background-size: 100% calc(var(--fold-width) * 1.28);
+  background-position: 0 calc(var(--fold-edge) - var(--fold-width) * 1.28);
+  background-repeat: repeat-x;
 }
 html[data-book='active'] .book-page.page-dark::after {
-  background-image: linear-gradient(to right, #182218, #485540 32%, #627057 56%, #33412d 88%, #131c14);
+  background-image: linear-gradient(to bottom, #182218, #485540 32%, #627057 56%, #33412d 88%, #131c14);
 }
 html[data-book='active'] .book-page[hidden] {
   display: none;

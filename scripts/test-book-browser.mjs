@@ -311,9 +311,22 @@ try {
       touchPoints: [],
     });
   };
-  await swipe(600, 300);
+  await swipe(600, 576);
   await settled('funding');
-  await swipe(300, 600);
+  await swipe(300, 324);
+  await settled('site');
+  // A small opposite swipe during a turn is remembered, without skipping it.
+  await swipe(600, 576);
+  await swipe(300, 324);
+  await settled('site');
+  await delay(220);
+  await evaluate(
+    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:22,cancelable:true}))",
+  );
+  await settled('funding');
+  await evaluate(
+    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-22,cancelable:true}))",
+  );
   await settled('site');
   await call('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],

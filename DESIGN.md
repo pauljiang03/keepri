@@ -1,5 +1,10 @@
 # KeepRI website design
 
+## Sensitive vertical page curls
+
+All pages now curl vertically: upward for forward navigation, downward for backward navigation. The intro retains its upward peel. Touch sensitivity is 22px and wheel sensitivity is 20px, with a 180ms pause recognizing a fresh wheel gesture. One deliberate reverse gesture can wait for an active turn; repeated inputs in the current direction cannot skip the animation.
+
+
 ## Curled cover and sideways book turns, September 15
 
 Restored the original bottom-up cover peel. Logic words converge on curved paths with an edge-first stagger; the mission words settle in sequence at constant size. Main pages turn from right to left along a bowed crease with a shaded underside; backward navigation reverses the turn. No page content stretches, rotates or scrolls during navigation. Full-viewport layout and existing prose are unchanged.

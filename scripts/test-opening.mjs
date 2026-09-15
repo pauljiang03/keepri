@@ -335,13 +335,13 @@ test('the cover peels with a curled edge and counter-translates text', () => {
   }
   env.cleanup();
 });
-test('single upward touch starts the full entry and ignores a second touch', () => {
+test('a short upward touch starts the full entry and ignores a second touch', () => {
   const env = setup(),
     overlay = env.elements['.intro-overlay'];
   for (let i = 0; i < 2; i++) {
     overlay.emit('touchstart', { touches: [{ clientY: 400, clientX: 100 }] });
     overlay.emit('touchmove', {
-      touches: [{ clientY: 250, clientX: 105 }],
+      touches: [{ clientY: 376, clientX: 105 }],
       preventDefault() {},
     });
   }
@@ -458,14 +458,14 @@ test('cleanup removes listeners and releases scrolling', () => {
   assert.equal(env.history.scrollRestoration, 'auto');
 });
 
-test('book crease travels right to left and curl disappears at both ends', () => {
+test('book crease travels bottom to top and curl disappears at both ends', () => {
   for (const width of [320, 1440]) {
     const start = bookTurnFrame(width, 900, 0);
     const middle = bookTurnFrame(width, 900, 0.5);
     const end = bookTurnFrame(width, 900, 1);
-    assert.equal(start.edge, width);
+    assert.equal(start.edge, 900);
     assert.equal(start.curl, 0);
-    assert.equal(middle.edge, width / 2);
+    assert.equal(middle.edge, 450);
     assert(middle.curl > 0);
     assert.equal(end.edge, 0);
     assert.equal(end.curl, 0);

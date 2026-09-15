@@ -1,5 +1,10 @@
 # KeepRI motion verification
 
+## Sensitive vertical page curls
+
+The book crease now traverses viewport height, with its underside shaded vertically. Upward swipes advance and downward swipes return. Touch threshold is 22px on both intro and reading pages. Main-page wheel threshold is 20px. Direction reversal starts a new gesture without waiting for the wheel timeout; a reversal during an active turn executes after it completes. Same-direction momentum remains limited to one turn.
+
+
 ## Curled cover and sideways book turns, September 15
 
 The intro gathers the mission words over 1.31 seconds, holds for 0.4 seconds, then peels upward for 720ms. Background words converge with different x/y easing, producing curved paths. The cover and its content counter-translate, preserving text position and dimensions. Main-page turns animate a 25-point bowed crease and shaded underside from right to left; backward turns reverse the same geometry. Input locks, reduced motion and resize settlement remain in place.

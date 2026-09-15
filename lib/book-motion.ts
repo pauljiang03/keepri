@@ -8,6 +8,8 @@ export function installBookMotion() {
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   let current = 0;
   let turning = false;
+  let pendingDirection = 0;
+  let turnDirection = 0;
   let settle: (() => void) | undefined;
   let animation: gsap.core.Tween | undefined;
   const quiet = () => preference.matches || root.dataset.motion === 'paused';
@@ -76,6 +78,7 @@ export function installBookMotion() {
       return true;
     }
     turning = true;
+    turnDirection = forward ? 1 : -1;
     root.dataset.bookTurning = 'true';
     outgoing.inert = true;
     incoming.hidden = false;
@@ -100,6 +103,7 @@ export function installBookMotion() {
       settle = undefined;
       animation?.kill();
       turning = false;
+      pendingDirection = 0;
       delete root.dataset.bookTurning;
       showCurrent();
       focusPage();
@@ -109,12 +113,20 @@ export function installBookMotion() {
       duration: PAGE_TURN_DURATION / 1000,
       ease: 'power2.inOut',
       onUpdate: drawTurn,
-      onComplete: () => settle?.(),
+      onComplete: () => {
+        const direction = pendingDirection;
+        settle?.();
+        if (direction) step(direction);
+      },
     });
     return true;
   };
   const step = (direction: number) => {
-    if (root.dataset.intro !== 'done' || turning) return;
+    if (root.dataset.intro !== 'done') return;
+    if (turning) {
+      if (direction !== turnDirection) pendingDirection = direction;
+      return;
+    }
     const page = pages[current + direction];
     if (page) navigate(`#${page.id}`);
   };
@@ -126,25 +138,29 @@ export function installBookMotion() {
   let lastWheel = -Infinity;
   let wheelUsed = false;
   let wheelDistance = 0;
+  let wheelDirection = 0;
   const wheel = (event: WheelEvent) => {
     if (event.ctrlKey) return;
-    const now = performance.now();
-    if (now - lastWheel > 280) {
-      wheelUsed = turning || root.dataset.intro !== 'done';
-      wheelDistance = 0;
-    }
-    lastWheel = now;
-    if (root.dataset.intro !== 'done' || interactive(event.target)) return;
-    event.preventDefault();
-    if (turning || wheelUsed) return;
     const delta =
       Math.abs(event.deltaY) >= Math.abs(event.deltaX)
         ? event.deltaY
         : event.deltaX;
+    if (!delta) return;
+    const direction = Math.sign(delta);
+    const now = performance.now();
+    if (now - lastWheel > 180 || direction !== wheelDirection) {
+      wheelUsed = root.dataset.intro !== 'done';
+      wheelDistance = 0;
+    }
+    lastWheel = now;
+    wheelDirection = direction;
+    if (root.dataset.intro !== 'done' || interactive(event.target)) return;
+    event.preventDefault();
+    if (wheelUsed) return;
     wheelDistance +=
       delta *
       (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-    if (Math.abs(wheelDistance) >= 45) {
+    if (Math.abs(wheelDistance) >= 20) {
       wheelUsed = true;
       step(wheelDistance > 0 ? 1 : -1);
     }
@@ -174,7 +190,6 @@ export function installBookMotion() {
     touch =
       event.touches.length === 1 &&
       !interactive(event.target) &&
-      !turning &&
       root.dataset.intro === 'done'
         ? { x: event.touches[0].clientX, y: event.touches[0].clientY }
         : undefined;
@@ -188,7 +203,7 @@ export function installBookMotion() {
     const dx = touch.x - event.touches[0].clientX;
     const dy = touch.y - event.touches[0].clientY;
     const delta = Math.abs(dy) >= Math.abs(dx) ? dy : dx;
-    if (Math.abs(delta) >= 55) {
+    if (Math.abs(delta) >= 22) {
       event.preventDefault();
       touch = undefined;
       step(delta > 0 ? 1 : -1);

@@ -13,26 +13,26 @@ export function pageTurnFrame(width: number, height: number, progress: number) {
   };
 }
 
-/** A curved vertical crease, with the page's underside rolling toward the spine. */
+/** A bowed horizontal crease rolls upward from the bottom of the page. */
 export function bookTurnFrame(width: number, height: number, progress: number) {
   const p = Math.max(0, Math.min(1, progress));
-  const edge = width * (1 - p);
+  const edge = height * (1 - p);
   const curl = Math.min(
     edge,
-    Math.min(width * 0.18, 140) * Math.sin(p * Math.PI),
+    Math.min(Math.min(width, height) * 0.18, 140) * Math.sin(p * Math.PI),
   );
   const points = Array.from({ length: 25 }, (_, index) => {
-    const y = (height * index) / 24;
+    const x = (width * (24 - index)) / 24;
     const bend = Math.sin((index / 24) * Math.PI) * curl * 0.28;
-    return `${Math.max(0, edge - bend)}px ${y}px`;
+    return `${x}px ${Math.max(0, edge - bend)}px`;
   });
   const inner = Array.from({ length: 25 }, (_, index) => {
-    const y = (height * (24 - index)) / 24;
+    const x = (width * index) / 24;
     const bend = Math.sin(((24 - index) / 24) * Math.PI) * curl * 0.28;
-    return `${Math.max(0, edge - bend - curl)}px ${y}px`;
+    return `${x}px ${Math.max(0, edge - bend - curl)}px`;
   });
   return {
-    clip: `polygon(0px 0px, ${points.join(',')}, 0px ${height}px)`,
+    clip: `polygon(0px 0px, ${width}px 0px, ${points.join(',')})`,
     foldClip: `polygon(${points.join(',')},${inner.join(',')})`,
     edge,
     curl,

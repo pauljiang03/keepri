@@ -1,5 +1,14 @@
 # Website validation
 
+## Sensitive vertical page curls
+
+All pages now curl vertically. Main-page touch activation is 22px (previously 55px), wheel activation is 20px (previously 45px), and intro touch activation is also 22px. A reverse gesture during a turn is remembered without interrupting the current animation; same-direction momentum cannot skip pages.
+
+Nineteen geometry/lifecycle tests, typecheck, focused lint, production export and 24 static checks pass. The browser suite passed all thirteen pages forward/back at 1440×900 and 375×812. It additionally exercised 24px touch swipes in both directions, a reverse touch during an active turn, 22px wheel input in both directions, sustained wheel momentum, repeated keys, history, reduced motion, resize and no-JavaScript fallback. No overflow, scrollers or runtime exceptions were recorded. Desktop and mobile vertical-curl screenshots were visually reviewed. Physical touch hardware was not tested. Artifacts are in /private/tmp/keepri-vertical-review/.
+
+Three full Lighthouse reports pass the skill gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,266ms, CLS 0.024 and TBT 0ms.
+
+
 ## Curled intro and sideways book turns, September 15
 
 Restored the original bottom-up intro peel and added a bowed sideways curl for reading pages, with a shaded underside and reverse turns. The logic-word field now converges along curved, staggered paths. Nineteen lifecycle and geometry tests, typecheck, focused lint, production export and 24 static checks passed.
