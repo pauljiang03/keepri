@@ -57,13 +57,21 @@ export function installBookMotion() {
   root.dataset.book = 'active';
   showCurrent();
   const navigate = (hash: string, immediate = false, focus = true) => {
-    const id = ['', '#main', '#top', '#site'].includes(hash)
+    const id = [
+      '',
+      '#main',
+      '#top',
+      '#site',
+      '#funding',
+      '#funding-model',
+      '#vision',
+    ].includes(hash)
       ? 'site'
       : hash === '#experience'
         ? 'thesis'
         : /^#principle-\d+$/.test(hash)
           ? 'thesis'
-          : hash.startsWith('#research-')
+          : hash.startsWith('#research-') || hash === '#contact'
             ? 'research'
             : hash.slice(1);
     const target = pages.findIndex((page) => page.id === id);
@@ -87,6 +95,7 @@ export function installBookMotion() {
     }
     const outgoing = pages[current];
     const incoming = pages[target];
+    incoming.scrollTop = 0;
     const forward = target > current;
     current = target;
     if (immediate || quiet()) {
@@ -159,6 +168,12 @@ export function installBookMotion() {
       'a,button,input,textarea,select,summary,[contenteditable="true"]',
     );
   const wheelGesture = createWheelGesture();
+  const canReadFurther = (delta: number) => {
+    const page = pages[current];
+    return delta > 0
+      ? page.scrollTop + page.clientHeight < page.scrollHeight - 2
+      : page.scrollTop > 2;
+  };
   const wheel = (event: WheelEvent) => {
     if (event.ctrlKey) return;
     const delta =
@@ -166,15 +181,17 @@ export function installBookMotion() {
         ? event.deltaY
         : event.deltaX;
     if (!delta) return;
+    const reading =
+      Math.abs(event.deltaY) >= Math.abs(event.deltaX) && canReadFurther(delta);
     const blocked =
       root.dataset.intro !== 'done' || !!interactive(event.target);
     const direction = wheelGesture(
       delta *
         (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1),
       performance.now(),
-      blocked || turning,
+      blocked || turning || reading,
     );
-    if (blocked) return;
+    if (blocked || reading) return;
     event.preventDefault();
     if (direction) step(direction);
   };
@@ -193,8 +210,14 @@ export function installBookMotion() {
     );
     const back = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key);
     if (forward || back) {
+      const direction = forward && !event.shiftKey ? 1 : -1;
+      if (
+        !['ArrowLeft', 'ArrowRight'].includes(event.key) &&
+        canReadFurther(direction)
+      )
+        return;
       event.preventDefault();
-      if (!event.repeat) step(forward && !event.shiftKey ? 1 : -1);
+      if (!event.repeat) step(direction);
     }
     if (event.key === 'Escape') settle?.();
   };
@@ -217,6 +240,10 @@ export function installBookMotion() {
     const dx = touch.x - event.touches[0].clientX;
     const dy = touch.y - event.touches[0].clientY;
     const delta = Math.abs(dy) >= Math.abs(dx) ? dy : dx;
+    if (Math.abs(dy) >= Math.abs(dx) && canReadFurther(delta)) {
+      touch = undefined;
+      return;
+    }
     if (Math.abs(delta) >= 14) {
       event.preventDefault();
       touch = undefined;

@@ -187,7 +187,7 @@ try {
     await settled('site');
     if (width > 700) {
       const centered = await evaluate(
-        "(()=>{const p=document.querySelector('#site').getBoundingClientRect();const t=document.querySelector('.home-message').getBoundingClientRect();return Math.abs((p.top+p.bottom-t.top-t.bottom)/2)})()",
+        "(()=>{const p=document.querySelector('.home-overview').getBoundingClientRect();const t=document.querySelector('.home-message').getBoundingClientRect();return Math.abs((p.top+p.bottom-t.top-t.bottom)/2)})()",
       );
       assert(
         centered < 1,
@@ -197,13 +197,14 @@ try {
     const ids = await evaluate(
       "[...document.querySelectorAll('.book-page')].map(e=>e.id)",
     );
+    assert.deepEqual(ids, ['site', 'thesis', 'research'], 'Exactly three chapters in order');
     const layouts = [];
     for (let index = 0; index < ids.length; index++) {
       await settled(ids[index]);
       const layout = await evaluate(`(()=>{
         const page=document.querySelector('.book-page:not([hidden])');const box=page.getBoundingClientRect();
         const walker=document.createTreeWalker(page,NodeFilter.SHOW_TEXT);let node;const outside=[];
-        while(node=walker.nextNode()) {if(!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node);for(const r of range.getClientRects()){if(r.width&&r.height&&(r.top<box.top-1||r.bottom>box.bottom+1||r.left<box.left-1||r.right>box.right+1))outside.push({text:node.textContent.trim(),top:r.top,bottom:r.bottom,left:r.left,right:r.right});}}
+        while(node=walker.nextNode()) {if(!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node);for(const r of range.getClientRects()){if(r.width&&r.height&&(r.top<box.top-1||r.bottom>box.top+page.scrollHeight+1||r.left<box.left-1||r.right>box.right+1))outside.push({text:node.textContent.trim(),top:r.top,bottom:r.bottom,left:r.left,right:r.right});}}
         return {id:page.id,height:page.clientHeight,scrollHeight:page.scrollHeight,outside,scrollables:[...page.querySelectorAll('*')].filter(e=>/auto|scroll/.test(getComputedStyle(e).overflowY)&&e.scrollHeight>e.clientHeight).length};
       })()`);
       assert.deepEqual(
@@ -212,10 +213,6 @@ try {
         name + ' ' + ids[index] + ' text must fit: ' + JSON.stringify(layout),
       );
       assert.equal(layout.scrollables, 0);
-      assert(
-        layout.scrollHeight <= layout.height + 1,
-        name + ' ' + ids[index] + ' must not overflow',
-      );
       assert.equal(await evaluate('scrollY'), 0);
       assert.equal(
         await evaluate(
@@ -312,119 +309,44 @@ try {
     });
     console.log(JSON.stringify(results.at(-1)));
   }
-  await evaluate(
-    `new Promise(resolve=>{let n=0;const timer=setInterval(()=>{window.dispatchEvent(new WheelEvent('wheel',{deltaY:90,cancelable:true}));if(++n===40){clearInterval(timer);resolve(true)}},30)})`,
-  );
-  await settled('funding');
-  await delay(350);
-  await evaluate(
-    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-90,cancelable:true}))",
-  );
-  await settled('site');
-  // Sparse/noisy momentum belongs to the original swipe, even after the
-  // page animation finishes. Previously 90ms gaps and 3→10 bumps rearmed it.
-  await evaluate(
-    `new Promise(async resolve=>{for(const deltaY of [90,70,55,40,30,22,16,12,8,3,10,2,-2,9,1,8]){window.dispatchEvent(new WheelEvent('wheel',{deltaY,cancelable:true}));await new Promise(r=>setTimeout(r,120));}resolve(true)})`,
-  );
-  await settled('funding');
-  await delay(260);
-  await key('ArrowUp');
-  await settled('site');
-  // Extra impulses during a turn neither accelerate it nor replay later.
-  await evaluate(
-    `new Promise(async resolve=>{for(const deltaY of [60,40,20,5,2,8,16,28,40,20,8,2]){window.dispatchEvent(new WheelEvent('wheel',{deltaY,cancelable:true}));await new Promise(r=>setTimeout(r,16));}resolve(true)})`,
-  );
-  await settled('funding');
-  await delay(550);
-  assert.equal(await active(), 'funding');
-  await key('ArrowUp');
-  await settled('site');
-  await call('Emulation.setDeviceMetricsOverride', {
-    width: 375,
-    height: 812,
-    deviceScaleFactor: 1,
-    mobile: false,
-  });
-  await call('Emulation.setTouchEmulationEnabled', { enabled: true });
-  const swipe = async (y1, y2) => {
-    await call('Input.dispatchTouchEvent', {
-      type: 'touchStart',
-      touchPoints: [{ x: 185, y: y1 }],
-    });
-    for (let i = 1; i <= 5; i++) {
-      await call('Input.dispatchTouchEvent', {
-        type: 'touchMove',
-        touchPoints: [{ x: 185, y: y1 + ((y2 - y1) * i) / 5 }],
-      });
-      await delay(20);
-    }
-    await call('Input.dispatchTouchEvent', {
-      type: 'touchEnd',
-      touchPoints: [],
-    });
-  };
-  await swipe(600, 584);
-  await swipe(600, 584);
-  await settled('funding');
-  await delay(550);
-  assert.equal(await active(), 'funding');
-  await swipe(300, 316);
-  await settled('site');
-  // Input during a turn does not reverse it or queue a delayed jump.
-  await swipe(600, 584);
-  await swipe(300, 316);
-  await settled('funding');
-  await swipe(300, 316);
-  await settled('site');
-  await delay(220);
-  await evaluate(
-    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:14,cancelable:true}))",
-  );
-  await settled('funding');
-  await evaluate(
-    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-14,cancelable:true}))",
-  );
-  await settled('site');
-  await evaluate("document.querySelector('.page-swipe-cue').click()");
-  await settled('funding');
-  await key('ArrowUp');
-  await settled('site');
-  // Measure the complete transition with and without repeated input.
-  const timedTurn = async (repeat) => evaluate(`new Promise(resolve=>{
-    const start=performance.now();document.querySelector('.page-swipe-cue').click();
-    const timer=${repeat}?setInterval(()=>document.querySelector('.page-swipe-cue').click(),60):null;
-    function check(){if(document.documentElement.dataset.bookTurning){requestAnimationFrame(check);return;}if(timer)clearInterval(timer);resolve(performance.now()-start);}requestAnimationFrame(check);
-  })`);
-  const ordinaryDuration = await timedTurn(false);
-  await settled('funding');await key('ArrowUp');await settled('site');
-  const repeatedDuration = await timedTurn(true);
-  await settled('funding');await delay(550);
-  assert.equal(await active(), 'funding', 'Repeated taps never queue another page');
-  assert(ordinaryDuration >= 450 && ordinaryDuration < 850, 'Predictable transition duration');
-  assert(Math.abs(repeatedDuration-ordinaryDuration) < 120, 'Extra input cannot speed up the transition');
-  await key('ArrowUp');await settled('site');
-  for(const [legacy,target] of [['#principle-4','thesis'],['#research-deliverables','research'],['#research-process','research']]){
+  // Native wheel input reads a long chapter without changing chapters.
+  await call('Emulation.setDeviceMetricsOverride', {width:375,height:812,deviceScaleFactor:1,mobile:false});
+  await evaluate("document.querySelector('#site').scrollTop=0");
+  await call('Input.dispatchMouseEvent',{type:'mouseWheel',x:180,y:400,deltaY:220,deltaX:0});
+  await waitFor("document.querySelector('#site').scrollTop>0");
+  assert.equal(await active(),'site');
+  // Reading momentum is not a request to move to another chapter.
+  await evaluate(`new Promise(async resolve=>{for(let i=0;i<25;i++){window.dispatchEvent(new WheelEvent('wheel',{deltaY:80,cancelable:true}));if(i===4)document.querySelector('#site').scrollTop=10000;await new Promise(r=>setTimeout(r,30));}resolve(true)})`);
+  assert.equal(await active(),'site');
+  await delay(280);
+  await evaluate("window.dispatchEvent(new WheelEvent('wheel',{deltaY:14,cancelable:true}))");
+  await settled('thesis');
+  assert.equal(await evaluate("document.querySelector('#thesis').scrollTop"),0);
+  await key('ArrowLeft');await settled('site');
+  // Fixed timing, and no queued transition from repeated cue taps.
+  const duration=await evaluate(`new Promise(resolve=>{const start=performance.now();document.querySelector('.page-swipe-cue').click();const timer=setInterval(()=>document.querySelector('.page-swipe-cue').click(),60);function check(){if(document.documentElement.dataset.bookTurning){requestAnimationFrame(check);return;}clearInterval(timer);resolve(performance.now()-start);}requestAnimationFrame(check);})`);
+  assert(duration>=450&&duration<850);await settled('thesis');await delay(550);assert.equal(await active(),'thesis');
+  await evaluate("document.querySelector('.page-swipe-cue').click()");await settled('research');
+  await evaluate("document.querySelector('#research').scrollTop=10000");
+  const footer=await evaluate("(()=>{const f=document.querySelector('#contact').getBoundingClientRect(),p=document.querySelector('#research').getBoundingClientRect();return {top:f.top,bottom:f.bottom,pageTop:p.top,pageBottom:p.bottom}})()");
+  assert(footer.top>=footer.pageTop&&footer.bottom<=footer.pageBottom+1,'Footer is reachable at the end of Industry');
+  assert.equal(await evaluate("document.querySelector('.page-swipe-cue span').textContent"),'Swipe down to go back');
+  await evaluate("document.querySelector('.page-swipe-cue').click()");await settled('thesis');
+  for(const [legacy,target] of [['#funding','site'],['#funding-model','site'],['#vision','site'],['#principle-4','thesis'],['#research-deliverables','research']]){
     await evaluate(`location.hash=${JSON.stringify(legacy)}`);await settled(target);
   }
-  await evaluate("document.querySelector('.brand').click()");await settled('site');
-  await call('Emulation.setEmulatedMedia', {
-    features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
-  });
-  await key('ArrowDown');
-  assert.equal(await active(), 'funding');
-  assert.equal(
-    await evaluate('document.documentElement.dataset.bookTurning'),
-    undefined,
-  );
-  await call('Emulation.setEmulatedMedia', { features: [] });
-  await key('ArrowDown');
-  await delay(150);
-  await call('Emulation.setDeviceMetricsOverride', {
-    width: 390,
-    height: 844,
-    deviceScaleFactor: 1,
-    mobile: false,
-  });
+  await key('ArrowLeft');await settled('thesis');
+  await call('Emulation.setTouchEmulationEnabled',{enabled:true});
+  // A short downward swipe at the top returns exactly one chapter.
+  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:185,y:250}]});
+  for(let i=1;i<=5;i++){await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:185,y:250+i*4}]});await delay(20);}
+  await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await settled('site');
+  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  await key('ArrowRight');assert.equal(await active(),'thesis');
+  assert.equal(await evaluate('document.documentElement.dataset.bookTurning'),undefined);
+  await call('Emulation.setEmulatedMedia',{features:[]});
+  await key('ArrowRight');await delay(150);
+  await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:false});
   await waitFor('!document.documentElement.dataset.bookTurning');
   await call('Emulation.setScriptExecutionDisabled', { value: true });
   await call('Page.navigate', { url: base + '?nojs=1' });
@@ -453,7 +375,7 @@ try {
       2,
     ),
   );
-  console.log('Full-viewport page checks passed.');
+  console.log('Three-chapter navigation and native reading checks passed.');
   await call('Browser.close');
 } finally {
   ws?.close();

@@ -1,5 +1,15 @@
 # Website validation
 
+## Exactly three complete pages and a final footer
+
+The page order is exactly Main, Philosophy, Industry. Main includes the existing headline/workflow plus both funding sections and vision. Philosophy restores the full six explanations; Industry contains the full research overview, deliverables and learning sequence, followed by participation terms and the existing footer. Funding/vision legacy links resolve to Main; principle and research subpage links resolve to their parent chapter.
+
+To retain all content, chapters scroll natively when longer than the screen. Reading input is separate from page-navigation input: momentum reaching the bottom cannot spill into the next chapter. A fresh edge gesture or navigation control starts one fixed 520ms transition. The intro still replays on reload.
+
+All 26 opening/gesture tests, focused lint, typecheck and production export pass. Static validation checks exactly three chapter IDs in order, the final footer location, 24 asset/anchor references and product-status constraints. Browser regression passes desktop and small-phone forward/back navigation, complete text restoration, native wheel reading, momentum isolation, fresh edge gestures, fixed timing under repeated input, footer reachability, old links, history, reload, touch, reduced motion, resize and no-JavaScript fallback, without runtime errors.
+
+All content is reachable without horizontal clipping at 1440×900, 768×1024, 1010×780, 375×812, 320×568, 844×390 and 720×450. Screenshots include chapter tops and bottoms; desktop Main and the small-phone final footer were visually reviewed. Three full Lighthouse reports pass the gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,267ms, CLS 0, TBT 0ms. Artifacts: /private/tmp/keepri-three-fit/ and /private/tmp/keepri-three-browser/. Input testing used browser-generated events rather than physical touch hardware.
+
 ## Single-page Philosophy and Industry; consistent transitions
 
 The six principles now share one bordered Philosophy page, and the Industry overview, deliverables and participation terms share one page. The publication has six pages. Main-page JSX and its workflow were compared with the preceding commit and are unchanged. Legacy principle/research subpage links resolve to the consolidated chapter.

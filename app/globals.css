@@ -3127,3 +3127,59 @@ html[data-intro='active'] body,
   .industry-content { gap: 8px; }
   .research-offerings article { padding-block: 5px; }
 }
+
+/* Three chapters: the entire model belongs to Main. */
+html[data-book='active'] .page-home-complete .page-inner {
+  display: flex; flex-direction: column; align-items: stretch; justify-content: center;
+  gap: 24px; max-width: 1440px; margin-inline: auto;
+}
+.home-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.home-detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.home-detail { border: 1px solid var(--line); padding: 18px; }
+.home-detail .page-eyebrow { font-size: 10px; margin-bottom: 10px; }
+.home-detail h2 { font-size: 22px; line-height: 1.15; font-weight: 400; margin-bottom: 12px; }
+.home-detail p { color: var(--sage); font-size: 12px; line-height: 1.45; margin-top: 8px; }
+.home-detail .page-statement { color: var(--paper); font-size: 14px; }
+.home-detail .deliverable-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 0; }
+.home-detail .deliverable-grid article { padding-top: 10px; }
+.home-detail .deliverable-grid h3 { font-size: 14px; }
+.home-detail .deliverable-grid p { margin-top: 4px; }
+.final-footer { grid-column: 1 / -1; margin-top: 0; }
+@media (max-width: 700px) {
+  .home-overview, .home-detail-grid { grid-template-columns: 1fr; gap: 16px; }
+  .home-detail { padding: 16px; }
+}
+
+/* Keep complete chapters on three pages, with native reading on smaller screens. */
+html[data-book='active'] .book { touch-action: pan-y pinch-zoom; }
+html[data-book='active'] .book-page { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
+html[data-book='active'] .book-page .page-inner { height: auto; min-height: 100%; }
+html[data-book='active'] .page-home-complete .page-inner { padding-block: 28px; }
+html[data-book='active'] .home-overview .home-message h1 { font-size: clamp(28px, 4.5vw, 56px); }
+.home-overview .compact-diagram { padding: 12px; }
+.home-overview .flow-box { padding: 5px 8px; }
+.home-overview .flow-path, .home-overview .flow-step { gap: 4px; }
+.home-overview .flow-path > svg { margin-top: 4px; }
+html[data-book='active'] .home-detail .page-eyebrow { margin-bottom: 10px; }
+.collected-content .research-sequence { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; text-align: left; }
+.research-sequence strong { display: block; font-weight: 500; }
+.research-sequence span { display: block; margin: 4px 0 0; color: var(--sage); font-size: 11px; }
+html[data-book='active'] .final-footer { margin-top: 0; padding-top: 16px; }
+@media (max-width: 700px) {
+  html[data-book='active'] .page-home-complete .page-inner { gap: 24px; padding: 24px 20px; }
+  .home-overview { gap: 24px; }
+  .home-detail p { font-size: 14px; }
+  html[data-book='active'] .page-collected .page-inner { padding: 24px 20px; }
+  .collected-heading h2 { font-size: 30px; }
+  .philosophy-grid { gap: 12px; margin-top: 20px; }
+  .philosophy-grid article { padding: 14px; }
+  .philosophy-grid h3, .philosophy-grid p { display: block; }
+  .philosophy-grid h3 { margin-right: 0; }
+  .collected-content h3 { font-size: 17px; }
+  .collected-content p, .philosophy-grid article > div { font-size: 14px; line-height: 1.5; }
+  .collected-content p { margin-top: 8px; }
+  .industry-content { gap: 24px; }
+  .research-offerings article { padding: 14px; }
+  .research-terms p, .research-terms > span { font-size: 12px; line-height: 1.5; }
+  .final-footer > span { font-size: 11px; }
+}

@@ -1,5 +1,11 @@
 # KeepRI website design
 
+## Exactly three complete chapters
+
+Main now contains the headline, workflow, both funding sections and vision. Philosophy restores the complete six principles. Industry restores the research overview, deliverables and learning sequence, and ends with participation terms and the original footer. There are exactly three page surfaces in that order. Legacy links resolve to the corresponding chapter.
+
+Complete text is retained. Where it exceeds the viewport, the chapter scrolls natively; reading momentum is consumed without changing chapters at the bottom. A fresh gesture at an edge or an explicit navigation control changes chapters at the existing fixed 520ms speed. Earlier entries below describe the superseded six-page and viewport-only layouts.
+
 ## Consolidated chapters and fixed transition timing
 
 Philosophy now presents all six principles on one page; Industry combines its overview, three deliverables, research sequence and participation terms on one page. The main page is preserved. There are six pages in total, with no internal scrolling. Legacy principle and research subpage hashes redirect to their consolidated chapter.

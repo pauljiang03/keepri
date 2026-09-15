@@ -51,6 +51,12 @@ function walk(dir) {
   }
 }
 walk(root);
+assert.deepEqual(
+  [...html.matchAll(/<section\b[^>]*data-page="([^"]+)"/g)].map((match) => match[1]),
+  ['site', 'thesis', 'research'],
+  'The site must contain exactly Main, Philosophy and Industry, in that order',
+);
+assert(html.indexOf('id="contact"') > html.indexOf('id="research"'), 'The footer belongs to the final Industry chapter');
 for (const expected of [
   'Independent thought',
   'How KeepRI would work',
