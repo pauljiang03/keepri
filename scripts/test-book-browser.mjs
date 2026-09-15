@@ -231,6 +231,13 @@ try {
         'rgb(38, 49, 38)',
         'Every page uses the same green',
       );
+      const cue = await evaluate(
+        `(()=>{const c=document.querySelector('.page-swipe-cue').getBoundingClientRect();const p=document.querySelector('.book-page:not([hidden])').getBoundingClientRect();return {top:c.top,bottom:c.bottom,pageBottom:p.bottom,height:c.height};})()`,
+      );
+      assert(
+        cue.height >= 28 && cue.bottom <= height && cue.top >= cue.pageBottom,
+        'Swipe cue fits below the content',
+      );
       layouts.push(layout);
       if (
         index === 0 ||
@@ -243,7 +250,6 @@ try {
       if (index < ids.length - 1) {
         await key('ArrowRight');
         if (index === 0) {
-          await key('ArrowRight');
           await delay(230);
           await shot(name + '-word-exit');
           const transition = await evaluate(
@@ -340,6 +346,9 @@ try {
     });
   };
   await swipe(600, 584);
+  await swipe(600, 584);
+  await settled('funding-model');
+  await swipe(300, 316);
   await settled('funding');
   await swipe(300, 316);
   await settled('site');
@@ -355,6 +364,10 @@ try {
   await evaluate(
     "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-14,cancelable:true}))",
   );
+  await settled('site');
+  await evaluate("document.querySelector('.page-swipe-cue').click()");
+  await settled('funding');
+  await key('ArrowUp');
   await settled('site');
   await call('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],

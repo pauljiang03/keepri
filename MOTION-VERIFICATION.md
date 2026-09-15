@@ -1,5 +1,10 @@
 # KeepRI motion verification
 
+## Bottom swipe cue and uninterrupted gestures
+
+A compact arrow-and-text cue sits below every page. It advances on tap and reverses on the last page; users can also swipe directly over it. Pages reserve 44px for the cue, or 32px in short landscape views, with compact-phone spacing adjusted to keep the workflow in view. Fresh swipes in either direction are accepted during an active transition and accelerate its completion. Same-direction wheel momentum remains one gesture; a renewed impulse or a 90ms pause recognizes the next gesture.
+
+
 ## Preserve spacing on revisited pages
 
 Word wrappers now exist only during a transition. Completion restores the original text nodes before hiding a page, preventing animation cleanup from reordering whitespace. Resting pages use native text. Touch activation is now 14px and wheel activation 12px; the intro shares the shorter touch threshold.

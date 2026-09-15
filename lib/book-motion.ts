@@ -5,6 +5,8 @@ import { createWordSurfaces } from './transition-words';
 export function installBookMotion() {
   const root = document.documentElement;
   const pages = [...document.querySelectorAll<HTMLElement>('.book-page')];
+  const cue = document.querySelector<HTMLButtonElement>('.page-swipe-cue')!;
+  const cueLabel = cue.querySelector('span')!;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const words = createWordSurfaces();
   let current = 0;
@@ -25,6 +27,18 @@ export function installBookMotion() {
       delete page.dataset.turning;
     });
     const id = pages[current].id;
+    const lastPage = current === pages.length - 1;
+    cue.disabled = false;
+    cue.dataset.direction = lastPage ? 'back' : 'forward';
+    cueLabel.textContent = lastPage
+      ? 'Swipe down to go back'
+      : current === 0
+        ? 'Swipe up to explore'
+        : 'Swipe up · down to go back';
+    cue.setAttribute(
+      'aria-label',
+      lastPage ? 'Return to the previous page' : 'Continue to the next page',
+    );
     root.dataset.page = id;
     const chapter =
       id === 'thesis' || id.startsWith('principle-')
@@ -136,7 +150,8 @@ export function installBookMotion() {
   const step = (direction: number) => {
     if (root.dataset.intro !== 'done') return;
     if (turning) {
-      if (direction !== turnDirection) pendingDirection = direction;
+      pendingDirection = direction;
+      animation?.timeScale(2.5);
       return;
     }
     const page = pages[current + direction];
@@ -144,6 +159,7 @@ export function installBookMotion() {
   };
   const interactive = (target: EventTarget | null) =>
     target instanceof Element &&
+    !target.closest('.page-swipe-cue') &&
     target.closest(
       'a,button,input,textarea,select,summary,[contenteditable="true"]',
     );
@@ -151,6 +167,7 @@ export function installBookMotion() {
   let wheelUsed = false;
   let wheelDistance = 0;
   let wheelDirection = 0;
+  let wheelMagnitude = 0;
   const wheel = (event: WheelEvent) => {
     if (event.ctrlKey) return;
     const delta =
@@ -159,13 +176,16 @@ export function installBookMotion() {
         : event.deltaX;
     if (!delta) return;
     const direction = Math.sign(delta);
+    const magnitude = Math.abs(delta);
     const now = performance.now();
-    if (now - lastWheel > 180 || direction !== wheelDirection) {
+    const renewedSwipe = wheelUsed && wheelMagnitude <= 3 && magnitude >= 8;
+    if (now - lastWheel > 90 || direction !== wheelDirection || renewedSwipe) {
       wheelUsed = root.dataset.intro !== 'done';
       wheelDistance = 0;
     }
     lastWheel = now;
     wheelDirection = direction;
+    wheelMagnitude = magnitude;
     if (root.dataset.intro !== 'done' || interactive(event.target)) return;
     event.preventDefault();
     if (wheelUsed) return;
@@ -225,6 +245,7 @@ export function installBookMotion() {
     touch = undefined;
   };
   const finishTurn = () => settle?.();
+  const cueClick = () => step(current === pages.length - 1 ? -1 : 1);
   const motionChange = () => {
     if (quiet()) finishTurn();
   };
@@ -232,6 +253,7 @@ export function installBookMotion() {
     if (document.hidden) finishTurn();
   };
   window.addEventListener('wheel', wheel, { passive: false });
+  cue.addEventListener('click', cueClick);
   window.addEventListener('keydown', keydown);
   window.addEventListener('resize', finishTurn);
   window.addEventListener('keepri:motionchange', motionChange);
@@ -286,6 +308,7 @@ export function installBookMotion() {
       });
       words.destroy();
       window.removeEventListener('wheel', wheel);
+      cue.removeEventListener('click', cueClick);
       window.removeEventListener('keydown', keydown);
       window.removeEventListener('resize', finishTurn);
       window.removeEventListener('keepri:motionchange', motionChange);

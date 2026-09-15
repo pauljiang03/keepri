@@ -1,5 +1,13 @@
 # Website validation
 
+## Bottom swipe cue and uninterrupted gestures
+
+Every reading page now has a compact, tappable bottom swipe cue, with a return cue on the final page. Fresh gestures during a transition queue the next direction and accelerate the active transition instead of being discarded. The wheel gesture gap is reduced to 90ms, with renewed impulses recognized separately from continuing momentum. Swipes started directly on the cue and repeated cue taps remain responsive.
+
+Typecheck, focused lint, production export and 24 static checks pass. The browser regression passed all thirteen pages forward and backward at 1440×900 and 320×568, including exact text restoration, rapid consecutive swipes, reversals, wheel momentum, cue clicks, history, reload, reduced motion, resize and no-JavaScript fallback. Final focused checks passed for rapid cue taps, consecutive touch swipes over the cue, rapid reversal and the final-page return, with no runtime errors.
+
+The final layout sweep found no overflow or clipped text across all thirteen pages at 1440×900, 768×1024, 1010×780, 375×812, 320×568, 844×390 and 720×450. Small-screen and landscape screenshots were visually reviewed. Three final full Lighthouse reports pass the skill gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,267ms, CLS 0 and TBT 0ms. Artifacts are in /private/tmp/keepri-cue-review/ and /private/tmp/keepri-cue-final/. Touch checks used browser emulation; physical touch hardware was not tested.
+
 ## Spacing restoration and lighter swipe activation
 
 Reproduced the live defect: navigating away and back moved spaces before the words, leaving the displayed words joined together. Temporary word wrappers now restore their untouched original text nodes after every transition, before a page is hidden. Cleanup no longer asks GSAP to measure hidden words. Resting pages contain no animation wrappers. Touch activation is reduced from 22px to 14px and wheel activation from 20px to 12px.

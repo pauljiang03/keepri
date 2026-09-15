@@ -1,6 +1,7 @@
 import { PageMotion } from '@/components/page-motion';
 import { OpeningHero, SiteHeader } from '@/components/hero';
 import { BookPages } from '@/components/book-pages';
+import { ArrowUp } from 'lucide-react';
 export default function Home() {
   return (
     <>
@@ -17,6 +18,14 @@ export default function Home() {
         aria-describedby="book-help"
       >
         <BookPages />
+        <button
+          className="page-swipe-cue"
+          type="button"
+          aria-label="Continue to the next page"
+        >
+          <ArrowUp size={15} aria-hidden="true" />
+          <span>Swipe up to explore</span>
+        </button>
       </main>
       <span id="book-help" className="sr-only">
         Scroll, swipe, or use arrow keys to turn pages. Navigation links jump to
