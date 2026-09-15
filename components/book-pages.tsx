@@ -6,33 +6,27 @@ import type { ReactNode } from 'react';
 const questions = [
   {
     title: 'Independent judgment',
-    text: 'Independent judgment is essential to a society shaped by AI.',
-    more: 'People must be able to evaluate evidence, question recommendations and take responsibility for decisions. AI should inform that judgment without replacing it.',
+    text: 'Essential to a society shaped by AI. AI should inform that judgment without replacing it.',
   },
   {
     title: 'Learning through challenge',
-    text: 'Learning requires people to test ideas, assess alternatives and revise their decisions.',
-    more: 'KeepRI pairs challenges with feedback so players can develop their judgment without AI supplying answers.',
+    text: 'Test ideas, assess alternatives and revise decisions.',
   },
   {
     title: 'Global competition',
-    text: 'Our vision combines global leaderboards with significant prizes for learning and competition.',
-    more: 'Public leaderboards, tournaments and funded cash-prize events are in development.',
+    text: 'Global leaderboards and significant prizes for learning and competition. Funded cash-prize events are in development.',
   },
   {
     title: 'Human learning data',
-    text: 'We believe AI research needs more data on how people learn and exercise judgment.',
-    more: 'With separate consent, we plan to capture attempts, feedback and revisions to support AI training and evaluation.',
+    text: 'AI research needs more data on how people learn and exercise judgment.',
   },
   {
     title: 'Participant choice',
-    text: 'Free practice remains available without research participation. Cash-prize entrants would agree to research collection and commercial use before competing.',
-    more: 'The research program is in development. Research enrollment is not active in the closed beta.',
+    text: 'Free practice requires no research participation. Cash-prize entrants would agree to research collection and commercial use.',
   },
   {
     title: 'Our model',
     text: 'AI teams would license human learning data and commission targeted collections.',
-    more: 'Research revenue would help fund free access, new challenges and significant prizes.',
   },
 ];
 
@@ -170,106 +164,80 @@ export function BookPages() {
           </p>
         </div>
       </Page>
-      {questions.map((q, i) => (
-        <Page
-          id={i === 0 ? 'thesis' : `principle-${i + 1}`}
-          label={`Philosophies: ${q.title}`}
-          className="page-philosophy"
-          key={q.title}
-        >
-          <div className="page-copy">
-            <span className="page-eyebrow">Our philosophies / {q.title}</span>
-            <h2 className="page-statement">{q.text}</h2>
-            <p>{q.more}</p>
-          </div>
-        </Page>
-      ))}
-      <Page id="research" label="Industry" className="page-industry">
-        <div className="page-copy">
-          <span className="page-eyebrow">Industry</span>
-          <h2>
-            Human learning.
-            <br />
-            For AI research.
-          </h2>
-          <p className="page-statement small-statement">
-            How judgment develops.
-          </p>
-          <p>
-            We’re developing human learning datasets for AI training and
-            evaluation. We plan to study how motivated participants explore
-            problems, respond to feedback and revise decisions.
-          </p>
-          <p>
-            AI teams would license these datasets and commission targeted
-            collections, gathered with separate participant consent.
-          </p>
-        </div>
-      </Page>
       <Page
-        id="research-deliverables"
-        label="Industry: Research deliverables"
-        className="page-industry"
+        id="thesis"
+        label="Philosophy"
+        className="page-philosophy page-collected"
       >
-        <div className="page-copy">
-          <span className="page-eyebrow">Industry / In development</span>
-          <h2>Research deliverables.</h2>
-          <div className="deliverable-grid">
-            <article>
-              <h3>Executable environments</h3>
-              <p>
-                Versioned rules, controlled variants, scoring and replay for
-                reproducible studies.
-              </p>
-            </article>
-            <article>
-              <h3>Human learning histories</h3>
-              <p>
-                Actions, feedback, assistance and outcomes across attempts,
-                recorded with separate consent.
-              </p>
-            </article>
-            <article>
-              <h3>Evaluation packages</h3>
-              <p>
-                Human baselines for learning, error recovery and adaptation,
-                with documented conditions and quality controls.
-              </p>
-            </article>
+        <div className="collected-content">
+          <header className="collected-heading">
+            <span className="page-eyebrow">Keep Reasoning Independently</span>
+            <h2>Our philosophies.</h2>
+          </header>
+          <div className="philosophy-grid">
+            {questions.map((q, i) => (
+              <article key={q.title}>
+                <span className="principle-number" aria-hidden="true">
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3>{q.title}</h3>{' '}
+                  <p>{q.text}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </Page>
       <Page
-        id="research-process"
-        label="Industry: Learning over time"
-        className="page-industry"
+        id="research"
+        label="Industry"
+        className="page-industry page-collected"
       >
-        <div className="page-copy">
-          <span className="page-eyebrow">Research program in development</span>
-          <h2>Learning over time.</h2>
-          <ol className="learning-steps">
-            <li>
-              <strong>Attempts</strong>
-              <span>Decisions in context.</span>
-            </li>
-            <li>
-              <strong>Feedback</strong>
-              <span>Responses to new evidence.</span>
-            </li>
-            <li>
-              <strong>Revision</strong>
-              <span>Changes across attempts.</span>
-            </li>
-          </ol>
-          <p>
-            Free practice requires no research participation. Cash-prize entry
-            would require agreement to research data collection and commercial
-            use.
-          </p>
-          <p className="page-note">
-            Proposed research structure. Research enrollment is not active in
-            the closed beta.
-          </p>
+        <div className="collected-content industry-content">
+          <header className="collected-heading">
+            <span className="page-eyebrow">Industry / In development</span>
+            <h2>
+              Human learning.
+              <br />
+              For AI research.
+            </h2>
+            <p>
+              We’re developing datasets that follow how people explore problems, respond to feedback and revise decisions.
+            </p>
+          </header>
+          <div className="industry-details">
+            <div className="research-offerings">
+              <article>
+                <h3>Executable environments</h3>
+                <p>
+                  Versioned rules, scoring and replay for reproducible studies.
+                </p>
+              </article>
+              <article>
+                <h3>Human learning histories</h3>
+                <p>
+                  Actions, feedback and outcomes across attempts, recorded with separate participant consent.
+                </p>
+              </article>
+              <article>
+                <h3>Evaluation packages</h3>
+                <p>
+                  Human baselines for learning and adaptation, with documented conditions and quality controls.
+                </p>
+              </article>
+            </div>
+            <p className="research-sequence">
+              Attempts <span aria-hidden="true">→</span> Feedback{' '}
+              <span aria-hidden="true">→</span> Revision
+            </p>
+          </div>
+          <footer className="research-terms">
+            <p>
+              AI teams would license datasets and commission studies. Cash-prize entry would require research collection and commercial-use agreement; free practice stays separate.
+            </p>
+            <span>Research enrollment is not active in the closed beta.</span>
+          </footer>
         </div>
       </Page>
       <Page id="vision" label="The vision" className="page-dark">

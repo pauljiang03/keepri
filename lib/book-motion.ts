@@ -12,7 +12,6 @@ export function installBookMotion() {
   const words = createWordSurfaces();
   let current = 0;
   let turning = false;
-  let pendingDirection = 0;
   let turnDirection = 0;
   let settle: (() => void) | undefined;
   let animation: gsap.core.Timeline | undefined;
@@ -29,7 +28,7 @@ export function installBookMotion() {
     });
     const id = pages[current].id;
     const lastPage = current === pages.length - 1;
-    cue.disabled = false;
+    cue.setAttribute('aria-disabled', 'false');
     cue.dataset.direction = lastPage ? 'back' : 'forward';
     cueLabel.textContent = lastPage
       ? 'Swipe down to go back'
@@ -62,7 +61,11 @@ export function installBookMotion() {
       ? 'site'
       : hash === '#experience'
         ? 'thesis'
-        : hash.slice(1);
+        : /^#principle-\d+$/.test(hash)
+          ? 'thesis'
+          : hash.startsWith('#research-')
+            ? 'research'
+            : hash.slice(1);
     const target = pages.findIndex((page) => page.id === id);
     if (target === -1) return false;
     const newHash = target === 0 ? '' : `#${id}`;
@@ -94,6 +97,7 @@ export function installBookMotion() {
     turning = true;
     turnDirection = forward ? 1 : -1;
     root.dataset.bookTurning = 'true';
+    cue.setAttribute('aria-disabled', 'true');
     outgoing.inert = true;
     incoming.hidden = false;
     incoming.inert = true;
@@ -109,52 +113,42 @@ export function installBookMotion() {
       settle = undefined;
       animation?.kill();
       turning = false;
-      pendingDirection = 0;
       delete root.dataset.bookTurning;
       showCurrent();
       focusPage();
     };
     animation = gsap
       .timeline({
-        onComplete: () => {
-          const direction = pendingDirection;
-          settle?.();
-          if (direction) step(direction);
-        },
+        onComplete: () => settle?.(),
       })
       .to(
         leaving,
         {
           y: -turnDirection * 24,
           opacity: 0,
-          duration: 0.24,
-          stagger: { amount: 0.08 },
+          duration: 0.16,
+          stagger: { amount: 0.04 },
           ease: 'power2.in',
         },
         0,
       )
-      .to(outgoing, { opacity: 0, duration: 0.12 }, 0.24)
-      .to(incoming, { opacity: 1, duration: 0.12 }, 0.24)
+      .to(outgoing, { opacity: 0, duration: 0.08 }, 0.16)
+      .to(incoming, { opacity: 1, duration: 0.08 }, 0.16)
       .to(
         arriving,
         {
           y: 0,
           opacity: 1,
-          duration: 0.36,
-          stagger: { amount: 0.1 },
+          duration: 0.24,
+          stagger: { amount: 0.06 },
           ease: 'power3.out',
         },
-        0.34,
+        0.22,
       );
     return true;
   };
   const step = (direction: number) => {
-    if (root.dataset.intro !== 'done') return;
-    if (turning) {
-      pendingDirection = direction;
-      animation?.timeScale(2.5);
-      return;
-    }
+    if (root.dataset.intro !== 'done' || turning) return;
     const page = pages[current + direction];
     if (page) navigate(`#${page.id}`);
   };
@@ -172,12 +166,13 @@ export function installBookMotion() {
         ? event.deltaY
         : event.deltaX;
     if (!delta) return;
-    const blocked = root.dataset.intro !== 'done' || !!interactive(event.target);
+    const blocked =
+      root.dataset.intro !== 'done' || !!interactive(event.target);
     const direction = wheelGesture(
       delta *
         (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1),
       performance.now(),
-      blocked,
+      blocked || turning,
     );
     if (blocked) return;
     event.preventDefault();
@@ -208,7 +203,8 @@ export function installBookMotion() {
     touch =
       event.touches.length === 1 &&
       !interactive(event.target) &&
-      root.dataset.intro === 'done'
+      root.dataset.intro === 'done' &&
+      !turning
         ? { x: event.touches[0].clientX, y: event.touches[0].clientY }
         : undefined;
   };
@@ -259,22 +255,18 @@ export function installBookMotion() {
       turning = true;
       turnDirection = 1;
       root.dataset.bookTurning = 'true';
+      cue.setAttribute('aria-disabled', 'true');
       settle = () => {
         settle = undefined;
         animation?.kill();
         turning = false;
-        pendingDirection = 0;
         delete root.dataset.bookTurning;
         showCurrent();
       };
       gsap.set(arriving, { y: 24, opacity: 0 });
       animation = gsap
         .timeline({
-          onComplete: () => {
-            const direction = pendingDirection;
-            settle?.();
-            if (direction) step(direction);
-          },
+          onComplete: () => settle?.(),
         })
         .to(arriving, {
           y: 0,

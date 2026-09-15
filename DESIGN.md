@@ -1,5 +1,11 @@
 # KeepRI website design
 
+## Consolidated chapters and fixed transition timing
+
+Philosophy now presents all six principles on one page; Industry combines its overview, three deliverables, research sequence and participation terms on one page. The main page is preserved. There are six pages in total, with no internal scrolling. Legacy principle and research subpage hashes redirect to their consolidated chapter.
+
+Transitions take 520ms at a constant speed. Extra gestures, taps and keys during a transition are consumed without acceleration or delayed replay. The cue exposes its busy state and returns to ready as soon as the transition finishes. Gesture detection no longer scales the required impulse against the strength of the previous swipe. Earlier entries below describe superseded behaviors.
+
 ## Bottom swipe cue and uninterrupted gestures
 
 A compact arrow-and-text cue sits below every page. It advances on tap and reverses on the last page; users can also swipe directly over it. Pages reserve 44px for the cue, or 32px in short landscape views, with compact-phone spacing adjusted to keep the workflow in view. Fresh swipes in either direction are accepted during an active transition and accelerate its completion. Wheel momentum stays in one gesture across short delivery gaps and noisy tail samples. A new gesture requires 240ms of input silence, a deliberate reversal, or three rising samples that establish a separate impulse; this is independent of animation completion.

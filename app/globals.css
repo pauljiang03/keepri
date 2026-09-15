@@ -2583,7 +2583,7 @@ html[data-book='active'] .page-swipe-cue {
   cursor: pointer;
 }
 .page-swipe-cue:hover { color: var(--paper); }
-.page-swipe-cue:disabled { opacity: 0.45; cursor: default; }
+.page-swipe-cue[aria-disabled='true'] { opacity: 0.45; cursor: default; }
 .page-swipe-cue[data-direction='back'] svg { rotate: 180deg; }
 @media (max-height: 480px) and (min-width: 701px) {
   html[data-book='active'] .book-page { bottom: 32px; }
@@ -3037,4 +3037,93 @@ html[data-intro='active'] body,
   .page-home .flow-consent { margin-top: 6px; }
   .page-home .flow-box { padding-block: 2px; }
   .page-home .flow-fund { margin-top: 2px; }
+}
+
+/* Each chapter is a single bounded reading surface. */
+.collected-content { width: 100%; max-width: 1200px; margin-inline: auto; }
+.collected-heading h2 { font-size: clamp(30px, 4vw, 58px); line-height: 1.08; font-weight: 400; letter-spacing: -0.035em; }
+.collected-heading .page-eyebrow { margin-bottom: 12px; }
+.philosophy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+.philosophy-grid article { display: flex; gap: 14px; padding: 22px; border: 1px solid var(--line); }
+.principle-number { color: #d5b473; font: 11px/1.8 ui-monospace, monospace; }
+.collected-content h3 { font-size: 19px; line-height: 1.25; font-weight: 500; }
+.collected-content p { font-size: 16px; line-height: 1.5; color: var(--sage); margin-top: 10px; }
+.industry-content { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 60px; align-items: center; }
+.industry-content .collected-heading > p { max-width: 460px; margin-top: 24px; }
+.research-offerings { border: 1px solid var(--line); }
+.research-offerings article { padding: 18px 22px; }
+.research-offerings article + article { border-top: 1px solid var(--line); }
+.collected-content .research-sequence { color: #d5b473; text-align: center; font-size: 13px; margin-top: 16px; }
+.research-sequence span { margin-inline: 12px; }
+.research-terms { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 16px; }
+.research-terms p { margin: 0; font-size: 13px; }
+.research-terms > span { display: block; color: var(--sage); font-size: 12px; margin-top: 8px; }
+@media (max-width: 1000px) {
+  .philosophy-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 22px; }
+  .philosophy-grid article { padding: 16px; }
+  .industry-content { gap: 22px; }
+  .collected-content p { font-size: 14px; }
+}
+@media (max-width: 700px) {
+  html[data-book='active'] .page-collected .page-inner { padding: 16px 20px; }
+  .collected-heading h2 { font-size: 28px; }
+  .collected-heading .page-eyebrow { font-size: 9px; margin-bottom: 8px; }
+  .philosophy-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 16px; }
+  .philosophy-grid article { padding: 10px 12px; gap: 10px; }
+  .collected-content h3 { font-size: 15px; }
+  .collected-content p { font-size: 13px; line-height: 1.4; margin-top: 5px; }
+  .industry-content { grid-template-columns: 1fr; gap: 16px; }
+  .industry-content .collected-heading > p { margin-top: 12px; }
+  .research-offerings article { padding: 10px 12px; }
+  .research-terms { padding-top: 12px; }
+  .research-terms p, .research-terms > span { font-size: 11px; }
+  .collected-content .research-sequence { font-size: 12px; margin-top: 10px; }
+}
+@media (max-width: 700px) and (max-height: 680px) {
+  html[data-book='active'] .page-collected .page-inner { padding: 10px 16px; }
+  .collected-heading h2 { font-size: 24px; }
+  .page-philosophy .collected-heading .page-eyebrow { display: none; }
+  .philosophy-grid { gap: 5px; margin-top: 10px; }
+  .philosophy-grid article { padding: 6px 8px; gap: 8px; }
+  .collected-content h3 { font-size: 13px; }
+  .collected-content p { font-size: 12px; line-height: 1.3; margin-top: 3px; }
+  .industry-content { gap: 10px; }
+  .industry-content .collected-heading > p { margin-top: 8px; }
+  .research-offerings article { padding: 7px 9px; }
+  .research-terms { padding-top: 8px; }
+  .research-terms p, .research-terms > span { font-size: 10px; line-height: 1.3; }
+  .research-terms > span { margin-top: 5px; }
+}
+@media (min-width: 701px) and (max-height: 650px) {
+  html[data-book='active'] .page-collected .page-inner { padding-block: 12px; }
+  .collected-heading h2 { font-size: 30px; }
+  .collected-heading .page-eyebrow { font-size: 9px; margin-bottom: 6px; }
+  .philosophy-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+  .philosophy-grid article { padding: 10px; gap: 8px; }
+  .collected-content h3 { font-size: 14px; }
+  .collected-content p { font-size: 12px; line-height: 1.35; margin-top: 5px; }
+  .industry-content { gap: 12px 24px; }
+  .industry-content .collected-heading > p { margin-top: 12px; }
+  .research-offerings article { padding: 8px 12px; }
+  .collected-content .research-sequence { font-size: 11px; margin-top: 8px; }
+  .research-terms { padding-top: 8px; }
+  .research-terms p, .research-terms > span { font-size: 10px; line-height: 1.3; }
+  .research-terms > span { margin-top: 4px; }
+}
+@media (max-width: 700px) and (max-height: 680px) {
+  .philosophy-grid .principle-number { display: none; }
+  .philosophy-grid h3, .philosophy-grid p { display: inline; }
+  .philosophy-grid h3 { margin-right: 6px; }
+  .philosophy-grid article { padding: 6px 8px; }
+}
+@media (min-width: 701px) and (max-height: 650px) {
+  .page-philosophy .collected-heading .page-eyebrow { display: none; }
+  .philosophy-grid .principle-number { display: none; }
+  .philosophy-grid article { padding: 8px; }
+  .research-offerings article { padding-block: 6px; }
+}
+@media (max-width: 700px) and (max-height: 680px) {
+  .philosophy-grid article > div { font-size: 12px; line-height: 1.3; }
+  .industry-content { gap: 8px; }
+  .research-offerings article { padding-block: 5px; }
 }

@@ -330,12 +330,13 @@ try {
   await delay(260);
   await key('ArrowUp');
   await settled('site');
-  // Two distinct impulses remain responsive without waiting for a turn.
+  // Extra impulses during a turn neither accelerate it nor replay later.
   await evaluate(
     `new Promise(async resolve=>{for(const deltaY of [60,40,20,5,2,8,16,28,40,20,8,2]){window.dispatchEvent(new WheelEvent('wheel',{deltaY,cancelable:true}));await new Promise(r=>setTimeout(r,16));}resolve(true)})`,
   );
-  await settled('funding-model');
-  await key('ArrowUp');
+  await settled('funding');
+  await delay(550);
+  assert.equal(await active(), 'funding');
   await key('ArrowUp');
   await settled('site');
   await call('Emulation.setDeviceMetricsOverride', {
@@ -364,13 +365,15 @@ try {
   };
   await swipe(600, 584);
   await swipe(600, 584);
-  await settled('funding-model');
-  await swipe(300, 316);
   await settled('funding');
+  await delay(550);
+  assert.equal(await active(), 'funding');
   await swipe(300, 316);
   await settled('site');
-  // A small opposite swipe during a turn is remembered, without skipping it.
+  // Input during a turn does not reverse it or queue a delayed jump.
   await swipe(600, 584);
+  await swipe(300, 316);
+  await settled('funding');
   await swipe(300, 316);
   await settled('site');
   await delay(220);
@@ -386,6 +389,24 @@ try {
   await settled('funding');
   await key('ArrowUp');
   await settled('site');
+  // Measure the complete transition with and without repeated input.
+  const timedTurn = async (repeat) => evaluate(`new Promise(resolve=>{
+    const start=performance.now();document.querySelector('.page-swipe-cue').click();
+    const timer=${repeat}?setInterval(()=>document.querySelector('.page-swipe-cue').click(),60):null;
+    function check(){if(document.documentElement.dataset.bookTurning){requestAnimationFrame(check);return;}if(timer)clearInterval(timer);resolve(performance.now()-start);}requestAnimationFrame(check);
+  })`);
+  const ordinaryDuration = await timedTurn(false);
+  await settled('funding');await key('ArrowUp');await settled('site');
+  const repeatedDuration = await timedTurn(true);
+  await settled('funding');await delay(550);
+  assert.equal(await active(), 'funding', 'Repeated taps never queue another page');
+  assert(ordinaryDuration >= 450 && ordinaryDuration < 850, 'Predictable transition duration');
+  assert(Math.abs(repeatedDuration-ordinaryDuration) < 120, 'Extra input cannot speed up the transition');
+  await key('ArrowUp');await settled('site');
+  for(const [legacy,target] of [['#principle-4','thesis'],['#research-deliverables','research'],['#research-process','research']]){
+    await evaluate(`location.hash=${JSON.stringify(legacy)}`);await settled(target);
+  }
+  await evaluate("document.querySelector('.brand').click()");await settled('site');
   await call('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
   });

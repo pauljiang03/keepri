@@ -1,5 +1,15 @@
 # Website validation
 
+## Single-page Philosophy and Industry; consistent transitions
+
+The six principles now share one bordered Philosophy page, and the Industry overview, deliverables and participation terms share one page. The publication has six pages. Main-page JSX and its workflow were compared with the preceding commit and are unchanged. Legacy principle/research subpage links resolve to the consolidated chapter.
+
+Transitions now run at a fixed 520ms. Input during a transition cannot accelerate it, reverse it or queue another page; the bottom cue exposes its temporary busy state. No extra animation cooldown follows completion. New gentle wheel impulses no longer depend on the preceding gesture’s peak strength. This replaces the acceleration and queuing behavior described in earlier entries.
+
+All 26 opening/gesture tests, focused lint, typecheck, production export and 24 static checks pass. The final browser regression passes all six pages forward/back on desktop and small phone, exact text restoration, sparse/noisy wheel momentum, repeated gestures, touch in both directions, cue interaction, legacy links, history, reload, reduced motion, resize and no-JavaScript fallback. It measures ordinary and repeated-input transition durations and verifies repeated taps cannot accelerate the transition or replay later. No runtime exceptions were recorded.
+
+All six pages fit without clipping at 1440×900, 768×1024, 1010×780, 375×812, 320×568, 844×390 and 720×450. Desktop, small-phone and landscape chapter screenshots were reviewed. Three full Lighthouse reports pass the gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,271ms, CLS 0 and TBT 0ms. Artifacts: /private/tmp/keepri-chapters-fit/ and /private/tmp/keepri-chapters-browser/. Touch/trackpad checks used browser-generated event streams rather than physical hardware.
+
 ## One page per swipe
 
 The former 90ms wheel rearm and single-sample impulse detection could interpret trackpad momentum as several swipes. Wheel input now keeps sparse and noisy tails in the same gesture. Separate impulses require sustained acceleration, while a deliberate reversal or input silence can start a new gesture. Animation completion does not impose an additional input lock.

@@ -3,7 +3,6 @@ export function createWheelGesture() {
   let lastTime = -Infinity;
   let direction = 0;
   let previous = 0;
-  let peak = 0;
   let valley = 0;
   let rises = 0;
   let distance = 0;
@@ -19,7 +18,6 @@ export function createWheelGesture() {
     if (idle || reversed) {
       direction = sign;
       previous = 0;
-      peak = 0;
       rises = 0;
       distance = 0;
       used = blocked;
@@ -32,21 +30,15 @@ export function createWheelGesture() {
     if (used && magnitude > previous + 1) {
       if (!rises) valley = previous;
       rises++;
-      if (
-        rises >= 3 &&
-        valley <= peak * 0.4 &&
-        magnitude >= Math.max(12, valley * 3, peak * 0.35)
-      ) {
+      if (rises >= 3 && magnitude >= Math.max(12, valley * 3)) {
         used = blocked;
         distance = 0;
-        peak = magnitude;
         rises = 0;
       }
     } else {
       rises = 0;
     }
     previous = magnitude;
-    peak = Math.max(peak, magnitude);
     if (blocked) used = true;
     if (used) return 0;
     distance += magnitude;
