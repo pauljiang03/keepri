@@ -261,7 +261,7 @@ export function installOpeningMotion(
     }
     const dy = touchY - (event.touches[0]?.clientY ?? touchY);
     const dx = Math.abs(touchX - (event.touches[0]?.clientX ?? touchX));
-    if (dy >= 22 && dy > dx) {
+    if (dy >= 14 && dy > dx) {
       event.preventDefault();
       touchUsed = true;
       advance();

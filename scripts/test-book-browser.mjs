@@ -265,6 +265,18 @@ try {
     for (let index = ids.length - 2; index >= 0; index--) {
       await key('ArrowLeft');
       await settled(ids[index]);
+      assert.equal(
+        await evaluate(
+          "document.querySelector('.book-page:not([hidden])').textContent",
+        ),
+        originalText[index],
+        'Revisited pages preserve every space',
+      );
+      assert.equal(
+        await evaluate("document.querySelectorAll('.transition-word').length"),
+        0,
+        'Temporary word wrappers are removed at rest',
+      );
     }
     await key('ArrowLeft');
     assert.equal(await active(), 'site');
@@ -327,21 +339,21 @@ try {
       touchPoints: [],
     });
   };
-  await swipe(600, 576);
+  await swipe(600, 584);
   await settled('funding');
-  await swipe(300, 324);
+  await swipe(300, 316);
   await settled('site');
   // A small opposite swipe during a turn is remembered, without skipping it.
-  await swipe(600, 576);
-  await swipe(300, 324);
+  await swipe(600, 584);
+  await swipe(300, 316);
   await settled('site');
   await delay(220);
   await evaluate(
-    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:22,cancelable:true}))",
+    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:14,cancelable:true}))",
   );
   await settled('funding');
   await evaluate(
-    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-22,cancelable:true}))",
+    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-14,cancelable:true}))",
   );
   await settled('site');
   await call('Emulation.setEmulatedMedia', {

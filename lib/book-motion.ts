@@ -16,12 +16,12 @@ export function installBookMotion() {
   const quiet = () => preference.matches || root.dataset.motion === 'paused';
   const showCurrent = () => {
     pages.forEach((page, index) => {
+      words.reset(page);
       page.hidden = index !== current;
       page.inert = index !== current;
       page.style.zIndex = '';
       page.style.transform = '';
       page.style.opacity = '';
-      words.reset(page);
       delete page.dataset.turning;
     });
     const id = pages[current].id;
@@ -172,7 +172,7 @@ export function installBookMotion() {
     wheelDistance +=
       delta *
       (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-    if (Math.abs(wheelDistance) >= 20) {
+    if (Math.abs(wheelDistance) >= 12) {
       wheelUsed = true;
       step(wheelDistance > 0 ? 1 : -1);
     }
@@ -215,7 +215,7 @@ export function installBookMotion() {
     const dx = touch.x - event.touches[0].clientX;
     const dy = touch.y - event.touches[0].clientY;
     const delta = Math.abs(dy) >= Math.abs(dx) ? dy : dx;
-    if (Math.abs(delta) >= 22) {
+    if (Math.abs(delta) >= 14) {
       event.preventDefault();
       touch = undefined;
       step(delta > 0 ? 1 : -1);

@@ -1,5 +1,10 @@
 # KeepRI motion verification
 
+## Preserve spacing on revisited pages
+
+Word wrappers now exist only during a transition. Completion restores the original text nodes before hiding a page, preventing animation cleanup from reordering whitespace. Resting pages use native text. Touch activation is now 14px and wheel activation 12px; the intro shares the shorter touch threshold.
+
+
 ## Word transitions and a consistent green palette
 
 An 800ms page change sends outgoing words 24px away with opacity fading to zero, changes the supporting shapes, then brings incoming words from the opposite offset to their resting position. Word spans retain natural font metrics and original whitespace. The intro still gathers its phrase, then sends the words upward and reveals the first page’s words. No paper transform, curl, fold or clipping path remains. Reduced motion and skip remain immediate.

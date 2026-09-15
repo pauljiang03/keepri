@@ -1,5 +1,14 @@
 # Website validation
 
+## Spacing restoration and lighter swipe activation
+
+Reproduced the live defect: navigating away and back moved spaces before the words, leaving the displayed words joined together. Temporary word wrappers now restore their untouched original text nodes after every transition, before a page is hidden. Cleanup no longer asks GSAP to measure hidden words. Resting pages contain no animation wrappers. Touch activation is reduced from 22px to 14px and wheel activation from 20px to 12px.
+
+Seventeen opening lifecycle tests, typecheck, focused lint, production export and 24 static checks pass. Desktop and mobile browser regression now checks the exact original text on every revisited page and verifies all temporary word wrappers are removed at rest. All thirteen pages passed forward and backward layout checks at 1440×900 and 375×812.
+
+
+Final browser checks also pass for 16px touch swipes, 14px wheel input, quick reversals, sustained momentum, history, reload, reduced motion, resize and no-JavaScript fallback, with no runtime exceptions. Three full Lighthouse reports pass the skill gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,261ms, CLS 0 and TBT 0ms. Artifacts are in /private/tmp/keepri-spacing-review/. Physical touch hardware was not tested.
+
 ## Word transitions and a consistent green palette
 
 Replaced the intro peel and all page curls with staggered word exits and entrances. Reading pages retain their exact text and whitespace inside reversible word wrappers. Forward navigation sends words upward; backward navigation reverses it. All thirteen pages now share the intro’s forest-green background, cream text and gold accents. Scoped muted text colors and borders remain readable on the green surface. Short swipes, remembered reversals, reduced motion and no-scroll layouts remain intact.

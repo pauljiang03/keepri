@@ -302,7 +302,7 @@ test('a short upward touch starts the full entry and ignores a second touch', ()
   for (let i = 0; i < 2; i++) {
     overlay.emit('touchstart', { touches: [{ clientY: 400, clientX: 100 }] });
     overlay.emit('touchmove', {
-      touches: [{ clientY: 376, clientX: 105 }],
+      touches: [{ clientY: 384, clientX: 105 }],
       preventDefault() {},
     });
   }

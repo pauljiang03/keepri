@@ -1,14 +1,24 @@
-import { gsap } from 'gsap';
-
 /** Wrap words without changing their text, spacing, or accessible reading order. */
 export function createWordSurfaces() {
-  const cache = new Map<HTMLElement, HTMLElement[]>();
-  const originals: { original: Text; wrapper: HTMLElement }[] = [];
+  const cache = new Map<
+    HTMLElement,
+    {
+      words: HTMLElement[];
+      originals: { original: Text; wrapper: HTMLElement }[];
+    }
+  >();
+  const restore = (page: HTMLElement) => {
+    const entry = cache.get(page);
+    if (!entry) return;
+    for (const { original, wrapper } of entry.originals)
+      wrapper.replaceWith(original);
+    cache.delete(page);
+  };
   return {
     prepare(page: HTMLElement) {
       const existing = cache.get(page);
       if (existing)
-        return existing.filter((word) => word.getClientRects().length);
+        return existing.words.filter((word) => word.getClientRects().length);
       const walker = document.createTreeWalker(page, NodeFilter.SHOW_TEXT);
       const nodes: Text[] = [];
       while (walker.nextNode()) {
@@ -22,6 +32,7 @@ export function createWordSurfaces() {
           nodes.push(node);
       }
       const words: HTMLElement[] = [];
+      const originals: { original: Text; wrapper: HTMLElement }[] = [];
       for (const original of nodes) {
         const wrapper = document.createElement('span');
         wrapper.className = 'transition-text';
@@ -38,21 +49,16 @@ export function createWordSurfaces() {
         original.replaceWith(wrapper);
         originals.push({ original, wrapper });
       }
-      cache.set(page, words);
+      cache.set(page, { words, originals });
       // Hidden responsive links must not be measured by GSAP: its temporary
       // reparenting of display:none nodes can reorder their whitespace nodes.
       return words.filter((word) => word.getClientRects().length);
     },
-    reset(page: HTMLElement) {
-      const words = cache
-        .get(page)
-        ?.filter((word) => word.style.transform || word.style.opacity);
-      if (words?.length) gsap.set(words, { clearProps: 'transform,opacity' });
-    },
+    // Restore the untouched original text nodes instead of asking GSAP to
+    // measure hidden words during cleanup. The resting page is native text.
+    reset: restore,
     destroy() {
-      for (const { original, wrapper } of originals)
-        wrapper.replaceWith(original);
-      cache.clear();
+      for (const page of cache.keys()) restore(page);
     },
   };
 }
