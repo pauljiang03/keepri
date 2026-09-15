@@ -1,10 +1,8 @@
 # KeepRI website
 
-The current peel lifts a horizontal fold from the bottom edge to the top. Only the constellation spins; intro text stays stationary and fades in as whole words.
-
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The current design has three sections: opening and hero, philosophies, and industry. A three-gesture cover waits on the KeepRI mark: first spin, second reveal, third peel, revealing a split hero and a diagram of the planned business model. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
+The site opens on the KeepRI name, reveals its meaning, and peels upward into three book pages: KeepRI, Philosophies, and Industry. Previous/Next buttons, left/right arrow keys and horizontal touch swipes turn the pages in either direction. Long content scrolls vertically within each page. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
 
 ## Develop and validate
 
@@ -15,12 +13,11 @@ npm ci
 npm run dev
 npm run typecheck
 npm run test:opening
-npm run test:simulation
 npm run build
 npm run check:static
 ```
 
-Production output is `dist/client`. Content lives in `app/page.tsx`, `components/hero.tsx`, and `components/story-panels.tsx`. The hero artwork is in `components/hero-visual.tsx`; styling is in `app/globals.css`. `lib/opening-motion.ts` controls the opening and scrolling; `components/page-motion.tsx` controls the philosophy heading entrance and motion preferences.
+Production output is `dist/client`. Content lives in `app/page.tsx`, `components/hero.tsx`, and `components/story-panels.tsx`. The hero artwork is in `components/hero-visual.tsx`; styling is in `app/globals.css`. `lib/opening-motion.ts` controls the cover; `lib/book-motion.ts` controls page turns, history, focus, gesture ownership and motion preferences. `components/page-motion.tsx` installs and cleans up both.
 
 ## Preview and publication
 
@@ -34,7 +31,7 @@ KeepRI addresses the need for people to assess evidence, evaluate AI recommendat
 
 Public status is closed beta. Global leaderboards, tournaments, funded cash-prize events, and research programs are in development. Research enrollment is inactive. Free practice requires no research participation. Cash-prize entry would require explicit agreement to research collection and commercial use before competing. The website has no signup, analytics, installation, or data-upload endpoint.
 
-The intro resets on every load or reload. One upward swipe, downward wheel gesture, cue click or entry key starts a continuous 2.35-second sequence: the reasoning phrase clears into the KeepRI name, the name holds briefly, and the paper opens upward onto the main page. There are no intermediate input gates or hidden settling delays. Repeated gestures cannot restart or skip the sequence. Text stays at its natural size and position; only peripheral language moves. Skip and Escape exit immediately. Reduced motion enters immediately after the same single input. Completion removes the overlay, so reverse scrolling cannot return to it. Header and section labels read Industry. The hero uses independent columns with a 40–80px gutter and stacks below 960px; both carousel views retain a shared height.
+The intro resets on every load or reload. One upward swipe, downward wheel gesture, cue click or entry key starts a continuous 2.35-second sequence: the KeepRI name clears into “Keep reasoning independently,” the phrase holds briefly, and the paper opens upward onto the main page. There are no intermediate input gates or hidden settling delays. Repeated gestures cannot restart or skip the sequence. Text stays at its natural size and position; only the 24 peripheral reasoning and learning terms move. Skip and Escape exit immediately. Reduced motion enters immediately after the same single input. Completion removes the overlay, so reverse scrolling cannot return to it. Header and section labels read Industry. The hero uses independent columns with a 40–80px gutter and stacks below 960px; both carousel views retain a shared height and their own bordered panel. Flowchart arrows occupy normal-flow rows between bordered nodes.
 
 The heading font is preloaded through Vite's asset URL so it matches the stylesheet's hashed font request. Tailwind scans app code, top-level website components, and the three used UI primitives (button, carousel, tabs). Add any newly used UI primitive to these sources in app/globals.css. This avoids shipping styles for the entire unused component catalog.
 
@@ -47,3 +44,7 @@ The existing main headline, dot-free RI wordmark, original philosophy and indust
 Use concise, professional copy without em dashes. Do not restore game screenshots, personal biographies/contact details, invented results, or active prize offers.
 
 See [DESIGN.md](DESIGN.md), [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md), and [ASSET-PROVENANCE.md](ASSET-PROVENANCE.md). Virio informed earlier motion research; the current owner direction supersedes the literal reproduction and earlier `.tastemaker/` layout restrictions.
+
+The book keeps all three pages mounted and retains each scroll position. Inactive pages are hidden and inert. Header links and browser Back/Forward navigate the same pages; the cover is never a backward destination. Diagram and philosophy-card swipes stay within their respective carousels. Reduced motion or Pause motion makes book navigation immediate. Without JavaScript, the content remains a normal stacked document; print also exposes all three pages.
+
+After `npm run prepare:pages`, `npm run test:book` launches an isolated Chrome profile and local static server for the production browser regression suite. No browser automation dependency is installed. On systems without Chrome at the standard macOS path, set `CHROME_PATH`; `BOOK_REVIEW_DIR` controls the report/screenshot directory (default: system temporary directory / `keepri-book-review`).

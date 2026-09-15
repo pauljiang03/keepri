@@ -3,7 +3,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { peelGeometry } from './peel-geometry';
 
-export function installOpeningMotion() {
+export function installOpeningMotion(
+  bookNavigate?: (
+    hash: string,
+    immediate?: boolean,
+    focus?: boolean,
+  ) => boolean,
+) {
   const root = document.documentElement;
   const overlay = document.querySelector<HTMLElement>('.intro-overlay')!;
   const paper = document.querySelector<HTMLElement>('.opening-layer')!;
@@ -17,7 +23,7 @@ export function installOpeningMotion() {
   const previousRestoration = history.scrollRestoration;
   const blocked = [
     ...document.querySelectorAll<HTMLElement>(
-      '.site-header, .hero-layer, #main, .site-footer',
+      '.site-header, .hero-layer, #main, .site-footer, .book-navigation',
     ),
   ];
   let done = false;
@@ -68,6 +74,7 @@ export function installOpeningMotion() {
   const destinationFor = (hash: string) =>
     document.getElementById(hash === '#experience' ? 'thesis' : hash.slice(1));
   const navigateTo = (hash: string, immediate = false, focus = true) => {
+    if (bookNavigate?.(hash, immediate, focus)) return;
     const destination = destinationFor(hash);
     if (!destination) return;
     lenis.scrollTo(hash === '#site' || hash === '#top' ? 0 : destination, {
@@ -102,8 +109,8 @@ export function installOpeningMotion() {
   };
   let timeline: gsap.core.Timeline;
   const context = gsap.context(() => {
-    gsap.set('.opening-wordmark', { opacity: 0 });
-    // One input owns the entire entry: reasoning, the name, then the page.
+    gsap.set('.opening-thesis', { opacity: 0 });
+    // One input owns the entire entry: the name, its meaning, then the page.
     // Repeated input cannot seek, restart or skip any part of this timeline.
     timeline = gsap.timeline({ paused: true, onComplete: () => finish() });
     timeline
@@ -129,18 +136,18 @@ export function installOpeningMotion() {
         0,
       )
       .to(
-        '.opening-thesis',
+        '.opening-wordmark',
         { opacity: 0, duration: 0.35, ease: 'power2.inOut' },
         0.45,
       )
       .to(
-        '.opening-wordmark',
+        '.opening-thesis',
         {
           opacity: 1,
           duration: 0.55,
           ease: 'power2.out',
           onStart: () => {
-            overlay.dataset.step = 'name';
+            overlay.dataset.step = 'meaning';
           },
         },
         0.65,
@@ -186,6 +193,7 @@ export function installOpeningMotion() {
     if (!hash || !destinationFor(hash)) return;
     event.preventDefault();
     if (!done) finish(false, true);
+    if (bookNavigate?.(hash)) return;
     history.replaceState(
       null,
       '',
@@ -270,7 +278,7 @@ export function installOpeningMotion() {
   };
   const hashChange = () => {
     // Hash changes are navigation, not permission to skip an active intro.
-    if (done) navigateTo(location.hash);
+    if (done) navigateTo(location.hash || '#site');
   };
   const pageShow = (event: PageTransitionEvent) => {
     // BFCache restores the completed document; only real loads replay it.

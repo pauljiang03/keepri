@@ -55,105 +55,109 @@ export function SiteHeader() {
 
 export function OpeningHero() {
   return (
-    <section
-      className="opening"
+    <div
+      className="intro-overlay"
       id="top"
-      aria-label="Keep reasoning independently"
+      data-step="idle"
+      aria-label="KeepRI introduction"
     >
-      <div className="opening-stage">
-        <div
-          className="intro-overlay"
-          data-step="idle"
-          aria-label="KeepRI introduction"
-        >
-          <div className="opening-layer" aria-hidden="true">
-            <div className="opening-content">
-              <div className="opening-language">
-                {[
-                  'Ask. Try. Reconsider.',
-                  'Look closer. Test again.',
-                  'Question. Check. Revise.',
-                  'Think it through.',
-                ].map((line) => (
-                  <div className="opening-line" key={line}>
-                    {line}
-                  </div>
+      <div className="opening-layer" aria-hidden="true">
+        <div className="opening-content">
+          <div className="opening-language">
+            {[
+              ['Evidence', 'Assumptions', 'Inference'],
+              ['Patterns', 'Exceptions', 'Counterexamples'],
+              ['Probability', 'Estimation', 'Uncertainty'],
+              ['Premises', 'Conclusions', 'Proof'],
+              ['Strategy', 'Constraints', 'Tradeoffs'],
+              ['Feedback', 'Revision', 'Error'],
+              ['Recall', 'Transfer', 'Understanding'],
+              ['Judgment', 'Causality', 'Explanation'],
+            ].map((line) => (
+              <div className="opening-line" key={line[0]}>
+                {line.map((word) => (
+                  <span key={word}>{word}</span>
                 ))}
               </div>
-              <span className="opening-wordmark">
-                <Wordmark />
+            ))}
+          </div>
+          <span className="opening-wordmark">
+            <Wordmark />
+          </span>
+          <div className="opening-thesis">
+            {['Keep', 'Reasoning', 'Independently'].map((word) => (
+              <span className="opening-thesis-word" key={word}>
+                {word}
               </span>
-              <div className="opening-thesis">
-                {['Keep', 'Reasoning', 'Independently'].map((word) => (
-                  <span className="opening-thesis-word" key={word}>
-                    {word}
-                  </span>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
-          <div className="peel-surface" aria-hidden="true">
-            <div className="peel-fold" />
-          </div>
-          <a className="intro-skip" href="#site">
-            Skip intro
-          </a>
-          <button className="scroll-cue" type="button">
-            <span className="intro-cue-label" aria-live="polite">
-              Scroll to begin
-            </span>
-            <span className="chevrons">
-              <ArrowUp size={16} aria-hidden="true" />
-            </span>
-          </button>
-        </div>
-        <div className="hero-layer" id="site" tabIndex={-1}>
-          <section className="hero" aria-labelledby="hero-title">
-            <div className="hero-main shell">
-              <div className="hero-content">
-                <h1 id="hero-title">
-                  Independent thought.
-                  <br />
-                  <span>In the age of AI.</span>
-                </h1>
-                <p>
-                  KeepRI brings learning and competition together to strengthen
-                  independent judgment.
-                </p>
-                <a className="hero-link" href="#thesis">
-                  <span>Our philosophies</span>
-                  <ArrowUpRight size={20} />
-                </a>
-              </div>
-              <HeroVisual />
-            </div>
-            <div className="hero-vision shell">
-              <div className="hero-vision-heading">
-                <span>The vision</span>
-                <span>In development</span>
-              </div>
-              <div className="hero-vision-grid">
-                <div>
-                  <span className="vision-index">01</span>
-                  <h2>Global leaderboards</h2>
-                  <p>Compete with a worldwide community.</p>
-                </div>
-                <div>
-                  <span className="vision-index">02</span>
-                  <h2>Significant prizes</h2>
-                  <p>Rewards for learning and competition.</p>
-                </div>
-                <div>
-                  <span className="vision-index">03</span>
-                  <h2>Human learning data</h2>
-                  <p>AI research with separate consent.</p>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
       </div>
-    </section>
+      <div className="peel-surface" aria-hidden="true">
+        <div className="peel-fold" />
+      </div>
+      <a className="intro-skip" href="#site">
+        Skip intro
+      </a>
+      <button className="scroll-cue" type="button">
+        <span className="intro-cue-label" aria-live="polite">
+          Scroll to begin
+        </span>
+        <span className="chevrons">
+          <ArrowUp size={16} aria-hidden="true" />
+        </span>
+      </button>
+    </div>
+  );
+}
+
+export function MainHero() {
+  return (
+    <div className="hero-layer" id="site" tabIndex={-1}>
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero-main shell">
+          <div className="hero-content">
+            <h1 id="hero-title">
+              Independent thought.
+              <br />
+              <span>In the age of AI.</span>
+            </h1>
+            <p>
+              KeepRI brings learning and competition together to strengthen
+              independent judgment.
+            </p>
+            <a className="hero-link" href="#thesis">
+              <span>Our philosophies</span>
+              <ArrowUpRight size={20} />
+            </a>
+          </div>
+          <HeroVisual />
+        </div>
+        <div className="hero-vision shell">
+          <div className="hero-vision-heading">
+            <span>The vision</span>
+            <span>In development</span>
+          </div>
+          <div className="hero-vision-grid">
+            <div>
+              <span className="vision-index">01</span>
+              <h2>Global leaderboards</h2>
+              <p>Compete with a worldwide community.</p>
+            </div>
+            <div>
+              <span className="vision-index">02</span>
+              <h2>Significant prizes</h2>
+              <p>Rewards for learning and competition.</p>
+            </div>
+            <div>
+              <span className="vision-index">03</span>
+              <h2>Human learning data</h2>
+              <p>AI research with separate consent.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 

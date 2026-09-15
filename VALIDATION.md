@@ -1,5 +1,17 @@
 # Website validation
 
+## Reversible book, name-first intro and bounded model, September 15
+
+KeepRI, Philosophies and Industry are now three mounted book pages with reversible 620ms turns. This revision also puts the name before its meaning in the cover, expands the background to 24 specific reasoning terms, and encloses diagram and explanation in separate bordered panels. Diagram arrows occupy their own rows, with no box intersections. All implementation is in the established React/Vinext source; no runtime dependency or external artwork was added.
+
+All 18 opening lifecycle/geometry tests, typecheck, focused lint, production export and 28 static asset/anchor checks pass. The full-repository lint limitation in the earlier section remains: pre-existing findings in unrelated components/ui files have not been suppressed. Browser regressions are now retained in scripts/test-book-browser.mjs and run with npm run test:book against generated docs, using an isolated Chrome profile and a temporary static server. CHROME_PATH, BOOK_REVIEW_DIR and optional BOOK_VIEW configure the executable, artifacts and selected viewports.
+
+Browser verification covers 1440×900, 768×1024, 1010×780, 375×812, 320×568 and 844×390. The page-turn journey checks both directions, disabled end controls, rapid repeated input, hidden/inert inactive pages, focus, saved scroll positions, header links, Back/Forward, reload and deep-link restoration after the intro. Existing intro wheel/touch/keyboard and reduced-motion checks are retained. The model carousel retains headline position and hero height; both panels have visible borders and zero node/arrow intersections. A compact desktop refinement gives the figure 25px of clearance above the controls at 1010×780. Intro, meaning, main, funding, philosophy, industry and mid-turn screenshots were visually reviewed. Final native wheel scrolling, horizontal book swipes, independent philosophy-card and diagram gestures, resize settlement, reduced-motion book navigation and no-JavaScript fallback checks pass, with no runtime exceptions. Physical touch hardware was not tested.
+
+Three full standard Lighthouse audits of the book build, served with gzip, produced medians of performance 93, accessibility 100, best practices 100 and SEO 100; LCP 2,639ms, CLS 0.073 and TBT 0ms. The 2,500ms LCP skill threshold is still missed by 139ms; this remains an explicit performance exception, not a passing complete gate. These audits preceded the final short-desktop padding and native-touch CSS refinements, which were checked in the browser. No field-performance claim is made. Raw Lighthouse reports and browser artifacts are in /private/tmp/keepri-book-review/; the initial full-size run also used the default system temporary review directory. No audit dependency was added to the repository.
+
+Earlier validation sections below describe prior revisions.
+
 ## Continuous intro and main-page spacing, September 15
 
 The rejected ready-cue behavior was reproduced on the public site: the cue advertised a next action while the hidden 400ms settling interval ignored it. The replacement uses one continuous 2.35-second entry and no intermediate input gates. Both Industry labels are updated. The hero uses a clear gutter, aligned column tops and a stacked figure below 960px.

@@ -1,5 +1,19 @@
 # KeepRI motion verification
 
+## Book navigation contract
+
+Forward turns rotate the outgoing sheet from 0 to −100 degrees about its left edge; backward turns restore the incoming sheet from −100 to 0 degrees. Each turn lasts 620ms. Controls are disabled while turning; repeated inputs cannot queue several turns. Resize and a change to reduced/paused motion settle the current turn. Each page retains its own vertical scroll position and mounted carousel state.
+
+The intro remains a separate 2.35-second name → meaning → upward-peel sequence. It replays after reload and never becomes a backward book destination. Header hashes and browser history route through the book controller. Focus moves to the destination section after settlement; inactive sheets remain inert and hidden. Arrow-key handling excludes controls and nested carousels. Horizontal touch gestures exclude diagram and philosophy rails; vertical gestures preserve native reading scroll.
+
+Production browser coverage is recorded in VALIDATION.md. The reusable regression command is npm run test:book; it uses a temporary isolated Chrome profile and no added project dependency.
+
+## Name-first order and diagram arrow clearance
+
+The timing remains 2.35 seconds. KeepRI is visible initially; the wordmark fades out at 0.45s and the full phrase fades in from 0.65–1.20s before the 1.55s upward handoff. CSS and JS both initialize the same name-first state, including reduced motion. The lifecycle regression now checks the swapped order. Twenty-four background terms move only as eight rows.
+
+The diagram now uses normal-flow SVG arrows in separate rows and has no negative-position arrow pseudo-elements. Each carousel view has a bordered panel. Browser verification for this revision is recorded in VALIDATION.md; older records below describe earlier revisions.
+
 ## Continuous sequence, September 15
 
 A real browser reproduced the rejected interaction: at the old visibly-ready cue, a click still failed during the hidden 400ms settling interval. The replacement has one paused timeline and one start action. Repeated input cannot seek or restart it. The peripheral language fades over 0.85s, the thesis fades at 0.45s, the name appears from 0.65–1.20s, and the upward handoff runs from 1.55–2.35s. The name is stationary and readable before the paper opens. Reduced motion finishes immediately after input; changing preference during playback also completes safely.

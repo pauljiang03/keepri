@@ -1,5 +1,19 @@
 # KeepRI website design
 
+## Reversible book pages, September 15
+
+Visual thesis: a restrained editorial book, with a persistent masthead and page controls framing one readable sheet. KeepRI, Philosophies and Industry turn around a left-hand spine in 620ms; the reverse turn brings the preceding sheet back over the current one. A subtle shadow supplies depth. Page typography is never individually scaled or distorted. The intro remains an independent opening cover.
+
+Each sheet has native vertical scrolling and keeps its place on return. The page controls stay visible without consuming content space or changing the headline layout. Arrows and horizontal touch swipes supplement the controls; nested carousels retain ownership of their gestures. Previous is disabled on the first page, Next on the last. A shorter desktop layout keeps the complete business-model panel above the controls at 1010×780.
+
+The existing React/Vinext static stack and source-to-docs publication pipeline remain in place. CSS perspective and the browser Web Animations API implement the turn; no new runtime package or third-party page-flip source was added. The former window-scroll reveals were removed because each section is now its own reading page. Reduced motion is immediate, hidden pages are inert, and no-JavaScript and print views retain a stacked document.
+
+## Name first and bounded model panels
+
+The cover begins with the KeepRI wordmark. One input crossfades it into Keep reasoning independently before the existing upward handoff. Eight peripheral rows contain 24 specific reasoning/learning terms instead of four imperative slogans. Their typography is smaller, with a clear central area and a reduced four-row arrangement in short landscape viewports.
+
+The diagram and explanatory text each sit within their own bordered, padded panel. Every arrow between diagram nodes is an actual SVG in a separate layout row. The old overlapping pseudo-element connectors and outside return line are removed. Nodes have complete borders, and both panels keep their shared height during horizontal navigation. Earlier descriptions below are historical.
+
 ## Continuous entry and stable hero, September 15
 
 Visual thesis: a calm typographic sequence moves from independent reasoning to the KeepRI identity, then directly into the product story. The direction is deliberate, legible and continuous; the anti-goal is a series of effects that requires visitors to discover hidden input gates. The primary archetype remains product marketing with an editorial expression and a split narrative. The main action is to read the philosophies and planned business model, with development status serving as transparent process information.

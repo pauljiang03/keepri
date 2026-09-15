@@ -1,13 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import {
-  ArrowDown,
-  ArrowUp,
-  ArrowLeft,
-  ArrowRight,
-  CornerUpLeft,
-} from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, CornerUpLeft } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -90,93 +84,127 @@ export function HeroVisual() {
       >
         <CarouselContent className="model-track">
           <CarouselItem className="model-slide" aria-label="1 of 2: Diagram">
-            <div className="model-circuit">
-              <div className="model-game">
-                <span className="model-label">01 / Free play</span>
-                <h3>Play different games.</h3>
-                <p>Free practice. New weekly challenges.</p>
-              </div>
-              <div className="model-branches">
-                <section
-                  className="model-lane model-competition"
-                  aria-labelledby="competition-path"
-                >
-                  <h3 id="competition-path">Competition</h3>
-                  <ol>
-                    <li>
-                      <h4>Leaderboards</h4>
-                    </li>
-                    <li>
-                      <h4>Cash-prize entry</h4>
-                    </li>
-                    <li>
-                      <h4>Verified awards</h4>
-                    </li>
-                  </ol>
-                  <div className="model-return">
-                    <CornerUpLeft size={16} aria-hidden="true" /> Back to the
-                    games
+            <div className="model-panel">
+              <div className="model-circuit">
+                <div className="model-game">
+                  <span className="model-label">01 / Free play</span>
+                  <h3>Play different games.</h3>
+                  <p>Free practice. New weekly challenges.</p>
+                </div>
+                <div className="model-branches">
+                  <section
+                    className="model-lane model-competition"
+                    aria-labelledby="competition-path"
+                  >
+                    <ArrowDown
+                      className="model-entry-arrow"
+                      size={16}
+                      aria-hidden="true"
+                    />
+                    <h3 id="competition-path">Competition</h3>
+                    <ol>
+                      <li>
+                        <h4>Leaderboards</h4>
+                        <ArrowDown
+                          className="model-step-arrow"
+                          size={14}
+                          aria-hidden="true"
+                        />
+                      </li>
+                      <li>
+                        <h4>Cash-prize entry</h4>
+                        <ArrowDown
+                          className="model-step-arrow"
+                          size={14}
+                          aria-hidden="true"
+                        />
+                      </li>
+                      <li>
+                        <h4>Verified awards</h4>
+                      </li>
+                    </ol>
+                    <div className="model-return">
+                      <CornerUpLeft size={16} aria-hidden="true" /> Back to the
+                      games
+                    </div>
+                  </section>
+                  <section
+                    className="model-lane model-research"
+                    aria-labelledby="research-path"
+                  >
+                    <ArrowDown
+                      className="model-entry-arrow"
+                      size={16}
+                      aria-hidden="true"
+                    />
+                    <h3 id="research-path">Prize-play research</h3>
+                    <ol>
+                      <li>
+                        <h4>Prize-entry agreement</h4>
+                        <ArrowDown
+                          className="model-step-arrow"
+                          size={14}
+                          aria-hidden="true"
+                        />
+                      </li>
+                      <li>
+                        <h4>Learning records</h4>
+                        <ArrowDown
+                          className="model-step-arrow"
+                          size={14}
+                          aria-hidden="true"
+                        />
+                      </li>
+                      <li>
+                        <h4>AI teams pay</h4>
+                      </li>
+                    </ol>
+                    <div className="model-revenue">
+                      <ArrowDown size={16} aria-hidden="true" /> Research
+                      revenue
+                    </div>
+                  </section>
+                </div>
+                <div className="model-reinvestment">
+                  <div>
+                    <h3>Fund the next round.</h3>
+                    <p>Free access, new games and significant prizes.</p>
                   </div>
-                </section>
-                <section
-                  className="model-lane model-research"
-                  aria-labelledby="research-path"
-                >
-                  <h3 id="research-path">Prize-play research</h3>
-                  <ol>
-                    <li>
-                      <h4>Prize-entry agreement</h4>
-                    </li>
-                    <li>
-                      <h4>Learning records</h4>
-                    </li>
-                    <li>
-                      <h4>AI teams pay</h4>
-                    </li>
-                  </ol>
-                  <div className="model-revenue">
-                    <ArrowDown size={16} aria-hidden="true" /> Research revenue
-                  </div>
-                </section>
-              </div>
-              <div className="model-reinvestment">
-                <ArrowUp size={18} aria-hidden="true" />
-                <div>
-                  <h3>Fund the next round.</h3>
-                  <p>Free access, new games and significant prizes.</p>
                 </div>
               </div>
+              <p className="model-choice">
+                Cash-prize entry requires research agreement. Free practice
+                stays separate.
+              </p>
             </div>
-            <p className="model-choice">
-              Cash-prize entry requires research agreement. Free practice stays
-              separate.
-            </p>
           </CarouselItem>
           <CarouselItem
-            className="model-slide model-copy"
+            className="model-slide"
             aria-label="2 of 2: Research and funding"
           >
-            <h3>Research &amp; funding</h3>
-            <p>
-              Free practice requires no research participation. Cash-prize entry
-              would require agreement to research data collection and commercial
-              use.
-            </p>
-            <p>
-              AI teams would commission studies and license quality-checked
-              learning records, game environments and human evaluations. Their
-              questions would guide new games. Identity and prize-payment
-              details would stay separate from research deliveries.
-            </p>
-            <p>
-              Initial funding and event sponsorship would support early
-              competitions. Research revenue would fund free access, new games,
-              operations and prizes.
-            </p>
-            <p className="model-status">
-              Research enrollment is not active. Cash-prize events are in
-              development.
-            </p>
+            <div className="model-panel model-copy">
+              <h3>Research &amp; funding</h3>
+              <p>
+                Free practice requires no research participation. Cash-prize
+                entry would require agreement to research data collection and
+                commercial use.
+              </p>
+              <p>
+                AI teams would commission studies and license quality-checked
+                learning records, game environments and human evaluations. Their
+                questions would guide new games. Identity and prize-payment
+                details would stay separate from research deliveries.
+              </p>
+              <p>
+                Initial funding and event sponsorship would support early
+                competitions. Research revenue would fund free access, new
+                games, operations and prizes.
+              </p>
+              <p className="model-status">
+                Research enrollment is not active. Cash-prize events are in
+                development.
+              </p>
+            </div>
           </CarouselItem>
         </CarouselContent>
         <fieldset className="model-switch">

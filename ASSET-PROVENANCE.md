@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Authored book navigation and bounded panels
+
+The book navigation, page shading, arrow layout and 24 peripheral reasoning terms are authored in this repository. Page turns use CSS perspective and the browser Web Animations API. Small arrow icons use the existing Lucide dependency. No page-flip library, reference-site source, visual artwork or new font was imported. Existing runtime notices remain retained.
+
 ## Continuous typographic intro, September 15
 
 The user requested [Virio](https://www.virio.ai/) as a motion reference and the [build-polished-websites skill](https://github.com/denfry/build-polished-websites/blob/main/build-polished-websites/SKILL.md). Virio was observed in a browser to understand its gradual change of focus. The KeepRI implementation uses its own short reasoning phrases, existing DM Sans, wordmark, color system, GSAP timeline and authored paper reveal. No Virio tiles, brand marks, proprietary fonts, copy or implementation were imported. The skill was read as workflow guidance; no new runtime dependency or visual asset was added.

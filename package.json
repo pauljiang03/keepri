@@ -14,6 +14,7 @@
     "build:pages": "PAGES_BASE_PATH=/keepri npm run build",
     "typecheck": "tsc --noEmit",
     "test:simulation": "node --test scripts/test-simulation.mjs",
+    "test:book": "node scripts/test-book-browser.mjs",
     "test:opening": "node --test scripts/test-opening.mjs",
     "check:static": "node scripts/check-static.mjs",
     "stage:pages": "npm run build && npm run check:static && node scripts/stage-pages.mjs",

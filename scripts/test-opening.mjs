@@ -287,15 +287,20 @@ test('rapid clicks, wheel bursts and held keys cannot restart or skip the entry'
   assert.equal(env.timeline.plays, 1);
   env.cleanup();
 });
-test('name is revealed and given reading time before the upward handoff', () => {
+test('the meaning follows the name with reading time before the upward handoff', () => {
   const env = setup();
-  const name = env.timeline.steps.find((s) => s.target === '.opening-wordmark');
+  const name = env.timeline.steps.find((s) => s.target === '.opening-thesis');
+  const initial = env.timeline.steps.find(
+    (s) => s.target === '.opening-wordmark',
+  );
+  assert.equal(initial.values.opacity, 0);
+  assert(initial.at < name.at);
   const peel = env.timeline.steps.find((s) => s.values.onUpdate);
   assert(name.at >= 0.5);
   assert(peel.at - name.at - name.values.duration >= 0.3);
   assert(peel.at + peel.values.duration <= 2.5);
   name.values.onStart();
-  assert.equal(env.elements['.intro-overlay'].dataset.step, 'name');
+  assert.equal(env.elements['.intro-overlay'].dataset.step, 'meaning');
   peel.values.onStart();
   assert.equal(env.elements['.intro-overlay'].dataset.step, 'entering');
   env.cleanup();
