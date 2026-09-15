@@ -1,5 +1,15 @@
 # KeepRI asset provenance
 
+## Viewport pages and rigid page flips
+
+The new static page layout, compact workflow and shared whole-sheet page transform are authored locally. Original philosophy, funding and Industry prose is distributed across pages. Small diagram arrows still use Lucide. No page-flip source, new asset or runtime package was imported; existing license notices remain retained.
+
+Earlier sections below describe previous revisions.
+
+## Logic vocabulary
+
+The intro background uses standard logic terminology selected and arranged locally. No external copy, visual asset or dependency was added.
+
 ## Formal-methods terminology and matching peels
 
 The 60 background terms are standard formal-methods vocabulary selected and arranged locally. This revision introduces no quotations, external artwork, new fonts or runtime dependencies. The bottom-up page animation reuses KeepRI’s existing authored peel geometry through the browser Web Animations API; the green/gold cover and curl gradients are local CSS.

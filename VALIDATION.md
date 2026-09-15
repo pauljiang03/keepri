@@ -1,5 +1,17 @@
 # Website validation
 
+## Viewport pages, gesture navigation and gathered-word intro, September 15
+
+The site now presents thirteen viewport-sized pages with no bottom bar, Next/Previous controls or internal scrollers. The main headline is centered vertically beside the compact workflow. Original funding, philosophy and Industry content is distributed across pages. Wheel bursts, swipes and keyboard navigation turn the entire sheet with the same 720ms transform used by the intro. The intro now gathers three scattered mission words into the centered phrase at constant dimensions, holds for 0.4 seconds, then flips. Background vocabulary uses 60 logic terms.
+
+Typecheck, focused lint, all 18 opening lifecycle/shared-transform tests, production export and 24 static asset/anchor checks pass. The full-page browser suite exercised all thirteen pages forward and backward across desktop, tablet, awkward-width, mobile, narrow-mobile and landscape layouts. The final layout sweep found zero overflow on all thirteen pages at seven sizes: 1440×900, 768×1024, 1010×780, 375×812, 320×568, 844×390 and 720×450. It checks every visible text range, page scroll dimensions and desktop headline centering. Native internal scrollers and the navigation bar are absent. Main, philosophy, Industry and small/landscape page screenshots were visually reviewed.
+
+Navigation checks passed for wheel momentum (one turn per burst), forward/back touch, repeated keys, first/last-page boundaries, header jumps, browser Back/Forward, reload with a deep link, reduced motion, resize settlement and no-JavaScript fallback. No runtime exceptions were recorded. After the final intro change, an additional six-size run measured every mission word throughout the gathering: widths and heights remain constant, final centers align, and scattered words remain in bounds. Touch entry and immediate reduced-motion entry also passed. Artifacts are retained in /private/tmp/keepri-viewport-review/. Physical-device testing and field performance were not measured.
+
+The no-JavaScript and print fallbacks expose the complete stacked document. The existing unrelated full-repository lint findings in components/ui remain documented below. No new runtime dependency or external asset was added.
+
+Three full Lighthouse runs produced medians of performance 96, accessibility 100, best practices 100 and SEO 100; LCP 2,570ms, CLS 0 and TBT 0ms. The 2,500ms LCP threshold remains missed by 70ms, so the existing performance exception is explicit rather than a complete passing gate. One first run recorded CLS 0.109; the other two recorded zero. These lab reports precede a print-only container reset and make no field-performance claim.
+
 ## Formal-methods intro and bottom-up page turns, September 15
 
 The cover now uses 60 formal-methods terms, a larger cream-and-gold meaning phrase and the same forest-green background as the main page. The masthead no longer fades in over a pale backdrop at the handoff. All page turns now peel from the bottom, using the existing peel geometry and equal opposite translations to keep the content stationary. Going backward restores the preceding page in reverse over 720ms.

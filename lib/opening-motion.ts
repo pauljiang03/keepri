@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { peelGeometry } from './peel-geometry';
+import { pageTurnTransform, PAGE_TURN_DURATION } from './page-turn';
 
 export function installOpeningMotion(
   bookNavigate?: (
@@ -13,8 +13,6 @@ export function installOpeningMotion(
   const root = document.documentElement;
   const overlay = document.querySelector<HTMLElement>('.intro-overlay')!;
   const paper = document.querySelector<HTMLElement>('.opening-layer')!;
-  const content = document.querySelector<HTMLElement>('.opening-content')!;
-  const fold = document.querySelector<HTMLElement>('.peel-fold')!;
   const hero = document.querySelector<HTMLElement>('.hero-layer')!;
   const cue = document.querySelector<HTMLButtonElement>('.scroll-cue')!;
   const cueLabel = document.querySelector<HTMLElement>('.intro-cue-label')!;
@@ -23,13 +21,12 @@ export function installOpeningMotion(
   const previousRestoration = history.scrollRestoration;
   const blocked = [
     ...document.querySelectorAll<HTMLElement>(
-      '.site-header, .hero-layer, #main, .site-footer, .book-navigation',
+      '.site-header, .hero-layer, #main, .site-footer',
     ),
   ];
   let done = false;
   let entering = false;
   let disposed = false;
-  let width = innerWidth;
   let height = innerHeight;
   let refreshFrame = 0;
   const peel = { progress: 0 };
@@ -56,18 +53,24 @@ export function installOpeningMotion(
   lenis.on('scroll', () => ScrollTrigger.update());
 
   const drawPeel = () => {
-    const shape = peelGeometry(width, height, peel.progress);
-    const lift = height - shape.edge;
-    // Counter-translate the contents inside the moving, clipped sheet so the
-    // type remains stationary. The paper and its curl only use transforms.
-    paper.style.transform = `translate3d(0, ${-lift}px, 0)`;
-    content.style.transform = `translate3d(0, ${lift}px, 0)`;
-    fold.style.transform = `translate3d(0, ${-lift}px, 0) scaleY(${shape.curl / height})`;
+    paper.style.transform = pageTurnTransform(peel.progress);
+  };
+  const scatter = () => {
+    const narrow = innerWidth <= 700;
+    const xs = narrow ? [-0.18, 0.13, -0.03] : [-0.24, 0.23, -0.12];
+    const ys = [-0.12, 0.03, 0.16];
+    xs.forEach((x, index) =>
+      gsap.set(`.opening-thesis-word:nth-child(${index + 1})`, {
+        x: innerWidth * x,
+        y: innerHeight * ys[index],
+        opacity: 0.8,
+      }),
+    );
   };
   const resize = () => {
-    width = innerWidth;
     height = innerHeight;
     if (!done) drawPeel();
+    if (!done && !entering) scatter();
   };
   resize();
 
@@ -109,62 +112,48 @@ export function installOpeningMotion(
   };
   let timeline: gsap.core.Timeline;
   const context = gsap.context(() => {
-    gsap.set('.opening-thesis', { opacity: 0 });
-    // One input owns the entire entry: the name, its meaning, then the page.
-    // Repeated input cannot seek, restart or skip any part of this timeline.
     timeline = gsap.timeline({ paused: true, onComplete: () => finish() });
     timeline
-      .to('.scroll-cue', { opacity: 0, duration: 0.2 }, 0)
       .to(
-        '.opening-line:nth-child(odd)',
+        '.opening-line',
         {
-          xPercent: -8,
+          x: (index: number) => innerWidth * (index % 2 ? -0.08 : 0.08),
+          y: (index: number) => ((4.5 - index) * (innerHeight - 160)) / 10,
           opacity: 0,
-          duration: 0.85,
+          duration: 1,
           ease: 'power2.inOut',
         },
         0,
       )
       .to(
-        '.opening-line:nth-child(even)',
+        '.opening-thesis-word',
         {
-          xPercent: 8,
-          opacity: 0,
-          duration: 0.85,
-          ease: 'power2.inOut',
-        },
-        0,
-      )
-      .to(
-        '.opening-wordmark',
-        { opacity: 0, duration: 0.35, ease: 'power2.inOut' },
-        0.45,
-      )
-      .to(
-        '.opening-thesis',
-        {
+          x: 0,
+          y: 0,
           opacity: 1,
-          duration: 0.55,
-          ease: 'power2.out',
+          duration: 1.05,
+          ease: 'power3.inOut',
           onStart: () => {
+            overlay.dataset.step = 'gathering';
+          },
+          onComplete: () => {
             overlay.dataset.step = 'meaning';
           },
         },
-        0.65,
+        0,
       )
-      .to('.intro-skip', { opacity: 0, duration: 0.2 }, 1.55)
       .to(
         peel,
         {
           progress: 1,
-          duration: 0.8,
+          duration: PAGE_TURN_DURATION / 1000,
           ease: 'power2.inOut',
           onStart: () => {
             overlay.dataset.step = 'entering';
           },
           onUpdate: drawPeel,
         },
-        1.55,
+        1.45,
       );
   });
   const advance = () => {
@@ -320,8 +309,7 @@ export function installOpeningMotion(
     });
     overlay.hidden = true;
     paper.style.transform = '';
-    content.style.transform = '';
-    fold.style.transform = '';
+    gsap.set('.opening-thesis-word', { clearProps: 'transform,opacity' });
     delete root.dataset.intro;
     history.scrollRestoration = previousRestoration;
     layout.disconnect();

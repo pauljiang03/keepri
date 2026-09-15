@@ -1,5 +1,17 @@
 # KeepRI motion verification
 
+## Gather, hold, flip
+
+One input starts a 2.17-second sequence: the scattered words gather over 1.05 seconds, the centered phrase holds for 0.4 seconds, then the entire sheet flips over 720ms. Mission-word motion is x/y translation and opacity only; there is no independent scale, font-size change or spin. Repeated inputs cannot restart or skip the sequence. Idle resize recalculates the starting positions. Escape, Skip and reduced motion retain immediate entry. Page-to-page navigation remains the shared 720ms whole-sheet flip.
+
+## One cover, one shared page flip
+
+The intro and book use pageTurnTransform in lib/page-turn.ts: perspective(2800px) rotateX from 0 to -90 degrees about the top edge, over 720ms with power2.inOut. This lifts the bottom edge away and upward as one rigid sheet. Forward turns animate the outgoing sheet; reverse turns restore the incoming preceding sheet. There is no separate content transform, page curl strip or intermediate name/meaning fade.
+
+Every page fills the reading viewport, and all content must fit inside it. Wheel bursts, vertical/horizontal touch swipes and keyboard page/arrow keys turn pages directly. A wheel burst cannot trigger multiple turns, including momentum after an animation completes. Pinch zoom remains available. Header links, history, reduced motion, focus, resize settlement and cleanup retain their previous contracts. The first page never returns to the intro. The production browser suite inspects text bounds on every page, confirms zero internal scrollers and verifies both navigation directions.
+
+Earlier sections below describe previous revisions.
+
 ## Bottom-up page peels
 
 The intro remains a one-input name → meaning → upward-peel sequence. Its forest background matches the main page, and the masthead has no delayed opacity transition. The phrase has larger natural typography, cream and gold contrast, and opacity-only entrance motion. Sixty formal-methods terms fill ten background rows.

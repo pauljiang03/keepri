@@ -1,5 +1,21 @@
 # KeepRI website design
 
+## Words gather into the mission
+
+The cover now starts as a scattered word field. The three destination words travel into the centered Keep / Reasoning / Independently phrase while the surrounding logic terms gather and clear. Natural word size is preserved throughout. After a short hold, the cover uses the same whole-page flip as the rest of the site. All viewport-only pages and the centered main headline remain unchanged.
+
+## Full-viewport publication with direct page flips
+
+The owner requested a complete page in each view, with no bottom bar, Next/Previous controls or internal scrolling. The site now has thirteen compact pages: main headline plus workflow, two funding pages, six original philosophy statements, three Industry pages and the vision. Funding and research detail is preserved through pagination, not hidden in overflow. The main headline block is centered vertically beside the diagram. Narrow screens use a compact stacked main page and responsive text sizing.
+
+The cover shows the name and meaning together over logic vocabulary. One input immediately flips the entire cover upward. Every section transition uses the same 720ms whole-sheet rotation and power2.inOut easing. A simple 3D transform replaces the scrolling clipping sheet and gradient fold strip. No text element is animated independently. Scrolling or swiping turns pages in either direction; header links jump to chapters. There are no visible page-navigation controls or persistent bottom furniture. The no-JavaScript and print fallbacks remain stacked documents.
+
+Earlier sections below describe previous revisions.
+
+## Logic vocabulary
+
+The intro background now uses 60 terms from logic: premises and conclusions, deduction and induction, validity and soundness, connectives, quantifiers, proof forms and logical systems. The dark palette, typography, spacing and bottom-up motion are unchanged.
+
 ## Formal-methods cover and bottom-edge peels
 
 The cover now shares the main page’s forest-green background. Ten rows distribute 60 formal-methods terms across the viewport in restrained monospace type, with a soft central mask preserving the wordmark’s space. The meaning uses larger cream type and a gold Reasoning line, with no scaling, spinning or per-letter effects. The header no longer fades in over a pale body after the cover disappears; it is already rendered beneath the peeling cover.

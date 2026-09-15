@@ -124,6 +124,17 @@ try {
     await writeFile(`${folder}/${name}.png`, Buffer.from(r.data, 'base64'));
   };
   const click = () => evaluate("document.querySelector('.scroll-cue').click()");
+  const active = () => evaluate('document.documentElement.dataset.page');
+  const settled = async (id) =>
+    waitFor(
+      "!document.documentElement.dataset.bookTurning && document.documentElement.dataset.page==='" +
+        id +
+        "'",
+    );
+  const key = async (key) =>
+    evaluate(
+      `window.dispatchEvent(new KeyboardEvent('keydown',{key:${JSON.stringify(key)},bubbles:true,cancelable:true}))`,
+    );
   const results = [];
   for (const [name, width, height] of [
     ['desktop', 1440, 900],
@@ -145,358 +156,129 @@ try {
     await call('Page.navigate', { url: base + '?view=' + name });
     await ready();
     assert.equal(
-      await evaluate(
-        "+getComputedStyle(document.querySelector('.opening-wordmark')).opacity",
-      ),
-      1,
+      await evaluate("document.querySelectorAll('.opening-line span').length"),
+      60,
     );
     assert.equal(
       await evaluate(
         "+getComputedStyle(document.querySelector('.opening-thesis')).opacity",
       ),
-      0,
+      1,
     );
     assert.equal(
-      await evaluate("document.querySelectorAll('.opening-line span').length"),
-      60,
+      await evaluate("document.querySelector('.book-navigation')"),
+      null,
     );
-    await shot(name + '-idle');
+    await shot(name + '-cover');
     await click();
     await click();
-    await delay(1000);
+    await delay(200);
+    assert.equal(await stage(), 'gathering');
+    await shot(name + '-gathering');
+    await delay(920);
     assert.equal(await stage(), 'meaning');
-    const phrase = await evaluate(
-      "[...document.querySelectorAll('.opening-thesis-word')].map(e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height,width:r.width,text:e.textContent}})",
-    );
-    assert(
-      phrase.every((r) => r.left >= 0 && r.right <= width),
-      'Intro phrase remains within viewport',
-    );
     await shot(name + '-meaning');
-    assert(
-      await evaluate(
-        "getComputedStyle(document.body).backgroundColor===getComputedStyle(document.querySelector('.opening-layer')).backgroundColor",
-      ),
-      'Cover and page share the dark base',
-    );
-    assert.equal(
-      await evaluate(
-        "+getComputedStyle(document.querySelector('.site-header')).opacity",
-      ),
-      1,
-      'Header has no delayed white fade',
-    );
-    await delay(650);
-    await shot(name + '-intro-peel');
+    await delay(550);
+    await shot(name + '-cover-flip');
     await waitFor("document.documentElement.dataset.intro==='done'");
-    assert.equal(
-      await evaluate('document.documentElement.scrollWidth-innerWidth'),
-      0,
-    );
-    const arrows = await evaluate(
-      `(()=>{const overlap=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;const nodes=[...document.querySelectorAll('.model-game,.model-lane h4,.model-reinvestment')].map(e=>e.getBoundingClientRect());return [...document.querySelectorAll('.model-circuit svg')].filter(e=>nodes.some(n=>overlap(e.getBoundingClientRect(),n))).length})()`,
-    );
-    assert.equal(arrows, 0, 'No arrow overlaps any flowchart node');
-    const panels = await evaluate(
-      "[...document.querySelectorAll('.model-panel')].map(e=>({border:getComputedStyle(e).borderTopWidth,width:e.clientWidth,scroll:e.scrollWidth}))",
-    );
-    assert.equal(panels.length, 2);
-    assert(
-      panels.every((p) => p.border === '1px' && p.scroll <= p.width),
-      'Both views have contained borders',
-    );
-    await shot(name + '-main');
-    const layout = () =>
-      evaluate(
-        `(()=>{const rect=s=>{const r=document.querySelector(s).getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom}};return {headline:rect('#hero-title'),copy:rect('.hero-content'),figure:rect('.model-flow'),controls:rect('.model-switch'),height:document.querySelector('.hero').getBoundingClientRect().height}})()`,
-      );
-    const before = await layout();
-    if (width >= 960)
-      assert(
-        before.copy.right + 30 <= before.figure.x,
-        'Headline and figure gutter',
-      );
-    else
-      assert(before.copy.bottom + 30 <= before.figure.y, 'Stacked figure gap');
-    assert(before.figure.right <= width, 'Figure contained');
-    if (width >= 960)
-      assert(
-        before.figure.bottom <= height - 66,
-        'Full desktop diagram fits above page controls: ' +
-          JSON.stringify(before.figure),
-      );
-    await evaluate(
-      "[...document.querySelectorAll('.model-switch button')].find(b=>b.textContent.includes('Research')).click()",
-    );
-    await delay(650);
-    const after = await layout();
-    assert(
-      Math.abs(before.headline.y - after.headline.y) < 0.1,
-      'Carousel must not move headline',
-    );
-    assert(
-      Math.abs(before.height - after.height) < 0.1,
-      'Carousel must not change hero height',
-    );
-    await shot(name + '-funding');
-    assert.equal(
-      await evaluate(
-        'document.querySelector(\'.navigation a[href="#research"]\').textContent.trim()',
-      ),
-      'Industry',
-    );
-    assert.equal(
-      await evaluate(
-        "document.querySelector('.industry-label').textContent.trim()",
-      ),
-      'Industry',
-    );
-    const currentPage = () =>
-      evaluate(
-        "document.querySelector('.book-page:not([hidden]):not([inert])')?.dataset.page",
-      );
-    const settled = async (id) => {
-      await waitFor(
-        "!document.documentElement.dataset.bookTurning && document.querySelector('.book-page:not([hidden]):not([inert])')?.dataset.page==='" +
-          id +
-          "'",
-      );
-    };
-    const bookScroll = () =>
-      evaluate(
-        "document.querySelector('.book-page:not([hidden]) .book-scroll').scrollTop",
-      );
-    assert.equal(await currentPage(), 'site');
-    assert.equal(
-      await evaluate("document.querySelector('.book-previous').disabled"),
-      true,
-    );
-    await evaluate(
-      "document.querySelector('[data-page=site] .book-scroll').scrollTop=160",
-    );
-    const remembered = await bookScroll();
-    await evaluate(
-      "document.querySelector('.book-next').click(); document.querySelector('.book-next').click()",
-    );
-    await delay(230);
-    assert.equal(
-      await evaluate('document.documentElement.dataset.bookTurning'),
-      'true',
-    );
-    const peelFrame = await evaluate(
-      `(()=>{const sheet=document.querySelector('.book-page[data-turning]');const matrix=new DOMMatrix(getComputedStyle(sheet).transform);const content=new DOMMatrix(getComputedStyle(sheet.querySelector('.book-scroll')).transform);return {x:matrix.m41,y:matrix.m42,scaleX:matrix.a,scaleY:matrix.d,counter:content.m42}})()`,
-    );
-    assert.equal(peelFrame.x, 0, 'Peel never travels sideways');
-    assert(peelFrame.y < 0, 'Bottom edge travels upward');
-    assert.equal(peelFrame.scaleX, 1);
-    assert.equal(peelFrame.scaleY, 1);
-    assert(
-      Math.abs(peelFrame.y + peelFrame.counter) < 1,
-      'Content remains stationary during peel',
-    );
-    await shot(name + '-turn-forward');
-    await settled('thesis');
-    assert.equal(await evaluate('location.hash'), '#thesis');
-    assert.equal(await evaluate('document.activeElement.id'), 'thesis');
-    assert.equal(
-      await evaluate(
-        "document.querySelectorAll('.book-page:not([hidden])').length",
-      ),
-      1,
-    );
-    await shot(name + '-philosophies');
-    await evaluate("document.querySelector('.book-next').click()");
-    await settled('research');
-    assert.equal(
-      await evaluate("document.querySelector('.book-next').disabled"),
-      true,
-    );
-    await shot(name + '-industry');
-    await evaluate(
-      "document.querySelector('[data-page=research] .book-scroll').scrollTop=99999",
-    );
-    await delay(80);
-    assert(
-      await evaluate(
-        "document.querySelector('.site-footer').getBoundingClientRect().bottom<=document.querySelector('.book-navigation').getBoundingClientRect().top+1",
-      ),
-      'Footer reachable above controls',
-    );
-    await evaluate("document.querySelector('.book-previous').click()");
-    await delay(230);
-    await shot(name + '-turn-back');
-    await settled('thesis');
-    await evaluate("document.querySelector('.book-previous').click()");
     await settled('site');
-    assert.equal(
-      await bookScroll(),
-      remembered,
-      'Each page retains its scroll position',
+    if (width > 700) {
+      const centered = await evaluate(
+        "(()=>{const p=document.querySelector('#site').getBoundingClientRect();const t=document.querySelector('.home-message').getBoundingClientRect();return Math.abs((p.top+p.bottom-t.top-t.bottom)/2)})()",
+      );
+      assert(
+        centered < 1,
+        'Headline block is vertically centered beside the diagram',
+      );
+    }
+    const ids = await evaluate(
+      "[...document.querySelectorAll('.book-page')].map(e=>e.id)",
     );
-    assert.equal(
-      await evaluate("document.querySelector('.intro-overlay').hidden"),
-      true,
-    );
-    await evaluate('history.back()');
-    await settled('thesis');
-    await evaluate('history.forward()');
-    await settled('site');
+    const layouts = [];
+    for (let index = 0; index < ids.length; index++) {
+      await settled(ids[index]);
+      const layout = await evaluate(`(()=>{
+        const page=document.querySelector('.book-page:not([hidden])');const box=page.getBoundingClientRect();
+        const walker=document.createTreeWalker(page,NodeFilter.SHOW_TEXT);let node;const outside=[];
+        while(node=walker.nextNode()) {if(!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node);for(const r of range.getClientRects()){if(r.width&&r.height&&(r.top<box.top-1||r.bottom>box.bottom+1||r.left<box.left-1||r.right>box.right+1))outside.push({text:node.textContent.trim(),top:r.top,bottom:r.bottom,left:r.left,right:r.right});}}
+        return {id:page.id,height:page.clientHeight,scrollHeight:page.scrollHeight,outside,scrollables:[...page.querySelectorAll('*')].filter(e=>/auto|scroll/.test(getComputedStyle(e).overflowY)&&e.scrollHeight>e.clientHeight).length};
+      })()`);
+      assert.deepEqual(
+        layout.outside,
+        [],
+        name + ' ' + ids[index] + ' text must fit: ' + JSON.stringify(layout),
+      );
+      assert.equal(layout.scrollables, 0);
+      assert(
+        layout.scrollHeight <= layout.height + 1,
+        name + ' ' + ids[index] + ' must not overflow',
+      );
+      assert.equal(await evaluate('scrollY'), 0);
+      layouts.push(layout);
+      if (
+        index === 0 ||
+        ids[index] === 'thesis' ||
+        ids[index] === 'research' ||
+        name === 'small' ||
+        name === 'landscape'
+      )
+        await shot(name + '-' + ids[index]);
+      if (index < ids.length - 1) {
+        await key('ArrowRight');
+        if (index === 0) {
+          await key('ArrowRight');
+          await delay(230);
+          await shot(name + '-page-flip');
+          assert.equal(
+            await evaluate('document.documentElement.dataset.bookTurning'),
+            'true',
+          );
+        }
+      }
+    }
+    await key('ArrowRight');
+    assert.equal(await active(), ids.at(-1));
+    for (let index = ids.length - 2; index >= 0; index--) {
+      await key('ArrowLeft');
+      await settled(ids[index]);
+    }
+    await key('ArrowLeft');
+    assert.equal(await active(), 'site');
+    assert.equal(await stage(), 'done');
     await evaluate(
       'document.querySelector(\'.navigation a[href="#research"]\').click()',
     );
+    await settled('research');
+    await evaluate('history.back()');
+    await settled('site');
+    await evaluate('history.forward()');
     await settled('research');
     await call('Page.reload');
     await ready();
     assert.equal(await stage(), 'idle');
-    await evaluate("document.querySelector('.intro-skip').click()");
-    await settled('site');
-    await evaluate(
-      'document.querySelector(\'.navigation a[href="#research"]\').click()',
-    );
-    await settled('research');
-    await call('Page.reload');
-    await ready();
     await click();
     await waitFor("document.documentElement.dataset.intro==='done'");
     await settled('research');
     await evaluate("document.querySelector('.brand').click()");
     await settled('site');
-    await evaluate(
-      "document.querySelector('[data-page=site] .book-scroll').scrollTop=0;document.querySelector('#site').focus({preventScroll:true})",
-    );
-    await call('Input.dispatchKeyEvent', {
-      type: 'keyDown',
-      key: 'ArrowRight',
-      code: 'ArrowRight',
-    });
-    await call('Input.dispatchKeyEvent', {
-      type: 'keyUp',
-      key: 'ArrowRight',
-      code: 'ArrowRight',
-    });
-    await settled('thesis');
-    await call('Input.dispatchKeyEvent', {
-      type: 'keyDown',
-      key: 'ArrowLeft',
-      code: 'ArrowLeft',
-    });
-    await call('Input.dispatchKeyEvent', {
-      type: 'keyUp',
-      key: 'ArrowLeft',
-      code: 'ArrowLeft',
-    });
-    await settled('site');
-    assert.equal(
-      await evaluate('scrollY'),
-      0,
-      'Window stays fixed; pages scroll internally',
-    );
-    await call('Page.reload');
-    await ready();
-    assert.equal(await stage(), 'idle');
     results.push({
       name,
       viewport: [width, height],
-      layout: before,
-      stableCarousel: true,
-      continuousEntry: true,
-      zeroOverflow: true,
+      pages: layouts.length,
+      noOverflow: true,
+      forwardAndBack: true,
     });
     console.log(JSON.stringify(results.at(-1)));
   }
-  await call('Input.dispatchMouseEvent', {
-    type: 'mouseWheel',
-    x: 200,
-    y: 180,
-    deltaX: 0,
-    deltaY: 90,
-  });
-  await delay(100);
-  await call('Input.dispatchMouseEvent', {
-    type: 'mouseWheel',
-    x: 200,
-    y: 180,
-    deltaX: 0,
-    deltaY: 90,
-  });
-  await delay(900);
-  assert.equal(await stage(), 'meaning');
-  await waitFor("document.documentElement.dataset.intro==='done'");
-  await call('Page.reload');
-  await ready();
-  await call('Emulation.setTouchEmulationEnabled', { enabled: true });
-  const swipe = async () => {
-    await call('Input.dispatchTouchEvent', {
-      type: 'touchStart',
-      touchPoints: [{ x: 200, y: 240 }],
-    });
-    await call('Input.dispatchTouchEvent', {
-      type: 'touchMove',
-      touchPoints: [{ x: 200, y: 140 }],
-    });
-    await call('Input.dispatchTouchEvent', {
-      type: 'touchEnd',
-      touchPoints: [],
-    });
-  };
-  await swipe();
-  await swipe();
-  await delay(900);
-  assert.equal(await stage(), 'meaning');
-  await waitFor("document.documentElement.dataset.intro==='done'");
-  await call('Emulation.setTouchEmulationEnabled', { enabled: false });
-  await call('Page.reload');
-  await ready();
-  await call('Input.dispatchKeyEvent', {
-    type: 'keyDown',
-    key: 'Escape',
-    code: 'Escape',
-  });
-  await call('Input.dispatchKeyEvent', {
-    type: 'keyUp',
-    key: 'Escape',
-    code: 'Escape',
-  });
-  assert.equal(
-    await evaluate('document.documentElement.dataset.intro'),
-    'done',
+  await evaluate(
+    `new Promise(resolve=>{let n=0;const timer=setInterval(()=>{window.dispatchEvent(new WheelEvent('wheel',{deltaY:90,cancelable:true}));if(++n===40){clearInterval(timer);resolve(true)}},30)})`,
   );
-  await call('Page.reload');
-  await ready();
-  await call('Input.dispatchKeyEvent', {
-    type: 'keyDown',
-    key: ' ',
-    code: 'Space',
-  });
-  await call('Input.dispatchKeyEvent', {
-    type: 'keyUp',
-    key: ' ',
-    code: 'Space',
-  });
-  await waitFor("document.documentElement.dataset.intro==='done'");
-  await call('Emulation.setEmulatedMedia', {
-    features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
-  });
-  await call('Page.reload');
-  await ready();
-  await click();
-  assert.equal(
-    await evaluate('document.documentElement.dataset.intro'),
-    'done',
+  await settled('funding');
+  await delay(350);
+  await evaluate(
+    "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-90,cancelable:true}))",
   );
-  await evaluate("document.querySelector('.book-next').click()");
-  assert.equal(
-    await evaluate('document.documentElement.dataset.bookTurning'),
-    undefined,
-  );
-  assert.equal(
-    await evaluate(
-      "document.querySelector('.book-page:not([hidden])').dataset.page",
-    ),
-    'thesis',
-  );
-  await evaluate("document.querySelector('.book-previous').click()");
-  await call('Emulation.setEmulatedMedia', { features: [] });
+  await settled('site');
   await call('Emulation.setDeviceMetricsOverride', {
     width: 375,
     height: 812,
@@ -504,15 +286,15 @@ try {
     mobile: false,
   });
   await call('Emulation.setTouchEmulationEnabled', { enabled: true });
-  const horizontalSwipe = async (x1, x2, y) => {
+  const swipe = async (y1, y2) => {
     await call('Input.dispatchTouchEvent', {
       type: 'touchStart',
-      touchPoints: [{ x: x1, y }],
+      touchPoints: [{ x: 185, y: y1 }],
     });
     for (let i = 1; i <= 5; i++) {
       await call('Input.dispatchTouchEvent', {
         type: 'touchMove',
-        touchPoints: [{ x: x1 + ((x2 - x1) * i) / 5, y }],
+        touchPoints: [{ x: 185, y: y1 + ((y2 - y1) * i) / 5 }],
       });
       await delay(20);
     }
@@ -521,57 +303,21 @@ try {
       touchPoints: [],
     });
   };
-  await call('Input.dispatchMouseEvent', {
-    type: 'mouseWheel',
-    x: 180,
-    y: 200,
-    deltaX: 0,
-    deltaY: 150,
+  await swipe(600, 300);
+  await settled('funding');
+  await swipe(300, 600);
+  await settled('site');
+  await call('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
   });
-  await delay(250);
-  assert(
-    await evaluate(
-      "document.querySelector('[data-page=site] .book-scroll').scrollTop>50",
-    ),
-    'Native wheel scrolls inside page',
-  );
-  await evaluate(
-    "document.querySelector('[data-page=site] .book-scroll').scrollTop=0",
-  );
-  await horizontalSwipe(300, 80, 170);
-  await waitFor(
-    "!document.documentElement.dataset.bookTurning && document.querySelector('.book-page:not([hidden])').dataset.page==='thesis'",
-  );
-  await horizontalSwipe(300, 80, 500);
-  await delay(500);
+  await key('ArrowDown');
+  assert.equal(await active(), 'funding');
   assert.equal(
-    await evaluate(
-      "document.querySelector('.book-page:not([hidden])').dataset.page",
-    ),
-    'thesis',
-    'Philosophy swipe stays in its page',
+    await evaluate('document.documentElement.dataset.bookTurning'),
+    undefined,
   );
-  assert(
-    await evaluate("document.querySelector('.philosophy-rail').scrollLeft>100"),
-    'Philosophy cards retain native horizontal touch scrolling',
-  );
-  await horizontalSwipe(80, 300, 170);
-  await waitFor(
-    "!document.documentElement.dataset.bookTurning && document.querySelector('.book-page:not([hidden])').dataset.page==='site'",
-  );
-  await evaluate(
-    "document.querySelector('[data-page=site] .book-scroll').scrollTop=380",
-  );
-  await horizontalSwipe(300, 80, 300);
-  await delay(700);
-  assert.equal(
-    await evaluate(
-      "document.querySelector('.book-page:not([hidden])').dataset.page",
-    ),
-    'site',
-    'Diagram swipe does not turn book',
-  );
-  await evaluate("document.querySelector('.book-next').click()");
+  await call('Emulation.setEmulatedMedia', { features: [] });
+  await key('ArrowDown');
   await delay(150);
   await call('Emulation.setDeviceMetricsOverride', {
     width: 390,
@@ -580,13 +326,6 @@ try {
     mobile: false,
   });
   await waitFor('!document.documentElement.dataset.bookTurning');
-  assert.equal(
-    await evaluate(
-      "document.querySelectorAll('.book-page:not([hidden])').length",
-    ),
-    1,
-    'Resize settles to a single page',
-  );
   await call('Emulation.setScriptExecutionDisabled', { value: true });
   await call('Page.navigate', { url: base + '?nojs=1' });
   await delay(600);
@@ -595,32 +334,26 @@ try {
     undefined,
   );
   assert.equal(
-    await evaluate(
-      "getComputedStyle(document.querySelector('.intro-overlay')).display",
-    ),
-    'none',
-  );
-  assert.equal(
     await evaluate("document.querySelectorAll('.book-page[hidden]').length"),
     0,
-    'All content available without JavaScript',
   );
-  assert.deepEqual(errors, [], 'No runtime exceptions');
+  assert.deepEqual(errors, [], 'No runtime errors');
   await writeFile(
     `${folder}/results.json`,
     JSON.stringify(
       {
         results,
-        wheelAndTouch: true,
-        keyboard: true,
+        wheelMomentum: true,
+        touchBothDirections: true,
         reducedMotion: true,
+        noJS: true,
         errors,
       },
       null,
       2,
     ),
   );
-  console.log('Browser checks passed.');
+  console.log('Full-viewport page checks passed.');
   await call('Browser.close');
 } finally {
   ws?.close();

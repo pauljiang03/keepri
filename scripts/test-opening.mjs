@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { clipPaper, peelGeometry } from '../lib/peel-geometry.ts';
+import { pageTurnTransform, PAGE_TURN_DURATION } from '../lib/page-turn.ts';
 
 const source = ts
   .transpileModule(
@@ -183,7 +183,8 @@ function setup({ hash = '', reduced = false } = {}) {
     performance: { now: () => now },
     gsap,
     Lenis,
-    peelGeometry,
+    pageTurnTransform,
+    PAGE_TURN_DURATION,
     ScrollTrigger: { refresh() {}, update() {} },
     ResizeObserver: class {
       observe() {}
@@ -212,41 +213,11 @@ function setup({ hash = '', reduced = false } = {}) {
   };
 }
 
-test('paper coverage decreases continuously on desktop, mobile and landscape', () => {
-  for (const [width, height] of [
-    [1440, 900],
-    [390, 844],
-    [844, 390],
-    [320, 900],
-  ]) {
-    const rectangle = [
-      { x: 0, y: 0 },
-      { x: width, y: 0 },
-      { x: width, y: height },
-      { x: 0, y: height },
-    ];
-    const area = (points) =>
-      Math.abs(
-        points.reduce((sum, p, i) => {
-          const next = points[(i + 1) % points.length];
-          return sum + p.x * next.y - next.x * p.y;
-        }, 0),
-      ) / 2;
-    let previous = width * height;
-    for (let i = 0; i <= 100; i++) {
-      const shape = peelGeometry(width, height, i / 100);
-      const current = area(clipPaper(rectangle, shape.edge));
-      assert(current <= previous + 0.001);
-      assert(!/NaN|Infinity/.test(shape.clip + shape.fold));
-      assert(shape.curl >= 0);
-      assert(
-        shape.clip.split(',').length >= 3,
-        'CSS polygons need at least three vertices',
-      );
-      previous = current;
-    }
-    assert.equal(previous, 0);
-  }
+test('the shared page turn clamps progress and only rotates the whole sheet', () => {
+  assert.equal(pageTurnTransform(-1), pageTurnTransform(0));
+  assert.equal(pageTurnTransform(2), pageTurnTransform(1));
+  assert.equal(pageTurnTransform(0), 'perspective(2800px) rotateX(0deg)');
+  assert.equal(pageTurnTransform(1), 'perspective(2800px) rotateX(-90deg)');
 });
 
 const press = (env, key = ' ', repeat = false) =>
@@ -287,38 +258,47 @@ test('rapid clicks, wheel bursts and held keys cannot restart or skip the entry'
   assert.equal(env.timeline.plays, 1);
   env.cleanup();
 });
-test('the meaning follows the name with reading time before the upward handoff', () => {
+test('one input gathers the phrase, holds it, then flips the page', () => {
   const env = setup();
-  const name = env.timeline.steps.find((s) => s.target === '.opening-thesis');
-  const initial = env.timeline.steps.find(
-    (s) => s.target === '.opening-wordmark',
+  const gather = env.timeline.steps.find(
+    (s) => s.target === '.opening-thesis-word',
   );
-  assert.equal(initial.values.opacity, 0);
-  assert(initial.at < name.at);
-  const peel = env.timeline.steps.find((s) => s.values.onUpdate);
-  assert(name.at >= 0.5);
-  assert(peel.at - name.at - name.values.duration >= 0.3);
-  assert(peel.at + peel.values.duration <= 2.5);
-  name.values.onStart();
+  const turn = env.timeline.steps.find((s) => s.values.onUpdate);
+  assert.equal(gather.at, 0);
+  assert.equal(turn.values.duration, 0.72);
+  assert(turn.at - gather.values.duration >= 0.35);
+  assert(turn.at + turn.values.duration < 2.3);
+  gather.values.onStart();
+  assert.equal(env.elements['.intro-overlay'].dataset.step, 'gathering');
+  gather.values.onComplete();
   assert.equal(env.elements['.intro-overlay'].dataset.step, 'meaning');
-  peel.values.onStart();
+  turn.values.onStart();
   assert.equal(env.elements['.intro-overlay'].dataset.step, 'entering');
   env.cleanup();
 });
-test('all meaningful intro text uses opacity only', () => {
+test('the word gathering uses translation and opacity, never scaling or spinning', () => {
   const env = setup();
-  for (const step of env.timeline.steps.filter((s) =>
-    /opening-thesis|opening-wordmark/.test(s.target),
-  )) {
-    assert(
-      Object.keys(step.values).every((k) =>
-        ['opacity', 'duration', 'ease', 'onStart'].includes(k),
-      ),
-    );
-  }
+  const words = env.timeline.steps.find(
+    (s) => s.target === '.opening-thesis-word',
+  );
+  assert(
+    Object.keys(words.values).every((k) =>
+      [
+        'x',
+        'y',
+        'opacity',
+        'duration',
+        'ease',
+        'onStart',
+        'onComplete',
+      ].includes(k),
+    ),
+  );
+  assert.equal(words.values.x, 0);
+  assert.equal(words.values.y, 0);
   env.cleanup();
 });
-test('peeling counter-translates content and leaves text stationary', () => {
+test('the cover turns as one sheet without separate text transforms', () => {
   const env = setup();
   const step = env.timeline.steps.find((s) => s.values.onUpdate);
   for (const p of [0, 0.25, 0.5, 0.75, 1]) {
@@ -326,12 +306,9 @@ test('peeling counter-translates content and leaves text stationary', () => {
     step.values.onUpdate();
     assert.equal(
       env.elements['.opening-layer'].style.transform,
-      `translate3d(0, ${-900 * p}px, 0)`,
+      pageTurnTransform(p),
     );
-    assert.equal(
-      env.elements['.opening-content'].style.transform,
-      `translate3d(0, ${900 * p}px, 0)`,
-    );
+    assert.equal(env.elements['.opening-content'].style.transform, undefined);
   }
   env.cleanup();
 });

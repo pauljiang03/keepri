@@ -2,7 +2,11 @@
 
 KeepRI: Keep Reasoning Independently. A static React/Vinext website about independent judgment, learning through competition, and human learning data for AI research.
 
-The dark-green intro opens on the KeepRI name, reveals its meaning in larger cream-and-gold type, and peels upward into three book pages: KeepRI, Philosophies, and Industry. Previous/Next buttons, left/right arrow keys and horizontal touch swipes peel pages upward from the bottom, or restore the preceding page with the reverse motion. Long content scrolls vertically within each page. The dot-free wordmark emphasizes RI with an open corner frame. Global leaderboards, significant prizes, and human learning data are central to the vision and explicitly marked in development.
+The intro starts with a scattered field of logic terms. A wheel gesture, upward swipe, cue click or entry key gathers Keep, Reasoning and Independently into the centered phrase over 1.05 seconds. The phrase holds for 0.4 seconds, then the whole page flips upward in 720ms. The words translate at their natural size; they never stretch or spin. Reload replays the cover; entering removes it as a backward destination. Skip and Escape enter immediately, and reduced motion makes navigation immediate.
+
+The publication has 13 viewport-sized pages: the main headline and workflow, two funding pages, six philosophies, three Industry pages and the vision. The original philosophy and Industry prose is retained across these pages. Every page fits its viewport without an internal scroller. There is no bottom bar or Next/Previous control. Wheel gestures, vertical or horizontal swipes, arrow keys and Page Up/Down turn pages; the header jumps to the main chapters. One wheel burst owns one turn, so momentum cannot skip several pages.
+
+The main headline is vertically centered beside its compact, bordered workflow on desktop. Narrow layouts stack the headline and diagram within the same viewport. Supporting funding text has its own bordered pages. Arrows occupy separate layout rows. Page flips use the same whole-sheet transform, 720ms duration and easing as the intro. Text is never individually scaled, stretched or spun.
 
 ## Develop and validate
 
@@ -13,38 +17,20 @@ npm ci
 npm run dev
 npm run typecheck
 npm run test:opening
-npm run build
-npm run check:static
+npm run prepare:pages
+npm run test:book
 ```
 
-Production output is `dist/client`. Content lives in `app/page.tsx`, `components/hero.tsx`, and `components/story-panels.tsx`. The hero artwork is in `components/hero-visual.tsx`; styling is in `app/globals.css`. `lib/opening-motion.ts` controls the cover; `lib/book-motion.ts` controls page turns, history, focus, gesture ownership and motion preferences. `components/page-motion.tsx` installs and cleans up both.
+`components/book-pages.tsx` holds the static page content and diagram. `components/hero.tsx` holds the cover, masthead and motion preference. Styling is in `app/globals.css`; `lib/page-turn.ts` supplies the shared transform, while `lib/opening-motion.ts` and `lib/book-motion.ts` own navigation lifecycles.
 
-## Preview and publication
+The production browser test launches an isolated Chrome profile and temporary static server against generated `docs`. No browser automation dependency is installed. `CHROME_PATH` overrides the standard macOS Chrome executable; `BOOK_REVIEW_DIR` controls screenshots/reports, and `BOOK_VIEW` optionally selects comma-separated viewport names. The suite checks every page for text outside the viewport and internal scrolling, along with forward/back turns, input bursts, history, reload, touch and reduced motion.
 
-The publication destination is [pauljiang03.github.io/keepri](https://pauljiang03.github.io/keepri/). GitHub Pages serves `main` / `docs`. `npm run prepare:pages` checks types, builds for `/keepri`, validates the output, and stages `docs/`. Commit and push the source and staged output to publish, then verify the Pages build and public assets.
+## Publication
 
-The earlier `chatgpt.site` URL was a private review preview. Publish future revisions to GitHub Pages unless the owner requests another destination.
+The destination is [pauljiang03.github.io/keepri](https://pauljiang03.github.io/keepri/). GitHub Pages serves `main` / `docs`. `npm run prepare:pages` checks types, builds for `/keepri`, validates the output and stages `docs/`. Commit and push source and generated output together, then verify the deployment and live assets.
 
 ## Content and behavior
 
-KeepRI addresses the need for people to assess evidence, evaluate AI recommendations, and take responsibility for decisions. The planned business licenses separately consented human learning data and commissioned collections for AI training and evaluation. Research revenue would support free access, new challenges, and significant prizes.
+Public status is closed beta. Global leaderboards, tournaments, funded cash-prize events and research programs are in development. Research enrollment is inactive. Free practice requires no research participation. Cash-prize entry would require explicit agreement to research collection and commercial use before competing. Research revenue would support free access, new games, operations and prizes. The website has no signup, analytics, installation or data-upload endpoint.
 
-Public status is closed beta. Global leaderboards, tournaments, funded cash-prize events, and research programs are in development. Research enrollment is inactive. Free practice requires no research participation. Cash-prize entry would require explicit agreement to research collection and commercial use before competing. The website has no signup, analytics, installation, or data-upload endpoint.
-
-The intro resets on every load or reload. One upward swipe, downward wheel gesture, cue click or entry key starts a continuous 2.35-second sequence: the KeepRI name clears into “Keep reasoning independently,” the phrase holds briefly, and the paper opens upward onto the main page. There are no intermediate input gates or hidden settling delays. Repeated gestures cannot restart or skip the sequence. Text stays at its natural size and position; only the 60 peripheral formal-methods terms move. Skip and Escape exit immediately. Reduced motion enters immediately after the same single input. Completion removes the overlay, so reverse scrolling cannot return to it. Header and section labels read Industry. The hero uses independent columns with a 40–80px gutter and stacks below 960px; both carousel views retain a shared height and their own bordered panel. Flowchart arrows occupy normal-flow rows between bordered nodes.
-
-The heading font is preloaded through Vite's asset URL so it matches the stylesheet's hashed font request. Tailwind scans app code, top-level website components, and the three used UI primitives (button, carousel, tabs). Add any newly used UI primitive to these sources in app/globals.css. This avoids shipping styles for the entire unused component catalog.
-
-Reduced motion preserves all three gestures, settling each chosen animation immediately. Visibility and preference changes never start a waiting stage. The text uses opacity-only fades, fixed font sizes and no transforms. Main content remains inert until entry; no-JavaScript content remains readable.
-
-The main visual is a responsive HTML/CSS flowchart. Free play branches into competition (per-game leaderboards, tournaments, verified prizes, and returning players) and research from prize play (explicit prize-entry agreement, quality-checked learning records, and organizational purchases). An outside return line connects research revenue to free access, new games and prizes. The diagram and explanation are two horizontal carousel panels, with touch dragging, horizontal trackpad gestures, arrow-key navigation and labeled buttons. Both panels share the height of the taller content, so switching never moves the headline or surrounding page. There is no dropdown or vertical scroll area. The explanation covers customer-directed game design, research deliverables, initial funding, sponsorship and operating costs. All diagram content is available without JavaScript. The probability simulation is retired from the page; its standalone math module and tests remain as historical source.
-
-The existing main headline, dot-free RI wordmark, original philosophy and industry wording, and visitor-controlled intro remain intact. Mathematical sources and third-party notices are documented in `ASSET-PROVENANCE.md`. The build collects license/notice files from the installed runtime packages into the published `licenses/runtime-notices.txt`.
-
-Use concise, professional copy without em dashes. Do not restore game screenshots, personal biographies/contact details, invented results, or active prize offers.
-
-See [DESIGN.md](DESIGN.md), [MOTION-VERIFICATION.md](MOTION-VERIFICATION.md), and [ASSET-PROVENANCE.md](ASSET-PROVENANCE.md). Virio informed earlier motion research; the current owner direction supersedes the literal reproduction and earlier `.tastemaker/` layout restrictions.
-
-The 720ms page peel counter-translates the content beneath a moving bottom edge, keeping the text stationary. The book keeps all three pages mounted and retains each scroll position. Inactive pages are hidden and inert. Header links and browser Back/Forward navigate the same pages; the cover is never a backward destination. Diagram and philosophy-card swipes stay within their respective carousels. Reduced motion or Pause motion makes book navigation immediate. Without JavaScript, the content remains a normal stacked document; print also exposes all three pages.
-
-After `npm run prepare:pages`, `npm run test:book` launches an isolated Chrome profile and local static server for the production browser regression suite. No browser automation dependency is installed. On systems without Chrome at the standard macOS path, set `CHROME_PATH`; `BOOK_REVIEW_DIR` controls the report/screenshot directory (default: system temporary directory / `keepri-book-review`).
+Inactive pages remain hidden and inert. History and chapter links navigate the same mounted pages. Reduced motion or Pause motion makes changes immediate. Without JavaScript or when printing, the content is exposed as a normal stacked document. Earlier components retained in source describe retired carousel designs and are not rendered by the current page.
