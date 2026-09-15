@@ -3386,3 +3386,7 @@ html:not([data-book='active']) .chapter-panel { position: static; display: block
 @media (min-width: 701px) and (max-height: 480px) {
   .interactive-page .flow-start > span, .interactive-page .flow-fund > span, .interactive-page .flow-consent { display: none; }
 }
+.principle-copy .principle-thesis { color: var(--paper); }
+@media (max-width: 700px) and (max-height: 680px) {
+  .principle-copy p { margin-top: 8px; }
+}

@@ -277,7 +277,8 @@ export function BookPages() {
             content: (
               <div className="panel-copy principle-copy">
                 <span className="page-eyebrow">Principle 0{i + 1} / 06</span>
-                <h3>{q.text}</h3>
+                <h3>{q.title}</h3>
+                <p className="principle-thesis">{q.text}</p>
                 <p>{q.more}</p>
               </div>
             ),
