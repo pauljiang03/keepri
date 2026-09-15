@@ -1,5 +1,11 @@
 # Website validation
 
+## One page per swipe
+
+The former 90ms wheel rearm and single-sample impulse detection could interpret trackpad momentum as several swipes. Wheel input now keeps sparse and noisy tails in the same gesture. Separate impulses require sustained acceleration, while a deliberate reversal or input silence can start a new gesture. Animation completion does not impose an additional input lock.
+
+All 23 opening and wheel-gesture tests, focused lint, typecheck, production export and 24 static checks pass. Browser checks cover long, uneven momentum, isolated tail bumps, deliberate separate impulses, rapid touch swipes, reversals and the bottom cue. Desktop and small-phone layout/navigation regression covers all thirteen pages and exact text restoration. Touch checks use browser emulation; physical trackpad behavior still depends on the device's event stream. Artifacts: /private/tmp/keepri-momentum-review/. The preceding Lighthouse results apply to the visually identical cue release; audits were not repeated for this input-only correction.
+
 ## Bottom swipe cue and uninterrupted gestures
 
 Every reading page now has a compact, tappable bottom swipe cue, with a return cue on the final page. Fresh gestures during a transition queue the next direction and accelerate the active transition instead of being discarded. The wheel gesture gap is reduced to 90ms, with renewed impulses recognized separately from continuing momentum. Swipes started directly on the cue and repeated cue taps remain responsive.

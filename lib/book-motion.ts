@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { createWordSurfaces } from './transition-words';
+import { createWheelGesture } from './wheel-gesture';
 
 /** Every reading surface fits the viewport; gestures turn whole pages. */
 export function installBookMotion() {
@@ -163,11 +164,7 @@ export function installBookMotion() {
     target.closest(
       'a,button,input,textarea,select,summary,[contenteditable="true"]',
     );
-  let lastWheel = -Infinity;
-  let wheelUsed = false;
-  let wheelDistance = 0;
-  let wheelDirection = 0;
-  let wheelMagnitude = 0;
+  const wheelGesture = createWheelGesture();
   const wheel = (event: WheelEvent) => {
     if (event.ctrlKey) return;
     const delta =
@@ -175,27 +172,16 @@ export function installBookMotion() {
         ? event.deltaY
         : event.deltaX;
     if (!delta) return;
-    const direction = Math.sign(delta);
-    const magnitude = Math.abs(delta);
-    const now = performance.now();
-    const renewedSwipe = wheelUsed && wheelMagnitude <= 3 && magnitude >= 8;
-    if (now - lastWheel > 90 || direction !== wheelDirection || renewedSwipe) {
-      wheelUsed = root.dataset.intro !== 'done';
-      wheelDistance = 0;
-    }
-    lastWheel = now;
-    wheelDirection = direction;
-    wheelMagnitude = magnitude;
-    if (root.dataset.intro !== 'done' || interactive(event.target)) return;
-    event.preventDefault();
-    if (wheelUsed) return;
-    wheelDistance +=
+    const blocked = root.dataset.intro !== 'done' || !!interactive(event.target);
+    const direction = wheelGesture(
       delta *
-      (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-    if (Math.abs(wheelDistance) >= 12) {
-      wheelUsed = true;
-      step(wheelDistance > 0 ? 1 : -1);
-    }
+        (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1),
+      performance.now(),
+      blocked,
+    );
+    if (blocked) return;
+    event.preventDefault();
+    if (direction) step(direction);
   };
   const keydown = (event: KeyboardEvent) => {
     if (

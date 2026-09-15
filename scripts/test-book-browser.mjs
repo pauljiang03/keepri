@@ -321,6 +321,23 @@ try {
     "window.dispatchEvent(new WheelEvent('wheel',{deltaY:-90,cancelable:true}))",
   );
   await settled('site');
+  // Sparse/noisy momentum belongs to the original swipe, even after the
+  // page animation finishes. Previously 90ms gaps and 3→10 bumps rearmed it.
+  await evaluate(
+    `new Promise(async resolve=>{for(const deltaY of [90,70,55,40,30,22,16,12,8,3,10,2,-2,9,1,8]){window.dispatchEvent(new WheelEvent('wheel',{deltaY,cancelable:true}));await new Promise(r=>setTimeout(r,120));}resolve(true)})`,
+  );
+  await settled('funding');
+  await delay(260);
+  await key('ArrowUp');
+  await settled('site');
+  // Two distinct impulses remain responsive without waiting for a turn.
+  await evaluate(
+    `new Promise(async resolve=>{for(const deltaY of [60,40,20,5,2,8,16,28,40,20,8,2]){window.dispatchEvent(new WheelEvent('wheel',{deltaY,cancelable:true}));await new Promise(r=>setTimeout(r,16));}resolve(true)})`,
+  );
+  await settled('funding-model');
+  await key('ArrowUp');
+  await key('ArrowUp');
+  await settled('site');
   await call('Emulation.setDeviceMetricsOverride', {
     width: 375,
     height: 812,
