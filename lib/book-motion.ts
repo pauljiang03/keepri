@@ -168,12 +168,6 @@ export function installBookMotion() {
       'a,button,input,textarea,select,summary,[contenteditable="true"]',
     );
   const wheelGesture = createWheelGesture();
-  const canReadFurther = (delta: number) => {
-    const page = pages[current];
-    return delta > 0
-      ? page.scrollTop + page.clientHeight < page.scrollHeight - 2
-      : page.scrollTop > 2;
-  };
   const wheel = (event: WheelEvent) => {
     if (event.ctrlKey) return;
     const delta =
@@ -181,17 +175,15 @@ export function installBookMotion() {
         ? event.deltaY
         : event.deltaX;
     if (!delta) return;
-    const reading =
-      Math.abs(event.deltaY) >= Math.abs(event.deltaX) && canReadFurther(delta);
     const blocked =
       root.dataset.intro !== 'done' || !!interactive(event.target);
     const direction = wheelGesture(
       delta *
         (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1),
       performance.now(),
-      blocked || turning || reading,
+      blocked || turning,
     );
-    if (blocked || reading) return;
+    if (blocked) return;
     event.preventDefault();
     if (direction) step(direction);
   };
@@ -211,11 +203,6 @@ export function installBookMotion() {
     const back = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key);
     if (forward || back) {
       const direction = forward && !event.shiftKey ? 1 : -1;
-      if (
-        !['ArrowLeft', 'ArrowRight'].includes(event.key) &&
-        canReadFurther(direction)
-      )
-        return;
       event.preventDefault();
       if (!event.repeat) step(direction);
     }
@@ -240,10 +227,6 @@ export function installBookMotion() {
     const dx = touch.x - event.touches[0].clientX;
     const dy = touch.y - event.touches[0].clientY;
     const delta = Math.abs(dy) >= Math.abs(dx) ? dy : dx;
-    if (Math.abs(dy) >= Math.abs(dx) && canReadFurther(delta)) {
-      touch = undefined;
-      return;
-    }
     if (Math.abs(delta) >= 14) {
       event.preventDefault();
       touch = undefined;

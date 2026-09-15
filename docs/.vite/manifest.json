@@ -30,7 +30,7 @@
     ]
   },
   "components/page-motion.tsx": {
-    "file": "keepri/_next/static/chunks/page-motion-BT2ATuz6.js",
+    "file": "keepri/_next/static/chunks/page-motion-pgBmJNvt.js",
     "name": "page-motion",
     "src": "components/page-motion.tsx",
     "isDynamicEntry": true,
@@ -39,8 +39,18 @@
       "_framework-DauzXuyt.js"
     ]
   },
+  "components/ui/tabs.tsx": {
+    "file": "keepri/_next/static/chunks/tabs-BHSKe4PN.js",
+    "name": "tabs",
+    "src": "components/ui/tabs.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-CPYLWiKu.js",
+      "_framework-DauzXuyt.js"
+    ]
+  },
   "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
-    "file": "keepri/_next/static/chunks/app-route-prefetch-policy-B5DpVQ-Y.js",
+    "file": "keepri/_next/static/chunks/app-route-prefetch-policy-xnhVFq26.js",
     "name": "app-route-prefetch-policy",
     "src": "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
     "isDynamicEntry": true,
@@ -49,7 +59,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "keepri/_next/static/chunks/layout-segment-context-D6ZVIT-K.js",
+    "file": "keepri/_next/static/chunks/layout-segment-context-CbcG1VBA.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -60,7 +70,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/streamed-icons.js": {
-    "file": "keepri/_next/static/chunks/streamed-icons-Cg9YnfOF.js",
+    "file": "keepri/_next/static/chunks/streamed-icons-CDSyioI3.js",
     "name": "streamed-icons",
     "src": "node_modules/vinext/dist/shims/streamed-icons.js",
     "isDynamicEntry": true,
@@ -70,7 +80,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "keepri/_next/static/chunks/index-CK9YfkHN.js",
+    "file": "keepri/_next/static/chunks/index-Dpdl3EK0.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
@@ -85,6 +95,7 @@
       "components/page-motion.tsx",
       "_Icon-B90RP1Fp.js",
       "node_modules/vinext/dist/shims/streamed-icons.js",
+      "components/ui/tabs.tsx",
       "components/hero.tsx"
     ]
   }

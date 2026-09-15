@@ -57,6 +57,9 @@ assert.deepEqual(
   'The site must contain exactly Main, Philosophy and Industry, in that order',
 );
 assert(html.indexOf('id="contact"') > html.indexOf('id="research"'), 'The footer belongs to the final Industry chapter');
+assert.equal((html.match(/role="tab"/g) || []).length, 15, 'All chapter topics have accessible tabs');
+assert.equal((html.match(/role="tabpanel"/g) || []).length, 15, 'All topic panels retain their content');
+assert.equal((html.match(/aria-selected="true"/g) || []).length, 3, 'Each chapter initially exposes one topic');
 for (const expected of [
   'Independent thought',
   'How KeepRI would work',

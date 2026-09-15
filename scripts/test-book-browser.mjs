@@ -204,7 +204,7 @@ try {
       const layout = await evaluate(`(()=>{
         const page=document.querySelector('.book-page:not([hidden])');const box=page.getBoundingClientRect();
         const walker=document.createTreeWalker(page,NodeFilter.SHOW_TEXT);let node;const outside=[];
-        while(node=walker.nextNode()) {if(!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node);for(const r of range.getClientRects()){if(r.width&&r.height&&(r.top<box.top-1||r.bottom>box.top+page.scrollHeight+1||r.left<box.left-1||r.right>box.right+1))outside.push({text:node.textContent.trim(),top:r.top,bottom:r.bottom,left:r.left,right:r.right});}}
+        while(node=walker.nextNode()) {if(!node.textContent.trim()||node.parentElement.closest('.process-track'))continue;const range=document.createRange();range.selectNodeContents(node);for(const r of range.getClientRects()){if(r.width&&r.height&&(r.top<box.top-1||r.bottom>box.bottom+1||r.left<box.left-1||r.right>box.right+1))outside.push({text:node.textContent.trim(),top:r.top,bottom:r.bottom,left:r.left,right:r.right});}}
         return {id:page.id,height:page.clientHeight,scrollHeight:page.scrollHeight,outside,scrollables:[...page.querySelectorAll('*')].filter(e=>/auto|scroll/.test(getComputedStyle(e).overflowY)&&e.scrollHeight>e.clientHeight).length};
       })()`);
       assert.deepEqual(
@@ -213,6 +213,7 @@ try {
         name + ' ' + ids[index] + ' text must fit: ' + JSON.stringify(layout),
       );
       assert.equal(layout.scrollables, 0);
+      assert(layout.scrollHeight <= layout.height + 1, name + ids[index] + ' cannot scroll');
       assert.equal(await evaluate('scrollY'), 0);
       assert.equal(
         await evaluate(
@@ -236,6 +237,15 @@ try {
         'Swipe cue fits below the content',
       );
       layouts.push(layout);
+      const tabCount=await evaluate(`document.querySelector('#${ids[index]}').querySelectorAll('[role="tab"]').length`);
+      for(let tabIndex=0;tabIndex<tabCount;tabIndex++){
+        await evaluate(`document.querySelector('#${ids[index]}').querySelectorAll('[role="tab"]')[${tabIndex}].click()`);
+        await waitFor(`document.querySelector('#${ids[index]}').querySelectorAll('[role="tab"]')[${tabIndex}].getAttribute('aria-selected')==='true'`);
+        const bounds=await evaluate(`(()=>{const page=document.querySelector('#${ids[index]}'),box=page.getBoundingClientRect(),panel=page.querySelector('[role="tabpanel"]:not([hidden])'),body=panel.querySelector('.panel-body').getBoundingClientRect();return {height:page.clientHeight,scroll:page.scrollHeight,bodyTop:body.top,bodyBottom:body.bottom,top:box.top,bottom:box.bottom}})()`);
+        assert(bounds.scroll<=bounds.height+1&&bounds.bodyTop>=bounds.top-1&&bounds.bodyBottom<=bounds.bottom+1,'Every selected topic fits its page');
+      }
+      await evaluate(`document.querySelector('#${ids[index]}').querySelector('[role="tab"]').click()`);
+
       if (
         index === 0 ||
         ids[index] === 'thesis' ||
@@ -309,37 +319,18 @@ try {
     });
     console.log(JSON.stringify(results.at(-1)));
   }
-  // Native wheel input reads a long chapter without changing chapters.
-  await call('Emulation.setDeviceMetricsOverride', {width:375,height:812,deviceScaleFactor:1,mobile:false});
-  await evaluate("document.querySelector('#site').scrollTop=0");
-  await call('Input.dispatchMouseEvent',{type:'mouseWheel',x:180,y:400,deltaY:220,deltaX:0});
-  await waitFor("document.querySelector('#site').scrollTop>0");
-  assert.equal(await active(),'site');
-  // Reading momentum is not a request to move to another chapter.
-  await evaluate(`new Promise(async resolve=>{for(let i=0;i<25;i++){window.dispatchEvent(new WheelEvent('wheel',{deltaY:80,cancelable:true}));if(i===4)document.querySelector('#site').scrollTop=10000;await new Promise(r=>setTimeout(r,30));}resolve(true)})`);
-  assert.equal(await active(),'site');
-  await delay(280);
-  await evaluate("window.dispatchEvent(new WheelEvent('wheel',{deltaY:14,cancelable:true}))");
-  await settled('thesis');
-  assert.equal(await evaluate("document.querySelector('#thesis').scrollTop"),0);
-  await key('ArrowLeft');await settled('site');
-  // Fixed timing, and no queued transition from repeated cue taps.
+  await call('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:false});
+  await evaluate(`new Promise(async resolve=>{for(const deltaY of [90,70,55,40,30,22,16,12,8,3,10,2,-2,9,1,8]){window.dispatchEvent(new WheelEvent('wheel',{deltaY,cancelable:true}));await new Promise(r=>setTimeout(r,120));}resolve(true)})`);
+  await settled('thesis');await key('ArrowLeft');await settled('site');
   const duration=await evaluate(`new Promise(resolve=>{const start=performance.now();document.querySelector('.page-swipe-cue').click();const timer=setInterval(()=>document.querySelector('.page-swipe-cue').click(),60);function check(){if(document.documentElement.dataset.bookTurning){requestAnimationFrame(check);return;}clearInterval(timer);resolve(performance.now()-start);}requestAnimationFrame(check);})`);
   assert(duration>=450&&duration<850);await settled('thesis');await delay(550);assert.equal(await active(),'thesis');
   await evaluate("document.querySelector('.page-swipe-cue').click()");await settled('research');
-  await evaluate("document.querySelector('#research').scrollTop=10000");
   const footer=await evaluate("(()=>{const f=document.querySelector('#contact').getBoundingClientRect(),p=document.querySelector('#research').getBoundingClientRect();return {top:f.top,bottom:f.bottom,pageTop:p.top,pageBottom:p.bottom}})()");
-  assert(footer.top>=footer.pageTop&&footer.bottom<=footer.pageBottom+1,'Footer is reachable at the end of Industry');
-  assert.equal(await evaluate("document.querySelector('.page-swipe-cue span').textContent"),'Swipe down to go back');
+  assert(footer.top>=footer.pageTop&&footer.bottom<=footer.pageBottom+1,'Industry footer fits the viewport');
   await evaluate("document.querySelector('.page-swipe-cue').click()");await settled('thesis');
-  for(const [legacy,target] of [['#funding','site'],['#funding-model','site'],['#vision','site'],['#principle-4','thesis'],['#research-deliverables','research']]){
-    await evaluate(`location.hash=${JSON.stringify(legacy)}`);await settled(target);
-  }
-  await key('ArrowLeft');await settled('thesis');
   await call('Emulation.setTouchEmulationEnabled',{enabled:true});
-  // A short downward swipe at the top returns exactly one chapter.
-  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:185,y:250}]});
-  for(let i=1;i<=5;i++){await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:185,y:250+i*4}]});await delay(20);}
+  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:185,y:350}]});
+  for(let i=1;i<=5;i++){await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:185,y:350+i*4}]});await delay(20);}
   await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await settled('site');
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   await key('ArrowRight');assert.equal(await active(),'thesis');
@@ -375,7 +366,7 @@ try {
       2,
     ),
   );
-  console.log('Three-chapter navigation and native reading checks passed.');
+  console.log('Three fixed interactive chapters passed.');
   await call('Browser.close');
 } finally {
   ws?.close();

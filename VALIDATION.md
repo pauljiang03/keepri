@@ -1,5 +1,11 @@
 # Website validation
 
+## Fixed interactive pages and a horizontal process loop
+
+Three chapter surfaces remain: Main, Philosophy and Industry. Each has a fixed topic panel with accessible tabs: four Main topics, six principles and five Industry topics. The page and panel overflow rules disable internal scrolling. Wheel/touch input only changes chapters. The Industry footer remains visible. A horizontal process loop supports the global pause control, hover pause, hidden-state pause and reduced-motion preference.
+
+Typecheck, production export, focused lint, 26 opening/gesture tests and static validation pass. Static checks verify the three chapter IDs, footer placement, 15 tab controls, 15 retained panels, one initially selected topic per chapter, 25 asset/anchor references and product-status wording. The browser regression script was updated for topic selection and fixed page bounds, but browser QA and Lighthouse were not run for this update under the Sites skill's browser-testing restriction. Earlier screenshot and audit entries apply to previous layouts, not this version.
+
 ## Exactly three complete pages and a final footer
 
 The page order is exactly Main, Philosophy, Industry. Main includes the existing headline/workflow plus both funding sections and vision. Philosophy restores the full six explanations; Industry contains the full research overview, deliverables and learning sequence, followed by participation terms and the existing footer. Funding/vision legacy links resolve to Main; principle and research subpage links resolve to their parent chapter.

@@ -2,6 +2,7 @@ import { ArrowDown } from 'lucide-react';
 import { Wordmark } from './wordmark';
 import { MotionToggle } from './hero';
 import type { ReactNode } from 'react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 const questions = [
   {
@@ -51,7 +52,6 @@ function Page({
     <section
       id={id}
       data-page={id}
-      data-lenis-prevent
       className={`book-page ${className}`}
       tabIndex={-1}
       aria-label={label}
@@ -112,184 +112,296 @@ function Workflow() {
     </figure>
   );
 }
+function ChapterTabs({
+  label,
+  items,
+  className = '',
+}: {
+  label: string;
+  items: { value: string; label: string; content: ReactNode }[];
+  className?: string;
+}) {
+  return (
+    <Tabs defaultValue={items[0].value} className={`chapter-tabs ${className}`}>
+      <TabsList variant="line" className="chapter-tab-list" aria-label={label}>
+        {items.map((item) => (
+          <TabsTrigger
+            key={item.value}
+            value={item.value}
+            className="chapter-tab"
+          >
+            {item.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      <div className="chapter-panel-stack">
+        {items.map((item) => (
+          <TabsContent
+            key={item.value}
+            value={item.value}
+            keepMounted
+            className="chapter-panel"
+          >
+            <div className="panel-body">{item.content}</div>
+          </TabsContent>
+        ))}
+      </div>
+    </Tabs>
+  );
+}
 export function BookPages() {
   return (
     <>
       <Page
         id="site"
         label="KeepRI"
-        className="hero-layer page-home page-dark page-home-complete"
+        className="hero-layer page-home page-dark interactive-page"
       >
-        <div className="home-overview">
-          <div className="home-message">
-            <h1 id="hero-title">
-              Independent thought.
-              <br />
-              <span>In the age of AI.</span>
-            </h1>
-            <p>
-              KeepRI brings learning and competition together to strengthen
-              independent judgment.
-            </p>
-            <a href="#thesis">Our philosophies ↗</a>
-          </div>
-          <Workflow />
-        </div>
-        <div className="home-detail-grid">
-          <article className="home-detail">
-            <span className="page-eyebrow">The planned model</span>
-            <h2>Research &amp; funding</h2>
-            <p className="page-statement">
-              Free practice requires no research participation.
-            </p>
-            <p>
-              Cash-prize entry would require agreement to research data
-              collection and commercial use.
-            </p>
-            <p>
-              AI teams would commission studies and license quality-checked
-              learning records, game environments and human evaluations. Their
-              questions would guide new games.
-            </p>
-          </article>
-          <article className="home-detail">
-            <span className="page-eyebrow">The planned model</span>
-            <h2>Fund the next round.</h2>
-            <p className="page-statement">
-              Initial funding and event sponsorship would support early
-              competitions.
-            </p>
-            <p>
-              Research revenue would fund free access, new games, operations and
-              prizes.
-            </p>
-            <p>
-              Identity and prize-payment details would stay separate from
-              research deliveries. Research enrollment is not active. Cash-prize
-              events are in development.
-            </p>
-          </article>
-          <article className="home-detail home-vision">
-            {' '}
-            <span className="page-eyebrow">The vision / In development</span>
-            <h2>Learning and competition.</h2>
-            <div className="deliverable-grid">
-              <article>
-                <h3>Global leaderboards</h3>
-                <p>Compete with a worldwide community.</p>
-              </article>
-              <article>
-                <h3>Significant prizes</h3>
-                <p>Rewards for learning and competition.</p>
-              </article>
-              <article>
-                <h3>Human learning data</h3>
-                <p>AI research with separate consent.</p>
-              </article>
-            </div>
-          </article>
-        </div>
+        <ChapterTabs
+          label="Explore KeepRI"
+          items={[
+            {
+              value: 'overview',
+              label: 'Overview',
+              content: (
+                <div className="home-overview">
+                  <div className="home-message">
+                    <h1 id="hero-title">
+                      Independent thought.
+                      <br />
+                      <span>In the age of AI.</span>
+                    </h1>
+                    <p>
+                      KeepRI brings learning and competition together to
+                      strengthen independent judgment.
+                    </p>
+                    <a href="#thesis">Our philosophies ↗</a>
+                  </div>
+                  <Workflow />
+                </div>
+              ),
+            },
+            {
+              value: 'research',
+              label: 'Research',
+              content: (
+                <div className="panel-copy">
+                  <span className="page-eyebrow">The planned model</span>
+                  <h2>Research &amp; funding</h2>
+                  <p className="panel-statement">
+                    Free practice requires no research participation.
+                  </p>
+                  <p>
+                    Cash-prize entry would require agreement to research data
+                    collection and commercial use.
+                  </p>
+                  <p>
+                    AI teams would commission studies and license
+                    quality-checked learning records, game environments and
+                    human evaluations. Their questions would guide new games.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              value: 'funding',
+              label: 'Funding',
+              content: (
+                <div className="panel-copy">
+                  <span className="page-eyebrow">The planned model</span>
+                  <h2>Fund the next round.</h2>
+                  <p className="panel-statement">
+                    Initial funding and event sponsorship would support early
+                    competitions.
+                  </p>
+                  <p>
+                    Research revenue would fund free access, new games,
+                    operations and prizes.
+                  </p>
+                  <p>
+                    Identity and prize-payment details would stay separate from
+                    research deliveries. Research enrollment is not active.
+                    Cash-prize events are in development.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              value: 'vision',
+              label: 'Vision',
+              content: (
+                <div className="panel-copy">
+                  <span className="page-eyebrow">
+                    The vision / In development
+                  </span>
+                  <h2>Learning and competition.</h2>
+                  <p>
+                    KeepRI brings learning and competition together to
+                    strengthen independent judgment.
+                  </p>
+                  <div className="panel-cards">
+                    <article>
+                      <h3>Global leaderboards</h3>
+                      <p>Compete with a worldwide community.</p>
+                    </article>
+                    <article>
+                      <h3>Significant prizes</h3>
+                      <p>Rewards for learning and competition.</p>
+                    </article>
+                    <article>
+                      <h3>Human learning data</h3>
+                      <p>AI research with separate consent.</p>
+                    </article>
+                  </div>
+                </div>
+              ),
+            },
+          ]}
+        />
       </Page>
       <Page
         id="thesis"
         label="Philosophy"
-        className="page-philosophy page-collected"
+        className="page-philosophy interactive-page"
       >
-        <div className="collected-content">
-          <header className="collected-heading">
-            <span className="page-eyebrow">Keep Reasoning Independently</span>
-            <h2>Our philosophies.</h2>
-          </header>
-          <div className="philosophy-grid">
-            {questions.map((q, i) => (
-              <article key={q.title}>
-                <span className="principle-number" aria-hidden="true">
-                  0{i + 1}
-                </span>
-                <div>
-                  <h3>{q.title}</h3> <p>{q.text}</p>
-                  <p>{q.more}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+        <header className="chapter-heading">
+          <h2>Our philosophies.</h2>
+          <span>Choose a principle</span>
+        </header>
+        <ChapterTabs
+          label="Our philosophies"
+          className="principle-tabs"
+          items={questions.map((q, i) => ({
+            value: String(i + 1),
+            label: q.title,
+            content: (
+              <div className="panel-copy principle-copy">
+                <span className="page-eyebrow">Principle 0{i + 1} / 06</span>
+                <h3>{q.text}</h3>
+                <p>{q.more}</p>
+              </div>
+            ),
+          }))}
+        />
       </Page>
       <Page
         id="research"
         label="Industry"
-        className="page-industry page-collected"
+        className="page-industry interactive-page"
       >
-        <div className="collected-content industry-content">
-          <header className="collected-heading">
-            <span className="page-eyebrow">Industry / In development</span>
-            <h2>
-              Human learning.
-              <br />
-              For AI research.
-            </h2>
-            <p>
-              We’re developing datasets that follow how people explore problems,
-              respond to feedback and revise decisions.
-            </p>
-          </header>
-          <div className="industry-details">
-            <div className="research-offerings">
-              <article>
-                <h3>Executable environments</h3>
-                <p>
-                  Versioned rules, controlled variants, scoring and replay for
-                  reproducible studies.
-                </p>
-              </article>
-              <article>
-                <h3>Human learning histories</h3>
-                <p>
-                  Actions, feedback, assistance and outcomes across attempts,
-                  recorded with separate participant consent.
-                </p>
-              </article>
-              <article>
-                <h3>Evaluation packages</h3>
-                <p>
-                  Human baselines for learning, error recovery and adaptation,
-                  with documented conditions and quality controls.
-                </p>
-              </article>
-            </div>
-            <ol className="research-sequence">
-              <li>
-                <strong>Attempts</strong>
-                <span>Decisions in context.</span>
-              </li>
-              <li>
-                <strong>Feedback</strong>
-                <span>Responses to new evidence.</span>
-              </li>
-              <li>
-                <strong>Revision</strong>
-                <span>Changes across attempts.</span>
-              </li>
-            </ol>
-          </div>
-          <footer className="research-terms">
-            <p>
-              AI teams would license these datasets and commission targeted
-              collections, gathered with separate participant consent. Free
-              practice requires no research participation. Cash-prize entry
-              would require agreement to research data collection and commercial
-              use.
-            </p>
-            <span>Research enrollment is not active in the closed beta.</span>
-          </footer>
-          <footer id="contact" className="page-footer final-footer">
-            <a href="#site" aria-label="KeepRI home">
-              <Wordmark />
-            </a>
-            <span>© 2026 KeepRI · Closed beta</span>
-            <MotionToggle />
-          </footer>
-        </div>
+        <ChapterTabs
+          className="industry-tabs"
+          label="Industry"
+          items={[
+            {
+              value: 'overview',
+              label: 'Overview',
+              content: (
+                <div className="panel-copy industry-intro">
+                  <span className="page-eyebrow">
+                    Industry / In development
+                  </span>
+                  <h2>
+                    Human learning.
+                    <br />
+                    For AI research.
+                  </h2>
+                  <p>
+                    We’re developing human learning datasets for AI training and
+                    evaluation. We plan to study how motivated participants
+                    explore problems, respond to feedback and revise decisions.
+                  </p>
+                  <p>
+                    AI teams would license these datasets and commission
+                    targeted collections, gathered with separate participant
+                    consent.
+                  </p>
+                </div>
+              ),
+            },
+            ...[
+              {
+                value: 'environments',
+                label: 'Environments',
+                title: 'Executable environments',
+                text: 'Versioned rules, controlled variants, scoring and replay for reproducible studies.',
+              },
+              {
+                value: 'histories',
+                label: 'Learning data',
+                title: 'Human learning histories',
+                text: 'Actions, feedback, assistance and outcomes across attempts, recorded with separate participant consent.',
+              },
+              {
+                value: 'evaluation',
+                label: 'Evaluation',
+                title: 'Evaluation packages',
+                text: 'Human baselines for learning, error recovery and adaptation, with documented conditions and quality controls.',
+              },
+            ].map((item) => ({
+              value: item.value,
+              label: item.label,
+              content: (
+                <div className="panel-copy">
+                  <span className="page-eyebrow">
+                    Industry / Research deliverables
+                  </span>
+                  <h2>{item.title}</h2>
+                  <p>{item.text}</p>
+                  <p className="panel-note">In development.</p>
+                </div>
+              ),
+            })),
+            {
+              value: 'process',
+              label: 'Process',
+              content: (
+                <div className="panel-copy process-copy">
+                  <span className="page-eyebrow">
+                    Industry / Research not active
+                  </span>
+                  <h2>Learning over time.</h2>
+                  <fieldset className="process-window">
+                    <legend className="sr-only">Learning process</legend>
+                    <div className="process-track">
+                      {[0, 1].map((copy) => (
+                        <div
+                          className="process-group"
+                          key={copy}
+                          aria-hidden={copy === 1 ? true : undefined}
+                        >
+                          <div>
+                            <strong>Attempts</strong>
+                            <span>Decisions in context.</span>
+                          </div>
+                          <div>
+                            <strong>Feedback</strong>
+                            <span>Responses to new evidence.</span>
+                          </div>
+                          <div>
+                            <strong>Revision</strong>
+                            <span>Changes across attempts.</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </fieldset>
+                  <p>
+                    Prize entrants would agree to research collection and
+                    commercial use. Free practice stays separate.
+                  </p>
+                </div>
+              ),
+            },
+          ]}
+        />
+        <footer id="contact" className="page-footer final-footer">
+          <a href="#site" aria-label="KeepRI home">
+            <Wordmark />
+          </a>
+          <span>© 2026 KeepRI · Closed beta</span>
+          <MotionToggle />
+        </footer>
       </Page>
     </>
   );

@@ -1,5 +1,9 @@
 # KeepRI motion verification
 
+## Fixed interactive chapters
+
+Exactly three chapters remain. Accessible tabs reveal one topic at a time inside a stable, bounded panel: four Main topics, six Philosophy principles, five Industry topics. Chapter and panel scrolling are disabled; wheel/touch input only changes chapters. The Industry footer remains visible. The process panel has a slow horizontal learning-cycle loop with reduced-motion, hidden-panel and pause-control handling. Earlier native-scrolling behavior below is superseded.
+
 ## Exactly three complete chapters
 
 Main now contains the headline, workflow, both funding sections and vision. Philosophy restores the complete six principles. Industry restores the research overview, deliverables and learning sequence, and ends with participation terms and the original footer. There are exactly three page surfaces in that order. Legacy links resolve to the corresponding chapter.
