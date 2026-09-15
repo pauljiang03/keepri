@@ -1,5 +1,9 @@
 # KeepRI asset provenance
 
+## Formal-methods terminology and matching peels
+
+The 60 background terms are standard formal-methods vocabulary selected and arranged locally. This revision introduces no quotations, external artwork, new fonts or runtime dependencies. The bottom-up page animation reuses KeepRI’s existing authored peel geometry through the browser Web Animations API; the green/gold cover and curl gradients are local CSS.
+
 ## Authored book navigation and bounded panels
 
 The book navigation, page shading, arrow layout and 24 peripheral reasoning terms are authored in this repository. Page turns use CSS perspective and the browser Web Animations API. Small arrow icons use the existing Lucide dependency. No page-flip library, reference-site source, visual artwork or new font was imported. Existing runtime notices remain retained.

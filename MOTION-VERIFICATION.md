@@ -1,5 +1,13 @@
 # KeepRI motion verification
 
+## Bottom-up page peels
+
+The intro remains a one-input name → meaning → upward-peel sequence. Its forest background matches the main page, and the masthead has no delayed opacity transition. The phrase has larger natural typography, cream and gold contrast, and opacity-only entrance motion. Sixty formal-methods terms fill ten background rows.
+
+Book peels last 720ms. Forward navigation translates the outgoing clipping sheet upward by its height and translates its contents down by the same distance. Both animations share their start time and easing, leaving text stationary. A fold at the moving bottom edge uses sampled peelGeometry values. Reverse navigation plays those positions in reverse on the incoming previous sheet. There is no page rotation, horizontal movement or text scaling. Existing input ownership, scroll restoration, history, inertness, cleanup and reduced-motion behavior remain covered by the production browser suite.
+
+Earlier sections below describe superseded motion.
+
 ## Book navigation contract
 
 Forward turns rotate the outgoing sheet from 0 to −100 degrees about its left edge; backward turns restore the incoming sheet from −100 to 0 degrees. Each turn lasts 620ms. Controls are disabled while turning; repeated inputs cannot queue several turns. Resize and a change to reduced/paused motion settle the current turn. Each page retains its own vertical scroll position and mounted carousel state.

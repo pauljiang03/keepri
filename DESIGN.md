@@ -1,5 +1,13 @@
 # KeepRI website design
 
+## Formal-methods cover and bottom-edge peels
+
+The cover now shares the main page’s forest-green background. Ten rows distribute 60 formal-methods terms across the viewport in restrained monospace type, with a soft central mask preserving the wordmark’s space. The meaning uses larger cream type and a gold Reasoning line, with no scaling, spinning or per-letter effects. The header no longer fades in over a pale body after the cover disappears; it is already rendered beneath the peeling cover.
+
+Page-to-page navigation now follows the intro’s bottom-up geometry. A horizontal edge rises over 720ms while the content counter-translates beneath it and remains stationary. The fold uses the existing peelGeometry function. Going backward restores the previous sheet in reverse. Native reading scroll, carousel gestures, history, focus and reduced motion retain their existing behavior. All type, gradients and motion are authored locally with the existing stack.
+
+Earlier sections below describe superseded motion.
+
 ## Reversible book pages, September 15
 
 Visual thesis: a restrained editorial book, with a persistent masthead and page controls framing one readable sheet. KeepRI, Philosophies and Industry turn around a left-hand spine in 620ms; the reverse turn brings the preceding sheet back over the current one. A subtle shadow supplies depth. Page typography is never individually scaled or distorted. The intro remains an independent opening cover.

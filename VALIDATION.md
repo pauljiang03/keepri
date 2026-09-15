@@ -1,5 +1,15 @@
 # Website validation
 
+## Formal-methods intro and bottom-up page turns, September 15
+
+The cover now uses 60 formal-methods terms, a larger cream-and-gold meaning phrase and the same forest-green background as the main page. The masthead no longer fades in over a pale backdrop at the handoff. All page turns now peel from the bottom, using the existing peel geometry and equal opposite translations to keep the content stationary. Going backward restores the preceding page in reverse over 720ms.
+
+Typecheck, focused lint, all 18 intro lifecycle/geometry tests, production export and 28 static asset/anchor checks pass. The full production browser regression passed at 1440×900, 768×1024, 1010×780, 375×812, 320×568 and 844×390. Added assertions check 60 background terms, phrase containment, matching dark backgrounds, an opaque masthead, upward-only page travel, unit scale and equal counter-translation. Both turn directions, rapid input, history, reload, deep links, focus, inertness, scroll restoration, native wheel reading, nested carousel gestures, resize, reduced motion and no-JavaScript fallback passed without runtime exceptions.
+
+Final mobile type-size and cue-clearance refinements were separately rechecked at desktop, mobile, narrow-mobile and landscape sizes. Intro idle/meaning/handoff and both page-turn directions were visually reviewed from production screenshots. Browser scripts, screenshots and audit artifacts are retained in /private/tmp/keepri-bottom-review/. Physical-device touch testing and field performance were not measured. The earlier full-repository lint limitation remains confined to unrelated existing components/ui files.
+
+Final full Lighthouse medians from three standard mobile-throttled runs: performance 93, accessibility 100, best practices 100, SEO 100, LCP 2,638ms, CLS 0.073 and TBT 0ms. The skill checker still misses its 2,500ms LCP threshold by 138ms; the established performance exception remains explicit, and this is not a complete passing gate. The final production build was served with gzip, and the temporary audit tools added no project dependencies.
+
 ## Reversible book, name-first intro and bounded model, September 15
 
 KeepRI, Philosophies and Industry are now three mounted book pages with reversible 620ms turns. This revision also puts the name before its meaning in the cover, expands the background to 24 specific reasoning terms, and encloses diagram and explanation in separate bordered panels. Diagram arrows occupy their own rows, with no box intersections. All implementation is in the established React/Vinext source; no runtime dependency or external artwork was added.

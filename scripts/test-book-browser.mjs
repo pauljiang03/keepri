@@ -158,14 +158,36 @@ try {
     );
     assert.equal(
       await evaluate("document.querySelectorAll('.opening-line span').length"),
-      24,
+      60,
     );
     await shot(name + '-idle');
     await click();
     await click();
     await delay(1000);
     assert.equal(await stage(), 'meaning');
+    const phrase = await evaluate(
+      "[...document.querySelectorAll('.opening-thesis-word')].map(e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,height:r.height,width:r.width,text:e.textContent}})",
+    );
+    assert(
+      phrase.every((r) => r.left >= 0 && r.right <= width),
+      'Intro phrase remains within viewport',
+    );
     await shot(name + '-meaning');
+    assert(
+      await evaluate(
+        "getComputedStyle(document.body).backgroundColor===getComputedStyle(document.querySelector('.opening-layer')).backgroundColor",
+      ),
+      'Cover and page share the dark base',
+    );
+    assert.equal(
+      await evaluate(
+        "+getComputedStyle(document.querySelector('.site-header')).opacity",
+      ),
+      1,
+      'Header has no delayed white fade',
+    );
+    await delay(650);
+    await shot(name + '-intro-peel');
     await waitFor("document.documentElement.dataset.intro==='done'");
     assert.equal(
       await evaluate('document.documentElement.scrollWidth-innerWidth'),
@@ -260,6 +282,17 @@ try {
     assert.equal(
       await evaluate('document.documentElement.dataset.bookTurning'),
       'true',
+    );
+    const peelFrame = await evaluate(
+      `(()=>{const sheet=document.querySelector('.book-page[data-turning]');const matrix=new DOMMatrix(getComputedStyle(sheet).transform);const content=new DOMMatrix(getComputedStyle(sheet.querySelector('.book-scroll')).transform);return {x:matrix.m41,y:matrix.m42,scaleX:matrix.a,scaleY:matrix.d,counter:content.m42}})()`,
+    );
+    assert.equal(peelFrame.x, 0, 'Peel never travels sideways');
+    assert(peelFrame.y < 0, 'Bottom edge travels upward');
+    assert.equal(peelFrame.scaleX, 1);
+    assert.equal(peelFrame.scaleY, 1);
+    assert(
+      Math.abs(peelFrame.y + peelFrame.counter) < 1,
+      'Content remains stationary during peel',
     );
     await shot(name + '-turn-forward');
     await settled('thesis');

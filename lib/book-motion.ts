@@ -1,4 +1,6 @@
-/** Three mounted pages: native vertical reading, reversible horizontal turns. */
+import { peelGeometry } from './peel-geometry';
+
+/** Three mounted pages: native vertical reading, reversible bottom-edge peels. */
 export function installBookMotion() {
   const root = document.documentElement;
   const pages = [...document.querySelectorAll<HTMLElement>('.book-page')];
@@ -100,23 +102,36 @@ export function installBookMotion() {
     underneath.style.zIndex = '1';
     sheet.dataset.turning = forward ? 'forward' : 'back';
     updateControls();
+    const height = sheet.clientHeight;
+    const width = sheet.clientWidth;
+    const contents = sheet.querySelector<HTMLElement>('.book-scroll')!;
     const options = {
-      duration: 620,
+      duration: 720,
       easing: 'cubic-bezier(.4,0,.2,1)',
       fill: 'both' as const,
     };
+    // The sheet clips from the bottom while its contents counter-translate.
+    // Text stays in place at its natural size, just as it does on the cover.
+    const progress = forward ? [0, 1] : [1, 0];
+    const foldFrames = Array.from({ length: 25 }, (_, index) => {
+      const p = forward ? index / 24 : 1 - index / 24;
+      const { curl } = peelGeometry(width, height, p);
+      return { transform: `scaleY(${curl / height})`, offset: index / 24 };
+    });
     animations = [
       sheet.animate(
-        [
-          { transform: `rotateY(${forward ? 0 : -100}deg)` },
-          { transform: `rotateY(${forward ? -100 : 0}deg)` },
-        ],
+        progress.map((p) => ({
+          transform: `translate3d(0, ${-p * height}px, 0)`,
+        })),
         options,
       ),
-      sheet.animate(
-        [{ opacity: 0 }, { opacity: 0.34, offset: 0.55 }, { opacity: 0 }],
-        { ...options, pseudoElement: '::after' },
+      contents.animate(
+        progress.map((p) => ({
+          transform: `translate3d(0, ${p * height}px, 0)`,
+        })),
+        options,
       ),
+      sheet.animate(foldFrames, { ...options, pseudoElement: '::after' }),
     ];
     settle = () => {
       settle = undefined;
