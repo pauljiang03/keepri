@@ -249,23 +249,6 @@ html[data-intro='active'] .intro-overlay:not([hidden]) {
   opacity: 0.42;
   pointer-events: none;
 }
-.peel-surface {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  overflow: visible;
-}
-.peel-fold {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, #182218, #485540 45%, #1b271b);
-  transform-origin: bottom;
-  transform: scaleY(0);
-  will-change: transform;
-}
 .intro-skip {
   position: absolute;
   z-index: 3;
@@ -1606,8 +1589,7 @@ section[tabindex='-1']:focus {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .opening-language,
-  .peel-surface {
+  .opening-language {
     display: none;
   }
   .orbital-node,
@@ -2319,8 +2301,11 @@ section[tabindex='-1']:focus {
 
 /* A viewport-sized publication. All navigation is by page turn. */
 .book-page {
-  background: var(--paper);
-  color: var(--ink);
+  --muted: var(--sage);
+  --line: #82936c88;
+  background: #263126;
+  color: var(--paper);
+  color-scheme: dark;
 }
 .book-page.page-dark {
   background: #263126;
@@ -2575,30 +2560,18 @@ html[data-book='active'] .book-page {
   overflow: hidden;
   container-type: size;
 }
-html[data-book='active'] .book-page::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  clip-path: var(--fold-clip);
-  background: linear-gradient(to bottom, #aaa998, #eeebdf 32%, #faf7eb 56%, #bcbbae 88%, #656c5b);
-  background-size: 100% calc(var(--fold-width) * 1.28);
-  background-position: 0 calc(var(--fold-edge) - var(--fold-width) * 1.28);
-  background-repeat: repeat-x;
+html[data-book='active'] .book-page[hidden] { display: none; }
+.book-page .page-inner .transition-text,
+.book-page .page-inner .transition-word {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+  padding: 0;
 }
-html[data-book='active'] .book-page.page-dark::after {
-  background-image: linear-gradient(to bottom, #182218, #485540 32%, #627057 56%, #33412d 88%, #131c14);
-}
-html[data-book='active'] .book-page[hidden] {
-  display: none;
-}
-html[data-book='active'] .book-page[data-turning] {
-  will-change: clip-path;
-}
-html[data-book='active'] .book-page[data-turning]::after {
-  opacity: 1;
-}
+.book-page .page-inner .transition-text { display: inline; }
+.book-page .page-inner .transition-word { display: inline-block; }
+.book-page[data-turning] .transition-word { will-change: transform, opacity; }
 html[data-book='active'] .page-inner {
   height: 100%;
   width: 100%;
@@ -2832,7 +2805,7 @@ html[data-book='active'] .home-message > p {
     font-size: 32px;
   }
 }
-/* The cover retains its original bottom-up curled peel. */
+/* The cover gathers its phrase, then sends its words upward into the site. */
 html[data-intro='active'] body,
 .opening-layer {
   background: #263126;

@@ -1,5 +1,10 @@
 # KeepRI asset provenance
 
+## Word transitions and a consistent green palette
+
+The word transition helper, GSAP sequencing and unified green palette are original local code. No assets, copied animation code or runtime dependencies were added. The retired curl geometry modules were removed.
+
+
 ## Curled-page revision, September 15
 
 The word convergence and page curls are original local GSAP, CSS-gradient and polygon geometry work. No new assets, copied animation code or dependencies were introduced.

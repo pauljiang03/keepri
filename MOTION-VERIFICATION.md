@@ -1,5 +1,10 @@
 # KeepRI motion verification
 
+## Word transitions and a consistent green palette
+
+An 800ms page change sends outgoing words 24px away with opacity fading to zero, changes the supporting shapes, then brings incoming words from the opposite offset to their resting position. Word spans retain natural font metrics and original whitespace. The intro still gathers its phrase, then sends the words upward and reveals the first page’s words. No paper transform, curl, fold or clipping path remains. Reduced motion and skip remain immediate.
+
+
 ## Sensitive vertical page curls
 
 The book crease now traverses viewport height, with its underside shaded vertically. Upward swipes advance and downward swipes return. Touch threshold is 22px on both intro and reading pages. Main-page wheel threshold is 20px. Direction reversal starts a new gesture without waiting for the wheel timeout; a reversal during an active turn executes after it completes. Same-direction momentum remains limited to one turn.

@@ -169,6 +169,9 @@ try {
       await evaluate("document.querySelector('.book-navigation')"),
       null,
     );
+    const originalText = await evaluate(
+      "[...document.querySelectorAll('.book-page')].map(page=>page.textContent)",
+    );
     await shot(name + '-cover');
     await click();
     await click();
@@ -179,7 +182,7 @@ try {
     assert.equal(await stage(), 'meaning');
     await shot(name + '-meaning');
     await delay(500);
-    await shot(name + '-cover-flip');
+    await shot(name + '-intro-word-exit');
     await waitFor("document.documentElement.dataset.intro==='done'");
     await settled('site');
     if (width > 700) {
@@ -214,6 +217,20 @@ try {
         name + ' ' + ids[index] + ' must not overflow',
       );
       assert.equal(await evaluate('scrollY'), 0);
+      assert.equal(
+        await evaluate(
+          "document.querySelector('.book-page:not([hidden])').textContent",
+        ),
+        originalText[index],
+        'Word animation preserves original prose and whitespace',
+      );
+      assert.equal(
+        await evaluate(
+          "getComputedStyle(document.querySelector('.book-page:not([hidden])')).backgroundColor",
+        ),
+        'rgb(38, 49, 38)',
+        'Every page uses the same green',
+      );
       layouts.push(layout);
       if (
         index === 0 ||
@@ -228,15 +245,14 @@ try {
         if (index === 0) {
           await key('ArrowRight');
           await delay(230);
-          await shot(name + '-page-flip');
-          const flip = await evaluate(
-            `(()=>{const page=document.querySelector('[data-turning]');const fold=getComputedStyle(page,'::after');return {clip:page.style.clipPath,curl:parseFloat(page.style.getPropertyValue('--fold-width')),transform:getComputedStyle(page.querySelector('.page-inner')).transform,fold:fold.opacity};})()`,
+          await shot(name + '-word-exit');
+          const transition = await evaluate(
+            `(()=>{const page=document.querySelector('[data-turning]');const word=page.querySelector('.transition-word');return {clip:page.style.clipPath,wordTransform:getComputedStyle(word).transform,wordOpacity:+getComputedStyle(word).opacity,fold:getComputedStyle(page,'::after').content};})()`,
           );
-          assert(flip.clip.startsWith('polygon('));
-          assert(flip.curl > 0);
-          assert.equal(flip.transform, 'none');
-          assert.equal(flip.fold, '1');
-
+          assert.equal(transition.clip, '');
+          assert.notEqual(transition.wordTransform, 'none');
+          assert(transition.wordOpacity < 1);
+          assert.equal(transition.fold, 'none');
           assert.equal(
             await evaluate('document.documentElement.dataset.bookTurning'),
             'true',

@@ -3,19 +3,6 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
-import { peelGeometry } from '../lib/peel-geometry.ts';
-const turnSource = ts
-  .transpileModule(
-    readFileSync(new URL('../lib/page-turn.ts', import.meta.url), 'utf8'),
-    { compilerOptions: { module: ts.ModuleKind.ESNext } },
-  )
-  .outputText.replace(/^import .*;$/gm, '')
-  .replaceAll('export ', '');
-const { pageTurnFrame, bookTurnFrame, PAGE_TURN_DURATION } = runInNewContext(
-  turnSource + '; ({pageTurnFrame, bookTurnFrame, PAGE_TURN_DURATION})',
-  { peelGeometry },
-);
-
 const source = ts
   .transpileModule(
     readFileSync(new URL('../lib/opening-motion.ts', import.meta.url), 'utf8'),
@@ -194,8 +181,6 @@ function setup({ hash = '', reduced = false } = {}) {
     performance: { now: () => now },
     gsap,
     Lenis,
-    pageTurnFrame,
-    PAGE_TURN_DURATION,
     ScrollTrigger: { refresh() {}, update() {} },
     ResizeObserver: class {
       observe() {}
@@ -223,17 +208,6 @@ function setup({ hash = '', reduced = false } = {}) {
     cleanup,
   };
 }
-
-test('the shared peel clamps progress and lifts the bottom edge without moving text', () => {
-  assert.deepEqual(pageTurnFrame(1440, 900, -1), pageTurnFrame(1440, 900, 0));
-  assert.deepEqual(pageTurnFrame(1440, 900, 2), pageTurnFrame(1440, 900, 1));
-  for (const p of [0, 0.25, 0.5, 0.75, 1]) {
-    const frame = pageTurnFrame(1440, 900, p);
-    assert.equal(frame.paper, `translate3d(0, ${-900 * p}px, 0)`);
-    assert.equal(frame.content, `translate3d(0, ${900 * p}px, 0)`);
-    assert(frame.curl >= 0 && frame.curl <= 0.16);
-  }
-});
 
 const press = (env, key = ' ', repeat = false) =>
   env.window.emit('keydown', { key, repeat, preventDefault() {} });
@@ -273,14 +247,14 @@ test('rapid clicks, wheel bursts and held keys cannot restart or skip the entry'
   assert.equal(env.timeline.plays, 1);
   env.cleanup();
 });
-test('one input gathers the phrase, holds it, then flips the page', () => {
+test('one input gathers the phrase, holds it, then moves its words out', () => {
   const env = setup();
   const gather = env.timeline.steps.find(
     (s) => s.target === '.opening-thesis-word',
   );
-  const turn = env.timeline.steps.find((s) => s.values.onUpdate);
+  const turn = env.timeline.steps.find((s) => s.values.y === -40);
   assert.equal(gather.at, 0);
-  assert.equal(turn.values.duration, 0.72);
+  assert.equal(turn.values.duration, 0.3);
   assert(turn.at - gather.values.duration - 2 * gather.values.stagger >= 0.35);
   assert(turn.at + turn.values.duration < 2.5);
   gather.values.onStart();
@@ -314,25 +288,12 @@ test('the word gathering uses translation and opacity, never scaling or spinning
   assert.equal(words.values.y, 0);
   env.cleanup();
 });
-test('the cover peels with a curled edge and counter-translates text', () => {
+test('the intro words exit upward with no paper transform', () => {
   const env = setup();
-  const step = env.timeline.steps.find((s) => s.values.onUpdate);
-  for (const p of [0, 0.25, 0.5, 0.75, 1]) {
-    step.target.progress = p;
-    step.values.onUpdate();
-    assert.equal(
-      env.elements['.opening-layer'].style.transform,
-      pageTurnFrame(1440, 900, p).paper,
-    );
-    assert.equal(
-      env.elements['.opening-content'].style.transform,
-      pageTurnFrame(1440, 900, p).content,
-    );
-    assert.equal(
-      env.elements['.peel-fold'].style.transform,
-      pageTurnFrame(1440, 900, p).fold,
-    );
-  }
+  const exit = env.timeline.steps.find((s) => s.values.y === -40);
+  assert.equal(exit.target, '.opening-thesis-word');
+  assert.equal(exit.values.opacity, 0);
+  assert.equal(env.elements['.opening-layer'].style.transform, undefined);
   env.cleanup();
 });
 test('a short upward touch starts the full entry and ignores a second touch', () => {
@@ -456,20 +417,4 @@ test('cleanup removes listeners and releases scrolling', () => {
   );
   assert.equal(env.lenis.destroyed, true);
   assert.equal(env.history.scrollRestoration, 'auto');
-});
-
-test('book crease travels bottom to top and curl disappears at both ends', () => {
-  for (const width of [320, 1440]) {
-    const start = bookTurnFrame(width, 900, 0);
-    const middle = bookTurnFrame(width, 900, 0.5);
-    const end = bookTurnFrame(width, 900, 1);
-    assert.equal(start.edge, 900);
-    assert.equal(start.curl, 0);
-    assert.equal(middle.edge, 450);
-    assert(middle.curl > 0);
-    assert.equal(end.edge, 0);
-    assert.equal(end.curl, 0);
-    assert.deepEqual(bookTurnFrame(width, 900, 2), end);
-    assert.deepEqual(bookTurnFrame(width, 900, -1), start);
-  }
 });

@@ -1,17 +1,18 @@
 import { gsap } from 'gsap';
-import { bookTurnFrame, PAGE_TURN_DURATION } from './page-turn';
+import { createWordSurfaces } from './transition-words';
 
 /** Every reading surface fits the viewport; gestures turn whole pages. */
 export function installBookMotion() {
   const root = document.documentElement;
   const pages = [...document.querySelectorAll<HTMLElement>('.book-page')];
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const words = createWordSurfaces();
   let current = 0;
   let turning = false;
   let pendingDirection = 0;
   let turnDirection = 0;
   let settle: (() => void) | undefined;
-  let animation: gsap.core.Tween | undefined;
+  let animation: gsap.core.Timeline | undefined;
   const quiet = () => preference.matches || root.dataset.motion === 'paused';
   const showCurrent = () => {
     pages.forEach((page, index) => {
@@ -19,10 +20,8 @@ export function installBookMotion() {
       page.inert = index !== current;
       page.style.zIndex = '';
       page.style.transform = '';
-      page.style.clipPath = '';
-      page.style.removeProperty('--fold-clip');
-      page.style.removeProperty('--fold-edge');
-      page.style.removeProperty('--fold-width');
+      page.style.opacity = '';
+      words.reset(page);
       delete page.dataset.turning;
     });
     const id = pages[current].id;
@@ -83,22 +82,14 @@ export function installBookMotion() {
     outgoing.inert = true;
     incoming.hidden = false;
     incoming.inert = true;
-    const sheet = forward ? outgoing : incoming;
-    const underneath = forward ? incoming : outgoing;
-    sheet.style.zIndex = '2';
-    underneath.style.zIndex = '1';
-    sheet.dataset.turning = forward ? 'forward' : 'back';
-    const turn = { progress: forward ? 0 : 1 };
-    const width = sheet.clientWidth;
-    const height = sheet.clientHeight;
-    const drawTurn = () => {
-      const frame = bookTurnFrame(width, height, turn.progress);
-      sheet.style.clipPath = frame.clip;
-      sheet.style.setProperty('--fold-clip', frame.foldClip);
-      sheet.style.setProperty('--fold-edge', `${frame.edge}px`);
-      sheet.style.setProperty('--fold-width', `${frame.curl}px`);
-    };
-    drawTurn();
+    outgoing.style.zIndex = '2';
+    incoming.style.zIndex = '1';
+    outgoing.dataset.turning = forward ? 'forward' : 'back';
+    incoming.dataset.turning = forward ? 'forward' : 'back';
+    const leaving = words.prepare(outgoing);
+    const arriving = words.prepare(incoming);
+    gsap.set(incoming, { opacity: 0 });
+    gsap.set(arriving, { y: turnDirection * 24, opacity: 0 });
     settle = () => {
       settle = undefined;
       animation?.kill();
@@ -108,17 +99,38 @@ export function installBookMotion() {
       showCurrent();
       focusPage();
     };
-    animation = gsap.to(turn, {
-      progress: forward ? 1 : 0,
-      duration: PAGE_TURN_DURATION / 1000,
-      ease: 'power2.inOut',
-      onUpdate: drawTurn,
-      onComplete: () => {
-        const direction = pendingDirection;
-        settle?.();
-        if (direction) step(direction);
-      },
-    });
+    animation = gsap
+      .timeline({
+        onComplete: () => {
+          const direction = pendingDirection;
+          settle?.();
+          if (direction) step(direction);
+        },
+      })
+      .to(
+        leaving,
+        {
+          y: -turnDirection * 24,
+          opacity: 0,
+          duration: 0.24,
+          stagger: { amount: 0.08 },
+          ease: 'power2.in',
+        },
+        0,
+      )
+      .to(outgoing, { opacity: 0, duration: 0.12 }, 0.24)
+      .to(incoming, { opacity: 1, duration: 0.12 }, 0.24)
+      .to(
+        arriving,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.36,
+          stagger: { amount: 0.1 },
+          ease: 'power3.out',
+        },
+        0.34,
+      );
     return true;
   };
   const step = (direction: number) => {
@@ -232,6 +244,38 @@ export function installBookMotion() {
   book.addEventListener('touchcancel', touchEnd);
   return {
     navigate,
+    reveal: () => {
+      if (quiet()) return;
+      const page = pages[current];
+      const arriving = words.prepare(page);
+      turning = true;
+      turnDirection = 1;
+      root.dataset.bookTurning = 'true';
+      settle = () => {
+        settle = undefined;
+        animation?.kill();
+        turning = false;
+        pendingDirection = 0;
+        delete root.dataset.bookTurning;
+        showCurrent();
+      };
+      gsap.set(arriving, { y: 24, opacity: 0 });
+      animation = gsap
+        .timeline({
+          onComplete: () => {
+            const direction = pendingDirection;
+            settle?.();
+            if (direction) step(direction);
+          },
+        })
+        .to(arriving, {
+          y: 0,
+          opacity: 1,
+          duration: 0.36,
+          stagger: { amount: 0.1 },
+          ease: 'power3.out',
+        });
+    },
     destroy: () => {
       finishTurn();
       delete root.dataset.book;
@@ -240,6 +284,7 @@ export function installBookMotion() {
         page.hidden = false;
         page.inert = false;
       });
+      words.destroy();
       window.removeEventListener('wheel', wheel);
       window.removeEventListener('keydown', keydown);
       window.removeEventListener('resize', finishTurn);

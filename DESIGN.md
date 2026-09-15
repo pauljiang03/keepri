@@ -1,5 +1,10 @@
 # KeepRI website design
 
+## Word transitions and a consistent green palette
+
+Page flips are replaced by staggered word exits and entrances. Words move upward to advance and downward to return; incoming words enter from the opposite side. All thirteen pages use the same forest-green ground with cream text and gold accents. The workflow and borders fade through the transition. Existing copy, viewport sizing, short swipes and quick reverse gestures are preserved.
+
+
 ## Sensitive vertical page curls
 
 All pages now curl vertically: upward for forward navigation, downward for backward navigation. The intro retains its upward peel. Touch sensitivity is 22px and wheel sensitivity is 20px, with a 180ms pause recognizing a fresh wheel gesture. One deliberate reverse gesture can wait for an active turn; repeated inputs in the current direction cannot skip the animation.

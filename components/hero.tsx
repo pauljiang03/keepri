@@ -163,9 +163,6 @@ export function OpeningHero() {
           </div>
         </div>
       </div>
-      <div className="peel-surface" aria-hidden="true">
-        <div className="peel-fold" />
-      </div>
       <a className="intro-skip" href="#site">
         Skip intro
       </a>

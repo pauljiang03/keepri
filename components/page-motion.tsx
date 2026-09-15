@@ -10,7 +10,7 @@ export function PageMotion() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const book = installBookMotion();
-    const removeOpening = installOpeningMotion(book.navigate);
+    const removeOpening = installOpeningMotion(book.navigate, book.reveal);
     return () => {
       removeOpening();
       book.destroy();

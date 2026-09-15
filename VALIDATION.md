@@ -1,5 +1,14 @@
 # Website validation
 
+## Word transitions and a consistent green palette
+
+Replaced the intro peel and all page curls with staggered word exits and entrances. Reading pages retain their exact text and whitespace inside reversible word wrappers. Forward navigation sends words upward; backward navigation reverses it. All thirteen pages now share the intro’s forest-green background, cream text and gold accents. Scoped muted text colors and borders remain readable on the green surface. Short swipes, remembered reversals, reduced motion and no-scroll layouts remain intact.
+
+Seventeen opening lifecycle tests, typecheck, focused lint, production export and 24 static checks pass. The full reading journey passed all thirteen pages at 1440×900, 375×812, 320×568 and 844×390, with no overflow or internal scrollers. Mid-transition checks confirm animated words, no clipping path and no fold surface. Desktop and mobile screenshots were reviewed. A final desktop/mobile run verified every page’s exact original text and whitespace, consistent green background, short swipes, queued reverse gestures, history, reload, reduced motion, resize and no-JavaScript fallback. Hidden responsive text is excluded from GSAP measurement to prevent whitespace reordering. No runtime exceptions were recorded. Final green Philosophy and Industry screenshots were visually reviewed. Physical touch hardware was not tested. Artifacts are in /private/tmp/keepri-word-review/ and /private/tmp/keepri-word-final/.
+
+Three final full Lighthouse reports pass the skill gate: median performance 97, accessibility 100, best practices 100, SEO 100, LCP 2,261ms, CLS 0 and TBT 0ms. Earlier entries below describe superseded designs.
+
+
 ## Sensitive vertical page curls
 
 All pages now curl vertically. Main-page touch activation is 22px (previously 55px), wheel activation is 20px (previously 45px), and intro touch activation is also 22px. A reverse gesture during a turn is remembered without interrupting the current animation; same-direction momentum cannot skip pages.
